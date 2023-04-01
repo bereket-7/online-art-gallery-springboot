@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.controller.dto.OrganizationDto;
 import com.project.oag.service.OrganizationService;
-import com.project.oag.service.UserAlreadyRegisteredException;
 
 @RestController
 @RequestMapping("/api/organization")

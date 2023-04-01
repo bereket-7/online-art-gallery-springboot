@@ -30,6 +30,8 @@ import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 import com.project.oag.entity.UserLocation;
 import com.project.oag.entity.VerificationToken;
+import com.project.oag.exceptions.UserAlreadyExistException;
+import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.repository.NewLocationTokenRepository;
 import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.RoleRepository;
@@ -94,10 +96,10 @@ public class UserServiceImpl implements UserService{
     private String senderEmail;
 
     @Override
-    public User registerNewUser(UserDto userDto) throws UserAlreadyRegisteredException {
+    public User registerNewUser(UserDto userDto) throws UserAlreadyExistException {
         Optional<User> existingUser = Optional.of(findByEmail(userDto.getEmail()));
         if (existingUser.isPresent()) {
-            throw new UserAlreadyRegisteredException("User with email " + userDto.getEmail() + " already exists");
+            throw new UserAlreadyExistException("User with email " + userDto.getEmail() + " already exists");
         }
         
         	User user = new User(userDto.getFirstname(),userDto.getLastname(),userDto.getPhone(),
@@ -443,7 +445,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
-	}
+	} 
 
 	@Override
 	public Optional<User> getUserById(Long id) {
@@ -453,6 +455,18 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void deleteUser(Long id) {
 		 userRepository.deleteById(id);	
+	}
+
+	@Override
+	public void verifyEmail(String email, String token) throws UserNotFoundException, InvalidTokenException, Throwable {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void createPasswordResetTokenForUser(User user, String token) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

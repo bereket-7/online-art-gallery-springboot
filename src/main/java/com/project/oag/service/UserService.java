@@ -8,13 +8,15 @@ import com.project.oag.entity.NewLocationToken;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 import com.project.oag.entity.VerificationToken;
+import com.project.oag.exceptions.UserAlreadyExistException;
+import com.project.oag.exceptions.UserNotFoundException;
 public interface UserService {
 	//User update(UserDto userDto) throws UserNotFoundException;
 	void changePassword(User user, String password);
 	void updateResetPasswordToken(String token, String email) throws UserNotFoundException;
 	User getByResetPasswordToken(String token);
 	void verifyEmail(String email, String token) throws UserNotFoundException, InvalidTokenException, Throwable;
-	User registerNewUser(UserDto userDto) throws UserAlreadyRegisteredException;
+	User registerNewUser(UserDto userDto) throws UserAlreadyExistException;
 	User findByUsername(String username);
 	List<User> getAllUsers();
 	Optional<User> getUserById(Long id);

@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.exceptions;
 
 public class EventAlreadyRegisteredException extends Exception {
 

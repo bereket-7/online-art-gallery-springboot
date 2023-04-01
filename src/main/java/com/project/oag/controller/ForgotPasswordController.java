@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.entity.User;
-import com.project.oag.service.UserNotFoundException;
+import com.project.oag.exceptions.UserNotFoundException;
 //import com.project.oag.service.UserNotFoundException;
 import com.project.oag.service.UserService;
 
@@ -52,7 +52,7 @@ public class ForgotPasswordController {
 	        String token = RandomString.make(30);
 	     
 	        try {
-	            userService.updateResetPasswordToken(token, email);
+	            //userService.updateResetPasswordToken(token, email);
 	            String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
 	            sendEmail(email, resetPasswordLink);
 	            model.addAttribute("message", "We have sent a reset password link to your email. Please check.");

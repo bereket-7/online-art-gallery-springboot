@@ -1,11 +1,44 @@
 package com.project.oag.controller;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.project.oag.entity.Bid;
+import com.project.oag.service.BidService;
 
 @RestController
 @RequestMapping("/bids")
 public class BidController {
+	@Autowired
+	 private final BidService bidService;
+
+    @Autowired
+    public BidController(BidService bidService) {
+        this.bidService = bidService;
+    }
+    
+    @GetMapping("/")
+    public List<Bid> getAllBids() {
+        return bidService.getAllBids();
+    }
+
+    @GetMapping("/{id}")
+    public Bid getBidById(@PathVariable Long id) {
+        Optional<Bid> bid = bidService.getBidById(id);
+        return bid.orElse(null);
+    }
+    @PostMapping("/")
+    public void saveBid(@RequestBody Bid bid) {
+        bidService.saveBid(bid);
+    }
     
     //@Autowired
     //private BidArtRepository bidArtRepository;

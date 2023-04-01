@@ -24,7 +24,6 @@ public class RatingController {
 	 @Autowired
 	 private ArtworkService artworkService;
 	 
-	 
 	 	@PostMapping
 	    public ResponseEntity<Rating> createRating(@RequestBody Rating rating) {
 	        Rating savedRating = ratingService.save(rating);

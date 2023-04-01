@@ -86,7 +86,6 @@ public class ArtworkServiceImpl implements ArtworkService{
 
 	@Override
 	public Artwork findById(Long artworkId) {
-		// TODO Auto-generated method stub
-		return null;
+		 return null;
 	}
 }

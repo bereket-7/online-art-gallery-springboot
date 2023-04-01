@@ -1,7 +1,11 @@
 package com.project.oag.entity;
 
+import java.util.Arrays;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,7 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,15 +37,39 @@ public class Competitor {
 	@Column(name = "phone", nullable = false, length=15)
 	private String phone;
 	
-	@Column(name = "artwork_photo", nullable = false)
-    private String artworkPhoto;
+	@Lob
+	@Column(name = "art", nullable = false)
+    private byte[] artwork;	
+
+	@Column(name = "art_description", nullable = false, length=15)
+	private String artDescription;
+	
+	@OneToMany(mappedBy = "competitor", cascade = CascadeType.ALL)
+	private List<Vote> votes;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "competition_id", nullable = false)
 	@JsonIgnore
 	private Competition competition;
 	
-	
+	public Competitor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Competitor(String firstName, String lastName, String email, String phone, byte[] artwork,
+			String artDescription, List<Vote> votes, Competition competition) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.artwork = artwork;
+		this.artDescription = artDescription;
+		this.votes = votes;
+		this.competition = competition;
+	}
+
 
 	public long getId() {
 		return id;
@@ -81,12 +111,30 @@ public class Competitor {
 		this.phone = phone;
 	}
 
-	public String getArtworkPhoto() {
-		return artworkPhoto;
+	public byte[] getArtwork() {
+		return artwork;
 	}
 
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
+	public void setArtwork(byte[] artwork) {
+		this.artwork = artwork;
+	}
+
+	public String getArtDescription() {
+		return artDescription;
+	}
+
+
+	public void setArtDescription(String artDescription) {
+		this.artDescription = artDescription;
+	}
+
+
+	public List<Vote> getVotes() {
+		return votes;
+	}
+
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
 	}
 
 	public Competition getCompetition() {
@@ -95,6 +143,13 @@ public class Competitor {
 
 	public void setCompetition(Competition competition) {
 		this.competition = competition;
+	}
+
+	@Override
+	public String toString() {
+		return "Competitor [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phone=" + phone + ", artwork=" + Arrays.toString(artwork) + ", artDescription=" + artDescription
+				+ ", votes=" + votes + ", competition=" + competition + "]";
 	}
 	
 }

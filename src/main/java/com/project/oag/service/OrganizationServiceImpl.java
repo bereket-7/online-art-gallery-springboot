@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.project.oag.controller.dto.OrganizationDto;
 import com.project.oag.entity.Organization;
+import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.OrganizationRepository;
 
 public class OrganizationServiceImpl implements OrganizationService{
@@ -26,10 +27,10 @@ public class OrganizationServiceImpl implements OrganizationService{
 	}
 	
 	@Override
-	public Organization save(OrganizationDto organizationDto) throws UserAlreadyRegisteredException {
+	public Organization save(OrganizationDto organizationDto) throws UserAlreadyExistException {
 		Optional<?> existingUser = Optional.of(organizationRepository.findByUsername(organizationDto.getUsername()));
 		  if (existingUser.isPresent()) {
-			  throw new UserAlreadyRegisteredException("Organization with username " + organizationDto.getUsername() + " already exists.");
+			  throw new UserAlreadyExistException("Organization with username " + organizationDto.getUsername() + " already exists.");
 		  }
 		  else {
 			  Organization organization = new Organization(organizationDto.getName(),organizationDto.getPhone(),

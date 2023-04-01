@@ -2,6 +2,7 @@
 
 import com.project.oag.controller.dto.OrganizationDto;
 import com.project.oag.entity.Organization;
+import com.project.oag.exceptions.UserAlreadyExistException;
 
 public interface OrganizationService {
 
@@ -9,6 +10,6 @@ public interface OrganizationService {
 	void updatePassword(Organization organization, String password);
 	//void updateResetPasswordToken(String token, String email) throws UserNotFoundException;
 	Organization getByResetPasswordToken(String token);
-	Organization save(OrganizationDto organizationDto) throws UserAlreadyRegisteredException;
+	Organization save(OrganizationDto organizationDto) throws UserAlreadyExistException;
 
 }

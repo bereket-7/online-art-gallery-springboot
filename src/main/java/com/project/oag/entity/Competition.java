@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name="competition")
 public class Competition {
@@ -34,10 +33,19 @@ public class Competition {
 	@OneToMany(mappedBy = "competition")
     private List<Competitor> competitor;
 
-	
 	public Competition() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public Competition(String competitionTitle, String competitionDescription, int numberOfCompetitor,
+			LocalDate expiryDate, List<Competitor> competitor) {
+		super();
+		this.competitionTitle = competitionTitle;
+		this.competitionDescription = competitionDescription;
+		this.numberOfCompetitor = numberOfCompetitor;
+		this.expiryDate = expiryDate;
+		this.competitor = competitor;
 	}
 
 	public Competition(String competitionTitle, String competitionDescription, int numberOfCompetitor,
@@ -96,5 +104,11 @@ public class Competition {
 	public void setCompetitor(List<Competitor> competitor) {
 		this.competitor = competitor;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "Competition [id=" + id + ", competitionTitle=" + competitionTitle + ", competitionDescription="
+				+ competitionDescription + ", numberOfCompetitor=" + numberOfCompetitor + ", expiryDate=" + expiryDate
+				+ ", competitor=" + competitor + "]";
+	}
 }

@@ -82,7 +82,8 @@ public class User {
 	
 	private boolean emailVerified;
 	
-
+	private boolean selectedForBid;
+	
     private boolean isUsing2FA;
 
     private String secret;
@@ -94,7 +95,7 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-
+	
 	public User(@NotBlank(message = "First name is required") String firstname,
 			@NotBlank(message = "Last name is required") String lastname,
 			@NotBlank(message = "Email is required") @Email(message = "Email is not valid") String email,
@@ -267,7 +268,17 @@ public class User {
 		this.orders = orders;
 	}
 	
-    @Override
+    public boolean isSelectedForBid() {
+		return selectedForBid;
+	}
+
+
+	public void setSelectedForBid(boolean selectedForBid) {
+		this.selectedForBid = selectedForBid;
+	}
+
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

@@ -37,6 +37,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ArtworkController {
 	@Value("${uploadDir}")
 	private String uploadFolder;
+	
 	@Autowired
 	private ArtworkService artworkService;
 	public ArtworkController(ArtworkService artworkService) {
@@ -92,7 +93,7 @@ public class ArtworkController {
 			artwork.setCreateDate(createDate);
 			artworkService.saveArtwork(artwork);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-			return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
+			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("Exception: " + e);
