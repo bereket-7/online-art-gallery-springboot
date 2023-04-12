@@ -1,17 +1,10 @@
 package com.project.oag.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.oag.controller.dto.OrganizationDto;
-import com.project.oag.service.OrganizationService;
-
 @RestController
-@RequestMapping("/api/organization")
+@RequestMapping("/organization")
 public class OrganizationController {
 	/**@Autowired
 	private OrganizationService organizationService;

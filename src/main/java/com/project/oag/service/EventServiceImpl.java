@@ -25,11 +25,6 @@ public class EventServiceImpl implements EventService {
 		this.eventRepository = eventRepository;
 	}
 
-	/**@Override
-	public Event save(EventDto eventDto) {
-		Event event = new Event(eventDto.getEventName(),eventDto.getEventDescription(),eventDto.getEventPhoto(),eventDto.getTimestamp());
-		return eventRepository.save(event);
-	}**/
 	
 	 @Override
 	 public EventDto registerEvent(EventDto eventDto) throws EventAlreadyRegisteredException {
