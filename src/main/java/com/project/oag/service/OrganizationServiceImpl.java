@@ -1,18 +1,14 @@
 package com.project.oag.service;
 
 import java.util.List;
+import java.util.Optional;
 
 //import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import com.project.oag.controller.dto.OrganizationDto;
 import com.project.oag.entity.Organization;
-import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.OrganizationRepository;
 
 @Service
@@ -29,20 +25,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 		this.organizationRepository = organizationRepository;
 	}
 
-	@Override
-	public Organization save(OrganizationDto organizationDto) throws UserAlreadyExistException {
-		Optional<?> existingUser = Optional.of(organizationRepository.findByUsername(organizationDto.getUsername()));
-		if (existingUser.isPresent()) {
-			throw new UserAlreadyExistException(
-					"Organization with username " + organizationDto.getUsername() + " already exists.");
-		} else {
-			Organization organization = new Organization(organizationDto.getName(), organizationDto.getPhone(),
-					organizationDto.getAddress(), organizationDto.getEmail(),
-					organizationDto.getUsername(), passwordEncoder.encode(organizationDto.getPassword()),
-					organizationDto.getOrganization_type());
-			return organizationRepository.save(organization);
-		}
-	}
+	/*
+	 * @Override
+	 * public Organization save(OrganizationDto organizationDto) throws
+	 * UserAlreadyExistException {
+	 * Optional<?> existingUser =
+	 * Optional.of(organizationRepository.findByUsername(organizationDto.getUsername
+	 * ()));
+	 * if (existingUser.isPresent()) {
+	 * throw new UserAlreadyExistException(
+	 * "Organization with username " + organizationDto.getUsername() +
+	 * " already exists.");
+	 * } else {
+	 * Organization organization = new Organization(organizationDto.getName(),
+	 * organizationDto.getPhone(),
+	 * organizationDto.getAddress(), organizationDto.getEmail(),
+	 * organizationDto.getUsername(),
+	 * passwordEncoder.encode(organizationDto.getPassword()),
+	 * organizationDto.getOrganization_type());
+	 * return organizationRepository.save(organization);
+	 * }
+	 * }
+	 */
 
 	@Override
 	public List<Organization> getAllOrganizations() {
