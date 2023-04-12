@@ -23,7 +23,7 @@ public class OrganizationController {
 	@Autowired
 	private OrganizationService organizationService;
 
-	@GetMapping("/organization/all")
+	@GetMapping("/all")
 	public List<Organization> getAllOrganizations() {
 		return organizationService.getAllOrganizations();
 	}

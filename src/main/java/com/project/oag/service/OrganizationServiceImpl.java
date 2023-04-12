@@ -17,9 +17,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Autowired
 	private OrganizationRepository organizationRepository;
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-
 	public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
 		super();
 		this.organizationRepository = organizationRepository;
