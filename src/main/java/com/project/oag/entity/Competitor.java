@@ -1,7 +1,6 @@
 package com.project.oag.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,39 +13,38 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="competitor")
+@Table(name = "competitor")
 public class Competitor {
-	@Id  
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@Column(name = "first_name", nullable = false, length=100)
+
+	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
-	
-	@Column(name = "last_name", nullable = false, length=100)
+
+	@Column(name = "last_name", nullable = false, length = 100)
 	private String lastName;
-	
-	@Column(name = "email",nullable = false)
+
+	@Column(name = "email", nullable = false)
 	private String email;
-	
-	@Column(name = "phone", nullable = false, length=15)
+
+	@Column(name = "phone", nullable = false, length = 15)
 	private String phone;
-	
+
 	@Lob
 	@Column(name = "art", nullable = false)
-    private byte[] artwork;	
+	private byte[] artwork;
 
-	@Column(name = "art_description", nullable = false, length=15)
+	@Column(name = "art_description", nullable = false, length = 15)
 	private String artDescription;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "competition_id", nullable = false)
 	@JsonIgnore
 	private Competition competition;
-	
+
 	public Competitor() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Competitor(String firstName, String lastName, String email, String phone, byte[] artwork,
@@ -58,10 +56,9 @@ public class Competitor {
 		this.phone = phone;
 		this.artwork = artwork;
 		this.artDescription = artDescription;
-	
+
 		this.competition = competition;
 	}
-
 
 	public long getId() {
 		return id;
@@ -115,7 +112,6 @@ public class Competitor {
 		return artDescription;
 	}
 
-
 	public void setArtDescription(String artDescription) {
 		this.artDescription = artDescription;
 	}
@@ -127,5 +123,5 @@ public class Competitor {
 	public void setCompetition(Competition competition) {
 		this.competition = competition;
 	}
-	
+
 }
