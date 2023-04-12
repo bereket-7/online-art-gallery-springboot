@@ -8,21 +8,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="report")
+@Table(name = "report")
 public class Report {
-	@Id  
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column(name = "report_detail", nullable = false)
 	private String reportDetail;
-	
+
 	@Column(name = "report_name", nullable = false)
-	private String reportName;
-	
+	private String reportTitle;
+
 	@Column(name = "reporter_name")
 	private String reporterName;
-	
+
 	@Column(name = "reporter_email")
 	private String reporterEmail;
 
@@ -31,10 +31,10 @@ public class Report {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Report(String reportDetail, String reportName, String reporterName, String reporterEmail) {
+	public Report(String reportDetail, String reportTitle, String reporterName, String reporterEmail) {
 		super();
 		this.reportDetail = reportDetail;
-		this.reportName = reportName;
+		this.reportTitle = reportTitle;
 		this.reporterName = reporterName;
 		this.reporterEmail = reporterEmail;
 	}
@@ -55,12 +55,12 @@ public class Report {
 		this.reportDetail = reportDetail;
 	}
 
-	public String getReportName() {
-		return reportName;
+	public String getReportTitle() {
+		return reportTitle;
 	}
 
-	public void setReportName(String reportName) {
-		this.reportName = reportName;
+	public void setReportTitle(String reportTitle) {
+		this.reportTitle = reportTitle;
 	}
 
 	public String getReporterName() {
@@ -77,5 +77,5 @@ public class Report {
 
 	public void setReporterEmail(String reporterEmail) {
 		this.reporterEmail = reporterEmail;
-	}	
+	}
 }
