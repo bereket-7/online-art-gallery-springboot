@@ -10,43 +10,46 @@ import com.project.oag.entity.Standard;
 import com.project.oag.repository.StandardRepository;
 
 @Service
-public class StandardServiceImpl implements StandardService{
-	
-	 @Autowired   
-	 private StandardRepository standardRepository;  
+public class StandardServiceImpl implements StandardService {
 
-	 @Override
-     public List<Standard> getAllStandards() {   
-    	 return standardRepository.findAll();   
-    }  
-	 @Override
-     public Standard addStandard(Standard standard) {   
-		 return standardRepository.save(standard);   }  
+	@Autowired
+	private StandardRepository standardRepository;
 
-	 @Override
-     public Optional<Standard> getStandardById(Long id) {  
-		 return standardRepository.findById(id);   }   
+	@Override
+	public List<Standard> getAllStandards() {
+		return standardRepository.findAll();
+	}
 
-	 @Override
-     public void deleteStandard(Long id) {      
-		 return standardRepository.deleteById(id);      }     
+	@Override
+	public Standard addStandard(Standard standard) {
+		return standardRepository.save(standard);
+	}
 
-	 @Override
-     public Standard updateStandard (Standard newstandard){    
-		 Optional<Standard> optional = getOptionalByID (newstandard.getId());     
-		 if (optional.isPresent()) {          
-			 Standard oldstandard = optional .get();         
-			 oldstandard .setStandardDescription(newstandard.getStandardDescription());         
-			 oldstandard.setStandardType(newstandard.getStandardType());         
-			 return standardRepository.save(oldstandard );       
-			 } 
-		 else{        
-			 	throw new RuntimeException ("No record found for the given ID");     
-			} 
-		 } 
-	 
-	 private Optional<Standard> getOptionalByID(Long id){   
-    	 return this.standardRepository.findById (id);     
-    	 }
- 
+	@Override
+	public Optional<Standard> getStandardById(Long id) {
+		return standardRepository.findById(id);
+	}
+
+	@Override
+	public void deleteStandard(Long id) {
+		return standardRepository.deleteById(id);
+	}
+
+	@Override
+	public Standard updateStandard(Standard newstandard) {
+		Optional<Standard> optional = getOptionalByID(newstandard.getId());
+		if (optional.isPresent()) {
+			Standard oldstandard = optional.get();
+			oldstandard.setStandardDescription(newstandard.getStandardDescription());
+			oldstandard.setStandardType(newstandard.getStandardType());
+			return standardRepository.save(oldstandard);
+		} else {
+			throw new RuntimeException("No record found for the given ID");
+		}
+	}
+
+	private Optional<Standard> getOptionalByID(Long id) {
+		return this.standardRepository.findById(id);
+	}
+
 }
