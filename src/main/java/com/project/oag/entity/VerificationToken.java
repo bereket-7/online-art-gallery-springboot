@@ -3,6 +3,7 @@ package com.project.oag.entity;
 import java.util.Calendar;
 import java.util.Date;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
+@Entity
 public class VerificationToken {
 	 private static final int EXPIRATION = 60 * 24;
 

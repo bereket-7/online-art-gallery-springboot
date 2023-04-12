@@ -25,7 +25,7 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
 
 	    @Override
 	    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-	        addWelcomeCookie(gerUserName(authentication), response);
+	        addWelcomeCookie(getUserName(authentication), response);
 	        redirectStrategy.sendRedirect(request, response, "/homepage.html?user=" + authentication.getName());
 
 	        final HttpSession session = request.getSession(false);
@@ -45,7 +45,7 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
 	        clearAuthenticationAttributes(request);
 	    }
 	    
-	    private String gerUserName(final Authentication authentication) {
+	    private String getUserName(final Authentication authentication) {
 	        return ((User) authentication.getPrincipal()).getFirstname();
 	    }
 

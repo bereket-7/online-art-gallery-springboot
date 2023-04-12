@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 import com.project.oag.entity.Artwork;
 import com.project.oag.repository.ArtworkRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
+@Transactional
 public class ArtworkServiceImpl implements ArtworkService{
 	@Autowired
 	private ArtworkRepository artworkRepository;
@@ -24,13 +27,14 @@ public class ArtworkServiceImpl implements ArtworkService{
 		artworkRepository.save(artwork);	
 	}
 
-	public List<Artwork> getAllImages() {
+	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
 	}
 
 	public Optional<Artwork> getArtworkById(Long id) {
 		return artworkRepository.findById(id);
 	}
+
 	/**
 	@Override
 	public Artwork  saveArtwork(ArtworkDto artworkDto,@RequestParam("artworkPhoto") MultipartFile multipartFile) throws IOException {
@@ -83,9 +87,4 @@ public class ArtworkServiceImpl implements ArtworkService{
 		// TODO Auto-generated method stub
 		return artworkRepository.getById(artworkId);
 	}*/
-
-	@Override
-	public Artwork findById(Long artworkId) {
-		 return null;
-	}
 }

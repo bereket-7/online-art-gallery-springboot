@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +32,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/upload_artwork")
 public class ArtworkController {
 	@Value("${uploadDir}")
 	private String uploadFolder;
@@ -46,8 +44,9 @@ public class ArtworkController {
 	}
 	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	
-	@PostMapping("/image/saveImageDetails")
+	@PostMapping("/artwork/saveArtwok")
 	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,@RequestParam("artworkDescription") String artworkDescription,
 			@RequestParam("artworkCategory") String artworkCategory,@RequestParam("price") int price,@RequestParam("artistName") String artistName,@RequestParam("status") String status, Model model, HttpServletRequest request
 			,final @RequestParam("artworkPhoto") MultipartFile file) {
@@ -99,9 +98,9 @@ public class ArtworkController {
 			log.info("Exception: " + e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		}
-		
-		@GetMapping("/image/display/{id}")
+}
+	
+		@GetMapping("/artwork/display/{id}")
 		@ResponseBody
 		void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Artwork> artwork)
 				throws ServletException, IOException {
@@ -113,7 +112,7 @@ public class ArtworkController {
 		}
 	
 
-		@GetMapping("/image/imageDetails")
+		@GetMapping("/artwork/artworkDetails")
 		String showProductDetails(@RequestParam("id") Long id, Optional<Artwork> artwork, Model model) {
 			try {
 				log.info("Id :: " + id);
@@ -136,19 +135,72 @@ public class ArtworkController {
 				return "redirect:/artworks";
 			}	
 		}
-		@GetMapping("/image/show")
+		
+		@GetMapping("/artwork/show")
 		String show(Model map) {
-			List<Artwork> images = artworkService.getAllImages();
-			map.addAttribute("images", images);
-			return "images";
+			List<Artwork> artworks = artworkService.getAllArtworks();
+			map.addAttribute("artworks", artworks);
+			return "artworks";
 		}
-	
+		
+		
+		
+		
+		
+	/*	
+		@GetMapping("/{id}")
+	    public ResponseEntity<Artwork> getPhoto(@PathVariable Long id) {
+	        return ResponseEntity.ok(artworkService.getPhoto(id));
+	    }
+
+	    @PostMapping("/")
+	    public ResponseEntity<Artwork> createPhoto(@RequestBody Artwork artwork) {
+	        return ResponseEntity.ok(artworkService.createPhoto(artwork));
+	    }
+
+	    @PutMapping("/{id}") 
+	    public ResponseEntity<Artwork> updatePhoto(@PathVariable Long id, @RequestBody Artwork artwork) { 
+	        return ResponseEntity.ok(artworkService.updatePhoto(id, artwork)); 
+	    } 
+
+	   @DeleteMapping("/{id}") 
+	   public void deleteArtwork(@PathVariable Long id) { 
+		   artworkService.deleteArtwork(id); 
+	   } 
+
+	   @GetMapping("/all") 
+	   public List<Artwork> getAllPhotos() { 
+	       return artworkService.getAllArtworks(); 
+	   } 
+
+	   @GetMapping("/byCategory/{category}") 
+	   public List<Artwork> getArtworkByCategory(@PathVariable String category) { 
+	       return artworkService.getArtworkByCategory(category); 
+	   }
+
+	   @GetMapping("/byArtistName/{artistName}") 
+	   public List<Artwork> getPhotosByArtistName(@PathVariable String artistName) {       
+		   return artworkService.getArtworksByArtistName(artistName);    
+		   }    
+
+	   @GetMapping("/byArtworkName/{artworkName}")      
+	   public List<Artwork> getPhotosByArtworkName(@PathVariable String artworkName) {        
+		   return artworkService.getArtworksByArtworkName(artworkName);      
+		   }    
+
+	   @GetMapping("/byPriceRange/{minPrice}-{maxPrice}")    
+	   public List<Artwork> getArtworkByPriceRange (@PathVariable Double minPrice, Double maxPrice){          return photoService.getPhotosByPriceRange (minPrice, maxPrice);      }    
+
+	   @GetMapping("search?q={queryString}")     
+	   public List<Artwork> searchForArtworks (@PathVariable String queryString){    
+		   return artworkService.searchForArtworks (queryString);      }    
+	*/
 	
 	/**
 	@ModelAttribute("artwork")
     public ArtworkDto artworkDto() {
         return new ArtworkDto();
-    }*/
+    }
 	
 	@GetMapping
 	public String showUploadForm() {

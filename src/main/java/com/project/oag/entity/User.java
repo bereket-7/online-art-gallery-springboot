@@ -2,6 +2,7 @@ package com.project.oag.entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 
@@ -70,17 +71,11 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
-    
-	@Column(name = "reset_password_token", length=30)
-    private String resetPasswordToken;
-	
-	@Column(name = "verificationCode", updatable=false)
-	private String verificationCode;
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
-	private boolean emailVerified;
+	  private boolean enabled;
 	
 	private boolean selectedForBid;
 	
@@ -89,13 +84,13 @@ public class User {
     private String secret;
     
 	public User() {
-		super();
-		this.secret = Base32.random();
-		this.emailVerified = false;
+	    super();
+        this.secret = Base32.random();
+        this.enabled = false;
 		// TODO Auto-generated constructor stub
 	}
-
 	
+
 	public User(@NotBlank(message = "First name is required") String firstname,
 			@NotBlank(message = "Last name is required") String lastname,
 			@NotBlank(message = "Email is required") @Email(message = "Email is not valid") String email,
@@ -103,8 +98,8 @@ public class User {
 			@NotBlank(message = "Sex is required") String sex, @NotNull(message = "Age is required") Integer age,
 			@NotBlank(message = "Username is required") String username,
 			@NotBlank(message = "Password is required") @Size(min = 6, message = "Password must be at least 6 characters") String password,
-			Collection<Role> roles, String resetPasswordToken, String verificationCode, List<Order> orders,
-			boolean emailVerified) {
+			Collection<Role> roles, List<Order> orders,
+			boolean enabled, boolean selectedForBid, boolean isUsing2FA, String secret) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -116,23 +111,17 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
-		this.resetPasswordToken = resetPasswordToken;
-		this.verificationCode = verificationCode;
 		this.orders = orders;
-		this.emailVerified = emailVerified;
+		this.enabled = enabled;
+		this.selectedForBid = selectedForBid;
+		this.isUsing2FA = isUsing2FA;
+		this.secret = secret;
 	}
+
 
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
 			Integer age, String username, String password, String role) {
 	}
-
-	public boolean isEmailVerified() {
-			return emailVerified;
-		}
-
-		public void setEmailVerified(boolean emailVerified) {
-			this.emailVerified = emailVerified;
-		}
 
 	public Long getId() {
 		return id;
@@ -222,23 +211,6 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-
-
-	public String getResetPasswordToken() {
-		return resetPasswordToken;
-	}
-
-	public void setResetPasswordToken(String resetPasswordToken) {
-		this.resetPasswordToken = resetPasswordToken;
-	}
-
-	public String getVerificationCode() {
-		return verificationCode;
-	}
-
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
 	
 	public boolean isUsing2FA() {
 		return isUsing2FA;
@@ -260,6 +232,16 @@ public class User {
 	}
 
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	public List<Order> getOrders() {
 		return orders;
 	}
@@ -277,40 +259,53 @@ public class User {
 		this.selectedForBid = selectedForBid;
 	}
 
+	  @Override
+	    public int hashCode() {
+	        final int prime = 31;
+	        int result = 1;
+	        result = (prime * result) + ((getEmail() == null) ? 0 : getEmail().hashCode());
+	        return result;
+	    }
 
-	@Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = (prime * result) + ((getEmail() == null) ? 0 : getEmail().hashCode());
-        return result;
-    }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final User user = (User) obj;
-        if (!getEmail().equals(user.getEmail())) {
-            return false;
-        }
-        return true;
-    }
+	    @Override
+	    public boolean equals(final Object obj) {
+	        if (this == obj) {
+	            return true;
+	        }
+	        if (obj == null) {
+	            return false;
+	        }
+	        if (getClass() != obj.getClass()) {
+	            return false;
+	        }
+	        final User user = (User) obj;
+	        if (!getEmail().equals(user.getEmail())) {
+	            return false;
+	        }
+	        return true;
+	    }
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
-				+ ", phone=" + phone + ", address=" + address + ", sex=" + sex + ", age=" + age + ", username="
-				+ username + ", password=" + password + ", roles=" + roles + ", resetPasswordToken="
-				+ resetPasswordToken + ", verificationCode=" + verificationCode + ", orders=" + orders
-				+ ", emailVerified=" + emailVerified + ", isUsing2FA=" + isUsing2FA + ", secret=" + secret + "]";
-	}
+
+	    @Override
+	    public String toString() {
+	        final StringBuilder builder = new StringBuilder();
+	        builder.append("User [id=")
+	                .append(id)
+	                .append(", firstname=").append(firstname)
+	                .append(", lastname=").append(lastname)
+	                .append(", email=").append(email)
+	                .append(", phone=").append(phone)
+	                .append(", address=").append(address)
+	                .append(", sex=").append(sex)
+	                .append(", age=").append(age)
+	                .append(", username=").append(username)
+	                .append(", enabled=").append(enabled)
+	                .append(", isUsing2FA=").append(isUsing2FA)
+	                .append(", secret=").append(secret)
+	                .append(", roles=").append(roles)
+	                .append("]");
+	        return builder.toString();
+	    }
 
 }

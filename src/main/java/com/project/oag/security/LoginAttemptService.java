@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class LoginAttemptService {
-	 public static final int MAX_ATTEMPT = 10;
+	 public static final int MAX_ATTEMPT = 7;
 	    private LoadingCache<String, Integer> attemptsCache;
 
 	    @Autowired

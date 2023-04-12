@@ -19,6 +19,10 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "message.firstName", "First Name is required.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "message.lastName", "Last Name is required.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "message.password", "Password is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "message.phone", "Phone is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "message.address", "address is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "age", "message.age", "age is required.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "sex", "message.sex", "sex is required.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "message.username", "UserName is required.");
     }
 

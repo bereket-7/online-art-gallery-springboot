@@ -1,66 +1,51 @@
 package com.project.oag.service;
+
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
 import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.NewLocationToken;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 import com.project.oag.entity.VerificationToken;
-import com.project.oag.exceptions.UserAlreadyExistException;
-import com.project.oag.exceptions.UserNotFoundException;
+
 public interface UserService {
-	//User update(UserDto userDto) throws UserNotFoundException;
-	void changePassword(User user, String password);
-	void updateResetPasswordToken(String token, String email) throws UserNotFoundException;
-	User getByResetPasswordToken(String token);
-	void verifyEmail(String email, String token) throws UserNotFoundException, InvalidTokenException, Throwable;
-	User registerNewUser(UserDto userDto) throws UserAlreadyExistException;
-	User findByUsername(String username);
-	List<User> getAllUsers();
-	Optional<User> getUserById(Long id);
-	void deleteUser(Long id);
-	User updateUser(Long id, UserDto userDto) throws  UserNotFoundException;
+	User registerNewUserAccount(UserDto accountDto);
+
 	User getUser(String verificationToken);
+
 	void saveRegisteredUser(User user);
-	VerificationToken getVerificationToken(String VerificationToken);
-	void createVerificationTokenForUser(User user, String token);
-	VerificationToken generateNewVerificationToken(String existingVerificationToken);
-	String validateVerificationToken(String token);
-	//Object getUsersFromSessionRegistry();
-	NewLocationToken isNewLoginLocation(String username, String ip);
+
 	void deleteUser(User user);
-	
-	
-	
-	
-   
 
-  
-    void createPasswordResetTokenForUser(User user, String token);
+	void createVerificationTokenForUser(User user, String token);
 
-    User findUserByEmail(String email);
+	VerificationToken getVerificationToken(String VerificationToken);
 
-    PasswordResetToken getPasswordResetToken(String token);
+	VerificationToken generateNewVerificationToken(String token);
 
-    Optional<User> getUserByPasswordResetToken(String token);
+	void createPasswordResetTokenForUser(User user, String token);
 
-    Optional<User> getUserByID(long id);
+	User findUserByEmail(String email);
 
-    void changeUserPassword(User user, String password);
+	PasswordResetToken getPasswordResetToken(String token);
 
-    boolean checkIfValidOldPassword(User user, String password);
-    
-    String generateQRUrl(User user) throws UnsupportedEncodingException;
+	Optional<User> getUserByPasswordResetToken(String token);
 
-    User updateUser2FA(boolean use2FA);
+	Optional<User> getUserByID(long id);
 
-    List<String> getUsersFromSessionRegistry();
+	void changeUserPassword(User user, String password);
 
+	boolean checkIfValidOldPassword(User user, String password);
 
-    String isValidNewLocationToken(String token);
+	String validateVerificationToken(String token);
 
-    void addUserLocation(User user, String ip);
+	String generateQRUrl(User user) throws UnsupportedEncodingException;
+
+	User updateUser2FA(boolean use2FA);
+
+	List<String> getUsersFromSessionRegistry();
+
+	public List<User> getAllUsers();
+
 }
-

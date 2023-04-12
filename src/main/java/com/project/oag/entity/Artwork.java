@@ -1,6 +1,5 @@
 package com.project.oag.entity;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -34,23 +33,13 @@ public class Artwork {
 	
 	@Column(name = "artwork_category", nullable = false,length=100)
     private String artworkCategory;
+	
 	@Lob
 	@Column(name = "artwork_photo", nullable = false)
     private byte[] artworkPhoto;
-	/*
-    @Column(name = "artwork_photo", nullable = true, length = 64)
-    private String artworkPhoto;
-	
-	
-	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
-	private String image;*/
 	
 	@Column(name = "price")
 	private int price;
-/**
-	@Column(name = "upload_time", nullable = false)
-	private LocalDateTime timestamp;**/
 	
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
@@ -71,29 +60,6 @@ public class Artwork {
 	
 	public Artwork() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] artworkPhoto,
-			int price, Date createDate, String artistName, String size, String status, List<Rating> ratings) {
-		super();
-		this.artworkName = artworkName;
-		this.artworkDescription = artworkDescription;
-		this.artworkCategory = artworkCategory;
-		this.artworkPhoto = artworkPhoto;
-		this.price = price;
-		this.createDate = createDate;
-		this.artistName = artistName;
-		this.size = size;
-		this.status = status;
-		this.ratings = ratings;
-	}
-
-
-
-	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] artworkPhoto,
-			int price, LocalDateTime timestamp, String status, String artistName) {
 		// TODO Auto-generated constructor stub
 	}
 

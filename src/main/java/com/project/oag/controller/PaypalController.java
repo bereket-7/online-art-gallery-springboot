@@ -30,7 +30,7 @@ public class PaypalController {
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 			Payment payment = service.createPayment(order.getTotalPrice(), order.getCurrency(),order.getMethod(),
-					order.getIntent(), order.getDescription(), "http://localhost:8080/" + CANCEL_URL,
+					order.getIntent(), order.getDescription(), "http://localhost:8080/paypal" + CANCEL_URL,
 					"http://localhost:8080/" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
@@ -42,7 +42,7 @@ public class PaypalController {
 		
 			e.printStackTrace();
 		}
-		return "redirect:/";
+		return "redirect:/paypal";
 	}	
 	 	@GetMapping(value = CANCEL_URL)
 	 		public String cancelPay() {

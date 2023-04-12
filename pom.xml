@@ -30,6 +30,18 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>5.5.3</version>
+		</dependency>
+
+        <!-- spring security test -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
@@ -77,12 +89,13 @@
             <artifactId>geoip2</artifactId>
             <version>2.15.0</version>
         </dependency>
-        
-	     <dependency>
+		
+		<dependency>
 		    <groupId>org.passay</groupId>
 		    <artifactId>passay</artifactId>
-		    <version>1.6.1</version>
+		    <version>1.6.0</version>
 		</dependency>
+		
 		
 		<dependency>
 			<groupId>com.google.guava</groupId>

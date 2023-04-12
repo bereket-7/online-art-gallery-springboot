@@ -13,33 +13,28 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import com.project.oag.entity.User;
-import com.project.oag.service.DeviceService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@Component("AuthenticationSuccessHandler")
+//@Component("authenticationSuccessHandler")
 public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
-	  private final Logger logger = LoggerFactory.getLogger(getClass());
+	  	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
 	    @Autowired
 	    ActiveUserStore activeUserStore;
 
-	    @Autowired
-	    private DeviceService deviceService;
-
-	    @Autowired
-	    private Environment env;
+	    //@Autowired
+	    //private Environment env;
 
 	    @Override
 	    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
-	        handle(request, response, authentication);
+	        //handle(request, response, authentication);
 	        final HttpSession session = request.getSession(false);
 	        if (session != null) {
 	            session.setMaxInactiveInterval(30 * 60);
@@ -56,20 +51,10 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	        }
 	        clearAuthenticationAttributes(request);
 
-	        loginNotification(authentication, request);
+	        //loginNotification(authentication, request);
 	    }
-
-	    private void loginNotification(Authentication authentication, HttpServletRequest request) {
-	        try {
-	            if (authentication.getPrincipal() instanceof User && isGeoIpLibEnabled()) {
-	                deviceService.verifyDevice(((User)authentication.getPrincipal()), request);
-	            }
-	        } catch (Exception e) {
-	            logger.error("An error occurred while verifying device or location", e);
-	            throw new RuntimeException(e);
-	        }
-
-	    }
+	    
+	    /*
 	    protected void handle(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
 	        final String targetUrl = determineTargetUrl(authentication);
 
@@ -78,8 +63,8 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	            return;
 	        }
 	        redirectStrategy.sendRedirect(request, response, targetUrl);
-	    }
-
+	    }*/
+/*
 	    protected String determineTargetUrl(final Authentication authentication) {
 	        boolean isUser = false;
 	        boolean isAdmin = false;
@@ -108,7 +93,7 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	        } else {
 	            throw new IllegalStateException();
 	        }
-	    }
+	    }*/
 
 	    protected void clearAuthenticationAttributes(final HttpServletRequest request) {
 	        final HttpSession session = request.getSession(false);
@@ -125,9 +110,4 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	    protected RedirectStrategy getRedirectStrategy() {
 	        return redirectStrategy;
 	    }
-
-	    private boolean isGeoIpLibEnabled() {
-	        return Boolean.parseBoolean(env.getProperty("geo.ip.lib.enabled"));
-	    }
-
 }

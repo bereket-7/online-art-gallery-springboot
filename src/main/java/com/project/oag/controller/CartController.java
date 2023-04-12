@@ -38,7 +38,6 @@ public class CartController {
     @Autowired
     private AuthenticationService authenticationService;
 
-
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
                                                  @RequestParam("token") String token) throws AuthenticationFailException {
@@ -67,7 +66,6 @@ public class CartController {
         cartService.updateCartItem(cartDto, user,artwork);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Item has been updated"), HttpStatus.OK);
     }*/
-
 
     @DeleteMapping("/delete/{cartItemId}")
     public ResponseEntity<ApiResponse> deleteCartItem(@PathVariable("cartItemId") int itemID,@RequestParam("token") String token) throws AuthenticationFailException, CartItemNotExistException {
@@ -114,9 +112,6 @@ public class CartController {
 	    public void checkout() {
 	        // Process the order
 	    }
-	  
-	  
-	  
 	  
 	  
 	  @GetMapping("/artworks")

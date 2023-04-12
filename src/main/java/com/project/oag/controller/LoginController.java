@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.entity.User;
 import com.project.oag.service.UserService;
-
+/*
 @RestController
 @RequestMapping("/api/auth")
 public class LoginController {
 @Autowired
-private UserService userService;
-
+private UserService userService;*/
+/*
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
 		User user = userService.findByUsername(loginRequest.getUsername());
@@ -28,5 +28,5 @@ private UserService userService;
         // authentication successful
         return new ResponseEntity<>(new LoginResponse(true, "Logged in successfully"), HttpStatus.OK);
     }
-}
+}*/
 
