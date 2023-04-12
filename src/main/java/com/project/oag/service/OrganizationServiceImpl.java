@@ -115,11 +115,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 * email);
 	 * }
 	 * }
+	 * 
+	 * 
+	 * public Organization getByResetPasswordToken(String token) {
+	 * return organizationRepository.findByResetPasswordToken(token);
+	 * }
 	 */
-
-	public Organization getByResetPasswordToken(String token) {
-		return organizationRepository.findByResetPasswordToken(token);
-	}
 
 	public void updatePassword(Organization organization, String newPassword) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

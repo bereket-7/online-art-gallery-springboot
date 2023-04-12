@@ -9,8 +9,6 @@ public interface OrganizationService {
 
 	void updatePassword(Organization organization, String password);
 
-	Organization getByResetPasswordToken(String token);
-
 	public void addOrganization(Organization org);
 
 	Optional<Organization> getOrganizationById(Long id);
