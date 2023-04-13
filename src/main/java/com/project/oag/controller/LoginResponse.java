@@ -3,8 +3,7 @@ package com.project.oag.controller;
 public class LoginResponse {
     private boolean success;
     private String message;
-    
-    
+        
 	public LoginResponse() {
 		super();
 		// TODO Auto-generated constructor stub

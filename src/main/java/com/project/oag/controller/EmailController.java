@@ -1,41 +1,39 @@
 package com.project.oag.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+import com.project.oag.entity.EmailDetail;
+import com.project.oag.service.EmailService;
+
+@RestController()
+@RequestMapping("/email")
+@CrossOrigin("http://localhost:8080/")
 public class EmailController {
-
-	@Autowired
-	private JavaMailSender mailSender;
 	
-	@PostMapping("/send-email")
-	public ResponseEntity<?> sendEmail(
-	        @RequestParam String recipient,
-	        @RequestParam String subject,
-	        @RequestParam String message) {
-
-	    try {
-	        SimpleMailMessage email = new SimpleMailMessage();
-	        email.setTo(recipient);
-	        email.setSubject(subject);
-	        email.setText(message);
-	        email.setFrom("");
-
-	        mailSender.send(email);
-
-	        return ResponseEntity.ok("Email sent successfully to " + recipient);
-	    } catch (Exception ex) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-	                .body("Error sending email: " + ex.getMessage());
-	    }
-	}
-
+	   @Autowired 
+	   private EmailService emailService;
+	
+    // Sending a simple Email
+    @PostMapping("/sendEmail")
+    public String
+    sendMail(@RequestBody EmailDetail details)
+    {
+        String status= emailService.sendSimpleMail(details);
+        return status;
+    }
+ 
+    // Sending email with attachment
+    @PostMapping("/sendWithAttachment")
+    public String sendMailWithAttachment(
+        @RequestBody EmailDetail details)
+    {
+        String status= emailService.sendMailWithAttachment(details);
+        return status;
+    }
 
 }

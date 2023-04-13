@@ -23,8 +23,9 @@ public class Standard {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Standard(String standardDescription, String standardType) {
+	public Standard(Long id, String standardDescription, String standardType) {
 		super();
+		this.id = id;
 		this.standardDescription = standardDescription;
 		this.standardType = standardType;
 	}

@@ -1,14 +1,12 @@
 package com.project.oag.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Service;
+import com.project.oag.entity.EmailDetail;
 
 
-@Service
-public class EmailService {
+public interface EmailService {
+    String sendSimpleMail(EmailDetail details);
+    String sendMailWithAttachment(EmailDetail details);
+}
 /**
 	@Autowired
     private JavaMailSender javaMailSender;
@@ -35,4 +33,4 @@ public class EmailService {
  
         javaMailSender.send(mail);
     }**/
-}
+
