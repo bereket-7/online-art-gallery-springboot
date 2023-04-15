@@ -1,7 +1,6 @@
 package com.project.oag.entity;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -10,12 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="artwork")
@@ -34,90 +29,105 @@ public class Artwork {
 	@Column(name = "artwork_category", nullable = false,length=100)
     private String artworkCategory;
 	
-	@Lob
-	@Column(name = "artwork_photo", nullable = false)
-    private byte[] artworkPhoto;
+
+	@Column(name = "artwork_photo", nullable = true)
+    private String artworkPhoto;
 	
 	@Column(name = "price")
 	private int price;
 	
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", nullable = false)
-    private Date createDate;
+    @Column(name = "create_date", nullable = false, columnDefinition = "DATE")
+    private LocalDate createDate;
 	
-	@Column(name = "artist_name")
-	private String artistName;
-	
+	@Column(name = "artist_id")
+    private int artistId;
+	 
 	@Column(name = "size")
 	private String size;
 	
 	@Column(name = "status")
-	private String status = "pending";
+	private String status;
 
 	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     //private Set<?> ratings = new HashSet<>();
 	private List<Rating> ratings;
 	
+	
+	
+	public int getArtistId() {
+		return artistId;
+	}
+
+
+
+	public void setArtistId(int artistId) {
+		this.artistId = artistId;
+	}
+
+
+
+	public Artwork(Long id, String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
+			int price, LocalDate createDate, int artistId, String size, String status, List<Rating> ratings) {
+		super();
+		this.id = id;
+		this.artworkName = artworkName;
+		this.artworkDescription = artworkDescription;
+		this.artworkCategory = artworkCategory;
+		this.artworkPhoto = artworkPhoto;
+		this.price = price;
+		this.createDate = createDate;
+		this.artistId = artistId;
+		this.size = size;
+		this.status = status;
+		this.ratings = ratings;
+	}
+
+
+
 	public Artwork() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public String getSize() {
-		return size;
-	}
-
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
+	
+	
 
 	public Long getId() {
 		return id;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public String getArtworkName() {
 		return artworkName;
 	}
 
-
 	public void setArtworkName(String artworkName) {
 		this.artworkName = artworkName;
 	}
-
 
 	public String getArtworkDescription() {
 		return artworkDescription;
 	}
 
-
 	public void setArtworkDescription(String artworkDescription) {
 		this.artworkDescription = artworkDescription;
 	}
-
 
 	public String getArtworkCategory() {
 		return artworkCategory;
 	}
 
-
 	public void setArtworkCategory(String artworkCategory) {
 		this.artworkCategory = artworkCategory;
 	}
 
-
-	public byte[] getArtworkPhoto() {
+	public String getArtworkPhoto() {
 		return artworkPhoto;
 	}
 
-	public void setArtworkPhoto(byte[] artworkPhoto) {
+	public void setArtworkPhoto(String artworkPhoto) {
 		this.artworkPhoto = artworkPhoto;
 	}
 
@@ -125,67 +135,43 @@ public class Artwork {
 		return price;
 	}
 
-
 	public void setPrice(int price) {
 		this.price = price;
 	}
 
-
-	public Date getCreateDate() {
+	public LocalDate getCreateDate() {
 		return createDate;
 	}
 
-
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(LocalDate createDate) {
 		this.createDate = createDate;
 	}
 
-
-	public String getArtistName() {
-		return artistName;
+	public String getSize() {
+		return size;
 	}
 
-
-	public void setArtistName(String artistName) {
-		this.artistName = artistName;
+	public void setSize(String size) {
+		this.size = size;
 	}
-
 
 	public String getStatus() {
 		return status;
 	}
 
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	public List<Rating> getRatings() {
 		return ratings;
 	}
 
-
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
 	}
+
 	
-    @Transient
-    public String getPhotosImagePath() {
-        if (artworkPhoto == null || id == null) return null;
-         
-        return "/arts/" + id + "/" + artworkPhoto;
-    }
-
-
-	@Override
-	public String toString() {
-		return "Artwork [id=" + id + ", artworkName=" + artworkName + ", artworkDescription=" + artworkDescription
-				+ ", artworkCategory=" + artworkCategory + ", artworkPhoto=" + Arrays.toString(artworkPhoto)
-				+ ", price=" + price + ", createDate=" + createDate + ", artistName=" + artistName + ", status="
-				+ status + ", ratings=" + ratings + "]";
-	}
-    
 
 	/**public Artwork(String artworkName, String artworkDescription, String artworkCategory,
 			MultipartFile artworkPhoto, int price, String artistName, String Status, LocalDateTime timestamp) {

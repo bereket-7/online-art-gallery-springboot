@@ -2,13 +2,13 @@ package com.project.oag.service;
 
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.entity.Artwork;
 import com.project.oag.repository.ArtworkRepository;
+import com.project.oag.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -17,24 +17,68 @@ import jakarta.transaction.Transactional;
 public class ArtworkServiceImpl implements ArtworkService{
 	@Autowired
 	private ArtworkRepository artworkRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public ArtworkServiceImpl(ArtworkRepository artworkRepository) {
 		super();
 		this.artworkRepository = artworkRepository;
 	}
-	
-	public void saveArtwork(Artwork artwork) {
-		artworkRepository.save(artwork);	
-	}
-
+	  @Override
+	    public Artwork save(Artwork artwork) {
+	        return artworkRepository.save(artwork);
+	    }
 	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
 	}
+	/*
+    @Override
+    public void saveArtwork(Artwork artwork) {
+        //System.out.println(user.getId());
+        //artwork.setArtistId(user.getId());
+    	artwork.setArtistId(artwork.getArtistId());
+        artwork.setArtworkName(artwork.getArtworkName());
+        artwork.setArtworkCategory(artwork.getArtworkCategory());
+        artwork.setArtworkDescription(artwork.getArtworkDescription());
+        artwork.setSize(artwork.getSize());
+        artwork.setPrice(artwork.getPrice());
+        artwork.setStatus("pending");
+        artwork.setCreateDate(artwork.getCreateDate());
+        String artworkPhoto = "/img/artworks/" + artwork.getId() + "/" + artwork.getArtworkPhoto();
+        artwork.setArtworkPhoto(artworkPhoto);
+        System.out.println(artwork.getArtworkPhoto());
+        artworkRepository.save(artwork);
+    }*/
+/*
+    @Override
+    public Artwork findArtworkById(int id) {
+        return artworkRepository.findArtworkById(id);
+    }
 
-	public Optional<Artwork> getArtworkById(Long id) {
-		return artworkRepository.findById(id);
-	}
+    @Override
+    public List<Artwork> findArtworkByOwner(int id) {
+        return artworkRepository.findArtworkByOwner(id);
+    }
 
+    @Override
+    public void updateArtwork(int id) {
+        artworkRepository.updateArtwork(id);
+    }
+
+    /*
+    @Override
+    public void updateArtworkLikes(int id, int likes) {
+        artworkRepository.updateArtworkLikes(id, likes);
+    }
+
+    @Override
+    public String getArtOwnerName(Artwork artwork) {
+        User user = userRepository.findByUserId(artwork.getArtistId());
+        String name = user.getFirstname();
+        return name;
+    }
+*/
 	/**
 	@Override
 	public Artwork  saveArtwork(ArtworkDto artworkDto,@RequestParam("artworkPhoto") MultipartFile multipartFile) throws IOException {

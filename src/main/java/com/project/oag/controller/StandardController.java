@@ -18,7 +18,7 @@ import com.project.oag.entity.Standard;
 import com.project.oag.service.StandardService;
 
 @RestController
-@RequestMapping("/standards")
+@RequestMapping("/standard")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {
 	
