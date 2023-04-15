@@ -1,7 +1,5 @@
 package com.project.oag.entity;
 
-import java.util.Collection;
-
 import com.project.oag.enums.RoleType;
 
 import jakarta.persistence.Column;
