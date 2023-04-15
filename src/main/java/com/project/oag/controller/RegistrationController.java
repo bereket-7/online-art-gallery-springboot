@@ -14,8 +14,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +35,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("/user")
+@CrossOrigin("http://localhost:8080/")
 public class RegistrationController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -60,7 +64,7 @@ public class RegistrationController {
     }
 
     // Registration
-    @PostMapping("/user/registration")
+    @PostMapping("/registration")
     public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
         LOGGER.debug("Registering user account with information: {}", accountDto);
 
@@ -71,7 +75,7 @@ public class RegistrationController {
     }
 
     // User activation - verification
-    @GetMapping("/user/resendRegistrationToken")
+    @GetMapping("/resendRegistrationToken")
     public GenericResponse resendRegistrationToken(final HttpServletRequest request,
             @RequestParam("token") final String existingToken) {
         final VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
@@ -81,7 +85,7 @@ public class RegistrationController {
     }
 
     // Reset password
-    @PostMapping("/user/resetPassword")
+    @PostMapping("/resetPassword")
     public GenericResponse resetPassword(final HttpServletRequest request,
             @RequestParam("email") final String userEmail) {
         final User user = userService.findUserByEmail(userEmail);
@@ -94,7 +98,7 @@ public class RegistrationController {
     }
 
     // Save password
-    @PostMapping("/user/savePassword")
+    @PostMapping("/savePassword")
     public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
 
         final String result = userSecurityService.validatePasswordResetToken(passwordDto.getToken());
@@ -113,7 +117,7 @@ public class RegistrationController {
     }
 
     // Change user password
-    @PostMapping("/user/updatePassword")
+    @PostMapping("/updatePassword")
     public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
         final User user = userService.findUserByEmail(
                 ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
@@ -125,7 +129,7 @@ public class RegistrationController {
     }
 
     // Change user 2 factor authentication
-    @PostMapping("/user/update/2fa")
+    @PostMapping("/update/2fa")
     public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA)
             throws UnsupportedEncodingException {
         final User user = userService.updateUser2FA(use2FA);
