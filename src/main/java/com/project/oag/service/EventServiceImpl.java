@@ -1,31 +1,26 @@
 package com.project.oag.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
-import com.project.oag.exceptions.EventAlreadyRegisteredException;
 import com.project.oag.repository.EventRepository;
-
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 
 @Service
 public class EventServiceImpl implements EventService {
 	@Autowired
     private EventRepository eventRepository;
 
-	public EventServiceImpl(EventRepository eventRepository) {
-		super();
-		this.eventRepository = eventRepository;
+	@Override
+	public void uploadEvent(Event event) {
+		
+		event.setEventName(event.getEventName());
+		event.setEventDescription(event.getEventDescription());
+		event.setEventphoto(event.getEventphoto());
+		eventRepository.save(event);
 	}
-
 	
+	/*
 	 @Override
 	 public EventDto registerEvent(EventDto eventDto) throws EventAlreadyRegisteredException {
 	        Optional<?> existingEvent = Optional.of(eventRepository.findByEventId(eventDto.getEventName()));
