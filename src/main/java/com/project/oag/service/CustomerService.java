@@ -35,10 +35,13 @@ public class CustomerService {
     
 
 
-
     public void confirmRegistration(String email, String token) {
-        Customer user =  customerRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email"));
+        Customer user =  customerRepository.findByEmail(email);
+        if(user == null){
+            new IllegalArgumentException("Invalid email");
+        }
+        else{
+                
 
         if (!user.getToken().equals(token)) {
             throw new IllegalArgumentException("Invalid token");
@@ -47,7 +50,7 @@ public class CustomerService {
         user.setEnabled(true);
         user.setToken(null); // Remove the token after successful confirmation
         customerRepository.save(user);
-    }
+    }}
 
     private void sendConfirmationEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -56,7 +59,7 @@ public class CustomerService {
   message.setFrom("sheba.oag.web@gmail.com");
   message.setTo(email);
   message.setSubject("Confirm your registration");
-  String confirmationUrl = "http://localhost:8080/api/users/confirm?email=" + email + "&token=" + token;
+  String confirmationUrl = "http://localhost:8081/customer/confirm?email=" + email + "&token=" + token;
   message.setText("Please click the following link to confirm your registration: " + confirmationUrl);
   mailSender.send(message);
     }
