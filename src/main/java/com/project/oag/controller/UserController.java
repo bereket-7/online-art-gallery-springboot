@@ -26,16 +26,6 @@ public class UserController {
 		super();
 		this.userService = userService;
 	}
-/*
-	@ModelAttribute("user")
-    public UserDto userDto() {
-        return new UserDto();
-    }*
-	/*
-	@GetMapping("/register")
-	public String showRegistrationForm() {
-		return "registration";
-	}*/
 	    @GetMapping("/loggedUsers")
 	    public String getLoggedUsers(final Locale locale, final Model model) {
 	        model.addAttribute("users", activeUserStore.getUsers());
