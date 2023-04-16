@@ -5,9 +5,12 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.Customer;
+import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.CustomerRepository;
 
 @Service
@@ -17,41 +20,41 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private JavaMailSender mailSender;
 
     public void registerUser(Customer user) {
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException(
+                    "There is an account with that email address: " + user.getEmail());
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
         customerRepository.save(user);
-
         String token = UUID.randomUUID().toString();
         sendConfirmationEmail(user.getEmail(), token);
-
-        // Save the token in the database for later verification
-        // You can use a separate table or add a field in the User entity
-        // For simplicity, I'm adding it as a field in the User entity here
         user.setToken(token);
         customerRepository.save(user);
     }
     
-
-
     public void confirmRegistration(String email, String token) {
         Customer user =  customerRepository.findByEmail(email);
         if(user == null){
             new IllegalArgumentException("Invalid email");
         }
         else{
-                
-
+            
         if (!user.getToken().equals(token)) {
             throw new IllegalArgumentException("Invalid token");
         }
-
         user.setEnabled(true);
         user.setToken(null); // Remove the token after successful confirmation
         customerRepository.save(user);
-    }}
-
+    }
+}
+    
     private void sendConfirmationEmail(String email, String token) {
         SimpleMailMessage message = new SimpleMailMessage();
         

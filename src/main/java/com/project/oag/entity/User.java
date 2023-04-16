@@ -74,7 +74,7 @@ public class User {
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
-	  private boolean enabled;
+	private boolean enabled;
 	
 	private boolean selectedForBid;
 	
