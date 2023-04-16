@@ -20,12 +20,16 @@ public class Artwork {
 	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
 
+	 @Column(nullable=true)
 	private String artworkName;
 
+	 @Column(nullable=true)
     private String artworkDescription;
 	
+    @Column(nullable=true)
     private String artworkCategory;
 	
+    @Column(nullable=true)
     private String artworkPhoto;
 	
 	private int price;
@@ -33,10 +37,13 @@ public class Artwork {
     @Column(name = "create_date", nullable = false, columnDefinition = "DATE")
     private LocalDate createDate;
 	
+    @Column(nullable=true)
     private int artistId;
 	 
+    @Column(nullable=true)
 	private String size;
 	
+    @Column(nullable=true)
 	private String status;
 
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
@@ -55,6 +62,10 @@ public class Artwork {
 
 	public Artwork() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Artwork(String filename, String string) {
 		// TODO Auto-generated constructor stub
 	}
 

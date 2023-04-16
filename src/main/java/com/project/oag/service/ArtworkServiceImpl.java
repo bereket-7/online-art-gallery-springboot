@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.entity.Artwork;
+import com.project.oag.entity.Competitor;
 import com.project.oag.repository.ArtworkRepository;
 import com.project.oag.repository.UserRepository;
 
@@ -20,23 +21,13 @@ public class ArtworkServiceImpl implements ArtworkService{
 	
 	@Autowired
 	private UserRepository userRepository;
-
-	public ArtworkServiceImpl(ArtworkRepository artworkRepository) {
-		super();
-		this.artworkRepository = artworkRepository;
-	}
-	  @Override
-	    public Artwork save(Artwork artwork) {
-	        return artworkRepository.save(artwork);
-	    }
+	
 	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
 	}
-	/*
+	
     @Override
     public void saveArtwork(Artwork artwork) {
-        //System.out.println(user.getId());
-        //artwork.setArtistId(user.getId());
     	artwork.setArtistId(artwork.getArtistId());
         artwork.setArtworkName(artwork.getArtworkName());
         artwork.setArtworkCategory(artwork.getArtworkCategory());
@@ -45,26 +36,32 @@ public class ArtworkServiceImpl implements ArtworkService{
         artwork.setPrice(artwork.getPrice());
         artwork.setStatus("pending");
         artwork.setCreateDate(artwork.getCreateDate());
-        String artworkPhoto = "/img/artworks/" + artwork.getId() + "/" + artwork.getArtworkPhoto();
-        artwork.setArtworkPhoto(artworkPhoto);
-        System.out.println(artwork.getArtworkPhoto());
+        artwork.setArtworkPhoto(artwork.getArtworkPhoto());
         artworkRepository.save(artwork);
-    }*/
-/*
-    @Override
-    public Artwork findArtworkById(int id) {
-        return artworkRepository.findArtworkById(id);
     }
 
-    @Override
-    public List<Artwork> findArtworkByOwner(int id) {
-        return artworkRepository.findArtworkByOwner(id);
-    }
+	@Override
+	public void deleteArtwork(Long id) {
+		artworkRepository.deleteById(id);// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public void updateArtwork(int id) {
-        artworkRepository.updateArtwork(id);
-    }
+	@Override
+	public List<Artwork> getArtworkByCategory(String category) {
+		return null;
+	}
+
+	@Override
+	public List<Artwork> getArtworksByArtistName(String artistName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Artwork> getArtworksByArtworkName(String artworkName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     /*
     @Override
@@ -121,14 +118,5 @@ public class ArtworkServiceImpl implements ArtworkService{
 	 public List<Artwork> searchByCategory(String artworkCategory) {
 	     return artworkRepository.findByCategory(artworkCategory);
 	}
-	@Override
-	public Artwork findById(Long artworkId) {
-		// TODO Auto-generated method stub
-		return artworkRepository.getById(artworkId);
-	}
-	@Override
-	public Artwork getArtworkById(Long artworkId) {
-		// TODO Auto-generated method stub
-		return artworkRepository.getById(artworkId);
-	}*/
+}*/
 }

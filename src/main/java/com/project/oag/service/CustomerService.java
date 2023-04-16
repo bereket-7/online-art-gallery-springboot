@@ -34,10 +34,6 @@ public class CustomerService {
 
         String token = UUID.randomUUID().toString();
         sendConfirmationEmail(user.getEmail(), token);
-
-        // Save the token in the database for later verification
-        // You can use a separate table or add a field in the User entity
-        // For simplicity, I'm adding it as a field in the User entity here
         user.setToken(token);
         customerRepository.save(user);
     }

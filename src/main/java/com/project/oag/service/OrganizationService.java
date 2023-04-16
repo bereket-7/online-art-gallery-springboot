@@ -7,8 +7,6 @@ import com.project.oag.entity.Organization;
 
 public interface OrganizationService {
 
-	void updatePassword(Organization organization, String password);
-
 	public void addOrganization(Organization org);
 
 	Optional<Organization> getOrganizationById(Long id);

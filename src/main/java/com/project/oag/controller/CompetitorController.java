@@ -43,7 +43,7 @@ public class CompetitorController {
 	}
 
 	 @PostMapping("/upload")
-	 public ResponseEntity<Event> competitorUpload(@ModelAttribute("competitor") Competitor competitor,@RequestParam("image") MultipartFile image) throws IOException
+	 public ResponseEntity<Competitor> competitorUpload(@ModelAttribute("competitor") Competitor competitor,@RequestParam("image") MultipartFile image) throws IOException
     {
 		 //String uploadDir = "images/" + savedUser.getId();
 		  String filename = StringUtils.cleanPath(image.getOriginalFilename());
@@ -57,7 +57,7 @@ public class CompetitorController {
 			//e.printStackTrace();
 			//return new ResponseEntity<>(new Event(filename,"Image is not uploaded"),HttpStatus.OK);
 		//}	 
-		 return new ResponseEntity<>(new Event(filename,"Image is successfully uploaded"),HttpStatus.OK);	
+		 return new ResponseEntity<>(new Competitor(filename,"Image is successfully uploaded"),HttpStatus.OK);	
 	}
 	
     @GetMapping("/all")

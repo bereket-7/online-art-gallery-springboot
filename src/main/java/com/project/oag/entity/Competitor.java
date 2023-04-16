@@ -60,6 +60,10 @@ public class Competitor {
 
 
 
+	public Competitor(String filename, String string) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public long getId() {
 		return id;
 	}
