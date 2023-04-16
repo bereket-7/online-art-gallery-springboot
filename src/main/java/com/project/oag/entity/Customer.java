@@ -34,25 +34,27 @@ public class Customer {
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "customer_roles",joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set roles;
+    private Set<Role> roles;
 
+    
     public Customer(String firstname, String lastname, String email, String phone, String address, Integer age,
-            String sex, String password, boolean enabled, String token, boolean isUsing2FA, Set roles) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.age = age;
-        this.sex = sex;
-        this.password = password;
-        this.enabled = enabled;
-        this.token = token;
-        this.isUsing2FA = isUsing2FA;
-        this.roles = roles;
-    }
+			String sex, String password, boolean enabled, String token, boolean isUsing2FA, Set<Role> roles) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.age = age;
+		this.sex = sex;
+		this.password = password;
+		this.enabled = enabled;
+		this.token = token;
+		this.isUsing2FA = isUsing2FA;
+		this.roles = roles;
+	}
 
-    public Customer() {
+	public Customer() {
         super();
     }
 

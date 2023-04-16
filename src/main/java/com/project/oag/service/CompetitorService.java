@@ -13,4 +13,8 @@ public interface CompetitorService {
 
 	void registerCompetitor(Competitor competitor);
 
+	void deleteCompetitor(Long id);
+
+	Competitor updateCompetitor(Long id, Competitor competitor) throws Exception;
+
 }

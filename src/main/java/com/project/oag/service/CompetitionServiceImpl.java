@@ -36,9 +36,9 @@ public class CompetitionServiceImpl implements CompetitionService {
 	    	}
 
 	@Override
-	public void updateCompetition (Long id, Competition comp)
-	    {
-	    	competitionRepository.saveAndFlush(comp);}
+	public void updateCompetition (Long id, Competition comp){
+	    	competitionRepository.saveAndFlush(comp);
+}
 
 	@Override
 	public void deleteCompeition (Long id){

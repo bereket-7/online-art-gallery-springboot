@@ -21,7 +21,7 @@ public class CompetitionController {
 	@Autowired
 	CompetitionService competitionService;
 
-	@GetMapping("/competition/all")
+	@GetMapping("/all")
 	public List<Competition> getAllCompetitions() {
 		return competitionService.getAllCompetitions();
 	}
@@ -31,26 +31,18 @@ public class CompetitionController {
 		return competitionService.getCompetitionById(id);
 	}
 
-	@PostMapping("/competition/add") // add new competition to the database
-	public void addCompetition(@RequestBody Competition competition) { // RequestBody annotation is used to bind the
-																		// request body with a method parameter.
+	@PostMapping("/add") // add new competition to the database
+	public void addCompetition(@RequestBody Competition competition) { 																// request body with a method parameter.
 		competitionService.addCompetition(competition); // call service method to add new competition to the database }
 	}
 
 	@PutMapping("/update/{id}") // update existing competition in the database
-	public void updateCompetition(@PathVariable Long id, @RequestBody Competition competition) { // RequestBody
-																									// annotation is
-																									// used to bind the
-																									// request body with
-																									// a method
-																									// parameter.
-		competitionService.updateCompetition(id, competition); // call service method to update existing competition in
-																// the database }
+	public void updateCompetition(@PathVariable Long id, @RequestBody Competition competition) { 															// parameter.
+		competitionService.updateCompetition(id, competition);
 	}
 
-	@DeleteMapping("/delete/{id}") // delete existing competition from the database
-	public void deleteCompetition(@PathVariable Long id) { // call service method to delete existing competiton from the
-															// database
+	@DeleteMapping("/delete/{id}") 
+	public void deleteCompetition(@PathVariable Long id) { 													// database
 		competitionService.deleteCompetition(id);
 	}
 

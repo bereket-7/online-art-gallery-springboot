@@ -3,12 +3,12 @@ package com.project.oag.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.Customer;
 import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.CustomerRepository;
@@ -24,20 +24,27 @@ public class CustomerService {
 
     @Autowired
     private JavaMailSender mailSender;
+    
+     @Value("${spring.mail.username}")
+     private String senderEmail;
 
     public void registerUser(Customer user) {
-        if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException(
-                    "There is an account with that email address: " + user.getEmail());
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
         customerRepository.save(user);
+
         String token = UUID.randomUUID().toString();
         sendConfirmationEmail(user.getEmail(), token);
+
+        // Save the token in the database for later verification
+        // You can use a separate table or add a field in the User entity
+        // For simplicity, I'm adding it as a field in the User entity here
         user.setToken(token);
         customerRepository.save(user);
     }
+    private boolean emailExists(final String email) {
+        return customerRepository.findByEmail(email);
+    }
+    
     
     public void confirmRegistration(String email, String token) {
         Customer user =  customerRepository.findByEmail(email);
@@ -59,7 +66,7 @@ public class CustomerService {
         SimpleMailMessage message = new SimpleMailMessage();
         
   // Set the sender and recipient email addresses
-  message.setFrom("sheba.oag.web@gmail.com");
+  message.setFrom(senderEmail);
   message.setTo(email);
   message.setSubject("Confirm your registration");
   String confirmationUrl = "http://localhost:8081/customer/confirm?email=" + email + "&token=" + token;

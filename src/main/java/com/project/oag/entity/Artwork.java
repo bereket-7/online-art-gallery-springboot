@@ -13,63 +13,35 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="artwork")
+@Table(name="Artwork")
 public class Artwork {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
-	
-	@Column(name = "artwork_name", nullable = false,length=150)
+
 	private String artworkName;
-	
-	@Column(name = "artwork_description", nullable = false)
+
     private String artworkDescription;
 	
-	@Column(name = "artwork_category", nullable = false,length=100)
     private String artworkCategory;
 	
-
-	@Column(name = "artwork_photo", nullable = true)
     private String artworkPhoto;
 	
-	@Column(name = "price")
 	private int price;
 	
     @Column(name = "create_date", nullable = false, columnDefinition = "DATE")
     private LocalDate createDate;
 	
-	@Column(name = "artist_id")
     private int artistId;
 	 
-	@Column(name = "size")
 	private String size;
 	
-	@Column(name = "status")
 	private String status;
 
-	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
-    //private Set<?> ratings = new HashSet<>();
-	private List<Rating> ratings;
-	
-	
-	
-	public int getArtistId() {
-		return artistId;
-	}
-
-
-
-	public void setArtistId(int artistId) {
-		this.artistId = artistId;
-	}
-
-
-
-	public Artwork(Long id, String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
-			int price, LocalDate createDate, int artistId, String size, String status, List<Rating> ratings) {
+	public Artwork(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
+			int price, LocalDate createDate, int artistId, String size, String status) {
 		super();
-		this.id = id;
 		this.artworkName = artworkName;
 		this.artworkDescription = artworkDescription;
 		this.artworkCategory = artworkCategory;
@@ -79,17 +51,12 @@ public class Artwork {
 		this.artistId = artistId;
 		this.size = size;
 		this.status = status;
-		this.ratings = ratings;
 	}
-
-
 
 	public Artwork() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public Long getId() {
 		return id;
@@ -147,6 +114,14 @@ public class Artwork {
 		this.createDate = createDate;
 	}
 
+	public int getArtistId() {
+		return artistId;
+	}
+
+	public void setArtistId(int artistId) {
+		this.artistId = artistId;
+	}
+
 	public String getSize() {
 		return size;
 	}
@@ -162,31 +137,5 @@ public class Artwork {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(List<Rating> ratings) {
-		this.ratings = ratings;
-	}
-
 	
-
-	/**public Artwork(String artworkName, String artworkDescription, String artworkCategory,
-			MultipartFile artworkPhoto, int price, String artistName, String Status, LocalDateTime timestamp) {
-		// TODO Auto-generated constructor stub
-	}**/
-	
-	/*
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	private String name;
-	private String description;
-	private int price;
-	@Lob
-	@Column(columnDefinition = "MEDIUMBLOB")
-	private String image;
-	*/
 }

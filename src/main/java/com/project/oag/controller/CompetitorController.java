@@ -1,85 +1,66 @@
 package com.project.oag.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.oag.common.FileUploadUtil;
+import com.project.oag.entity.Competition;
 import com.project.oag.entity.Competitor;
+import com.project.oag.entity.Event;
 import com.project.oag.repository.CompetitorRepository;
 import com.project.oag.service.CompetitorService;
 
 @RestController
 @RequestMapping("/competitor")
+@CrossOrigin("http://localhost:8080/")
 public class CompetitorController {
 	
 	@Autowired
 	CompetitorService competitorService;
 	
-	@Autowired
-	CompetitorRepository competitorRepository;
-	
-	//private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
+	private String path = "src/main/resources/static/img/competition-images/";
 	public CompetitorController(CompetitorService competitorService) {
 		super();
 		this.competitorService = competitorService;
 	}
-	/*
 
-	@PostMapping("/register_competitor")
-	public @ResponseBody ResponseEntity<?> registerCompetitor(@RequestParam("firstName") String firstName,@RequestParam("lastName") String lastName,@RequestParam("email") String email,
-			@RequestParam("phone") String phone,@RequestParam("artDescription") String artDescription, Model model, HttpServletRequest request
-			,final @RequestParam("artwork") MultipartFile art) {
-		try {
-			//String uploadDirectory = System.getProperty("user.dir") + uploadFolder;
-			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-			log.info("uploadDirectory:: " + uploadDirectory);
-			String fileName = art.getOriginalFilename();
-			String filePath = Paths.get(uploadDirectory, fileName).toString();
-			log.info("FileName: " + art.getOriginalFilename());
-			if (fileName == null || fileName.contains("..")) {
-				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
-				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-			}
-			try {
-				File dir = new File(uploadDirectory);
-				if (!dir.exists()) {
-					log.info("Folder Created");
-					dir.mkdirs();
-				}
-				// Save the file locally
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-				stream.write(art.getBytes());
-				stream.close();
-			} catch (Exception e) {
-				log.info("in catch");
-				e.printStackTrace();
-			}
-			byte[] imageData = art.getBytes();
-			Competitor competitor = new Competitor();
-			//competitor.setArtworkName(artwork_names[0]);
-			competitor.setFirstName(firstName);
-			competitor.setLastName(lastName);
-			competitor.setEmail(email);
-			competitor.setPhone(phone);
-			competitor.setArtwork(imageData);
+	 @PostMapping("/upload")
+	 public ResponseEntity<Event> competitorUpload(@ModelAttribute("competitor") Competitor competitor,@RequestParam("image") MultipartFile image) throws IOException
+    {
+		 //String uploadDir = "images/" + savedUser.getId();
+		  String filename = StringUtils.cleanPath(image.getOriginalFilename());
+		 //String filename = null;
+		//try {
+			competitor.setArtworkPhoto(filename);
 			competitorService.registerCompetitor(competitor);
-			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("Exception: " + e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			FileUploadUtil.uploadFile(path, filename, image);
+		//} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			//return new ResponseEntity<>(new Event(filename,"Image is not uploaded"),HttpStatus.OK);
+		//}	 
+		 return new ResponseEntity<>(new Event(filename,"Image is successfully uploaded"),HttpStatus.OK);	
 	}
-}*/
 	
-    @GetMapping
+    @GetMapping("/all")
     public List<Competitor> getAllCompetitor() {
         return competitorService.getAllCompetitors();
     }
@@ -90,6 +71,13 @@ public class CompetitorController {
         return competitor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-    
-
+	@DeleteMapping("/delete/{id}") // delete existing competition from the database
+	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
+		competitorService.deleteCompetitor(id);
+	}
+	
+	 @PutMapping("/update/{id}")
+	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
+	        return competitorService.updateCompetitor(id, competitor);
+	 }	
 }
