@@ -2,6 +2,7 @@ package com.project.oag.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -136,4 +137,10 @@ public class ArtworkServiceImpl implements ArtworkService{
 	     return artworkRepository.findByCategory(artworkCategory);
 	}
 }*/
+
+	@Override
+	public Artwork getArtworkById(Long artworkId) {
+        Optional<Artwork> artwork = artworkRepository.findById(artworkId);
+        return artwork.get();
+    }
 }

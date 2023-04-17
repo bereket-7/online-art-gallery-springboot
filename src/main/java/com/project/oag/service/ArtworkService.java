@@ -20,6 +20,8 @@ public interface ArtworkService {
 
 	Double getAverageRating(Long artworkId);
 
+	Artwork getArtworkById(Long artworkId);
+
 
 
 	//void saveArtwork(Artwork artwork);
