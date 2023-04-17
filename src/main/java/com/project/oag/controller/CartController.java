@@ -38,20 +38,28 @@ public class CartController {
     @Autowired
     private AuthenticationService authenticationService;
 
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
-                                                 @RequestParam("token") String token) throws AuthenticationFailException {
+	@PostMapping("/add")
+    public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto) throws AuthenticationFailException, ProductNotExistException {
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
+        Product product = productService.getProductById(addToCartDto.getProductId());
+        System.out.println("product to add"+  product.getName());
+        cartService.addToCart(addToCartDto, product, user);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
+
+    }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto) {
         Artwork artwork = artworkService.findById(addToCartDto.getArtworkId());
         System.out.println("product to add"+  artwork.getArtworkName());
-        cartService.addToCart(addToCartDto, artwork, user);
+        cartService.addToCart(addToCartDto, artwork);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
     }
     
     @GetMapping("/")
-    public ResponseEntity<CartDto> getCartItems(@RequestParam("token") String token) throws AuthenticationFailException {
-        authenticationService.authenticate(token);
+    public ResponseEntity<CartDto> getCartItems(@RequestParam("token") String token){
         User user = authenticationService.getUser(token);
         CartDto cartDto = cartService.listCartItems(user);
         return new ResponseEntity<CartDto>(cartDto,HttpStatus.OK);
