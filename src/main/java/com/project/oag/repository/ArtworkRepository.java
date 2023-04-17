@@ -7,5 +7,6 @@ import com.project.oag.entity.Artwork;
 
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
+
 	
 }

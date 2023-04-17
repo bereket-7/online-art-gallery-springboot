@@ -2,6 +2,7 @@ package com.project.oag.service;
 
 import java.util.List;
 
+import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
 
 public interface ArtworkService {
@@ -21,6 +22,8 @@ public interface ArtworkService {
 	Double getAverageRating(Long artworkId);
 
 	Artwork getArtworkById(Long artworkId);
+
+	ArtworkDto getDtoFromArtwork(Artwork artwork);
 
 
 

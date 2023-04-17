@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
 import com.project.oag.entity.Rating;
 import com.project.oag.repository.ArtworkRepository;
@@ -81,6 +82,8 @@ public class ArtworkServiceImpl implements ArtworkService{
             return sum / ratings.size();
         }
     }
+	
+
     /*
     @Override
     public void updateArtworkLikes(int id, int likes) {
@@ -143,4 +146,10 @@ public class ArtworkServiceImpl implements ArtworkService{
         Optional<Artwork> artwork = artworkRepository.findById(artworkId);
         return artwork.get();
     }
+
+	@Override
+	public ArtworkDto getDtoFromArtwork(Artwork artwork) {
+	    ArtworkDto artworkDto = new ArtworkDto(artwork);
+        return artworkDto;
+	}
 }
