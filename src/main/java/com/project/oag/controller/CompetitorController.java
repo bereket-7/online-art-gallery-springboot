@@ -22,10 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.common.FileUploadUtil;
-import com.project.oag.entity.Competition;
 import com.project.oag.entity.Competitor;
-import com.project.oag.entity.Event;
-import com.project.oag.repository.CompetitorRepository;
 import com.project.oag.service.CompetitorService;
 
 @RestController

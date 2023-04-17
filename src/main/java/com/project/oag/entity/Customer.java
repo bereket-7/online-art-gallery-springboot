@@ -3,15 +3,17 @@ package com.project.oag.entity;
 import java.util.Set;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="Customer")
@@ -26,6 +28,8 @@ public class Customer {
     private String address;
     private Integer age;
     private String sex;
+    @Column(nullable = true)
+    private String photos;
     private String password;
     private boolean enabled;
     private String token;
@@ -36,9 +40,10 @@ public class Customer {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
-    
-    public Customer(String firstname, String lastname, String email, String phone, String address, Integer age,
-			String sex, String password, boolean enabled, String token, boolean isUsing2FA, Set<Role> roles) {
+
+	public Customer(String firstname, String lastname, String email, String phone, String address, Integer age,
+			String sex, String photos, String password, boolean enabled, String token, boolean isUsing2FA,
+			Set<Role> roles) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -47,6 +52,7 @@ public class Customer {
 		this.address = address;
 		this.age = age;
 		this.sex = sex;
+		this.photos = photos;
 		this.password = password;
 		this.enabled = enabled;
 		this.token = token;
@@ -57,6 +63,20 @@ public class Customer {
 	public Customer() {
         super();
     }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (photos == null || id == null) return null;
+         
+        return "/user-photos/" + id + "/" + photos;
+    } 
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
     public boolean isUsing2FA() {
         return isUsing2FA;
@@ -73,14 +93,7 @@ public class Customer {
         this.id = id;
     }
 
-    
-    public Set getRoles() {
-        return roles;
-    }
 
-    public void setRoles(Set roles) {
-        this.roles = roles;
-    }
     public String getFirstname() {
         return firstname;
     }
@@ -123,7 +136,16 @@ public class Customer {
     public void setSex(String sex) {
         this.sex = sex;
     }
-    public String getPassword() {
+    
+    public String getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(String photos) {
+		this.photos = photos;
+	}
+
+	public String getPassword() {
         return password;
     }
     public void setPassword(String password) {

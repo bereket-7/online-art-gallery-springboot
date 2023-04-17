@@ -22,7 +22,7 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class OrderService {
-	/**
+	
 	 	@Autowired
 	    private CartService cartService;
 
@@ -86,7 +86,7 @@ public class OrderService {
 	                .build();
 	        return Session.create(params);
 	    }*/
-/*
+
 	    public void placeOrder(User user, String sessionId) {
 	        // first let get cart items for the user
 	        CartDto cartDto = cartService.listCartItems(user);
@@ -127,5 +127,5 @@ public class OrderService {
 	            return order.get();
 	        }
 	        throw new OrderNotFoundException("Order not found");
-	    }*/
+	    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +21,17 @@ import com.project.oag.exceptions.OrderNotFoundException;
 import com.project.oag.service.AuthenticationService;
 import com.project.oag.service.OrderService;
 
+
 @RestController
 @RequestMapping("/order")
+@CrossOrigin("http://localhost:8080/")
 public class OrderController {
 	 	@Autowired
 	    private OrderService orderService;
-/**
+
 	    @Autowired
 	    private AuthenticationService authenticationService;
-	    
+	    /*
 	    @PostMapping("/create-checkout-session")
 	    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 	        // create the stripe session
@@ -36,8 +39,8 @@ public class OrderController {
 	        StripeResponse stripeResponse = new StripeResponse(session.getId());
 	        // send the stripe session id in response
 	        return new ResponseEntity<StripeResponse>(stripeResponse, HttpStatus.OK);
-	    }
-/**
+	    }*/
+
 	    // place order after checkout
 	    @PostMapping("/add")
 	    public ResponseEntity<ApiResponse> placeOrder(@RequestParam("token") String token, @RequestParam("sessionId") String sessionId)
@@ -81,7 +84,7 @@ public class OrderController {
 
 	    }
 
-*/
+
 
 
 }
