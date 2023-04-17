@@ -51,38 +51,31 @@ public class CartServiceImpl implements CartService {
         return new CartDto(cartItems,totalCost);
     }
 
-    public CartItemDto getDtoFromCart(Cart cart) {
+    public static CartItemDto getDtoFromCart(Cart cart) {
         return new CartItemDto(cart);
     }
 
-    @Override
+
     public void updateCartItem(AddToCartDto cartDto, User user,Artwork artwork){
         Cart cart = cartRepository.getOne(cartDto.getId());
         cart.setQuantity(cartDto.getQuantity());
         cart.setCreatedDate(new Date());
         cartRepository.save(cart);
     }
-    
-    @Override
+
     public void deleteCartItem(int id,int userId) throws CartItemNotExistException {
-        if (!cartRepository.existsById((long) id))
+        if (!cartRepository.existsById(id))
             throw new CartItemNotExistException("Cart id is invalid : " + id);
         cartRepository.deleteById(id);
+
     }
 
-    @Override
     public void deleteCartItems(int userId) {
         cartRepository.deleteAll();
     }
 
-    @Override
+
     public void deleteUserCartItems(User user) {
         cartRepository.deleteByUser(user);
     }
-
-	@Override
-	public void deleteCartItem(int itemID, Long userId) {
-		// TODO Auto-generated method stub
-		
-	}
 }
