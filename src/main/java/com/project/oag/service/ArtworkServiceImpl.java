@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Competitor;
+import com.project.oag.entity.Rating;
 import com.project.oag.repository.ArtworkRepository;
+import com.project.oag.repository.RatingRepository;
 import com.project.oag.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -21,6 +22,9 @@ public class ArtworkServiceImpl implements ArtworkService{
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private RatingRepository ratingRepository;
 	
 	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
@@ -63,6 +67,19 @@ public class ArtworkServiceImpl implements ArtworkService{
 		return null;
 	}
 
+	@Override
+    public Double getAverageRating(Long artworkId) {
+        List<Rating> ratings = ratingRepository.findByArtwork(artworkId);
+        if (ratings.isEmpty()) {
+            return null;
+        } else {
+            double sum = 0;
+            for (Rating rating : ratings) {
+                sum += rating.getRating();
+            }
+            return sum / ratings.size();
+        }
+    }
     /*
     @Override
     public void updateArtworkLikes(int id, int likes) {

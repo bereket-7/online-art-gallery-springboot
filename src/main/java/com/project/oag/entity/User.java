@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -73,6 +74,10 @@ public class User {
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
+	
+	//mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Rating> ratings;
 	
 	private boolean enabled;
 	

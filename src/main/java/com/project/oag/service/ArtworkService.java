@@ -18,6 +18,8 @@ public interface ArtworkService {
 
 	List<Artwork> getArtworksByArtworkName(String artworkName);
 
+	Double getAverageRating(Long artworkId);
+
 
 
 	//void saveArtwork(Artwork artwork);

@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.common.FileUploadUtil;
 import com.project.oag.entity.Artwork;
+import com.project.oag.entity.User;
 import com.project.oag.service.ArtworkService;
 import com.project.oag.service.UserService;
 
@@ -70,7 +71,12 @@ public class ArtworkController {
 	   @GetMapping("/byArtworkName/{artworkName}")      
 	   public List<Artwork> getPhotosByArtworkName(@PathVariable String artworkName) {        
 		   return artworkService.getArtworksByArtworkName(artworkName);      
-		   }    
+	  }
+	   
+	    @GetMapping("/{artworkId}/average-rating")
+	    public double getAverageRating(@PathVariable Long artworkId) {
+	        return artworkService.getAverageRating(artworkId);
+	    }
 
 	
 /*	//private final Logger log = LoggerFactory.getLogger(this.getClass());

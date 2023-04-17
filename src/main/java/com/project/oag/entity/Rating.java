@@ -16,26 +16,26 @@ public class Rating {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Long id;
 	 
-	 @Column(name = "stars", nullable = false)
-	 private int stars;
+	 @Column(name = "values", nullable = true)
+	 private int rating;
 
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "artwork_id", nullable = false)
-	    private Artwork artwork;
-
-	   /* @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "user_id", nullable = false)
-	    private User user;*/
+	 @ManyToOne(fetch = FetchType.LAZY)
+	 @JoinColumn(name = "artwork_id", nullable = true)
+	 private Artwork artwork;
+	    
+	 @ManyToOne(fetch = FetchType.LAZY)
+	 private User user;
 
 		public Rating() {
 	    	
 	    }
-
-		public Rating(int stars, Artwork artwork) {
+		public Rating(int rating, Artwork artwork, User user) {
 			super();
-			this.stars = stars;
+			this.rating = rating;
 			this.artwork = artwork;
+			this.user = user;
 		}
+
 
 		public Long getId() {
 			return id;
@@ -45,19 +45,27 @@ public class Rating {
 			this.id = id;
 		}
 
-		public int getStars() {
-			return stars;
+		public int getRating() {
+			return rating;
 		}
 
-		public void setStars(int stars) {
-			this.stars = stars;
+		public void setRating(int rating) {
+			this.rating = rating;
 		}
 
 		public Artwork getArtwork() {
 			return artwork;
 		}
 
-	    public void setArtwork(Artwork artwork) {
+		public void setArtwork(Artwork artwork) {
 			this.artwork = artwork;
-		}	    
+		}
+
+		public User getUser() {
+			return user;
+		}
+
+		public void setUser(User user) {
+			this.user = user;
+		}
 }

@@ -46,8 +46,13 @@ public class Artwork {
     @Column(nullable=true)
 	private String status;
 
+    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+    
+    
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
-			int price, LocalDate createDate, int artistId, String size, String status) {
+			int price, LocalDate createDate, int artistId, String size, String status,
+			List<Rating> ratings) {
 		super();
 		this.artworkName = artworkName;
 		this.artworkDescription = artworkDescription;
@@ -58,6 +63,7 @@ public class Artwork {
 		this.artistId = artistId;
 		this.size = size;
 		this.status = status;
+		this.ratings = ratings;
 	}
 
 	public Artwork() {
@@ -148,5 +154,32 @@ public class Artwork {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+	
+	
+	
+	/*
+	public void addRating(Rating rating) {
+	    ratings.add(rating);
+	    rating.setArtwork(this);
+	    updateAverageRating();
+	}
+
+	private void updateAverageRating() {
+	    int sum = 0;
+	    for (Rating rating : ratings) {
+	       sum += rating.getRating();
+	    }
+	    averageRating = (double) sum / ratings.size();
+	}*/
+
+	
 	
 }
