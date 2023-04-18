@@ -31,15 +31,6 @@ public class OrderController {
 
 	    @Autowired
 	    private AuthenticationService authenticationService;
-	    /*
-	    @PostMapping("/create-checkout-session")
-	    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
-	        // create the stripe session
-	        Session session = orderService.createSession(checkoutItemDtoList);
-	        StripeResponse stripeResponse = new StripeResponse(session.getId());
-	        // send the stripe session id in response
-	        return new ResponseEntity<StripeResponse>(stripeResponse, HttpStatus.OK);
-	    }*/
 
 	    // place order after checkout
 	    @PostMapping("/add")

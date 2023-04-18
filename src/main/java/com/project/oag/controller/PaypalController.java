@@ -21,17 +21,17 @@ public class PaypalController {
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
 
-	@GetMapping("/paypal")
+	@GetMapping("/")
 	public String home() {
-		return "paypal_payment";
+		return "home";
 	}
 
 	@PostMapping("/paypal/pay")
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 			Payment payment = service.createPayment(order.getTotalPrice(), order.getCurrency(),order.getMethod(),
-					order.getIntent(), order.getDescription(), "http://localhost:8080/paypal" + CANCEL_URL,
-					"http://localhost:8080/" + SUCCESS_URL);
+					order.getIntent(), order.getDescription(), "http://localhost:8081/paypal" + CANCEL_URL,
+					"http://localhost:8081/" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
 					return "redirect:"+link.getHref();
@@ -46,7 +46,7 @@ public class PaypalController {
 	}	
 	 	@GetMapping(value = CANCEL_URL)
 	 		public String cancelPay() {
-	        return "cancel";
+	        return "cancel";//change vue pages in here
 	    }
 
 	    @GetMapping(value = SUCCESS_URL)

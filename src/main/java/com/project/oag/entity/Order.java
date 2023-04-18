@@ -23,26 +23,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-    @Column(name = "created_date")
+    @Column(name = "created_date",nullable=true)
     private Date createdDate;
 
-    @Column(name = "total_price")
+    @Column(name = "total_price",nullable=true)
     private Double totalPrice;
     
-    @Column(name="currency")
+    @Column(name="currency",nullable=true)
     private String currency;
     
-    @Column(name="intent")
+    @Column(name="intent",nullable=true)
     private String intent;
     
-    @Column(name="method")
+    @Column(name="method",nullable=true)
     private String method;
     
-    @Column(name="description")
+    @Column(name="description",nullable=true)
     private String description;
 
-    @Column(name = "session_id")
+    @Column(name = "session_id",nullable=true)
     private String sessionId;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
