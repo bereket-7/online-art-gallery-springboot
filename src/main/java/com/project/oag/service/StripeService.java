@@ -14,13 +14,13 @@ import com.stripe.param.checkout.SessionCreateParams;
 @Service
 public class StripeService {
     
-    @Value("${BASE_URL}")
-    private String baseURL;
+   // @Value("${BASE_URL}")
+    //private String baseURL;
 
-    @Value("${STRIPE_SECRET_KEY}")
-    private String apiKey;
+    //@Value("${STRIPE_SECRET_KEY}")
+   // private String apiKey;
     
-
+/*
     // create total price
     SessionCreateParams.LineItem.PriceData createPriceData(CheckoutItemDto checkoutItemDto) {
         return SessionCreateParams.LineItem.PriceData.builder()
@@ -70,5 +70,5 @@ public class StripeService {
                 .setSuccessUrl(successURL)
                 .build();
         return Session.create(params);
-    }
+    }*/
 }

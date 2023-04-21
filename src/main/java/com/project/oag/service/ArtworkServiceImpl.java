@@ -1,17 +1,18 @@
 package com.project.oag.service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Rating;
+import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.repository.ArtworkRepository;
-import com.project.oag.repository.RatingRepository;
 import com.project.oag.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
@@ -25,8 +26,8 @@ public class ArtworkServiceImpl implements ArtworkService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private RatingRepository ratingRepository;
+	//@Autowired
+	//private RatingRepository ratingRepository;
 	
 	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
@@ -53,8 +54,8 @@ public class ArtworkServiceImpl implements ArtworkService{
 	}
 
 	@Override
-	public List<Artwork> getArtworkByCategory(String category) {
-		return null;
+	public List<Artwork> getArtworkByCategory(String artworkCategory) {
+		return artworkRepository.findByArtworkCategory(artworkCategory);
 	}
 
 	@Override
@@ -68,8 +69,88 @@ public class ArtworkServiceImpl implements ArtworkService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+    public List<Artwork> getArtworkByPriceRange(double minPrice, double maxPrice) {
+        return artworkRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+    
+    public List<Artwork> getPendingArtworks() {
+        return artworkRepository.findByStatus("pending");
+    }
+    
+	public List<Artwork> getAcceptedArtworks() {
+		 return artworkRepository.findByStatus("accepted");
+	}
 
-	@Override
+	public List<Artwork> getRejectedArtworks() {
+		 return artworkRepository.findByStatus("rejected");
+	}
+    
+    @Transactional
+    public boolean acceptArtwork(Long id) {
+        Optional<Artwork> artworkOptional = artworkRepository.findById(id);
+        if (artworkOptional.isPresent()) {
+            Artwork artwork = artworkOptional.get();
+            if (artwork.getStatus().equals("pending")) {
+                artwork.setStatus("accepted");
+                artworkRepository.save(artwork);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+    @Transactional
+	public boolean rejectArtwork(Long id) {
+    	 Optional<Artwork> artworkOptional = artworkRepository.findById(id);
+         if (artworkOptional.isPresent()) {
+             Artwork artwork = artworkOptional.get();
+             if (artwork.getStatus().equals("pending")) {
+                 artwork.setStatus("rejected");
+                 artworkRepository.save(artwork);
+                 return true;
+             }
+         }
+         return false;
+	}
+    
+    public List<ArtworkDto> getArtworkPhotoAndCategoryAndPriceAndSize(String artworkPhoto, String artworkCategory, int price, String size) {
+        List<Object[]> artworkObjects = artworkRepository.findByArtworkPhotoAndArtworkCategoryAndPriceAndSize(artworkPhoto, artworkCategory, price, size);
+        List<ArtworkDto> artworkDtos = new ArrayList<>();
+        for (Object[] artworkObject : artworkObjects) {
+            ArtworkDto artworkDto = new ArtworkDto();
+            artworkDto.setArtworkPhoto((String) artworkObject[0]);
+            artworkDto.setArtworkCategory((String) artworkObject[1]);
+            artworkDto.setPrice((int) artworkObject[2]);
+            artworkDto.setSize((String) artworkObject[3]);
+            artworkDtos.add(artworkDto);
+        }
+        return artworkDtos;
+    }
+    
+    public List<Artwork> getRecentArtworks() {
+        return artworkRepository.findAllByOrderByCreateDateDesc();
+    }
+    
+    /*
+    @Override
+    public ArtworkDto updateArtwork(Long id, ArtworkDto artworkDTO) {
+        Artwork artwork = artworkRepository.findById(id).orElseThrow(() -> new ArtworkNotFoundException("Artwork not found with id " + id));
+        artwork.setArtworkName(artworkDTO.getArtworkName());
+        artwork.setArtworkCategory(artworkDTO.getArtworkCategory());
+        artwork.setArtworkPhoto(artworkDTO.getArtworkPhoto());
+        artwork.setPrice(artworkDTO.getPrice());
+        artwork.setSize(artworkDTO.getSize());
+        Artwork updatedArtwork = artworkRepository.save(artwork);
+       return updatedArtwork;
+    }*/
+
+
+    
+    
+    
+    
+/*	@Override
     public Double getAverageRating(Long artworkId) {
         List<Rating> ratings = ratingRepository.findByArtwork(artworkId);
         if (ratings.isEmpty()) {
@@ -81,7 +162,7 @@ public class ArtworkServiceImpl implements ArtworkService{
             }
             return sum / ratings.size();
         }
-    }
+    }*/
 	
 
     /*
@@ -97,25 +178,6 @@ public class ArtworkServiceImpl implements ArtworkService{
         return name;
     }
 */
-	/**
-	@Override
-	public Artwork  saveArtwork(ArtworkDto artworkDto,@RequestParam("artworkPhoto") MultipartFile multipartFile) throws IOException {
-		Artwork artwork = new Artwork();
-		String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-		artworkDto.setArtworkName(artworkDto.getArtworkName());
-		artworkDto.setArtworkDescription(artworkDto.getArtworkDescription());
-		artworkDto.setArtworkCategory(artworkDto.getArtworkCategory());
-		artworkDto.setPrice(artworkDto.getPrice());
-		artworkDto.setArtistName(artworkDto.getArtistName());
-		artworkDto.setStatus(artworkDto.getStatus());
-		artworkDto.setTimestamp(artworkDto.getTimestamp());
-		//artworkDto.setArtworkPhoto(fileName)
-		artworkDto.setArtworkPhoto(fileName);
-		//return artworkRepository.save(artwork);
-		//String uploadDir = "arts/" + artwork.getId();
-		//FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
-		return artworkRepository.save(artwork);
-	}**/
 	/**
 	@Override 
 	public Artwork uploadArtwork(ArtworkDto artworkDto) {
@@ -134,12 +196,6 @@ public class ArtworkServiceImpl implements ArtworkService{
 	     updateArtwork.setPrice(artworkDto.getPrice());
 	     return artworkRepository.save(updateArtwork);
 	}*/
-	/*
-	@Override
-	 public List<Artwork> searchByCategory(String artworkCategory) {
-	     return artworkRepository.findByCategory(artworkCategory);
-	}
-}*/
 
 	@Override
 	public Artwork getArtworkById(Long artworkId) {
@@ -152,4 +208,10 @@ public class ArtworkServiceImpl implements ArtworkService{
 	    ArtworkDto artworkDto = new ArtworkDto(artwork);
         return artworkDto;
 	}
+
+	@Override
+	public List<Artwork> getArtworksByArtistId(int artistId) {
+		return artworkRepository.findByArtistId(artistId);
+	}
+
 }

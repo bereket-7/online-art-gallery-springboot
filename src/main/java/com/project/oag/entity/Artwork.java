@@ -1,6 +1,7 @@
 package com.project.oag.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -163,8 +164,6 @@ public class Artwork {
 		this.ratings = ratings;
 	}
 	
-	
-	
 	/*
 	public void addRating(Rating rating) {
 	    ratings.add(rating);
@@ -180,6 +179,5 @@ public class Artwork {
 	    averageRating = (double) sum / ratings.size();
 	}*/
 
-	
 	
 }

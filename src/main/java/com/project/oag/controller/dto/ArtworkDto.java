@@ -13,25 +13,44 @@ public class ArtworkDto {
 	private String artworkPhoto;
 	
 	private int price;
+	
+	private String size;
+	
+	
+	
+	
+    public ArtworkDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public ArtworkDto(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
-			int price) {
+			int price, String size) {
 		super();
 		this.artworkName = artworkName;
 		this.artworkDescription = artworkDescription;
 		this.artworkCategory = artworkCategory;
 		this.artworkPhoto = artworkPhoto;
 		this.price = price;
+		this.size = size;
 	}
 
-	
-    public ArtworkDto(Artwork product) {
+	public ArtworkDto(Artwork product) {
         this.setArtworkName(product.getArtworkName());
         this.setArtworkPhoto(product.getArtworkPhoto());
         this.setArtworkDescription(product.getArtworkDescription());
         this.setPrice(product.getPrice());
         this.setArtworkCategory(product.getArtworkCategory());
     }
+	
+	public static ArtworkDto toDto(Artwork artwork) {
+	    ArtworkDto artworkDTO = new ArtworkDto();
+	    artworkDTO.setArtworkPhoto(artwork.getArtworkPhoto());
+	    artworkDTO.setArtworkCategory(artwork.getArtworkCategory());
+	    artworkDTO.setPrice(artwork.getPrice());
+	    artworkDTO.setSize(artwork.getSize());
+	    return artworkDTO;
+	}
 
 	public String getArtworkName() {
 		return artworkName;
@@ -71,6 +90,14 @@ public class ArtworkDto {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
 	}
 	
 }

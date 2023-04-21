@@ -11,61 +11,32 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Rating {
-	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Long id;
-	 
-	 @Column(name = "values", nullable = true)
-	 private int rating;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name = "artwork_id", nullable = true)
-	 private Artwork artwork;
-	    
-	 @ManyToOne(fetch = FetchType.LAZY)
-	 private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artwork_id")
+    private Artwork artwork;
 
-		public Rating() {
-	    	
-	    }
-		public Rating(int rating, Artwork artwork, User user) {
-			super();
-			this.rating = rating;
-			this.artwork = artwork;
-			this.user = user;
-		}
+    @Column(nullable = false)
+    private int rating;
 
+    @Column(unique = true, nullable = false)
+    private String userIdAndArtworkId;
 
-		public Long getId() {
-			return id;
-		}
+    public Rating() {
+        this.userIdAndArtworkId = "";
+    }
 
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-		public int getRating() {
-			return rating;
-		}
-
-		public void setRating(int rating) {
-			this.rating = rating;
-		}
-
-		public Artwork getArtwork() {
-			return artwork;
-		}
-
-		public void setArtwork(Artwork artwork) {
-			this.artwork = artwork;
-		}
-
-		public User getUser() {
-			return user;
-		}
-
-		public void setUser(User user) {
-			this.user = user;
-		}
+    public Rating(User user, Artwork artwork, int rating) {
+        this.user = user;
+        this.artwork = artwork;
+        this.rating = rating;
+        this.userIdAndArtworkId = user.getId() + ":" + artwork.getId();
+    }
 }

@@ -19,4 +19,6 @@ public interface CompetitionService {
 
 	Optional<Competition> getCompetitionById(Long id);
 
+	Competition getMostRecentCompetition();
+
 }

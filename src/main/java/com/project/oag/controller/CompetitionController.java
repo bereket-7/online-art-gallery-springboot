@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.project.oag.entity.Competition;
 import com.project.oag.service.CompetitionService;
 
@@ -45,5 +48,11 @@ public class CompetitionController {
 	public void deleteCompetition(@PathVariable Long id) { 													// database
 		competitionService.deleteCompetition(id);
 	}
+	
+    @GetMapping("/recent")
+    public ResponseEntity<List<Competition>> getRecentArtworks() {
+        List<Competition> competition = (List<Competition>) competitionService.getMostRecentCompetition();
+        return new ResponseEntity<>(competition, HttpStatus.OK);
+    }
 
 }

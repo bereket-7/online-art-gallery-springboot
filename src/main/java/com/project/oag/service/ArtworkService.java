@@ -19,13 +19,31 @@ public interface ArtworkService {
 
 	List<Artwork> getArtworksByArtworkName(String artworkName);
 
-	Double getAverageRating(Long artworkId);
-
 	Artwork getArtworkById(Long artworkId);
 
 	ArtworkDto getDtoFromArtwork(Artwork artwork);
 
+	List<Artwork> getArtworksByArtistId(int artistId);
 
+	List<Artwork> getArtworkByPriceRange(double minPrice, double maxPrice);
+
+	List<Artwork> getPendingArtworks();
+
+	boolean acceptArtwork(Long id);
+
+	boolean rejectArtwork(Long id);
+	
+	
+	//List<ArtworkDto> getArtworkPhotoAndCategoryAndPriceAndSize();
+	List<ArtworkDto> getArtworkPhotoAndCategoryAndPriceAndSize(String artworkPhoto, String artworkCategory, int price, String size);
+ 
+	 ArtworkDto updateArtwork(Long id, ArtworkDto artworkDto);
+
+	List<Artwork> getAcceptedArtworks();
+
+	List<Artwork> getRejectedArtworks();
+
+	List<Artwork> getRecentArtworks();
 
 	//void saveArtwork(Artwork artwork);
 
