@@ -1,13 +1,18 @@
 package com.project.oag.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "organization")
+@Table(name = "Organization")
 public class Organization {
 	
 	@Id
@@ -22,9 +27,12 @@ public class Organization {
     private String token;
     private boolean isUsing2FA;
 	
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
+    
+    
 	public Organization() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Organization(String name, String email, String phone, String address, String password, boolean enabled,
@@ -112,4 +120,5 @@ public class Organization {
 		this.isUsing2FA = isUsing2FA;
 	}
 	
+
 }

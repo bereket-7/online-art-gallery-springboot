@@ -41,4 +41,8 @@ public class Role {
 	        super();
 	    }
 
+		public Role(String name) {
+			// TODO Auto-generated constructor stub
+		}
+
 }

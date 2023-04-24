@@ -5,22 +5,27 @@ public class CompetitorDto {
 	private String lastName;
 	private String email;
 	private String phone;
-	private byte[] artwork;
+	private String artworkPhoto;
 	private String artDescription;
-	public CompetitorDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	public CompetitorDto(String firstName, String lastName, String email, String phone, byte[] artwork,
-			String artDescription) {
+	private String category;
+	
+	public CompetitorDto(String firstName, String lastName, String email, String phone, String artworkPhoto,
+			String artDescription, String category) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
-		this.artwork = artwork;
+		this.artworkPhoto = artworkPhoto;
 		this.artDescription = artDescription;
+		this.category = category;
 	}
+
+	public CompetitorDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -45,17 +50,28 @@ public class CompetitorDto {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public byte[] getArtwork() {
-		return artwork;
-	}
-	public void setArtwork(byte[] artwork) {
-		this.artwork = artwork;
-	}
 	public String getArtDescription() {
 		return artDescription;
 	}
 	public void setArtDescription(String artDescription) {
 		this.artDescription = artDescription;
 	}
+
+	public String getArtworkPhoto() {
+		return artworkPhoto;
+	}
+
+	public void setArtworkPhoto(String artworkPhoto) {
+		this.artworkPhoto = artworkPhoto;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
 	
 }

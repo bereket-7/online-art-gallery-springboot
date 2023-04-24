@@ -1,10 +1,16 @@
 package com.project.oag.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.oag.entity.Artwork;
 import com.project.oag.entity.Event;
 import com.project.oag.repository.EventRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -14,11 +20,54 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void uploadEvent(Event event) {
 		
-		event.setEventName(event.getEventName());
-		event.setEventDescription(event.getEventDescription());
+		//event.setEventName(event.getEventName());
+		//event.setEventDescription(event.getEventDescription());
 		event.setEventphoto(event.getEventphoto());
 		eventRepository.save(event);
 	}
+	
+    
+    public List<Event> getPendingArtworks() {
+        return eventRepository.findByStatus("pending");
+    }
+    
+	public List<Event> getAcceptedArtworks() {
+		 return eventRepository.findByStatus("accepted");
+	}
+
+	public List<Event> getRejectedArtworks() {
+		 return eventRepository.findByStatus("rejected");
+	}
+    
+    @Transactional
+    public boolean acceptEvent(Long id) {
+        Optional<Event> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isPresent()) {
+        	 Event event = eventOptional.get();
+            if (event.getStatus().equals("pending")) {
+            	event.setStatus("accepted");
+                eventRepository.save(event);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+    @Transactional
+	public boolean rejectEvent(Long id) {
+    	 Optional<Event> eventOptional = eventRepository.findById(id);
+         if (eventOptional.isPresent()) {
+             Event event = eventOptional.get();
+             if (event.getStatus().equals("pending")) {
+                 event.setStatus("rejected");
+                 eventRepository.save(event);
+                 return true;
+             }
+         }
+         return false;
+	}
+    
 	
 	/*
 	 @Override

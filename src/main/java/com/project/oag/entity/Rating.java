@@ -39,4 +39,45 @@ public class Rating {
         this.rating = rating;
         this.userIdAndArtworkId = user.getId() + ":" + artwork.getId();
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Artwork getArtwork() {
+		return artwork;
+	}
+
+	public void setArtwork(Artwork artwork) {
+		this.artwork = artwork;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public String getUserIdAndArtworkId() {
+		return userIdAndArtworkId;
+	}
+
+	public void setUserIdAndArtworkId(String userIdAndArtworkId) {
+		this.userIdAndArtworkId = userIdAndArtworkId;
+	}
+
 }

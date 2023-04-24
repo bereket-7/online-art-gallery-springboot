@@ -57,6 +57,16 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
         return null;
     }
+	
+	@Override
+	public Integer getNumberOfCompetitor(Long id) {
+        Optional<Competition> optionalCompetition = competitionRepository.findById(id);
+        if (optionalCompetition.isPresent()) {
+            return optionalCompetition.get().getNumberOfCompetitor();
+        } else {
+            return null;
+        }
+    }
 }
 
 

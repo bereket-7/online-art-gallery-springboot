@@ -1,10 +1,9 @@
 package com.project.oag.exceptions;
 
-public class RatingAlreadyExistsException {
+public class RatingAlreadyExistsException extends Exception {
 
-	public RatingAlreadyExistsException(String string) {
-		// TODO Auto-generated constructor stub
-	}
-
-
+    public RatingAlreadyExistsException(String message) {
+        super(message);
+    }
 }
+

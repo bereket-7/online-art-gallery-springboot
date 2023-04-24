@@ -22,7 +22,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "created_date")
     private Date createdDate;
 

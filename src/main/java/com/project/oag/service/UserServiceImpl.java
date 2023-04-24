@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
 import com.project.oag.entity.VerificationToken;
 import com.project.oag.exceptions.UserAlreadyExistException;
@@ -243,6 +244,12 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    
+    @Override
+    public List<User> getUsersByRole(String name) {
+        Role role = new Role(name);
+        return userRepository.findByRolesContains(role);
+    }
 
     /*
      * @Override
@@ -325,5 +332,34 @@ public class UserServiceImpl implements UserService {
      * return userRepository.save(findUser);
      * }
      */
-
+    
+    @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+    @Override
+    public User updateUser(Long id, User updatedUser) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setUsername(updatedUser.getUsername());
+            user.setEmail(updatedUser.getEmail());
+            user.setEnabled(true);
+            user.setPhone(updatedUser.getPhone());
+            user.setFirstname(updatedUser.getFirstname());
+            user.setLastname(updatedUser.getLastname());
+            user.setAddress(updatedUser.getAddress());
+            user.setAge(updatedUser.getAge());
+            return userRepository.save(user);
+        }
+        return null;
+    }
+    
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 }

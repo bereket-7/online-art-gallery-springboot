@@ -37,11 +37,36 @@ public class CustomerController {
     	FileUploadUtil.uploadFile(path, filename, image);
         return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");
     }
+    
+    @PostMapping("/signup")
+    public ResponseEntity<String> registerUser(@RequestBody Customer user) {
+        customerService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");
+    }
+    
+    /*
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(@RequestBody Customer user) throws IOException {
+        customerService.registerUser(user);
+        return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");
+    }
 
+    /*
     @GetMapping("/confirm")
     public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String token) {
         customerService.confirmRegistration(email, token);
         return ResponseEntity.ok("Registration confirmed successfully.");
+    }*/
+    
+    @PostMapping("/confirm")
+    public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
+        try {
+            customerService.confirmRegistration(email, confirmationCode);
+            return ResponseEntity.ok("Registration confirmed successfully!");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
     
 }

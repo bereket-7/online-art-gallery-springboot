@@ -1,8 +1,9 @@
 package com.project.oag.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
+
+import com.project.oag.repository.RatingRepository;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -71,6 +72,11 @@ public class Artwork {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Double getAverageRating(RatingRepository ratingRepository) {
+	    return ratingRepository.findAverageRatingByArtworkId(id);
+	}
+
 
 	public Artwork(String filename, String string) {
 		// TODO Auto-generated constructor stub

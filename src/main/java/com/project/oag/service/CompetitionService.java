@@ -21,4 +21,7 @@ public interface CompetitionService {
 
 	Competition getMostRecentCompetition();
 
+	Integer getNumberOfCompetitor(Long id);
+
+
 }

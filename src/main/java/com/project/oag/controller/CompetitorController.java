@@ -1,7 +1,10 @@
 package com.project.oag.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.common.FileUploadUtil;
+import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
 import com.project.oag.service.CompetitorService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/competitor")
@@ -42,18 +48,11 @@ public class CompetitorController {
 	 @PostMapping("/upload")
 	 public ResponseEntity<Competitor> competitorUpload(@ModelAttribute("competitor") Competitor competitor,@RequestParam("image") MultipartFile image) throws IOException
     {
-		 //String uploadDir = "images/" + savedUser.getId();
 		  String filename = StringUtils.cleanPath(image.getOriginalFilename());
-		 //String filename = null;
-		//try {
 			competitor.setArtworkPhoto(filename);
 			competitorService.registerCompetitor(competitor);
 			FileUploadUtil.uploadFile(path, filename, image);
-		//} catch (IOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			//return new ResponseEntity<>(new Event(filename,"Image is not uploaded"),HttpStatus.OK);
-		//}	 
+	 
 		 return new ResponseEntity<>(new Competitor(filename,"Image is successfully uploaded"),HttpStatus.OK);	
 	}
 	
@@ -76,5 +75,49 @@ public class CompetitorController {
 	 @PutMapping("/update/{id}")
 	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
 	        return competitorService.updateCompetitor(id, competitor);
-	 }	
+	 }
+	 
+	    @GetMapping("/art")
+	    public ResponseEntity<List<Map<String, Object>>> getAllCompetitors() {
+	        List<Competitor> competitors = competitorService.getAllCompetitors();
+	        List<Map<String, Object>> response = new ArrayList<>();
+	        for (Competitor competitor : competitors) {
+	            Map<String, Object> competitorMap = new HashMap<>();
+	            competitorMap.put("artworkPhoto", competitor.getArtworkPhoto());
+	            competitorMap.put("artDescription", competitor.getArtDescription());
+	            competitorMap.put("category", competitor.getCategory());
+	            competitorMap.put("firstName", competitor.getFirstName());
+	            response.add(competitorMap);
+	        }
+	        return ResponseEntity.ok().body(response);
+	  }
+
+	    @PostMapping("/{id}/vote")
+	    public ResponseEntity<?> vote(@PathVariable Long id, HttpServletRequest request) {
+	        // Check if the user has already voted for this competitor
+	        String ipAddress = request.getRemoteAddr();
+	        if (competitorService.hasUserVoted(id, ipAddress)) {
+	            return ResponseEntity.badRequest().body("You have already voted for this Artwork.");
+	        }
+
+	        // Increment the vote count for the competitor
+	        competitorService.incrementVoteCount(id);
+
+	        // Record the user's vote
+	        competitorService.recordUserVote(id, ipAddress);
+
+	        return ResponseEntity.ok("Thank you for voting!");
+	    }
+	    /*
+	    @GetMapping("/top")
+	    public List<Competitor> getTopCompetitors() {
+	        return competitorService.getTopCompetitors();
+	    }*/
+	    @GetMapping("/winner")
+	    public List<CompetitorDto> getTopCompetitors() {
+	        List<CompetitorDto> topCompetitors = competitorService.getTopCompetitors();
+			return topCompetitors;
+	    } 
+	    
+	    
 }

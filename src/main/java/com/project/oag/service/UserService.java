@@ -48,4 +48,15 @@ public interface UserService {
 
 	public List<User> getAllUsers();
 
+	User addUser(User user);
+
+	void deleteUser(Long id);
+
+	User updateUser(Long id, User updatedUser);
+
+	User getUserById(Long id);
+
+	List<User> getUsersByRole(String string);
+
+
 }

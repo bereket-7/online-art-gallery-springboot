@@ -29,40 +29,36 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "First name is required")
 	@Column(name = "first_name", nullable = false, length=100)
     private String firstname;
 
-    @NotBlank(message = "Last name is required")
 	@Column(name = "last_name", nullable = false, length=100)
     private String lastname;
 
-    @NotBlank(message = "Email is required")
     @Email(message = "Email is not valid")
     private String email;
 
-    @NotBlank(message = "Phone number is required")
 	@Column(name = "phone", nullable = false, length=15)
 	private String phone;
 
     @Column(name = "address", nullable = false)
 	private String address;
 
-    @NotBlank(message = "Sex is required")
 	@Column(name = "sex", nullable = false)
     private String sex;
 
-    @NotNull(message = "Age is required")
 	@Column(name = "age", length=4)
     private Integer age;
 
     @NotBlank(message = "Username is required")
     private String username;
 
-    @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
 	@Column(name = "password",nullable = false)
     private String password;
+    
+    @Column(nullable = true)
+    private String photos;
     
     /*@NotBlank(message = "role is required")
 	@Column(name = "role",nullable = false)
