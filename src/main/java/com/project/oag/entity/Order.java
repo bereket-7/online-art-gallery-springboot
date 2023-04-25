@@ -26,8 +26,8 @@ public class Order {
     @Column(name = "created_date",nullable=true)
     private Date createdDate;
 
-    @Column(name = "total_price",nullable=true)
-    private Double totalPrice;
+    @Column(name = "price",nullable=true)
+	private double price;
     
     @Column(name="currency",nullable=true)
     private String currency;
@@ -95,6 +95,14 @@ public class Order {
 	}
 
 
+	public List<OrderItem> getOrderItem() {
+		return orderItem;
+	}
+
+	public void setOrderItem(List<OrderItem> orderItem) {
+		this.orderItem = orderItem;
+	}
+
 	public List<OrderItem> getOrderItems() {
         return orderItem;
     }
@@ -120,15 +128,15 @@ public class Order {
         this.createdDate = createdDate;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
+    public double getPrice() {
+		return price;
+	}
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public String getSessionId() {
+	public String getSessionId() {
         return sessionId;
     }
 

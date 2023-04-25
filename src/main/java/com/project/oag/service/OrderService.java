@@ -43,7 +43,7 @@ public class OrderService {
 	        newOrder.setCreatedDate(new Date());
 	        newOrder.setSessionId(sessionId);
 	        newOrder.setUser(user);
-	        newOrder.setTotalPrice(cartDto.getTotalCost());
+	        newOrder.setPrice(cartDto.getTotalCost());
 	        orderRepository.save(newOrder);
 
 	        for (CartItemDto cartItemDto : cartItemDtoList) {

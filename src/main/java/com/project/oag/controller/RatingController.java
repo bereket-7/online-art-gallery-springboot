@@ -21,7 +21,7 @@ public class RatingController {
     @Autowired
     private RatingService ratingService;
 
-    @PostMapping()
+    @PostMapping("/rate")
     public ResponseEntity<?> addRating(@RequestParam Long userId, @RequestParam Long artworkId, @RequestParam int rating) {
         try {
             ratingService.addRating(userId, artworkId, rating);
@@ -31,7 +31,7 @@ public class RatingController {
         }
     }
     
-    @GetMapping("/{artworkId}/rating/average")
+    @GetMapping("/{artworkId}/average")
     public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
         try {
             double averageRating = ratingService.getAverageRatingForArtwork(artworkId);
@@ -40,7 +40,6 @@ public class RatingController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 }
 

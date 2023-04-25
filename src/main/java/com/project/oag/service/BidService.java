@@ -1,7 +1,6 @@
 package com.project.oag.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,6 @@ public class BidService {
     public List<Bid> getAllBids() {
         return bidRepository.findAll();
     }
-
-    public Optional<Bid> getBidById(Long id) {
-        return bidRepository.findById(id);
-    }
-
     public void saveBid(Bid bid) {
         bidRepository.save(bid);
     }
@@ -35,4 +29,21 @@ public class BidService {
         bidRepository.deleteById(id);
     }
 
+    public Bid createBid(Bid bid) {
+        return bidRepository.save(bid);
+    }
+
+    public Bid getBid(Long id) {
+        return bidRepository.findById(id).orElse(null);
+    }
+
+
+    public Bid updateBid(Bid bid, Long id) {
+        bid.setId(id);
+        return bidRepository.save(bid);
+    }
+
+    public void deleteBid(Long id) {
+        bidRepository.deleteById(id);
+    }
 }

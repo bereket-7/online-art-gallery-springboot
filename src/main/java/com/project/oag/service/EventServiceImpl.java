@@ -127,12 +127,6 @@ public class EventServiceImpl implements EventService {
 	       return eventRepository.save(findEvent);
 	}
 
-	@Override
-	public void deleteById(Long eventId) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**@Override
     public void saveEvent(String eventName, String eventDescription, MultipartFile eventPhoto, LocalDateTime timestamp) {
         Event event = new Event();

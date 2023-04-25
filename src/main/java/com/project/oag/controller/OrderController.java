@@ -21,14 +21,12 @@ import com.project.oag.exceptions.OrderNotFoundException;
 import com.project.oag.service.AuthenticationService;
 import com.project.oag.service.OrderService;
 
-
 @RestController
 @RequestMapping("/order")
 @CrossOrigin("http://localhost:8080/")
 public class OrderController {
 	 	@Autowired
 	    private OrderService orderService;
-
 	    @Autowired
 	    private AuthenticationService authenticationService;
 
@@ -44,9 +42,8 @@ public class OrderController {
 	        orderService.placeOrder(user, sessionId);
 	        return new ResponseEntity<>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
 	    }
-
 	    // get all orders
-	    @GetMapping("/")
+	    @GetMapping("/all")
 	    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("token") String token) throws AuthenticationFailException {
 	        // validate token
 	        authenticationService.authenticate(token);
@@ -57,8 +54,6 @@ public class OrderController {
 
 	        return new ResponseEntity<>(orderDtoList, HttpStatus.OK);
 	    }
-
-
 	    // get orderitems for an order
 	    @GetMapping("/{id}")
 	    public ResponseEntity<Object> getOrderById(@PathVariable("id") Integer id, @RequestParam("token") String token)

@@ -19,7 +19,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -50,19 +49,13 @@ public class User {
 	@Column(name = "age", length=4)
     private Integer age;
 
-    @NotBlank(message = "Username is required")
     private String username;
 
-    @Size(min = 6, message = "Password must be at least 6 characters")
 	@Column(name = "password",nullable = false)
     private String password;
     
     @Column(nullable = true)
     private String photos;
-    
-    /*@NotBlank(message = "role is required")
-	@Column(name = "role",nullable = false)
-    private String role;*/
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -71,13 +64,16 @@ public class User {
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
-	//mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Rating> ratings;
 	
+	  
+    @OneToMany(mappedBy = "bidder",fetch = FetchType.LAZY)
+	private List<Bid> bid;
+	
 	private boolean enabled;
 	
-	private boolean selectedForBid;
+	private String selectedForBid;
 	
     private boolean isUsing2FA;
 
@@ -89,17 +85,13 @@ public class User {
         this.enabled = false;
 		// TODO Auto-generated constructor stub
 	}
-	
 
-	public User(@NotBlank(message = "First name is required") String firstname,
-			@NotBlank(message = "Last name is required") String lastname,
-			@NotBlank(message = "Email is required") @Email(message = "Email is not valid") String email,
-			@NotBlank(message = "Phone number is required") String phone, String address,
-			@NotBlank(message = "Sex is required") String sex, @NotNull(message = "Age is required") Integer age,
-			@NotBlank(message = "Username is required") String username,
-			@NotBlank(message = "Password is required") @Size(min = 6, message = "Password must be at least 6 characters") String password,
-			Collection<Role> roles, List<Order> orders,
-			boolean enabled, boolean selectedForBid, boolean isUsing2FA, String secret) {
+
+	public User(String firstname, String lastname, @Email(message = "Email is not valid") String email, String phone,
+			String address, String sex, Integer age, @NotBlank(message = "Username is required") String username,
+			@Size(min = 6, message = "Password must be at least 6 characters") String password, String photos,
+			Collection<Role> roles, List<Order> orders, List<Rating> ratings, List<Bid> bid, boolean enabled,
+			String selectedForBid, boolean isUsing2FA, String secret) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -110,14 +102,16 @@ public class User {
 		this.age = age;
 		this.username = username;
 		this.password = password;
+		this.photos = photos;
 		this.roles = roles;
 		this.orders = orders;
+		this.ratings = ratings;
+		this.bid = bid;
 		this.enabled = enabled;
 		this.selectedForBid = selectedForBid;
 		this.isUsing2FA = isUsing2FA;
 		this.secret = secret;
 	}
-
 
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
 			Integer age, String username, String password, String role) {
@@ -250,12 +244,12 @@ public class User {
 		this.orders = orders;
 	}
 	
-    public boolean isSelectedForBid() {
+    public String isSelectedForBid() {
 		return selectedForBid;
 	}
 
 
-	public void setSelectedForBid(boolean selectedForBid) {
+	public void setSelectedForBid(String selectedForBid) {
 		this.selectedForBid = selectedForBid;
 	}
 

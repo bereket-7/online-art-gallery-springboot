@@ -2,10 +2,13 @@ package com.project.oag.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
@@ -13,8 +16,11 @@ import com.paypal.base.rest.PayPalRESTException;
 import com.project.oag.entity.Order;
 import com.project.oag.service.PaypalService;
 
-@Controller
+@RestController
+@RequestMapping("/paypal")
+@CrossOrigin("http://localhost:8080/")
 public class PaypalController {
+
 	@Autowired
 	PaypalService service;
 
@@ -26,12 +32,12 @@ public class PaypalController {
 		return "home";
 	}
 
-	@PostMapping("/paypal/pay")
+	@PostMapping("/pay")
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
-			Payment payment = service.createPayment(order.getTotalPrice(), order.getCurrency(),order.getMethod(),
-					order.getIntent(), order.getDescription(), "http://localhost:8081/paypal" + CANCEL_URL,
-					"http://localhost:8081/" + SUCCESS_URL);
+			Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
+					order.getIntent(), order.getDescription(), "http://localhost:8081/" + CANCEL_URL,
+					"http://localhost:8081" + SUCCESS_URL);
 			for(Links link:payment.getLinks()) {
 				if(link.getRel().equals("approval_url")) {
 					return "redirect:"+link.getHref();
@@ -42,11 +48,12 @@ public class PaypalController {
 		
 			e.printStackTrace();
 		}
-		return "redirect:/paypal";
-	}	
-	 	@GetMapping(value = CANCEL_URL)
-	 		public String cancelPay() {
-	        return "cancel";//change vue pages in here
+		return "redirect:/";
+	}
+	
+	 @GetMapping(value = CANCEL_URL)
+	    public String cancelPay() {
+	        return "cancel";
 	    }
 
 	    @GetMapping(value = SUCCESS_URL)
