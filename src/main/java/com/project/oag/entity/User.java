@@ -2,6 +2,8 @@ package com.project.oag.entity;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+
 import org.jboss.aerogear.security.otp.api.Base32;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,6 +51,11 @@ public class User {
 
 	@Column(nullable = false)
     private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
     
     @Column(nullable = true)
     private String photos;   
@@ -57,10 +64,6 @@ public class User {
     private String secret;
     private String token;
     private boolean isUsing2FA;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
@@ -73,7 +76,7 @@ public class User {
 
     public User(String firstname, String lastname, @Email(message = "Email is not valid") String email, String phone,
             String address, String sex, Integer age, String username, String password, String photos, boolean enabled,
-            String selectedForBid, String secret, String token, boolean isUsing2FA, Collection<Role> roles,
+            String selectedForBid, String secret, String token, boolean isUsing2FA, Set<Role> roles,
             List<Order> orders, List<Rating> ratings, List<Bid> bid) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -103,6 +106,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
     
+    
+	public User(String firstname, String lastname, String phone, String address, String email, String sex,
+    Integer age, String username, String password, String role) {
+    }
     public Long getId() {
         return id;
     }
@@ -235,7 +242,7 @@ public class User {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
