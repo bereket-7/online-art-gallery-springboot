@@ -17,6 +17,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.project.oag.entity.Bid;
 import com.project.oag.entity.BidArt;
+import com.project.oag.entity.User;
 import com.project.oag.exceptions.InvalidBidException;
 import com.project.oag.repository.BidArtRepository;
 import com.project.oag.repository.BidRepository;
@@ -87,7 +88,7 @@ public class BidService {
         }
     }
 
-    @Scheduled(fixedDelay = 10000)
+    /*@Scheduled(fixedDelay = 10000)
     public void checkBidEndTimes() {
         LocalDateTime now = LocalDateTime.now();
         List<Bid> bids = bidRepository.findAll();
@@ -99,6 +100,44 @@ public class BidService {
                 // Notify the bidders of the result
                 // Send a message to the WebSocket clients to update their UIs
             }
+        }
+    }*/
+
+    
+    @Scheduled(fixedDelay = 10000)
+    public void checkBidEndTimes() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Bid> bids = bidRepository.findAll();
+        for (Bid bid : bids) {
+            if (bid.getBidEndTime().isBefore(now) && !bid.isBiddingClosed()) {
+                bid.setBiddingClosed(true);
+                Bid winningBid = determineWinningBid(bid.getArtwork());
+                notifyBidders(bid.getArtwork(), winningBid);
+                messagingTemplate.convertAndSend("/topic/bids/" + bid.getArtwork().getId(), "update");
+                bidRepository.save(bid);
+            }
+        }
+    }
+
+    private Bid determineWinningBid(BidArt artwork) {
+        List<Bid> bids = bidRepository.findByArtworkOrderByAmountDescTimestampAsc(artwork);
+        if (!bids.isEmpty()) {
+            return bids.get(0);
+        }
+        return null;
+    }
+
+    private void notifyBidders(BidArt artwork, Bid winningBid) {
+        List<Bid> bids = bidRepository.findByArtworkOrderByAmountDescTimestampAsc(artwork);
+        for (Bid bid : bids) {
+            User bidder = bid.getUser();
+            String message = "";
+            if (bid.equals(winningBid)) {
+                message = "Congratulations! You won the auction for " + artwork.getTitle() + " with a bid of " + bid.getAmount() + ".";
+            } else {
+                message = "Unfortunately, you did not win the auction for " + artwork.getTitle() + ". The winning bid was " + winningBid.getAmount() + ".";
+            }
+            // Send a message to the bidder's email or mobile app using a notification service
         }
     }
 
