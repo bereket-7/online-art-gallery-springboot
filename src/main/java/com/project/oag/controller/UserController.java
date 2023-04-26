@@ -82,22 +82,22 @@ public class UserController {
 	    
 	    @GetMapping("/admins")
 	    public List<User> getAdminUsers() {
-	        return userService.getUsersByRole("ROLE_ADMIN");
+	        return userService.getUsersByRole("ADMIN");
 	    }
 	    
 	    @GetMapping("/users")
 	    public List<User> getNormalUsers() {
-	        return userService.getUsersByRole("ROLE_USER");
+	        return userService.getUsersByRole("USER");
 	    }
 	    
 	    @GetMapping("/artists")
 	    public List<User> getArtistUsers() {
-	        return userService.getUsersByRole("ROLE_ARTIST");
+	        return userService.getUsersByRole("ARTIST");
 	    }
 	    
 	    @GetMapping("/managers")
 	    public List<User> getManagerUsers() {
-	        return userService.getUsersByRole("ROLE_MANAGER");
+	        return userService.getUsersByRole("MANAGER");
 	    }
 	   /* 
 	    @PostMapping("/login")
