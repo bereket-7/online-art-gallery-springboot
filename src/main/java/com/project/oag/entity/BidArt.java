@@ -1,11 +1,15 @@
 package com.project.oag.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +32,17 @@ public class BidArt {
     private LocalDateTime bidEndTime;
     
     private LocalDateTime startingTime;
+
+	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
+    private List<Bid> bids = new ArrayList<>();
+
+	public List<Bid> getBids() {
+		return bids;
+	}
+
+	public void setBids(List<Bid> bids) {
+		this.bids = bids;
+	}
 
 	public Long getId() {
 		return id;
