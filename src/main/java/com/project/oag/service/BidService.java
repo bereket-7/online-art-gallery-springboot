@@ -53,6 +53,30 @@ public class BidService {
         bidRepository.deleteById(id);
     }
 
+
+    public Bid placeBid(Bid bid) {
+        BidArt bidArt = bid.getArtwork();
+        BigDecimal currentHighestBidAmount = getCurrentHighestBidAmount(bidArt);
+        if (bid.getAmount().compareTo(currentHighestBidAmount) <= 0) {
+            throw new InvalidBidException("Bid amount must be greater than current highest bid amount.");
+        }
+        bid.setTimestamp(LocalDateTime.now());
+        bid = bidRepository.save(bid);
+        bidArt.getBids().add(bid);
+        return bid;
+    }
+
+    public BigDecimal getCurrentHighestBidAmount(BidArt bidArt) {
+        List<Bid> bids = bidArt.getBids();
+        if (bids.isEmpty()) {
+            return BigDecimal.valueOf(bidArt.getInitialAmount());
+        } else {
+            Bid highestBid = Collections.max(bids, Comparator.comparing(Bid::getAmount));
+            return highestBid.getAmount();
+        }
+    }
+    
+
  
     @Scheduled(fixedDelay = 10000)
     public void checkBidEndTimes() {
