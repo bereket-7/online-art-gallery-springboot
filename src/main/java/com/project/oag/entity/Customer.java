@@ -93,7 +93,6 @@ public class Customer {
         this.id = id;
     }
 
-
     public String getFirstname() {
         return firstname;
     }

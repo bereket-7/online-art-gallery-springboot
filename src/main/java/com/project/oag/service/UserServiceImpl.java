@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
         user.setAge(accountDto.getAge());
         user.setUsername(accountDto.getUsername());
         user.setUsing2FA(accountDto.isUsing2FA());
-        user.setRoles(Arrays.asList(roleRepository.findByName("Admin")));
+        //user.setRoles(Arrays.asList(roleRepository.findByName("Admin")));
         return userRepository.save(user);
     }
 
