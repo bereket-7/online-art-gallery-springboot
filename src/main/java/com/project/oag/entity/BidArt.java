@@ -34,8 +34,6 @@ public class BidArt {
     private LocalDateTime startingTime;
 
 	private boolean biddingStarted;
-	
-	private boolean biddingClosed;
 
 	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Bid> bids = new ArrayList<>();
@@ -119,15 +117,5 @@ public class BidArt {
 	public void setBiddingStarted(boolean biddingStarted) {
 		this.biddingStarted = biddingStarted;
 	}
-
-	public boolean isBiddingClosed() {
-		return biddingClosed;
-	}
-
-	public void setBiddingClosed(boolean biddingClosed) {
-		this.biddingClosed = biddingClosed;
-	}
-
-
     
 }

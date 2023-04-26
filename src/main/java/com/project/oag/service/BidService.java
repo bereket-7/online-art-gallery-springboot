@@ -7,14 +7,9 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.handler.TextWebSocketHandler;
-
 import com.project.oag.entity.Bid;
 import com.project.oag.entity.BidArt;
 import com.project.oag.entity.User;
@@ -31,6 +26,9 @@ public class BidService {
 	
     @Autowired
     private final BidRepository bidRepository;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     
     public BidService(BidRepository bidRepository) {
         this.bidRepository = bidRepository;
@@ -102,7 +100,6 @@ public class BidService {
             }
         }
     }*/
-
     
     @Scheduled(fixedDelay = 10000)
     public void checkBidEndTimes() {
@@ -150,7 +147,6 @@ public class BidService {
             bidArtRepository.save(bidArt);
         }
     }
-
 
 }
 

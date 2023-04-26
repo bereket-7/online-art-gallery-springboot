@@ -36,10 +36,31 @@ public class Bid {
 	    @JoinColumn(name = "user_id", referencedColumnName = "id")
 	    private User user;
 
+		@Column(nullable = false)
+		private LocalDateTime bidEndTime;
+		
+		private boolean biddingClosed;
+
 		public Bid() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
+
+		public boolean isBiddingClosed() {
+			return biddingClosed;
+		}
+	
+		public void setBiddingClosed(boolean biddingClosed) {
+			this.biddingClosed = biddingClosed;
+		}
+		public LocalDateTime getBidEndTime() {
+			return bidEndTime;
+		}
+
+		public void setBidEndTime(LocalDateTime bidEndTime) {
+			this.bidEndTime = bidEndTime;
+		}
+
 
 		public Long getId() {
 			return id;
