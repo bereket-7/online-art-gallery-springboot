@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jboss.aerogear.security.otp.api.Base32;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -83,7 +82,6 @@ public class User {
 	    super();
         this.secret = Base32.random();
         this.enabled = false;
-		// TODO Auto-generated constructor stub
 	}
 
 
