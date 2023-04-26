@@ -7,15 +7,26 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.project.oag.entity.Bid;
 import com.project.oag.entity.BidArt;
+import com.project.oag.exceptions.InvalidBidException;
+import com.project.oag.repository.BidArtRepository;
 import com.project.oag.repository.BidRepository;
 
 @Service
 public class BidService {
+
+    
+    @Autowired
+    private BidArtRepository bidArtRepository;
 	
     @Autowired
     private final BidRepository bidRepository;
@@ -54,7 +65,7 @@ public class BidService {
     }
 
 
-    public Bid placeBid(Bid bid) {
+    public Bid placeBid(Bid bid) throws InvalidBidException {
         BidArt bidArt = bid.getArtwork();
         BigDecimal currentHighestBidAmount = getCurrentHighestBidAmount(bidArt);
         if (bid.getAmount().compareTo(currentHighestBidAmount) <= 0) {
@@ -75,9 +86,7 @@ public class BidService {
             return highestBid.getAmount();
         }
     }
-    
 
- 
     @Scheduled(fixedDelay = 10000)
     public void checkBidEndTimes() {
         LocalDateTime now = LocalDateTime.now();
@@ -93,14 +102,16 @@ public class BidService {
         }
     }
 
-    public BigDecimal getCurrentHighestBidAmount(BidArt bidArt) {
-        List<Bid> bids = bidArt.getBids();
-        if (bids.isEmpty()) {
-            return bidArt.getInitialAmount();
-        } else {
-            Bid highestBid = Collections.max(bids, Comparator.comparing(Bid::getAmount));
-            return highestBid.getAmount();
+    @Scheduled(fixedDelay = 60000) // runs every minute
+    public void startBidding() {
+        LocalDateTime now = LocalDateTime.now();
+        List<BidArt> bidArtsToStart = bidArtRepository.findByStartingTimeLessThanEqualAndBiddingStartedFalse(now);
+        for (BidArt bidArt : bidArtsToStart) {
+            bidArt.setBiddingStarted(true);
+            bidArtRepository.save(bidArt);
         }
     }
+
+
 }
 
