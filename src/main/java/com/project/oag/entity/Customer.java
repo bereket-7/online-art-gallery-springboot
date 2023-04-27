@@ -30,6 +30,7 @@ public class Customer {
     private String sex;
     @Column(nullable = true)
     private String photos;
+    
     private String password;
     private boolean enabled;
     private String token;

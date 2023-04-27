@@ -9,15 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.oag.repository.PasswordResetTokenRepository;
-import com.project.oag.repository.VerificationTokenRepository;
 
 @Service
 @Transactional
 public class TokensPurgeTask {
-
-    @Autowired
-    VerificationTokenRepository tokenRepository;
-
     @Autowired
     PasswordResetTokenRepository passwordTokenRepository;
 
@@ -27,6 +22,5 @@ public class TokensPurgeTask {
         Date now = Date.from(Instant.now());
 
         passwordTokenRepository.deleteAllExpiredSince(now);
-        tokenRepository.deleteAllExpiredSince(now);
     }
 }

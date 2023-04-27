@@ -41,7 +41,7 @@ public class CustomerService {
         //user.setToken(token);
         customerRepository.save(user);
     }
-    private boolean emailExists(final String email) {
+    private Customer emailExists(final String email) {
         return customerRepository.findByEmail(email);
     }
   /*  
@@ -78,17 +78,11 @@ public class CustomerService {
     private void sendConfirmationEmail(String email) {
     	Customer user =  customerRepository.findByEmail(email);
         SimpleMailMessage message = new SimpleMailMessage();
-        
-        // Set the sender and recipient email addresses
         message.setFrom(senderEmail);
         message.setTo(email);
         message.setSubject("Confirm your registration");
-        
-        
         Random random = new Random();
     String confirmationCode = String.format("%06d", random.nextInt(1000000));
-        // Generate a random confirmation code
-       // String confirmationCode = UUID.randomUUID().toString();
         user.setToken(confirmationCode);
         customerRepository.save(user);
         
@@ -112,70 +106,6 @@ public class CustomerService {
     }
 }
 /*
-private void sendConfirmationEmail(String email) {
-    SimpleMailMessage message = new SimpleMailMessage();
-    
-    // Set the sender and recipient email addresses
-    message.setFrom(senderEmail);
-    message.setTo(email);
-    message.setSubject("Confirm your registration");
-    
-    
-    Random random = new Random();
-String confirmationCode = String.format("%06d", random.nextInt(1000000));
-
-
-    
-    // Generate a random confirmation code
-    String confirmationCode = UUID.randomUUID().toString();
-    user.setConfirmationCode(confirmationCode);
-    customerRepository.save(user);
-    
-    message.setText("Please enter the following confirmation code on our website to confirm your registration: " + confirmationCode);
-    mailSender.send(message);
-    
-    
-    
-    
-    
-    @Service
-public class EmailService {
-
-    @Autowired
-    private JavaMailSender mailSender;
-    
-    @Value("${email.throttle.delay}")
-    private long emailThrottleDelay; // Delay between each email in milliseconds
-
-    @Async
-    public void sendConfirmationEmail(String email, String token) {
-        try {
-            // Add a delay between each email
-            Thread.sleep(emailThrottleDelay);
-            
-            SimpleMailMessage message = new SimpleMailMessage();
-            
-            // Set the sender and recipient email addresses
-            message.setFrom(senderEmail);
-            message.setTo(email);
-            message.setSubject("Confirm your registration");
-            String confirmationUrl = "http://localhost:8081/customer/confirm?email=" + email + "&token=" + token;
-            message.setText("Please click the following link to confirm your registration: " + confirmationUrl);
-            mailSender.send(message);
-        } catch (InterruptedException e) {
-            // Handle exception
-        }
-    }
-}
-
-}*/
-
-
-
-
-
-
-/*
 
 @Autowired
 private SendinblueClient sendinblueClient;
@@ -196,10 +126,5 @@ public void sendConfirmationEmail(String email, String token) {
     }
 }
 
-*/
-    
-    
-    
-    
-    
+*/  
 }

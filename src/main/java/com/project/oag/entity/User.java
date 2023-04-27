@@ -57,7 +57,8 @@ public class User {
     private Set<Role> roles;
     
     @Column(nullable = true)
-    private String photos;   
+    private String photos; 
+    
 	private boolean enabled;
 	private String selectedForBid;
     private String secret;
@@ -70,7 +71,7 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Rating> ratings;
 	
-    @OneToMany(mappedBy = "bidder",fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
 
     public User(String firstname, String lastname, @Email(message = "Email is not valid") String email, String phone,
@@ -268,7 +269,6 @@ public class User {
     public void setBid(List<Bid> bid) {
         this.bid = bid;
     }
-
     @Transient
     public String getPhotosImagePath() {
         if (photos == null || id == null) return null;

@@ -6,6 +6,6 @@ import com.project.oag.entity.Customer;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long>{
 
-    boolean findByEmail(String email);
+    Customer findByEmail(String email);
     
 }

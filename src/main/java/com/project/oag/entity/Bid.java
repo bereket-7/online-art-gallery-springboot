@@ -25,7 +25,6 @@ public class Bid {
 	    @JoinColumn(name = "artwork_id")
 	    private BidArt artwork;
 	    
-	    
 	    @Column(name = "amount")
 	    private BigDecimal amount;
 

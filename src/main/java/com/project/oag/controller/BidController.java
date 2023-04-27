@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ import com.project.oag.service.BidService;
 @RequestMapping("/bid")
 @CrossOrigin("http://localhost:8080/")
 public class BidController {
-	
+	/*
 	private String path = "src/main/resources/static/img/bid-images/";
 	@Autowired
 	 private final BidService bidService;

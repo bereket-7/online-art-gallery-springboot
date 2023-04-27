@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.project.oag.controller.dto.UserDto;
+import com.project.oag.entity.Customer;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
-import com.project.oag.entity.VerificationToken;
 
 public interface UserService {
 	User registerNewUserAccount(UserDto accountDto);
@@ -17,12 +17,6 @@ public interface UserService {
 	void saveRegisteredUser(User user);
 
 	void deleteUser(User user);
-
-	void createVerificationTokenForUser(User user, String token);
-
-	VerificationToken getVerificationToken(String VerificationToken);
-
-	VerificationToken generateNewVerificationToken(String token);
 
 	void createPasswordResetTokenForUser(User user, String token);
 
@@ -37,8 +31,6 @@ public interface UserService {
 	void changeUserPassword(User user, String password);
 
 	boolean checkIfValidOldPassword(User user, String password);
-
-	String validateVerificationToken(String token);
 
 	String generateQRUrl(User user) throws UnsupportedEncodingException;
 
@@ -57,6 +49,12 @@ public interface UserService {
 	User getUserById(Long id);
 
 	List<User> getUsersByRole(String string);
+
+	void confirmRegistration(String email, String confirmationCode);
+	
+	void sendConfirmationEmail(String email);
+
+	void uploadProfile(User user);
 
 
 }

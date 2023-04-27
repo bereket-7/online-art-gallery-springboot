@@ -1,13 +1,21 @@
 package com.project.oag.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,23 +24,42 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.project.oag.common.FileUploadUtil;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.controller.dto.PasswordDto;
+import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.User;
+import com.project.oag.exceptions.InvalidOldPasswordException;
 import com.project.oag.security.ActiveUserStore;
+import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("http://localhost:8080/")
 public class UserController {
+	 private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private String path = "src/main/resources/static/img/user-images/";
 	@Autowired
 	private UserService userService;
 	
 	   @Autowired
 	    ActiveUserStore activeUserStore;
+	   
+	   @Autowired
+	    private MessageSource messages;
+	   
+	    @Autowired
+	    private UserSecurityService userSecurityService;
 
 	   public UserController(UserService userService) {
 		super();
@@ -49,6 +76,34 @@ public class UserController {
 	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
 	        return "users";
 	    }
+
+	    
+	    @PostMapping("/profile-photo")
+	    public ResponseEntity<String> uploadPhoto(@RequestBody User user,
+	            @RequestParam("image") MultipartFile image) throws IOException {
+	        String filename = StringUtils.cleanPath(image.getOriginalFilename());
+	        user.setPhotos(filename);
+	        userService.uploadProfile(user);
+	    	FileUploadUtil.uploadFile(path, filename, image);
+	        return ResponseEntity.ok("Profile photo is uploaded successfully.");
+	    }
+	    
+	    @PostMapping("/register")
+	    public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
+	        LOGGER.debug("Registering user account with information: {}", accountDto);
+	        final User registered = userService.registerNewUserAccount(accountDto);
+	        return new GenericResponse("success");
+	    }
+	    
+	    @PostMapping("/confirm")
+	    public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
+	        try {
+	            userService.confirmRegistration(email, confirmationCode);
+	            return ResponseEntity.ok("Registration confirmed successfully!");
+	        } catch (IllegalArgumentException e) {
+	            return ResponseEntity.badRequest().body(e.getMessage());
+	        }
+	    }
 	    
 	    @GetMapping("/all")
 	    public List<User> getAllUsers() {
@@ -59,12 +114,6 @@ public class UserController {
 	    public User addUser(@RequestBody User user) {
 	        return userService.addUser(user);
 	    }
-	   
-	    /*
-	    @DeleteMapping("/{id}")
-	    public void deleteUser(@PathVariable Long id) {
-	        userService.deleteUser(id);
-	    }*/
 	    
 	    @PutMapping("/{id}")
 	    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
@@ -95,6 +144,8 @@ public class UserController {
 	    public List<User> getManagerUsers() {
 	        return userService.getUsersByRole("MANAGER");
 	    }
+	    
+	    
 	   /* 
 	    @PostMapping("/login")
 	    public ResponseEntity<String> login(@RequestBody User user) {
@@ -135,6 +186,77 @@ public class UserController {
 	            new SecurityContextLogoutHandler().logout(request, response, auth);
 	        }
 	        return "redirect:/login?logout"; //localhost:8080/login.vue
+	    }
+	    
+	    
+	    // Reset password
+	    /*&
+	    @PostMapping("/resetPassword")
+	    public GenericResponse resetPassword(final HttpServletRequest request,
+	            @RequestParam("email") final String userEmail) {
+	        final User user = userService.findUserByEmail(userEmail);
+	        if (user != null) {
+	            final String token = UUID.randomUUID().toString();
+	            userService.createPasswordResetTokenForUser(user, token);
+	            mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
+	        }
+	        return new GenericResponse(messages.getMessage("message.resetPasswordEmail", null, request.getLocale()));
+	    }*/
+
+	    // Save password
+	    @PostMapping("/savePassword")
+	    public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
+
+	        final String result = userSecurityService.validatePasswordResetToken(passwordDto.getToken());
+
+	        if (result != null) {
+	            return new GenericResponse(messages.getMessage("auth.message." + result, null, locale));
+	        }
+
+	        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
+	        if (user.isPresent()) {
+	            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
+	            return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale));
+	        } else {
+	            return new GenericResponse(messages.getMessage("auth.message.invalid", null, locale));
+	        }
+	    }
+
+	    // Change user password
+	    @PostMapping("/updatePassword")
+	    public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
+	        final User user = userService.findUserByEmail(
+	                ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
+	        if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
+	            throw new InvalidOldPasswordException();
+	        }
+	        userService.changeUserPassword(user, passwordDto.getNewPassword());
+	        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
+	    }
+
+	    // Change user 2 factor authentication
+	    @PostMapping("/update/2fa")
+	    public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA)
+	            throws UnsupportedEncodingException {
+	        final User user = userService.updateUser2FA(use2FA);
+	        if (use2FA) {
+	            return new GenericResponse(userService.generateQRUrl(user));
+	        }
+	        return null;
+	    }
+
+	    // ============== NON-API ============
+
+	    private String getAppUrl(HttpServletRequest request) {
+	        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+	    }
+
+	    private String getClientIP(HttpServletRequest request) {
+	        final String xfHeader = request.getHeader("X-Forwarded-For");
+	        if (xfHeader == null || xfHeader.isEmpty() || !xfHeader.contains(request.getRemoteAddr())) {
+	            return request.getRemoteAddr();
+	        }
+	        return xfHeader.split(",")[0];
 	    }
 	    
 }
