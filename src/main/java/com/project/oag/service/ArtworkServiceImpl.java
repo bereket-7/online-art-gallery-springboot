@@ -214,4 +214,10 @@ public class ArtworkServiceImpl implements ArtworkService{
 		return artworkRepository.findByArtistId(artistId);
 	}
 
+	@Override
+	public ArtworkDto updateArtwork(Long id, ArtworkDto artworkDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

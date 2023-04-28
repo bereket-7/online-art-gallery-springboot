@@ -36,9 +36,9 @@ public class CustomerService {
         user.setEnabled(false);
         customerRepository.save(user);
 
-        //String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
         sendConfirmationEmail(user.getEmail());
-        //user.setToken(token);
+        user.setToken(token);
         customerRepository.save(user);
     }
     private Customer emailExists(final String email) {
@@ -82,7 +82,7 @@ public class CustomerService {
         message.setTo(email);
         message.setSubject("Confirm your registration");
         Random random = new Random();
-    String confirmationCode = String.format("%06d", random.nextInt(1000000));
+        String confirmationCode = String.format("%06d", random.nextInt(1000000));
         user.setToken(confirmationCode);
         customerRepository.save(user);
         

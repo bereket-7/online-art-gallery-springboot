@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,11 +38,11 @@ public class StandardController {
 	    public Standard updateStandard(@RequestBody Standard standard) { 
 	        return standardService.updateStandard(standard); 
 	    } 
-
+/*
 	    @DeleteMapping("/delete/{id}") 
 	    public void deleteStandard(@PathVariable Long id) { 
 	        standardService.deleteStandard(id); 
-	    } 
+	    } */
 
 	     @GetMapping("/{id}") 
 	     public Optional<Standard> getStandardById(@PathVariable Long id) { 

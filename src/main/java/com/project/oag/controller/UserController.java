@@ -32,6 +32,7 @@ import com.project.oag.common.FileUploadUtil;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.controller.dto.PasswordDto;
 import com.project.oag.controller.dto.UserDto;
+import com.project.oag.entity.Customer;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.InvalidOldPasswordException;
 import com.project.oag.security.ActiveUserStore;
@@ -76,7 +77,6 @@ public class UserController {
 	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
 	        return "users";
 	    }
-
 	    
 	    @PostMapping("/profile-photo")
 	    public ResponseEntity<String> uploadPhoto(@RequestBody User user,
@@ -89,10 +89,9 @@ public class UserController {
 	    }
 	    
 	    @PostMapping("/register")
-	    public GenericResponse registerUserAccount(@Valid final UserDto accountDto, final HttpServletRequest request) {
-	        LOGGER.debug("Registering user account with information: {}", accountDto);
-	        final User registered = userService.registerNewUserAccount(accountDto);
-	        return new GenericResponse("success");
+	    public ResponseEntity<String> registerUserAccount(@RequestBody User user, final HttpServletRequest request) {
+	       userService.registerNewUserAccount(user);
+	       return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");   
 	    }
 	    
 	    @PostMapping("/confirm")

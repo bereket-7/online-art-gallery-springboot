@@ -60,9 +60,14 @@ public class User {
     private String photos; 
     
 	private boolean enabled;
+	
 	private String selectedForBid;
+	
     private String secret;
+    
+    @Column(nullable = true)
     private String token;
+    
     private boolean isUsing2FA;
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)

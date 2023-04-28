@@ -10,7 +10,6 @@ import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 
 public interface UserService {
-	User registerNewUserAccount(UserDto accountDto);
 
 	User getUser(String verificationToken);
 
@@ -55,6 +54,10 @@ public interface UserService {
 	void sendConfirmationEmail(String email);
 
 	void uploadProfile(User user);
+
+	void registerNewUserAccount(UserDto user);
+
+	void registerNewUserAccount(User user);
 
 
 }

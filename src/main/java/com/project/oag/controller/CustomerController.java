@@ -46,14 +46,28 @@ public class CustomerController {
         customerService.registerUser(user);
         return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");
     }
+@PostMapping("/upload")
+public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile image) throws IOException {
+    String filename = StringUtils.cleanPath(image.getOriginalFilename());
+    FileUploadUtil.uploadFile(path, filename, image);
+    return ResponseEntity.ok(filename);
+}
 
+
+ 	@PostMapping("/register")
+public ResponseEntity<String> registerUser(@RequestBody Customer user, @RequestParam("filename") String filename) {
+    user.setPhotos(filename);
+    customerService.registerUser(user);
+    return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");
+}
+ 
     /*
     @GetMapping("/confirm")
     public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String token) {
         customerService.confirmRegistration(email, token);
         return ResponseEntity.ok("Registration confirmed successfully.");
     }*/
-    
+  
     @PostMapping("/confirm")
     public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
         try {

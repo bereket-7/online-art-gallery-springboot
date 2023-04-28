@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,39 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
     
+    
+    @Override
+    public void registerNewUserAccount(User user) {
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException(
+                    "There is an account with that email address: " + user.getEmail());
+        }
+        user.setEnabled(false);
+       // String token = UUID.randomUUID().toString();
+        //user.setToken(token);
+        userRepository.save(user);
+        sendConfirmationEmail(user.getEmail());
+        userRepository.save(user);
+    }
+    
+    /*
+    @Override
+    public void registerNewUserAccount(User user) {
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException(
+                    "There is an account with that email address: " + user.getEmail());
+        }
+        user.setEnabled(false);
+        userRepository.save(user);
+        String token = UUID.randomUUID().toString();
+        if (user != null) {
+            user.setToken(token);
+            userRepository.save(user);
+            sendConfirmationEmail(user.getEmail());
+        }
+    }*/
+
+    /*
     @Override
     public User registerNewUserAccount(final UserDto accountDto) {
         if (emailExists(accountDto.getEmail())) {
@@ -72,9 +106,6 @@ public class UserServiceImpl implements UserService {
                     "There is an account with that email address: " + accountDto.getEmail());
         }
         final User user = new User();
-
-        user.setEnabled(false);
-        sendConfirmationEmail(user.getEmail());
         user.setFirstname(accountDto.getFirstname());
         user.setLastname(accountDto.getLastname());
         user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
@@ -85,9 +116,11 @@ public class UserServiceImpl implements UserService {
         user.setAge(accountDto.getAge());
         user.setUsername(accountDto.getUsername());
         user.setUsing2FA(accountDto.isUsing2FA());
+        user.setEnabled(false);
+        sendConfirmationEmail(user.getEmail());
         //user.setRoles(Arrays.asList(roleRepository.findByName("Admin")));
         return userRepository.save(user);
-    }
+    }*/
     
     @Override
     public void uploadProfile(User user) {
@@ -238,7 +271,7 @@ public class UserServiceImpl implements UserService {
 	        message.setTo(email);
 	        message.setSubject("Confirm your registration");
 	        Random random = new Random();
-	    String confirmationCode = String.format("%06d", random.nextInt(1000000));
+	        String confirmationCode = String.format("%06d", random.nextInt(1000000));
 	        user.setToken(confirmationCode);
 	        userRepository.save(user);
 	        

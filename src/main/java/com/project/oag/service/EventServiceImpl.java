@@ -67,6 +67,27 @@ public class EventServiceImpl implements EventService {
          }
          return false;
 	}
+
+
+	@Override
+	public List<Event> getPendingEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Event> getAcceptedEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Event> getRejectedEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 	
 	/*

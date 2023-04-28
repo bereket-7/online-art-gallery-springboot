@@ -2,7 +2,6 @@ package com.project.oag.controller.dto;
 
 import com.project.oag.validation.PasswordMatches;
 import com.project.oag.validation.ValidEmail;
-import com.project.oag.validation.ValidPassword;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -31,11 +30,9 @@ public class UserDto {
 	@NotNull
 	private String username;
 	private Integer role;
-	@ValidPassword
+	
 	private String password;
 
-	@NotNull
-	@Size(min = 1)
 	private String matchingPassword;
 	private boolean isUsing2FA;
 
