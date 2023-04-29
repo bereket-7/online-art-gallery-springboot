@@ -26,7 +26,6 @@ import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
-import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.RoleRepository;
 import com.project.oag.repository.UserRepository;
