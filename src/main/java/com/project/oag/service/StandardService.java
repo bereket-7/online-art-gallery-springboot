@@ -15,4 +15,6 @@ public interface StandardService {
 
 	Standard updateStandard(Standard newstandard);
 
+	void deleteStandardById(Long id);
+
 }

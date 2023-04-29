@@ -1,13 +1,10 @@
 package com.project.oag.repository;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.project.oag.entity.Standard;
 
-public interface StandardRepository extends JpaRepository<Standard, Integer> {
-
-	Optional<Standard> findById(Long id);
-
+@Repository
+public interface StandardRepository extends JpaRepository<Standard, Long> {
 }

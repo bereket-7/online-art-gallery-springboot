@@ -29,11 +29,11 @@ public class StandardServiceImpl implements StandardService {
 	public Optional<Standard> getStandardById(Long id) {
 		return standardRepository.findById(id);
 	}
-/*
+	
 	@Override
-	public void deleteStandard(Long id) {
-		return standardRepository.deleteById(id);
-	}*/
+	public void deleteStandardById(final Long id) {
+	        this.standardRepository.deleteById(id);;
+	    }
 
 	@Override
 	public Standard updateStandard(Standard newstandard) {
