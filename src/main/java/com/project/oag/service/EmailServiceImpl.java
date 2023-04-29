@@ -23,7 +23,6 @@ public class EmailServiceImpl implements EmailService {
  
     @Value("${spring.mail.username}") 
     private String sender;
- 
     // To send a simple email
     public String sendSimpleMail(EmailDetail details)
     {
@@ -38,7 +37,6 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mailMessage);
             return "Email Sent Successfully";
         }
- 
         // Catch block to handle the exceptions
         catch (Exception e) {
             return "Error while Sending Email";

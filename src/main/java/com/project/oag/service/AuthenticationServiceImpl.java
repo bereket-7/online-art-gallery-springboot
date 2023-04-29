@@ -14,7 +14,7 @@ import com.project.oag.utils.Helper;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService{
 	 	@Autowired
-	    TokenRepository repository;
+	    private TokenRepository repository;
 	 	
 	 	
 	 	@Override
@@ -46,5 +46,4 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	            throw new AuthenticationFailException(MessageStrings.AUTH_TOEKN_NOT_VALID);
 	        }
 	    }
-	
 }

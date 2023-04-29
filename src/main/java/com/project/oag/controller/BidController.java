@@ -1,50 +1,84 @@
 package com.project.oag.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.oag.entity.Bid;
-import com.project.oag.service.BidService;
-
 @RestController
-@RequestMapping("/bids")
+@RequestMapping("/bid")
+@CrossOrigin("http://localhost:8080/")
 public class BidController {
+	/*
+	private String path = "src/main/resources/static/img/bid-images/";
 	@Autowired
 	 private final BidService bidService;
+	    @Autowired
+	    private BidArtService bidArtService;
+
 
     @Autowired
     public BidController(BidService bidService) {
         this.bidService = bidService;
     }
     
-    @GetMapping("/")
-    public List<Bid> getAllBids() {
-        return bidService.getAllBids();
-    }
-
-    @GetMapping("/{id}")
-    public Bid getBidById(@PathVariable Long id) {
-        Optional<Bid> bid = bidService.getBidById(id);
-        return bid.orElse(null);
-    }
     @PostMapping("/")
     public void saveBid(@RequestBody Bid bid) {
         bidService.saveBid(bid);
     }
-    
-    //@Autowired
-    //private BidArtRepository bidArtRepository;
-    
-    //@Autowired
-    //private BidRepository bidRepository;
+    @PostMapping("/bids")
+    public Bid createBid(@RequestBody Bid bid) {
+        return bidService.createBid(bid);
+    }
+
+    @GetMapping("/bids/{id}")
+    public Bid getBid(@PathVariable Long id) {
+        return bidService.getBid(id);
+    }
+
+    @GetMapping("/bids")
+    public List<Bid> getAllBids() {
+        return bidService.getAllBids();
+    }
+
+    @PutMapping("/bids/{id}")
+    public Bid updateBid(@RequestBody Bid bid, @PathVariable Long id) {
+        return bidService.updateBid(bid, id);
+    }
+
+    @DeleteMapping("/bids/{id}")
+    public void deleteBid(@PathVariable Long id) {
+        bidService.deleteBid(id);
+    }
+
+    // CRUD operations for BidArt
+    @PostMapping("/bidArt/upload")
+    public BidArt createBidArt(@ModelAttribute("bidArt") BidArt bidArt,@RequestParam("image") MultipartFile image) throws IOException{
+    	 String filename = StringUtils.cleanPath(image.getOriginalFilename());
+			bidArt.setArtworkPhoto(filename);
+        FileUploadUtil.uploadFile(path, filename, image); 
+        return bidArtService.createBidArt(bidArt);
+        // return new ResponseEntity<>(new BidArt(filename,"Artwork is successfully submitted,it will display in the gallery after approval thank you"),HttpStatus.OK);	
+    }
+
+    @GetMapping("/bidArts/{id}")
+    public BidArt getBidArt(@PathVariable Long id) {
+        return bidArtService.getBidArt(id);
+    }
+
+    @GetMapping("/bidArts")
+    public List<BidArt> getAllBidArts() {
+        return bidArtService.getAllBidArts();
+    }
+
+    @PutMapping("/bidArts/{id}")
+    public BidArt updateBidArt(@RequestBody BidArt bidArt, @PathVariable Long id) {
+        return bidArtService.updateBidArt(bidArt, id);
+    }
+
+    @DeleteMapping("/bidArts/{id}")
+    public void deleteBidArt(@PathVariable Long id) {
+        bidArtService.deleteBidArt(id);
+    }
 /**
  @PostMapping("/{artworkId}")
  public ResponseEntity<Bid> placeBid(@PathVariable Long artId, 
@@ -85,4 +119,8 @@ public class BidController {
         
         return ResponseEntity.ok(bid);
  }*/
+
+
+
+ 
 }

@@ -6,8 +6,8 @@ import java.util.Optional;
 //import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import com.project.oag.entity.Organization;
 import com.project.oag.repository.OrganizationRepository;
 
@@ -16,11 +16,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	private OrganizationRepository organizationRepository;
-
-	public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
-		super();
-		this.organizationRepository = organizationRepository;
-	}
 
 	/*
 	 * @Override
@@ -70,24 +65,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 		organizationRepository.deleteById(id);
 	}
 	/*
-	 * @Transactional
-	 * public Organization findByEmail(String email) {
-	 * return organizationRepository.findByEmail(email);
-	 * }
-	 * 
-	 * @Transactional
-	 * public Organization findByUsername(String username) {
-	 * return organizationRepository.findByEmail(username);
-	 * }
-	 * 
-	 * public boolean userEmailExists(String email){
-	 * return organizationRepository.findByEmail(email) != null;
-	 * }
-	 * 
-	 * public boolean userUsernameExists(String username){
-	 * return organizationRepository.findByUsername(username) != null;
-	 * }
-	 * 
 	 * @Override
 	 * public Organization update(OrganizationDto organizationDto)throws
 	 * UserNotFoundException {
@@ -122,13 +99,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 * }
 	 */
 
-	public void updatePassword(Organization organization, String newPassword) {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String encodedPassword = passwordEncoder.encode(newPassword);
-		organization.setPassword(encodedPassword);
-
-		organization.setResetPasswordToken(null);
-		organizationRepository.save(organization);
-	}
+	
 
 }

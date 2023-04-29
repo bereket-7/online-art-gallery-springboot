@@ -1,61 +1,53 @@
 package com.project.oag.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.oag.common.FileUploadUtil;
+import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
 import com.project.oag.service.ArtworkService;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.project.oag.service.UserService;
 
 @RestController
 @RequestMapping("/artwork")
 @CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
-	@Value("${uploadDir}")
-	private String uploadFolder;
-	
+	private String path = "src/main/resources/static/img/artwork-images/";
+
 	@Autowired
 	private ArtworkService artworkService;
+
+	@Autowired
+	private UserService userService;
+
 	public ArtworkController(ArtworkService artworkService) {
 		super();
 		this.artworkService = artworkService;
 	}
-	
+
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	
-	@PostMapping("/saveArtwok")
-	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,@RequestParam("artworkDescription") String artworkDescription,
-			@RequestParam("artworkCategory") String artworkCategory,@RequestParam("price") int price,@RequestParam("artistName") String artistName,@RequestParam("status") String status, Model model, HttpServletRequest request
-			,final @RequestParam("artworkPhoto") MultipartFile file) {
+	@PostMapping("/artwork/saveArtwok")
+	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
+			@RequestParam("artworkDescription") String artworkDescription,
+			@RequestParam("artworkCategory") String artworkCategory, @RequestParam("price") int price,
+			@RequestParam("artistName") String artistName, @RequestParam("status") String status, Model model,
+			HttpServletRequest request, final @RequestParam("artworkPhoto") MultipartFile file) {
 		try {
-			//String uploadDirectory = System.getProperty("user.dir") + uploadFolder;
+			// String uploadDirectory = System.getProperty("user.dir") + uploadFolder;
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 			log.info("uploadDirectory:: " + uploadDirectory);
 			String fileName = file.getOriginalFilename();
@@ -63,12 +55,13 @@ public class ArtworkController {
 			log.info("FileName: " + file.getOriginalFilename());
 			if (fileName == null || fileName.contains("..")) {
 				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
-				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName,
+						HttpStatus.BAD_REQUEST);
 			}
 			String[] artwork_names = artworkName.split(",");
 			String[] artwork_descriptions = artworkDescription.split(",");
 			Date createDate = new Date();
-			log.info("Artwork Name: " + artwork_names[0]+" "+filePath);
+			log.info("Artwork Name: " + artwork_names[0] + " " + filePath);
 			log.info("Description: " + artwork_descriptions[0]);
 			log.info("Artist Name: " + artistName);
 			log.info("Category: " + artworkCategory);
@@ -102,167 +95,160 @@ public class ArtworkController {
 			log.info("Exception: " + e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-}
-	
-		@GetMapping("/display/{id}")
-		@ResponseBody
-		void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Artwork> artwork)
-				throws ServletException, IOException {
+	}
+
+	@GetMapping("/artwork/display/{id}")
+	@ResponseBody
+	void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Artwork> artwork)
+			throws ServletException, IOException {
+		log.info("Id :: " + id);
+		artwork = artworkService.getArtworkById(id);
+		response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+		response.getOutputStream().write(artwork.get().getArtworkPhoto());
+		response.getOutputStream().close();
+	}
+
+	@GetMapping("/artwork/artworkDetails")
+	String showProductDetails(@RequestParam("id") Long id, Optional<Artwork> artwork, Model model) {
+		try {
 			log.info("Id :: " + id);
-			artwork = artworkService.getArtworkById(id);
-			response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-			response.getOutputStream().write(artwork.get().getArtworkPhoto());
-			response.getOutputStream().close();
-		}
-	
+			if (id != 0) {
+				artwork = artworkService.getArtworkById(id);
 
-		@GetMapping("/artworkDetails")
-		String showArtworkDetails(@RequestParam("id") Long id, Optional<Artwork> artwork, Model model) {
-			try {
-				log.info("Id :: " + id);
-				if (id != 0) {
-					artwork = artworkService.getArtworkById(id);
-				
-					log.info("products :: " + artwork);
-					if (artwork.isPresent()) {
-						model.addAttribute("id", artwork.get().getId());
-						model.addAttribute("description", artwork.get().getArtworkDescription());
-						model.addAttribute("name", artwork.get().getArtworkName());
-						model.addAttribute("price", artwork.get().getPrice());
-						return "imagedetails";
-					}
-					return "redirect:/artwork/show";
+				log.info("products :: " + artwork);
+				if (artwork.isPresent()) {
+					model.addAttribute("id", artwork.get().getId());
+					model.addAttribute("description", artwork.get().getArtworkDescription());
+					model.addAttribute("name", artwork.get().getArtworkName());
+					model.addAttribute("price", artwork.get().getPrice());
+					return "imagedetails";
 				}
-			return "redirect:/artworks";
-			} catch (Exception e) {
-				e.printStackTrace();
 				return "redirect:/artworks";
-			}	
+			}
+			return "redirect:/artworks";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/artworks";
 		}
-		
-		@GetMapping("/show")
-		String show(Model map) {
-			List<Artwork> artworks = artworkService.getAllArtworks();
-			map.addAttribute("artworks", artworks);
-			return "artworks";
-		}
-		
-		
-		
-		
-		
-	/*	
-		@GetMapping("/{id}")
-	    public ResponseEntity<Artwork> getPhoto(@PathVariable Long id) {
-	        return ResponseEntity.ok(artworkService.getPhoto(id));
-	    }
-
-	    @PostMapping("/")
-	    public ResponseEntity<Artwork> createPhoto(@RequestBody Artwork artwork) {
-	        return ResponseEntity.ok(artworkService.createPhoto(artwork));
-	    }
-
-	    @PutMapping("/{id}") 
-	    public ResponseEntity<Artwork> updatePhoto(@PathVariable Long id, @RequestBody Artwork artwork) { 
-	        return ResponseEntity.ok(artworkService.updatePhoto(id, artwork)); 
-	    } 
-
-	   @DeleteMapping("/{id}") 
-	   public void deleteArtwork(@PathVariable Long id) { 
-		   artworkService.deleteArtwork(id); 
-	   } 
-
-	   @GetMapping("/all") 
-	   public List<Artwork> getAllPhotos() { 
-	       return artworkService.getAllArtworks(); 
-	   } 
-
-	   @GetMapping("/byCategory/{category}") 
-	   public List<Artwork> getArtworkByCategory(@PathVariable String category) { 
-	       return artworkService.getArtworkByCategory(category); 
-	   }
-
-	   @GetMapping("/byArtistName/{artistName}") 
-	   public List<Artwork> getPhotosByArtistName(@PathVariable String artistName) {       
-		   return artworkService.getArtworksByArtistName(artistName);    
-		   }    
-
-	   @GetMapping("/byArtworkName/{artworkName}")      
-	   public List<Artwork> getPhotosByArtworkName(@PathVariable String artworkName) {        
-		   return artworkService.getArtworksByArtworkName(artworkName);      
-		   }    
-
-	   @GetMapping("/byPriceRange/{minPrice}-{maxPrice}")    
-	   public List<Artwork> getArtworkByPriceRange (@PathVariable Double minPrice, Double maxPrice){          return photoService.getPhotosByPriceRange (minPrice, maxPrice);      }    
-
-	   @GetMapping("search?q={queryString}")     
-	   public List<Artwork> searchForArtworks (@PathVariable String queryString){    
-		   return artworkService.searchForArtworks (queryString);      }    
-	*/
-	
-	/**
-	@ModelAttribute("artwork")
-    public ArtworkDto artworkDto() {
-        return new ArtworkDto();
-    }
-	
-	@GetMapping
-	public String showUploadForm() {
-		return "upload_artwork";
 	}
-	/**
-	@PostMapping
-	public String uploadArtwork(@ModelAttribute("artwork") ArtworkDto artworkDto) {
-		artworkService.uploadArtwork(artworkDto);
-		return "redirect:/upload_artwork?successfully uploaded and submitted for approval,thanks.";
-	}**/
-	
-	/*@PostMapping()
-	public String uploadArtwor(@ModelAttribute("artwork") ArtworkDto artworkDto,@RequestParam("artworkPhoto") MultipartFile multipartFile) {
-		artworkService.saveArtwork(artworkDto, multipartFile);
-		return "redirect:/upload_artwork?successfully uploaded and submitted for approval,thanks.";
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteArtwork(@PathVariable Long id) {
-	      Artwork artwork = artworkRepository.findById(id).orElse(null);
 
-	        if (artwork == null) {
-	            return ResponseEntity.notFound().build();
-	    }
-	        boolean isConfirmed = false;
-	        if (isConfirmed) {
-	            artworkRepository.delete(artwork);
-	            return ResponseEntity.ok().build();
-	        }
-	        else {
-	            return ResponseEntity.status(HttpStatus.ACCEPTED).body("Deletion cancelled.");
-	        }
+	@GetMapping("/artwork/show")
+	String show(Model map) {
+		List<Artwork> artworks = artworkService.getAllArtworks();
+		map.addAttribute("artworks", artworks);
+		return "artworks";
 	}
-	
-	   @GetMapping("/category/{category}")
-	   public List<?> getByCategory(@PathVariable String category) {
-	       return artworkService.searchByCategory(category);
-	   }*/
-	   /*
-	    @PostMapping("/upload")
-	    public String uploadArtwork(@RequestParam("file") MultipartFile file,
-	                                @RequestParam("title") String title,
-	                                Model model) throws IOException {
-	        Artwork artwork = new Artwork();
-	        artwork.setArtworkPhoto(file.getBytes());
-	        artworkRepository.save(artwork);
-	        
-	        model.addAttribute("artworks", artworkRepository.findAll());
-	        return "gallery";
-	    }
 
-	    @GetMapping("/artworks")
-	    public String displayArtwork(Model model) {
-	        model.addAttribute("artworks", artworkRepository.findAll());
-	        return "artwork";
-	    }*/
+	/*
+	 * @GetMapping("/{id}")
+	 * public ResponseEntity<Artwork> getPhoto(@PathVariable Long id) {
+	 * return ResponseEntity.ok(artworkService.getPhoto(id));
+	 * }
+	 * 
+	 * @PostMapping("/")
+	 * public ResponseEntity<Artwork> createPhoto(@RequestBody Artwork artwork) {
+	 * return ResponseEntity.ok(artworkService.createPhoto(artwork));
+	 * }
+	 * 
+	 * @PutMapping("/{id}")
+	 * public ResponseEntity<Artwork> updatePhoto(@PathVariable Long
+	 * id, @RequestBody Artwork artwork) {
+	 * return ResponseEntity.ok(artworkService.updatePhoto(id, artwork));
+	 * }
+	 * 
+	 * @DeleteMapping("/{id}")
+	 * public void deleteArtwork(@PathVariable Long id) {
+	 * artworkService.deleteArtwork(id);
+	 * }
+	 * 
+	 * @GetMapping("/all")
+	 * public List<Artwork> getAllPhotos() {
+	 * return artworkService.getAllArtworks();
+	 * }
+	 * 
+	 * @DeleteMapping("/{id}")
+	 * public void deleteArtwork(@PathVariable Long id) {
+	 * artworkService.deleteArtwork(id);
+	 * }
+	 * 
+	 * @GetMapping("/byCategory/{artworkCategory}")
+	 * public List<Artwork> getArtworkByCategory(@PathVariable String
+	 * artworkCategory) {
+	 * return artworkService.getArtworkByCategory(artworkCategory);
+	 * }
+	 * 
+	 * @GetMapping("/byArtistName/{artistName}")
+	 * public List<Artwork> getPhotosByArtistName(@PathVariable String artistName) {
+	 * return artworkService.getArtworksByArtistName(artistName);
+	 * }
+	 * 
+	 * @GetMapping("/byArtistId/{artistId}")
+	 * public List<Artwork> getPhotosByArtworkName(@PathVariable int artistId) {
+	 * return artworkService.getArtworksByArtistId(artistId);
+	 * }
+	 * 
+	 * @GetMapping("/priceRange")
+	 * public List<Artwork> getArtworkByPriceRange(@RequestParam double
+	 * minPrice, @RequestParam double maxPrice) {
+	 * return artworkService.getArtworkByPriceRange(minPrice, maxPrice);
+	 * }
+	 * 
+	 * @GetMapping("/pending")
+	 * public List<Artwork> getPendingArtworks() {
+	 * return artworkService.getPendingArtworks();
+	 * }
+	 * 
+	 * @GetMapping("/accepted")
+	 * public List<Artwork> getAcceptedArtworks() {
+	 * return artworkService.getAcceptedArtworks();
+	 * }
+	 * 
+	 * @GetMapping("/rejected")
+	 * public List<Artwork> getRejectedArtworks() {
+	 * return artworkService.getRejectedArtworks();
+	 * }
+	 * 
+	 * @PutMapping("/{id}/accept")
+	 * public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
+	 * boolean accepted = artworkService.acceptArtwork(id);
+	 * if (accepted) {
+	 * return ResponseEntity.ok("Artwork with ID " + id + " has been accepted");
+	 * } else {
+	 * return ResponseEntity.badRequest().body("Artwork with ID " + id +
+	 * " was not found or is not pending");
+	 * }
+	 * }
+	 * 
+	 * @PutMapping("/{id}/reject")
+	 * public ResponseEntity<String> rejectArtwork(@PathVariable Long id) {
+	 * boolean rejected = artworkService.rejectArtwork(id);
+	 * if (rejected) {
+	 * return ResponseEntity.ok("Artwork with ID " + id +
+	 * " has been Rejected due to the reason it does not satisfy company standard");
+	 * } else {
+	 * return ResponseEntity.badRequest().body("Artwork with ID " + id +
+	 * " was not found or is not in pending status");
+	 * }
+	 * }
+	 * 
+	 * @PutMapping("/{id}")
+	 * public ResponseEntity<ArtworkDto> updateArtwork(@PathVariable Long
+	 * id, @RequestBody ArtworkDto artworkDto) {
+	 * ArtworkDto updatedArtworkDto = artworkService.updateArtwork(id, artworkDto);
+	 * return ResponseEntity.ok(updatedArtworkDto);
+	 * }
+	 * 
+	 * @GetMapping("/recent")
+	 * public ResponseEntity<List<Artwork>> getRecentArtworks() {
+	 * List<Artwork> artworks = artworkService.getRecentArtworks();
+	 * return new ResponseEntity<>(artworks, HttpStatus.OK);
+	 * }
+	 * /*
+	 * 
+	 * @GetMapping("/{artworkId}/average-rating")
+	 * public double getAverageRating(@PathVariable Long artworkId) {
+	 * return artworkService.getAverageRating(artworkId);
+	 * }
+	 */
 
 }
-           
-

@@ -10,6 +10,6 @@ import com.project.oag.entity.WishList;
 @Repository
 public interface WishListRepository extends JpaRepository<WishList, Integer> {
 
-    List<WishList> findAllByUserIdOrderByCreatedDateDesc(Integer userId);
+    List<WishList> findAllByUserIdOrderByCreatedDateDesc(Long user_id);
 
 }

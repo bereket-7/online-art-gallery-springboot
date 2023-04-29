@@ -3,8 +3,6 @@ package com.project.oag.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.project.oag.entity.Standard;
 
 public interface StandardService {
@@ -15,8 +13,8 @@ public interface StandardService {
 
 	Optional<Standard> getStandardById(Long id);
 
-	void deleteStandard(Long id);
-
 	Standard updateStandard(Standard newstandard);
+
+	void deleteStandardById(Long id);
 
 }

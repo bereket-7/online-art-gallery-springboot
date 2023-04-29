@@ -32,12 +32,12 @@ public class Competition {
 	
 	@OneToMany(mappedBy = "competition")
     private List<Competitor> competitor;
-
+	
 	public Competition() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Competition(String competitionTitle, String competitionDescription, int numberOfCompetitor,
 			LocalDate expiryDate, List<Competitor> competitor) {
 		super();

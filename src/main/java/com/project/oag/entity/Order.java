@@ -23,26 +23,25 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-    @Column(name = "created_date")
+    @Column(name = "created_date",nullable=true)
     private Date createdDate;
 
-    @Column(name = "total_price")
-    private Double totalPrice;
+    @Column(name = "price",nullable=true)
+	private double price;
     
-    @Column(name="currency")
+    @Column(name="currency",nullable=true)
     private String currency;
     
-    @Column(name="intent")
+    @Column(name="intent",nullable=true)
     private String intent;
     
-    @Column(name="method")
+    @Column(name="method",nullable=true)
     private String method;
     
-    @Column(name="description")
+    @Column(name="description",nullable=true)
     private String description;
 
-    @Column(name = "session_id")
+    @Column(name = "session_id",nullable=true)
     private String sessionId;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
@@ -96,6 +95,14 @@ public class Order {
 	}
 
 
+	public List<OrderItem> getOrderItem() {
+		return orderItem;
+	}
+
+	public void setOrderItem(List<OrderItem> orderItem) {
+		this.orderItem = orderItem;
+	}
+
 	public List<OrderItem> getOrderItems() {
         return orderItem;
     }
@@ -121,15 +128,15 @@ public class Order {
         this.createdDate = createdDate;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
+    public double getPrice() {
+		return price;
+	}
 
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public String getSessionId() {
+	public String getSessionId() {
         return sessionId;
     }
 

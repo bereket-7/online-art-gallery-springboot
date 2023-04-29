@@ -9,7 +9,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
 import com.project.oag.entity.User;
 
 import jakarta.servlet.http.Cookie;

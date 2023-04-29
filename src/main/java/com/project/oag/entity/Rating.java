@@ -11,53 +11,73 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Rating {
-	
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private Long id;
-	 
-	 @Column(name = "stars", nullable = false)
-	 private int stars;
+	
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "artwork_id", nullable = false)
-	    private Artwork artwork;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artwork_id")
+    private Artwork artwork;
 
-	   /* @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "user_id", nullable = false)
-	    private User user;*/
+    @Column(nullable = false)
+    private int rating;
 
-		public Rating() {
-	    	
-	    }
+    @Column(unique = true, nullable = false)
+    private String userIdAndArtworkId;
 
-		public Rating(int stars, Artwork artwork) {
-			super();
-			this.stars = stars;
-			this.artwork = artwork;
-		}
+    public Rating() {
+        this.userIdAndArtworkId = "";
+    }
 
-		public Long getId() {
-			return id;
-		}
+    public Rating(User user, Artwork artwork, int rating) {
+        this.user = user;
+        this.artwork = artwork;
+        this.rating = rating;
+        this.userIdAndArtworkId = user.getId() + ":" + artwork.getId();
+    }
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public Long getId() {
+		return id;
+	}
 
-		public int getStars() {
-			return stars;
-		}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-		public void setStars(int stars) {
-			this.stars = stars;
-		}
+	public User getUser() {
+		return user;
+	}
 
-		public Artwork getArtwork() {
-			return artwork;
-		}
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-	    public void setArtwork(Artwork artwork) {
-			this.artwork = artwork;
-		}	    
+	public Artwork getArtwork() {
+		return artwork;
+	}
+
+	public void setArtwork(Artwork artwork) {
+		this.artwork = artwork;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public String getUserIdAndArtworkId() {
+		return userIdAndArtworkId;
+	}
+
+	public void setUserIdAndArtworkId(String userIdAndArtworkId) {
+		this.userIdAndArtworkId = userIdAndArtworkId;
+	}
+
 }

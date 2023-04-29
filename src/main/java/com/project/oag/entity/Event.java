@@ -1,86 +1,136 @@
 package com.project.oag.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="event")
 public class Event {
-
+	
 	@Id  
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long eventId;
+	private Long id;
 	
-	@Column(name = "event_name", nullable = false)
+	@Column(nullable = true)
+	private String eventphoto;
+	
+	@Column(name = "event_name", nullable = true)
 	private String eventName;
 	
-	@Column(name = "event_description", nullable = false)
+	@Column(name = "event_description", nullable = true)
 	private String eventDescription;
 	
-	@Lob
-	@Column(name = "event_photo", nullable = false)
-    private byte[] eventPhoto;
+	@Column(name = "event_date", nullable = true)
+	private LocalDate eventDate;
+	
+	@Column(name = "location",nullable = true)
+	private String location;
+	
+	@Column(name = "capacity",nullable = true)
+	private String capacity;
+	
+	@Column(name = "ticket_price",nullable = true)
+	private int ticketPrice;
+	
+	@Column(name = "status",nullable = true)
+	private String status;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "organization_id")
+	private Organization organization;
+	
 
-	@Column(name = "upload_time")
-	private LocalDateTime timestamp;
-
-	public Event() {
+	public Event(Long id, String eventphoto, String eventName, String eventDescription, LocalDate eventDate,
+			String location, String capacity, int ticketPrice, String status, Organization organization) {
 		super();
-	}
-
-	public Event(String eventName, String eventDescription, byte[] eventPhoto, LocalDateTime timestamp) {
-		super();
+		this.id = id;
+		this.eventphoto = eventphoto;
 		this.eventName = eventName;
 		this.eventDescription = eventDescription;
-		this.eventPhoto = eventPhoto;
-		this.timestamp = timestamp;
+		this.eventDate = eventDate;
+		this.location = location;
+		this.capacity = capacity;
+		this.ticketPrice = ticketPrice;
+		this.status = status;
+		this.organization = organization;
 	}
-
-	public Long getEventId() {
-		return eventId;
+	public Event() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
-
-	public void setEventId(Long eventId) {
-		this.eventId = eventId;
+	public Event(String filename, String string) {
+		// TODO Auto-generated constructor stub
 	}
-
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	public String getEventphoto() {
+		return eventphoto;
+	}
+	public void setEventphoto(String eventphoto) {
+		this.eventphoto = eventphoto;
+	}
 	public String getEventName() {
 		return eventName;
 	}
-
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
-
 	public String getEventDescription() {
 		return eventDescription;
 	}
-
 	public void setEventDescription(String eventDescription) {
 		this.eventDescription = eventDescription;
 	}
-
-	public byte[] getEventPhoto() {
-		return eventPhoto;
+	public LocalDate getEventDate() {
+		return eventDate;
 	}
-
-	public void setEventPhoto(byte[] eventPhoto) {
-		this.eventPhoto = eventPhoto;
+	public void setEventDate(LocalDate eventDate) {
+		this.eventDate = eventDate;
 	}
-
-	public LocalDateTime getTimestamp() {
-		return timestamp;
+	public String getLocation() {
+		return location;
 	}
-
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
+	public void setLocation(String location) {
+		this.location = location;
 	}
+	public String getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(String capacity) {
+		this.capacity = capacity;
+	}
+	public int getTicketPrice() {
+		return ticketPrice;
+	}
+	public void setTicketPrice(int ticketPrice) {
+		this.ticketPrice = ticketPrice;
+	}
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
 		
 }

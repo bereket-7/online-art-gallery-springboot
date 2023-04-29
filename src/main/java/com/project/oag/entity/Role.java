@@ -1,93 +1,56 @@
 package com.project.oag.entity;
 
-import java.util.Collection;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 
 
 @Entity
-public class Role {
-	
+public class Role {	
 	  	@Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    private Long id;
 
-	    @ManyToMany(mappedBy = "roles")
-	    private Collection<User> users;
-
-	    private String name;
-
-	    public Role() {
-	        super();
-	    }
-
-	    public Role(final String name) {
-	        super();
-	        this.name = name;
-	    }
-
-	    //
+		@Enumerated(EnumType.STRING)
+		@Column(length = 20)
+		private RoleType name;
 
 	    public Long getId() {
-	        return id;
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public RoleType getName() {
+			return name;
+		}
+
+		public void setName(RoleType name) {
+			this.name = name;
+		}
+
+		public Role() {
+	        super();
 	    }
 
-	    public void setId(final Long id) {
-	        this.id = id;
-	    }
+		public Role(String name) {
+			// TODO Auto-generated constructor stub
+		}
+		
+		
+		public enum RoleType {
+		    ADMIN,
+		    CUSTOMER,
+		    ARTIST,
+		    ORGANIZATION,
+		    MANAGER
+		    
+		}
 
-	    public String getName() {
-	        return name;
-	    }
-
-	    public void setName(final String name) {
-	        this.name = name;
-	    }
-
-	    public Collection<User> getUsers() {
-	        return users;
-	    }
-
-	    public void setUsers(final Collection<User> users) {
-	        this.users = users;
-	    }
-
-	    @Override
-	    public int hashCode() {
-	        final int prime = 31;
-	        int result = 1;
-	        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-	        return result;
-	    }
-
-	    @Override
-	    public boolean equals(final Object obj) {
-	        if (this == obj) {
-	            return true;
-	        }
-	        if (obj == null) {
-	            return false;
-	        }
-	        if (getClass() != obj.getClass()) {
-	            return false;
-	        }
-	        final Role role = (Role) obj;
-	        if (!getName().equals(role.getName())) {
-	            return false;
-	        }
-	        return true;
-	    }
-
-	    @Override
-	    public String toString() {
-	        final StringBuilder builder = new StringBuilder();
-	        builder.append("Role [name=").append(name).append("]").append("[id=").append(id).append("]");
-	        return builder.toString();
-	    }
 }

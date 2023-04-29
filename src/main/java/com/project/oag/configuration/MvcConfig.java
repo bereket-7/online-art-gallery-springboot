@@ -14,8 +14,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,9 +28,6 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import com.project.oag.validation.EmailValidator;
-import com.project.oag.validation.PasswordMatchesValidator;
-import org.springframework.validation.Validator;
-import org.springframework.web.servlet.LocaleResolver;
 
 @Configuration
 @ComponentScan(basePackages = { "com.project.oag" })
@@ -99,11 +98,6 @@ public class MvcConfig implements WebMvcConfigurer {
     @Bean
     public EmailValidator usernameValidator() {
         return new EmailValidator();
-    }
-
-    @Bean
-    public PasswordMatchesValidator passwordMatchesValidator() {
-        return new PasswordMatchesValidator();
     }
 
     @Bean

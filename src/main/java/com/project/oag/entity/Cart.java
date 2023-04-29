@@ -22,7 +22,6 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Column(name = "created_date")
     private Date createdDate;
 
@@ -34,7 +33,6 @@ public class Cart {
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
 
     private int quantity;
 

@@ -1,5 +1,6 @@
 package com.project.oag.service;
 
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import com.paypal.base.rest.PayPalRESTException;
 
 @Service
 public class PaypalService {
+	
 	@Autowired
 	private APIContext apiContext;
 	
+	
 	public Payment createPayment(
-			Double totalPrice, 
+			Double total, 
 			String currency, 
 			String method,
 			String intent,
@@ -32,8 +35,8 @@ public class PaypalService {
 			String successUrl) throws PayPalRESTException{
 		Amount amount = new Amount();
 		amount.setCurrency(currency);
-		totalPrice = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
-		amount.setTotal(String.format("%.2f", totalPrice));
+		total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+		amount.setTotal(String.format("%.2f", total));
 
 		Transaction transaction = new Transaction();
 		transaction.setDescription(description);
@@ -64,5 +67,6 @@ public class PaypalService {
 		paymentExecute.setPayerId(payerId);
 		return payment.execute(apiContext, paymentExecute);
 	}
-	
+
 }
+

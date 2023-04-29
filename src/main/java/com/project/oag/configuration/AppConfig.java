@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.project.oag.security.ActiveUserStore;
-
 @Configuration
 public class AppConfig {
 
@@ -12,5 +11,18 @@ public class AppConfig {
     public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
+    
+
+        
+        //@Value("${sendinblue.api.key}")
+        //private String apiKey;
+        /*
+        @Bean
+        public SendinblueClient sendinblueClient() {
+            return new SendinblueClientBuilder()
+                .apiKey(apiKey)
+                .build();
+        }*/
+        
 
 }

@@ -50,6 +50,7 @@ public class CartServiceImpl implements CartService {
         }
         return new CartDto(cartItems,totalCost);
     }
+    
 
     public CartItemDto getDtoFromCart(Cart cart) {
         return new CartItemDto(cart);
@@ -64,14 +65,7 @@ public class CartServiceImpl implements CartService {
     }
     
     @Override
-    public void deleteCartItem(int id,int userId) throws CartItemNotExistException {
-        if (!cartRepository.existsById((long) id))
-            throw new CartItemNotExistException("Cart id is invalid : " + id);
-        cartRepository.deleteById(id);
-    }
-
-    @Override
-    public void deleteCartItems(int userId) {
+    public void deleteCartItems(long userId) {
         cartRepository.deleteAll();
     }
 
@@ -81,8 +75,9 @@ public class CartServiceImpl implements CartService {
     }
 
 	@Override
-	public void deleteCartItem(int itemID, Long userId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteCartItem(long id, Long userId) throws CartItemNotExistException {
+	      if (!cartRepository.existsById(id))
+	            throw new CartItemNotExistException("Cart id is invalid : " + id);
+	        cartRepository.deleteById(id);	
 	}
 }

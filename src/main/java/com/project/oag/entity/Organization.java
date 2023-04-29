@@ -1,83 +1,51 @@
 package com.project.oag.entity;
 
-import jakarta.persistence.Column;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "organization")
+@Table(name = "Organization")
 public class Organization {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-		
-    @NotBlank(message = "name is required")
-	@Column(name = "orginazrion_name", nullable = false, length=100)
-    private String Name;
-
-    @NotBlank(message = "Email is required")
-    @Email(message = "Email is not valid")
-    private String Email;
-
-    @NotBlank(message = "Phone number is required")
-	@Column(name = "phone", nullable = false, length=15)
-	private String Phone_No;
-
-    @Column(name = "address", nullable = false)
-	private String Address;
-    
-    @NotBlank(message = "Username is required")
-    private String username;
-
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
-	@Column(name = "password",nullable = false)
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
     private String password;
+    private boolean enabled;
+    private String token;
+    private boolean isUsing2FA;
+	
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Event> events = new ArrayList<>();
     
-	@Column(name = "organization_type",nullable = false)
-    private String organization_type;
-
-	@Column(name = "reset_password_token", length=30)
-    private String resetPasswordToken;
-	
-	@Column(name = "verificationCode", updatable=false)
-	private String verificationCode;
-	
-
+    
 	public Organization() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public Organization(@NotBlank(message = "name is required") String name,
-			@NotBlank(message = "Email is required") String email,
-			@NotBlank(message = "Phone number is required") String phone_No, String address,
-			@NotBlank(message = "Username is required") String username,
-			@NotBlank(message = "Password is required") @Size(min = 6, message = "Password must be at least 6 characters") String password,
-			String organization_type, String resetPasswordToken, String verificationCode) {
+	public Organization(String name, String email, String phone, String address, String password, boolean enabled,
+			String token, boolean isUsing2FA) {
 		super();
-		Name = name;
-		Email = email;
-		Phone_No = phone_No;
-		Address = address;
-		this.username = username;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
 		this.password = password;
-		this.organization_type = organization_type;
-		this.resetPasswordToken = resetPasswordToken;
-		this.verificationCode = verificationCode;
-	}
-
-
-	public Organization(String name, String phone, String address, String email, String username, String password,
-			String organization_type) {
-		// TODO Auto-generated constructor stub
+		this.enabled = enabled;
+		this.token = token;
+		this.isUsing2FA = isUsing2FA;
 	}
 
 	public Long getId() {
@@ -89,43 +57,35 @@ public class Organization {
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
-	public String getPhone_No() {
-		return Phone_No;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setPhone_No(String phone_No) {
-		Phone_No = phone_No;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getAddress() {
-		return Address;
+		return address;
 	}
 
 	public void setAddress(String address) {
-		Address = address;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+		this.address = address;
 	}
 
 	public String getPassword() {
@@ -136,35 +96,29 @@ public class Organization {
 		this.password = password;
 	}
 
-	public String getOrganization_type() {
-		return organization_type;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
-	public void setOrganization_type(String organization_type) {
-		this.organization_type = organization_type;
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
-	public String getResetPasswordToken() {
-		return resetPasswordToken;
+	public String getToken() {
+		return token;
 	}
 
-	public void setResetPasswordToken(String resetPasswordToken) {
-		this.resetPasswordToken = resetPasswordToken;
+	public void setToken(String token) {
+		this.token = token;
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
+	public boolean isUsing2FA() {
+		return isUsing2FA;
 	}
 
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
+	public void setUsing2FA(boolean isUsing2FA) {
+		this.isUsing2FA = isUsing2FA;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "Organization [id=" + id + ", Name=" + Name + ", Email=" + Email + ", Phone_No=" + Phone_No
-				+ ", Address=" + Address + ", username=" + username + ", password=" + password + ", organization_type="
-				+ organization_type + ", resetPasswordToken=" + resetPasswordToken + ", verificationCode="
-				+ verificationCode + "]";
-	}	   
 }

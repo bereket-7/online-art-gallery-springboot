@@ -22,8 +22,8 @@ public class WishListService {
         wishListRepository.save(wishList);
     }
 
-    public List<WishList> readWishList(Integer userId) {
-        return wishListRepository.findAllByUserIdOrderByCreatedDateDesc(userId);
+    public List<WishList> readWishList(Long user_id) {
+        return wishListRepository.findAllByUserIdOrderByCreatedDateDesc(user_id);
     }
 
 }

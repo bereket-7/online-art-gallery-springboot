@@ -19,27 +19,24 @@ public class Competitor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "first_name", nullable = false, length = 100)
 	private String firstName;
 
-	@Column(name = "last_name", nullable = false, length = 100)
 	private String lastName;
 
-	@Column(name = "email", nullable = false)
 	private String email;
 
-	@Column(name = "phone", nullable = false, length = 15)
 	private String phone;
 
-	@Lob
-	@Column(name = "art", nullable = false)
-	private byte[] artwork;
+	private String artworkPhoto;
 
-	@Column(name = "art_description", nullable = false, length = 15)
 	private String artDescription;
+	
+	private String category;
+	
+	private int vote;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "competition_id", nullable = false)
+	@JoinColumn(name = "competition_id", nullable = true)
 	@JsonIgnore
 	private Competition competition;
 
@@ -47,17 +44,24 @@ public class Competitor {
 		super();
 	}
 
-	public Competitor(String firstName, String lastName, String email, String phone, byte[] artwork,
-			String artDescription, Competition competition) {
+	public Competitor(String firstName, String lastName, String email, String phone, String artworkPhoto,
+			String artDescription, String category, int vote, Competition competition) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
-		this.artwork = artwork;
+		this.artworkPhoto = artworkPhoto;
 		this.artDescription = artDescription;
-
+		this.category = category;
+		this.vote = vote;
 		this.competition = competition;
+	}
+
+
+
+	public Competitor(String filename, String string) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public long getId() {
@@ -100,14 +104,6 @@ public class Competitor {
 		this.phone = phone;
 	}
 
-	public byte[] getArtwork() {
-		return artwork;
-	}
-
-	public void setArtwork(byte[] artwork) {
-		this.artwork = artwork;
-	}
-
 	public String getArtDescription() {
 		return artDescription;
 	}
@@ -123,5 +119,42 @@ public class Competitor {
 	public void setCompetition(Competition competition) {
 		this.competition = competition;
 	}
+
+
+
+	public String getArtworkPhoto() {
+		return artworkPhoto;
+	}
+
+
+
+	public void setArtworkPhoto(String artworkPhoto) {
+		this.artworkPhoto = artworkPhoto;
+	}
+
+
+
+	public String getCategory() {
+		return category;
+	}
+
+
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+
+
+	public int getVote() {
+		return vote;
+	}
+
+
+
+	public void setVote(int vote) {
+		this.vote = vote;
+	}
+	
 
 }

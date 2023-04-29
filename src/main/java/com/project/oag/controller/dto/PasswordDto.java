@@ -1,14 +1,11 @@
 package com.project.oag.controller.dto;
 
-import com.project.oag.validation.ValidPassword;
-
 public class PasswordDto {
 	
 	   private String oldPassword;
 
 	    private  String token;
 
-	    @ValidPassword
 	    private String newPassword;
 
 	    public String getOldPassword() {

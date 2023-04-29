@@ -5,27 +5,92 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.EventDto;
+import com.project.oag.entity.Artwork;
 import com.project.oag.entity.Event;
-import com.project.oag.exceptions.EventAlreadyRegisteredException;
 import com.project.oag.repository.EventRepository;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
+import jakarta.transaction.Transactional;
 
 @Service
 public class EventServiceImpl implements EventService {
 	@Autowired
     private EventRepository eventRepository;
 
-	public EventServiceImpl(EventRepository eventRepository) {
-		super();
-		this.eventRepository = eventRepository;
+	@Override
+	public void uploadEvent(Event event) {
+		
+		//event.setEventName(event.getEventName());
+		//event.setEventDescription(event.getEventDescription());
+		event.setEventphoto(event.getEventphoto());
+		eventRepository.save(event);
+	}
+	
+    
+    public List<Event> getPendingArtworks() {
+        return eventRepository.findByStatus("pending");
+    }
+    
+	public List<Event> getAcceptedArtworks() {
+		 return eventRepository.findByStatus("accepted");
 	}
 
+	public List<Event> getRejectedArtworks() {
+		 return eventRepository.findByStatus("rejected");
+	}
+    
+    @Transactional
+    public boolean acceptEvent(Long id) {
+        Optional<Event> eventOptional = eventRepository.findById(id);
+        if (eventOptional.isPresent()) {
+        	 Event event = eventOptional.get();
+            if (event.getStatus().equals("pending")) {
+            	event.setStatus("accepted");
+                eventRepository.save(event);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+    @Transactional
+	public boolean rejectEvent(Long id) {
+    	 Optional<Event> eventOptional = eventRepository.findById(id);
+         if (eventOptional.isPresent()) {
+             Event event = eventOptional.get();
+             if (event.getStatus().equals("pending")) {
+                 event.setStatus("rejected");
+                 eventRepository.save(event);
+                 return true;
+             }
+         }
+         return false;
+	}
+
+
+	@Override
+	public List<Event> getPendingEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Event> getAcceptedEvents() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<Event> getRejectedEvent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
 	
+	/*
 	 @Override
 	 public EventDto registerEvent(EventDto eventDto) throws EventAlreadyRegisteredException {
 	        Optional<?> existingEvent = Optional.of(eventRepository.findByEventId(eventDto.getEventName()));
@@ -81,12 +146,6 @@ public class EventServiceImpl implements EventService {
 	       findEvent.setEventDescription(event.getEventDescription());
 	       findEvent.setTimestamp(event.getTimestamp());
 	       return eventRepository.save(findEvent);
-	}
-
-	@Override
-	public void deleteById(Long eventId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**@Override

@@ -22,8 +22,8 @@ public class Bid {
 	    private Long id;
 	    
 	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "art_id")
-	    private BidArt bidArt;  
+	    @JoinColumn(name = "artwork_id")
+	    private BidArt artwork;
 	    
 	    @Column(name = "amount")
 	    private BigDecimal amount;
@@ -32,21 +32,34 @@ public class Bid {
 	    private LocalDateTime timestamp;
 	
 	    @ManyToOne(fetch = FetchType.LAZY)
-	    @JoinColumn(name = "bidder_id", referencedColumnName = "id")
-	    private Bidder bidder;
+	    @JoinColumn(name = "user_id", referencedColumnName = "id")
+	    private User user;
+
+		@Column(nullable = false)
+		private LocalDateTime bidEndTime;
+		
+		private boolean biddingClosed;
 
 		public Bid() {
 			super();
 			// TODO Auto-generated constructor stub
 		}
 
-		public Bid(BidArt bidArt, BigDecimal amount, LocalDateTime timestamp, Bidder bidder) {
-			super();
-			this.bidArt = bidArt;
-			this.amount = amount;
-			this.timestamp = timestamp;
-			this.bidder = bidder;
+		public boolean isBiddingClosed() {
+			return biddingClosed;
 		}
+	
+		public void setBiddingClosed(boolean biddingClosed) {
+			this.biddingClosed = biddingClosed;
+		}
+		public LocalDateTime getBidEndTime() {
+			return bidEndTime;
+		}
+
+		public void setBidEndTime(LocalDateTime bidEndTime) {
+			this.bidEndTime = bidEndTime;
+		}
+
 
 		public Long getId() {
 			return id;
@@ -56,12 +69,12 @@ public class Bid {
 			this.id = id;
 		}
 
-		public BidArt getBidArt() {
-			return bidArt;
+		public BidArt getArtwork() {
+			return artwork;
 		}
 
-		public void setBidArt(BidArt bidArt) {
-			this.bidArt = bidArt;
+		public void setArtwork(BidArt artwork) {
+			this.artwork = artwork;
 		}
 
 		public BigDecimal getAmount() {
@@ -80,18 +93,13 @@ public class Bid {
 			this.timestamp = timestamp;
 		}
 
-		public Bidder getBidder() {
-			return bidder;
+		public User getUser() {
+			return user;
 		}
 
-		public void setBidder(Bidder bidder) {
-			this.bidder = bidder;
+		public void setUser(User user) {
+			this.user = user;
 		}
 
-		@Override
-		public String toString() {
-			return "Bid [id=" + id + ", bidArt=" + bidArt + ", amount=" + amount + ", timestamp=" + timestamp
-					+ ", bidder=" + bidder + "]";
-		}
-	    	    
+		
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,7 @@ import com.project.oag.entity.Standard;
 import com.project.oag.service.StandardService;
 
 @RestController
-@RequestMapping("/standards")
+@RequestMapping("/standard")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {
 	
@@ -39,11 +41,16 @@ public class StandardController {
 	    public Standard updateStandard(@RequestBody Standard standard) { 
 	        return standardService.updateStandard(standard); 
 	    } 
-
+/*
 	    @DeleteMapping("/delete/{id}") 
 	    public void deleteStandard(@PathVariable Long id) { 
 	        standardService.deleteStandard(id); 
-	    } 
+	    } */
+	    @DeleteMapping("/{id}")
+	    public ResponseEntity<?> deleteStandardById(@PathVariable Long id) {
+	        standardService.deleteStandardById(id);
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
 
 	     @GetMapping("/{id}") 
 	     public Optional<Standard> getStandardById(@PathVariable Long id) { 
