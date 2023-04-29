@@ -16,9 +16,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
+@RequestMapping("/artwork")
+@CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
 	@Value("${uploadDir}")
 	private String uploadFolder;
@@ -46,7 +50,7 @@ public class ArtworkController {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	
-	@PostMapping("/artwork/saveArtwok")
+	@PostMapping("/saveArtwok")
 	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,@RequestParam("artworkDescription") String artworkDescription,
 			@RequestParam("artworkCategory") String artworkCategory,@RequestParam("price") int price,@RequestParam("artistName") String artistName,@RequestParam("status") String status, Model model, HttpServletRequest request
 			,final @RequestParam("artworkPhoto") MultipartFile file) {
@@ -100,7 +104,7 @@ public class ArtworkController {
 		}
 }
 	
-		@GetMapping("/artwork/display/{id}")
+		@GetMapping("/display/{id}")
 		@ResponseBody
 		void showImage(@PathVariable("id") Long id, HttpServletResponse response, Optional<Artwork> artwork)
 				throws ServletException, IOException {
@@ -112,8 +116,8 @@ public class ArtworkController {
 		}
 	
 
-		@GetMapping("/artwork/artworkDetails")
-		String showProductDetails(@RequestParam("id") Long id, Optional<Artwork> artwork, Model model) {
+		@GetMapping("/artworkDetails")
+		String showArtworkDetails(@RequestParam("id") Long id, Optional<Artwork> artwork, Model model) {
 			try {
 				log.info("Id :: " + id);
 				if (id != 0) {
@@ -127,7 +131,7 @@ public class ArtworkController {
 						model.addAttribute("price", artwork.get().getPrice());
 						return "imagedetails";
 					}
-					return "redirect:/artworks";
+					return "redirect:/artwork/show";
 				}
 			return "redirect:/artworks";
 			} catch (Exception e) {
@@ -136,7 +140,7 @@ public class ArtworkController {
 			}	
 		}
 		
-		@GetMapping("/artwork/show")
+		@GetMapping("/show")
 		String show(Model map) {
 			List<Artwork> artworks = artworkService.getAllArtworks();
 			map.addAttribute("artworks", artworks);
