@@ -1,9 +1,11 @@
 package com.project.oag.entity;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.jboss.aerogear.security.otp.api.Base32;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;  
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -247,8 +249,8 @@ public class User {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRoles(List<Role> roles) {
+	    this.roles = new HashSet<>(roles);
 	}
 
     public List<Order> getOrders() {

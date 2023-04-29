@@ -4,18 +4,20 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,17 +30,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.common.FileUploadUtil;
+import com.project.oag.common.ApiResponse;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.controller.dto.PasswordDto;
 import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.Customer;
+import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.InvalidOldPasswordException;
 import com.project.oag.security.ActiveUserStore;
 import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -78,22 +81,41 @@ public class UserController {
 	        return "users";
 	    }
 	    
-	    @PostMapping("/profile-photo")
-	    public ResponseEntity<String> uploadPhoto(@RequestBody User user,
-	            @RequestParam("image") MultipartFile image) throws IOException {
-	        String filename = StringUtils.cleanPath(image.getOriginalFilename());
-	        user.setPhotos(filename);
-	        userService.uploadProfile(user);
-	    	FileUploadUtil.uploadFile(path, filename, image);
-	        return ResponseEntity.ok("Profile photo is uploaded successfully.");
+	    
+	    @PostMapping("/{userId}/uploadProfilePhoto")
+	    public ApiResponse uploadProfilePhoto(@PathVariable Long userId, @RequestParam("image") MultipartFile image) {
+	        try {
+	            userService.uploadProfilePhoto(userId, image);
+	            return new ApiResponse(true, "Profile photo uploaded successfully");
+	        } catch (EntityNotFoundException e) {
+	            return new ApiResponse(false, e.getMessage());
+	        } catch (IOException e) {
+	            return new ApiResponse(false, "Failed to upload profile photo");
+	        }
 	    }
 	    
-	    @PostMapping("/register")
-	    public ResponseEntity<String> registerUserAccount(@RequestBody User user, final HttpServletRequest request) {
-	       userService.registerNewUserAccount(user);
-	       return ResponseEntity.ok("User registered successfully. Please check your email for confirmation.");   
+	    @PostMapping("/confirm-registration")
+	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
+	        String email = request.get("email");
+	        String confirmationCode = request.get("confirmationCode");
+	        userService.confirmRegistration(email, confirmationCode);
+	        return new ApiResponse(true, "Registration confirmed successfully.");
+	    }    
+	    
+	    @PostMapping("/send-confirm")
+	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam String email) {
+	        userService.sendConfirmationEmail(email);
+	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
+	        return ResponseEntity.ok(response);
 	    }
 	    
+	    @PostMapping("/signup")
+	    public ResponseEntity<Void> registerUser(@Valid @RequestBody UserDto userDto) {
+	        userService.registerUser(userDto);
+	        return ResponseEntity.status(HttpStatus.CREATED).build();
+	    }
+	    
+	    /*
 	    @PostMapping("/confirm")
 	    public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
 	        try {
@@ -102,7 +124,7 @@ public class UserController {
 	        } catch (IllegalArgumentException e) {
 	            return ResponseEntity.badRequest().body(e.getMessage());
 	        }
-	    }
+	    }*/
 	    
 	    @GetMapping("/all")
 	    public List<User> getAllUsers() {
@@ -143,33 +165,30 @@ public class UserController {
 	    public List<User> getManagerUsers() {
 	        return userService.getUsersByRole("MANAGER");
 	    }
+	   
 	    
-	    
-	   /* 
 	    @PostMapping("/login")
 	    public ResponseEntity<String> login(@RequestBody User user) {
-	        Optional<User> optionalCustomer = userRepository.findByUsernameAndPassword(
-	                user.getFirstname(), user.getPassword());
-	        if (optionalCustomer.isPresent()) {
-	            User authenticatedUser = optionalCustomer.get();
-	            String role = authenticatedUser.getRoles();
-	            if (role.equals("admin")) {
+	        User authenticatedUser = userService.authenticateUser(user.getUsername(), user.getPassword());
+	        if (authenticatedUser != null) {
+	            Set<Role> role = authenticatedUser.getRoles();
+	            if (role.equals("ADMIN")) {
 	                // Redirect to admin page
 	                return new ResponseEntity<>("Redirecting to admin page", HttpStatus.OK);
-	            } else if (role.equals("manager")) {
+	            } else if (role.equals("MANAGER")) {
 	                // Redirect to manager page
 	                return new ResponseEntity<>("Redirecting to manager page", HttpStatus.OK);
-	            } else if (role.equals("artist")) {
+	            } else if (role.equals("ARTIST")) {
 	                // Redirect to artist page
 	                return new ResponseEntity<>("Redirecting to artist page", HttpStatus.OK);
-	            } else if (role.equals("customer")) {
+	            } else if (role.equals("CUSTOMER")) {
 	                // Redirect to customer page
 	                return new ResponseEntity<>("Redirecting to customer page", HttpStatus.OK);
 	            }
 	        }
 	        // Login failed
 	        return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
-	    }*/
+	    }
 
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
@@ -189,7 +208,7 @@ public class UserController {
 	    
 	    
 	    // Reset password
-	    /*&
+	    /*
 	    @PostMapping("/resetPassword")
 	    public GenericResponse resetPassword(final HttpServletRequest request,
 	            @RequestParam("email") final String userEmail) {

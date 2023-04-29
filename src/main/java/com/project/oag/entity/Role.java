@@ -1,7 +1,5 @@
 package com.project.oag.entity;
 
-import com.project.oag.enums.RoleType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -43,6 +41,16 @@ public class Role {
 
 		public Role(String name) {
 			// TODO Auto-generated constructor stub
+		}
+		
+		
+		public enum RoleType {
+		    ADMIN,
+		    CUSTOMER,
+		    ARTIST,
+		    ORGANIZATION,
+		    MANAGER
+		    
 		}
 
 }

@@ -1,21 +1,17 @@
 package com.project.oag.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.Customer;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 
 public interface UserService {
-
-	User getUser(String verificationToken);
-
-	void saveRegisteredUser(User user);
-
-	void deleteUser(User user);
 
 	void createPasswordResetTokenForUser(User user, String token);
 
@@ -53,11 +49,11 @@ public interface UserService {
 	
 	void sendConfirmationEmail(String email);
 
-	void uploadProfile(User user);
+	void registerUser(UserDto userDto);
 
-	void registerNewUserAccount(UserDto user);
+	void uploadProfilePhoto(Long userId, MultipartFile image) throws IOException;
 
-	void registerNewUserAccount(User user);
+	User authenticateUser(String username, String password);
 
 
 }

@@ -1,11 +1,12 @@
 package com.project.oag.service;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.oag.common.FileUploadUtil;
 import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.Customer;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
@@ -29,11 +31,14 @@ import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.RoleRepository;
 import com.project.oag.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	
+    private String path = "src/main/resources/static/img/user-images/";
     @Autowired
     private UserRepository userRepository;
 
@@ -66,7 +71,16 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
     
-    
+    @Override
+    public User authenticateUser(String username, String password) {
+        Optional<User> optionalUser = userRepository.findByUsernameAndPassword(username, password);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        } else {
+            return null;
+        }
+    }
+    /*
     @Override
     public void registerNewUserAccount(User user) {
         if (emailExists(user.getEmail())) {
@@ -79,57 +93,42 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         sendConfirmationEmail(user.getEmail());
         userRepository.save(user);
+    }*/
+    
+    @Override
+    public void registerUser(UserDto userDto) {
+        User user = new User();
+        user.setFirstname(userDto.getFirstname());
+        user.setLastname(userDto.getLastname());
+        user.setEmail(userDto.getEmail());
+        user.setPhone(userDto.getPhone());
+        user.setAddress(userDto.getAddress());
+        user.setSex(userDto.getSex());
+        user.setAge(userDto.getAge());
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+        List<Role> roles = new ArrayList<>();
+        for (Role.RoleType roleType : userDto.getRoles()) {
+            Role role = roleRepository.findByName(roleType);
+            if (role == null) {
+                throw new EntityNotFoundException("Role not found with name: " + roleType);
+            }
+            roles.add(role);
+        }
+        user.setRoles(roles);
+
+        userRepository.save(user);
     }
     
-    /*
     @Override
-    public void registerNewUserAccount(User user) {
-        if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException(
-                    "There is an account with that email address: " + user.getEmail());
-        }
-        user.setEnabled(false);
-        userRepository.save(user);
-        String token = UUID.randomUUID().toString();
-        if (user != null) {
-            user.setToken(token);
-            userRepository.save(user);
-            sendConfirmationEmail(user.getEmail());
-        }
-    }*/
-
-    /*
-    @Override
-    public User registerNewUserAccount(final UserDto accountDto) {
-        if (emailExists(accountDto.getEmail())) {
-            throw new UserAlreadyExistException(
-                    "There is an account with that email address: " + accountDto.getEmail());
-        }
-        final User user = new User();
-        user.setFirstname(accountDto.getFirstname());
-        user.setLastname(accountDto.getLastname());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        user.setEmail(accountDto.getEmail());
-        user.setPhone(accountDto.getPhone());
-        user.setAddress(accountDto.getAddress());
-        user.setSex(accountDto.getSex());
-        user.setAge(accountDto.getAge());
-        user.setUsername(accountDto.getUsername());
-        user.setUsing2FA(accountDto.isUsing2FA());
-        user.setEnabled(false);
-        sendConfirmationEmail(user.getEmail());
-        //user.setRoles(Arrays.asList(roleRepository.findByName("Admin")));
-        return userRepository.save(user);
-    }*/
-    
-    @Override
-    public void uploadProfile(User user) {
-        user.setPhotos(user.getPhotos());
-        userRepository.save(user);
-    }    
-
-    @Override
-    public void saveRegisteredUser(final User user) {
+    public void uploadProfilePhoto(Long userId, MultipartFile image) throws IOException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        String uploadDir = path + userId;
+        String fileName = image.getOriginalFilename();
+        FileUploadUtil.uploadFile(uploadDir, fileName, image);
+        user.setPhotos(uploadDir + "/" + fileName);
         userRepository.save(user);
     }
 
@@ -250,22 +249,17 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
-
-	@Override
-	public User getUser(String verificationToken) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void deleteUser(User user) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void sendConfirmationEmail(String email) {
-	    	User user =  userRepository.findByEmail(email);
+    
+    
+    
+    
+    /*   Email confiramation    */
+	  @Override
+	    public void sendConfirmationEmail(String email) {
+	        User user = userRepository.findByEmail(email);
+	        if (user == null) {
+	            throw new IllegalArgumentException("Invalid email");
+	        }
 	        SimpleMailMessage message = new SimpleMailMessage();
 	        message.setFrom(senderEmail);
 	        message.setTo(email);
@@ -274,26 +268,23 @@ public class UserServiceImpl implements UserService {
 	        String confirmationCode = String.format("%06d", random.nextInt(1000000));
 	        user.setToken(confirmationCode);
 	        userRepository.save(user);
-	        
 	        message.setText("Please enter the following confirmation code on our website to confirm your registration: " + confirmationCode);
 	        mailSender.send(message);
-	        
 	    }
-	    
+	  	
 	  	@Override
 	    public void confirmRegistration(String email, String confirmationCode) {
-	    User user = userRepository.findByEmail(email);
-	    if(user == null){
-	        throw new IllegalArgumentException("Invalid email");
-	    }
-	    else{
-	        if (!user.getToken().equals(confirmationCode)) {
-	            throw new IllegalArgumentException("Invalid confirmation code");
+	        User user = userRepository.findByEmail(email);
+	        if (user == null) {
+	            throw new IllegalArgumentException("Invalid email");
+	        } else {
+	            if (!user.getToken().equals(confirmationCode)) {
+	                throw new IllegalArgumentException("Invalid confirmation code");
+	            }
+	            user.setEnabled(true);
+	            user.setToken(null);
+	            userRepository.save(user);
 	        }
-	        user.setEnabled(true);
-	        user.setToken(null); // Remove the confirmation code after successful confirmation
-	        userRepository.save(user);
 	    }
-	}
 
 }
