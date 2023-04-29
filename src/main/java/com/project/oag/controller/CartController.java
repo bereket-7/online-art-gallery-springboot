@@ -39,7 +39,7 @@ public class CartController {
 
     @Autowired
     private AuthenticationService authenticationService;
-
+/*
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
                                                  @RequestParam("token") String token) throws AuthenticationFailException {
@@ -49,7 +49,6 @@ public class CartController {
         System.out.println("artwork to add"+ artwork.getArtworkName());
         cartService.addToCart(addToCartDto, artwork, user);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
-
     }
     
     @GetMapping("/all")
