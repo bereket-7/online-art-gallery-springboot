@@ -6,6 +6,7 @@ import java.util.Optional;
 //import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.entity.Organization;
@@ -16,6 +17,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	private OrganizationRepository organizationRepository;
+	
+	   @Autowired
+	    private PasswordEncoder passwordEncoder;
 
 	/*
 	 * @Override
@@ -52,6 +56,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	public void addOrganization(Organization org) {
+		org.setPassword(passwordEncoder.encode(org.getPassword()));
 		organizationRepository.saveAndFlush(org);
 	}
 

@@ -9,8 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="event")
@@ -20,16 +22,16 @@ public class Event {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = true)
-	private String eventphoto;
+	@Lob
+	private byte[] image;
 	
-	@Column(name = "event_name", nullable = true)
+	@Column(nullable = true)
 	private String eventName;
 	
-	@Column(name = "event_description", nullable = true)
+	@Column(nullable = true)
 	private String eventDescription;
 	
-	@Column(name = "event_date", nullable = true)
+	@Column(nullable = true)
 	private LocalDate eventDate;
 	
 	@Column(name = "location",nullable = true)
@@ -47,41 +49,33 @@ public class Event {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "organization_id")
 	private Organization organization;
-	
 
-	public Event(Long id, String eventphoto, String eventName, String eventDescription, LocalDate eventDate,
-			String location, String capacity, int ticketPrice, String status, Organization organization) {
-		super();
-		this.id = id;
-		this.eventphoto = eventphoto;
-		this.eventName = eventName;
-		this.eventDescription = eventDescription;
-		this.eventDate = eventDate;
-		this.location = location;
-		this.capacity = capacity;
-		this.ticketPrice = ticketPrice;
-		this.status = status;
-		this.organization = organization;
-	}
 	public Event() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Event(String filename, String string) {
-		// TODO Auto-generated constructor stub
+	
+
+	public byte[] getImage() {
+		return image;
 	}
+
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public String getEventphoto() {
-		return eventphoto;
-	}
-	public void setEventphoto(String eventphoto) {
-		this.eventphoto = eventphoto;
+
+	public Event(String filename, String string) {
+		// TODO Auto-generated constructor stub
 	}
 	public String getEventName() {
 		return eventName;
@@ -119,18 +113,20 @@ public class Event {
 	public void setTicketPrice(int ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
-	public Organization getOrganization() {
-		return organization;
-	}
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
 	public String getStatus() {
 		return status;
 	}
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	
 	
 		
 }

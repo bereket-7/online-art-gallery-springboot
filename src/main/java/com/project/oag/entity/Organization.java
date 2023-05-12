@@ -119,6 +119,5 @@ public class Organization {
 	public void setUsing2FA(boolean isUsing2FA) {
 		this.isUsing2FA = isUsing2FA;
 	}
-	
 
 }

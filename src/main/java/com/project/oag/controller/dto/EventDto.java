@@ -1,25 +1,49 @@
 package com.project.oag.controller.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import org.springframework.core.io.Resource;
+
+import com.project.oag.entity.Event;
 
 public class EventDto {
-	
-	private String eventName;
-	private String eventDescription;
-	private byte[] eventPhoto;
-	private LocalDateTime timestamp;
-	
-	public EventDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	public EventDto(String eventName, String eventDescription, byte[] eventPhoto, LocalDateTime timestamp) {
-		super();
-		this.eventName = eventName;
-		this.eventDescription = eventDescription;
-		this.eventPhoto = eventPhoto;
-		this.timestamp = timestamp;
+    //private String eventPhoto; // Add a new field to hold the URL of the event photo
+    //private String imageData;
+    
+    
+        private String eventName;
+        private String eventDescription;
+        private LocalDate eventDate;
+        private String location;
+        private String capacity;
+        private int ticketPrice;
+        private String status;
+  
+        private byte[] image;
+
+        // Getter and setter methods here..
+
+    
+  
+    // Constructors
+ /*   public EventDto() {
+    	super();
+    }
+    
+    public EventDto(Event event) {
+        this.id = event.getId();
+        this.eventName = event.getEventName();
+        this.eventDescription = event.getEventDescription();
+        this.eventDate = event.getEventDate();
+        this.location = event.getLocation();
+        this.capacity = event.getCapacity();
+        this.ticketPrice = event.getTicketPrice();
+        this.eventPhoto = event.getEventPhoto(); // Set the photo URL to the event's photo path
+    }*/
+    
+    public EventDto(Event event, Resource file) {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getEventName() {
@@ -37,21 +61,54 @@ public class EventDto {
 	public void setEventDescription(String eventDescription) {
 		this.eventDescription = eventDescription;
 	}
-	
-	public byte[] getEventPhoto() {
-		return eventPhoto;
+
+	public LocalDate getEventDate() {
+		return eventDate;
 	}
 
-	public void setEventPhoto(byte[] eventPhoto) {
-		this.eventPhoto = eventPhoto;
+	public void setEventDate(LocalDate eventDate) {
+		this.eventDate = eventDate;
 	}
 
-	public LocalDateTime getTimestamp() {
-		return timestamp;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
+	public void setLocation(String location) {
+		this.location = location;
 	}
-	
+
+	public String getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(String capacity) {
+		this.capacity = capacity;
+	}
+
+	public int getTicketPrice() {
+		return ticketPrice;
+	}
+
+	public void setTicketPrice(int ticketPrice) {
+		this.ticketPrice = ticketPrice;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+   
 }

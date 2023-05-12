@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.UserDto;
@@ -54,6 +55,8 @@ public interface UserService {
 	void uploadProfilePhoto(Long userId, MultipartFile image) throws IOException;
 
 	User authenticateUser(String username, String password);
+
+	Resource getProfilePhoto(Long userId);
 
 
 }

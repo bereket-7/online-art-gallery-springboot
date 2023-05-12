@@ -11,13 +11,14 @@ public class UserAlreadyExistException extends RuntimeException {
         super(message, cause);
     }
 
-    public UserAlreadyExistException(final String message) {
+    public UserAlreadyExistException(String message) {
         super(message);
     }
 
     public UserAlreadyExistException(final Throwable cause) {
         super(cause);
     }
+
 
 
 }

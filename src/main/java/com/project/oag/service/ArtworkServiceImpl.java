@@ -64,11 +64,6 @@ public class ArtworkServiceImpl implements ArtworkService{
 		return null;
 	}
 
-	@Override
-	public List<Artwork> getArtworksByArtworkName(String artworkName) {
-		// TODO Auto-generated method stub
-		return null;
-	}
     public List<Artwork> getArtworkByPriceRange(double minPrice, double maxPrice) {
         return artworkRepository.findByPriceBetween(minPrice, maxPrice);
     }
@@ -216,6 +211,12 @@ public class ArtworkServiceImpl implements ArtworkService{
 
 	@Override
 	public ArtworkDto updateArtwork(Long id, ArtworkDto artworkDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Artwork> getArtworksByArtworkName(String artworkName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

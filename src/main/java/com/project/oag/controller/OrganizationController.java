@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.project.oag.service.OrganizationService;
 
 @RestController
 @RequestMapping("/organization")
+@CrossOrigin("http://localhost:8080/")
 public class OrganizationController {
 
 	@Autowired
@@ -44,7 +46,7 @@ public class OrganizationController {
 	}
 
 	@DeleteMapping("/delete/{id}") // delete existing competition from the database
-	public void deleteCompetition(@PathVariable Long id) { // call service method to delete existi
+	public void deleteCompetition(@PathVariable Long id) { // call service method to delete existing
 		organizationService.deleteOrganization(id);
 	}
 }

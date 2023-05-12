@@ -2,7 +2,10 @@ package com.project.oag.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +14,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +31,7 @@ import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
+import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.RoleRepository;
 import com.project.oag.repository.UserRepository;
@@ -116,7 +122,10 @@ public class UserServiceImpl implements UserService {
             roles.add(role);
         }
         user.setRoles(roles);
-
+        if (emailExists(user.getEmail())) {
+            throw new UserAlreadyExistException(
+                "There is an account with that email address: " + user.getEmail());
+        }
         userRepository.save(user);
     }
     
@@ -130,6 +139,29 @@ public class UserServiceImpl implements UserService {
         user.setPhotos(uploadDir + "/" + fileName);
         userRepository.save(user);
     }
+    
+
+    @Override
+    public Resource getProfilePhoto(Long userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+    
+    String profilePhotoPath = user.getPhotos();  // Make sure it returns the complete file path
+    if (profilePhotoPath != null) {
+        try {
+            Path filePath = Paths.get(profilePhotoPath);
+            Resource file = new UrlResource(filePath.toUri());
+            if (file.exists()) {
+                return file;
+            } else {
+                throw new EntityNotFoundException("File not found " + profilePhotoPath);
+            }
+        } catch (MalformedURLException e) {
+            throw new EntityNotFoundException("File not found " + profilePhotoPath, e);
+        }
+    }
+    return null;
+}
 
     @Override
     public void createPasswordResetTokenForUser(final User user, final String token) {

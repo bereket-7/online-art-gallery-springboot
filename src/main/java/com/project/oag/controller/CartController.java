@@ -39,7 +39,7 @@ public class CartController {
 
     @Autowired
     private AuthenticationService authenticationService;
-/*
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addToCart(@RequestBody AddToCartDto addToCartDto,
                                                  @RequestParam("token") String token) throws AuthenticationFailException {

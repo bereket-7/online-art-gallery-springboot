@@ -12,7 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,11 +40,13 @@ import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.InvalidOldPasswordException;
+import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.security.ActiveUserStore;
 import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NonUniqueResultException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -94,6 +99,23 @@ public class UserController {
 	        }
 	    }
 	    
+	    @GetMapping("/{userId}/profilePhoto")
+	    public ResponseEntity getProfilePhoto(@PathVariable Long userId) {
+	        try {
+	            Resource file = userService.getProfilePhoto(userId);
+	            if (file != null) {
+	                HttpHeaders headers = new HttpHeaders();
+	                headers.setContentType(MediaType.IMAGE_JPEG); // Or use MediaType.IMAGE_PNG if the image is a PNG
+	                return new ResponseEntity<>(file, headers, HttpStatus.OK);
+	            } else {
+	                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	            }
+	        } catch (Exception e) {
+	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	        }
+	    }
+	    
+	    
 	    @PostMapping("/confirm-registration")
 	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
 	        String email = request.get("email");
@@ -108,12 +130,19 @@ public class UserController {
 	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
 	        return ResponseEntity.ok(response);
 	    }
-	    
+	   
 	    @PostMapping("/signup")
-	    public ResponseEntity<Void> registerUser(@Valid @RequestBody UserDto userDto) {
-	        userService.registerUser(userDto);
-	        return ResponseEntity.status(HttpStatus.CREATED).build();
+	    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
+	        try {
+	            userService.registerUser(userDto);
+	            return ResponseEntity.status(HttpStatus.CREATED).build();
+	        } catch (UserAlreadyExistException e) {
+	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+	        } catch (NonUniqueResultException ex) {
+	            return ResponseEntity.badRequest().body("There is an account with that email address: " + userDto.getEmail());
+	        }
 	    }
+
 	    
 	    /*
 	    @PostMapping("/confirm")
