@@ -42,6 +42,11 @@ public class EventServiceImpl implements EventService {
         event.setImage(eventDto.getImage());
         return eventRepository.save(event);
     }
+
+	public void saveImage(Event event) {
+		event.setStatus("pending");
+		eventRepository.save(event);	
+	}
 	/*
 	@Override
 	public void uploadEvent(Event event) {
