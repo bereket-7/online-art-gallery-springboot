@@ -45,7 +45,7 @@ public class EventController {
 
 	 @PostMapping("/image/saveImageDetails")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
-			@RequestParam("ticketPrice") double eventPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
+			@RequestParam("ticketPrice") double eventPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
 			,final @RequestParam("image") MultipartFile file) {
 		try {
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
@@ -57,8 +57,8 @@ public class EventController {
 				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
 				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
 			}
-			String[] names = name.split(",");
-			String[] descriptions = description.split(",");
+			String[] names = eventName.split(",");
+			String[] descriptions = eventDescription.split(",");
 			Date createDate = new Date();
 			log.info("Name: " + names[0]+" "+filePath);
 			log.info("description: " + descriptions[0]);
