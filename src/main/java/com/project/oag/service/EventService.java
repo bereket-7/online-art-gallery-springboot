@@ -11,6 +11,7 @@ public interface EventService {
 
 	Event saveEventWithImage(EventDto eventDto);
 
+	public void saveEvent(Event event);
 	/*void uploadEvent(Event event);
 
 	boolean acceptEvent(Long id);

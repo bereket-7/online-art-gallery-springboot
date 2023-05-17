@@ -43,10 +43,12 @@ public class EventServiceImpl implements EventService {
         return eventRepository.save(event);
     }
 
-	public void saveImage(Event event) {
+	@Override
+	public void saveEvent(Event event) {
 		event.setStatus("pending");
 		eventRepository.save(event);	
 	}
+
 	/*
 	@Override
 	public void uploadEvent(Event event) {
