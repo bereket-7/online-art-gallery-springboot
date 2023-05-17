@@ -40,10 +40,10 @@ public class Event {
 	private String location;
 	
 	@Column(name = "capacity",nullable = true)
-	private String capacity;
+	private int capacity;
 	
 	@Column(name = "ticket_price",nullable = true,precision = 10)
-	private int ticketPrice;
+	private double ticketPrice;
 
 	@Lob
     @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
@@ -100,16 +100,16 @@ public class Event {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getCapacity() {
+	public int getCapacity() {
 		return capacity;
 	}
-	public void setCapacity(String capacity) {
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-	public int getTicketPrice() {
+	public double getTicketPrice() {
 		return ticketPrice;
 	}
-	public void setTicketPrice(int ticketPrice) {
+	public void setTicketPrice(double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
 	public String getStatus() {

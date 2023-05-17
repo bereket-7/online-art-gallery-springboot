@@ -1,13 +1,24 @@
 package com.project.oag.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +26,8 @@ import com.project.oag.entity.Event;
 import com.project.oag.exceptions.EntityNotFoundException;
 import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/event")
@@ -24,8 +37,68 @@ public class EventController {
 	 private EventService eventService;
 	 @Autowired
 	 private EventRepository eventRepository;
-	 
+
+	 @Value("${uploadDir}")
+	 private String uploadFolder;
+	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	 private String path = "src/main/resources/static/img/event-images/";
+
+	 @PostMapping("/image/saveImageDetails")
+	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
+			@RequestParam("ticketPrice") double eventPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
+			,final @RequestParam("image") MultipartFile file) {
+		try {
+			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
+			log.info("uploadDirectory:: " + uploadDirectory);
+			String fileName = file.getOriginalFilename();
+			String filePath = Paths.get(uploadDirectory, fileName).toString();
+			log.info("FileName: " + file.getOriginalFilename());
+			if (fileName == null || fileName.contains("..")) {
+				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
+				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
+			}
+			String[] names = name.split(",");
+			String[] descriptions = description.split(",");
+			Date createDate = new Date();
+			log.info("Name: " + names[0]+" "+filePath);
+			log.info("description: " + descriptions[0]);
+			log.info("price: " + price);
+			try {
+				File dir = new File(uploadDirectory);
+				if (!dir.exists()) {
+					log.info("Folder Created");
+					dir.mkdirs();
+				}
+				// Save the file locally
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+				stream.write(file.getBytes());
+				stream.close();
+			} catch (Exception e) {
+				log.info("in catch");
+				e.printStackTrace();
+			}
+			byte[] imageData = file.getBytes();
+		Event imageGallery = new Event();
+			imageGallery.setEventName(names[0]);
+			imageGallery.setImage(imageData);
+			imageGallery.setTicketPrice(price);
+			imageGallery.setCapacity(capacity);
+			imageGallery.setEventDescription(descriptions[0]);
+			imageGallery.setCreateDate(createDate);
+			eventService.saveEvent(imageGallery);
+			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
+			return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("Exception: " + e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+
+
+
+
 	   /* 
 	 @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	 public ResponseEntity<Event> fileUpload(@ModelAttribute("event") Event event, @RequestParam("image") MultipartFile image) throws IOException {
@@ -69,6 +142,8 @@ public class EventController {
 	     return ResponseEntity.ok(eventsWithImages);
 	 }
 */
+
+
 	    
 	    @PostMapping("/upload")
 	    public Event uploadEventWithImage(@RequestParam("file") MultipartFile file,
