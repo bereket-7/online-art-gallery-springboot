@@ -28,7 +28,7 @@ public class EventServiceImpl implements EventService {
 	private String path = "src/main/resources/static/img/event-images/";
 	@Autowired
     private EventRepository eventRepository;
-	
+	/* 
 	@Override
     public Event saveEventWithImage(EventDto eventDto) {
         Event event = new Event();
@@ -41,7 +41,7 @@ public class EventServiceImpl implements EventService {
         event.setStatus("pending");
         event.setImage(eventDto.getImage());
         return eventRepository.save(event);
-    }
+    }*/
 
 	@Override
 	public void saveEvent(Event event) {
@@ -49,6 +49,15 @@ public class EventServiceImpl implements EventService {
 		eventRepository.save(event);	
 	}
 
+	@Override
+	public List<Event> getAllActiveImages() {
+		return eventRepository.findAll();
+	}
+	
+	@Override
+	public Optional<Event> getEventById(Long id) {
+		return eventRepository.findById(id);
+	}
 	/*
 	@Override
 	public void uploadEvent(Event event) {
@@ -241,7 +250,6 @@ public class EventServiceImpl implements EventService {
          }
          return false;
 	}
-	
 	/*
 	 @Override
 	 public EventDto registerEvent(EventDto eventDto) throws EventAlreadyRegisteredException {

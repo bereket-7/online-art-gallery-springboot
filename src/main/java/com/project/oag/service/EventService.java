@@ -1,6 +1,7 @@
 package com.project.oag.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.core.io.Resource;
 
@@ -9,9 +10,11 @@ import com.project.oag.entity.Event;
 
 public interface EventService {
 
-	Event saveEventWithImage(EventDto eventDto);
-
 	public void saveEvent(Event event);
+
+	public List<Event> getAllActiveImages();
+
+	public Optional<Event> getEventById(Long id);
 	/*void uploadEvent(Event event);
 
 	boolean acceptEvent(Long id);
