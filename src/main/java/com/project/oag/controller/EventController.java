@@ -7,6 +7,10 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
 
+import org.springframework.stereotype.Controller;
+import java.io.FileOutputStream;
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,11 +46,11 @@ public class EventController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	 private String path = "src/main/resources/static/img/event-images/";
+	// private String path = "src/main/resources/static/img/event-images/";
 
-	 @PostMapping("/image/saveImageDetails")
+	 @PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
-			@RequestParam("ticketPrice") double eventPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
+			@RequestParam("ticketPrice") double ticketPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
 			,final @RequestParam("image") MultipartFile file) {
 		try {
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
@@ -60,9 +65,9 @@ public class EventController {
 			String[] names = eventName.split(",");
 			String[] descriptions = eventDescription.split(",");
 			Date createDate = new Date();
-			log.info("Name: " + names[0]+" "+filePath);
-			log.info("description: " + descriptions[0]);
-			log.info("price: " + price);
+			log.info("eventName: " + names[0]+" "+filePath);
+			log.info("eventDescription: " + descriptions[0]);
+			log.info("ticketPrice: " + ticketPrice);
 			try {
 				File dir = new File(uploadDirectory);
 				if (!dir.exists()) {
@@ -78,21 +83,58 @@ public class EventController {
 				e.printStackTrace();
 			}
 			byte[] imageData = file.getBytes();
-		Event imageGallery = new Event();
-			imageGallery.setEventName(names[0]);
-			imageGallery.setImage(imageData);
-			imageGallery.setTicketPrice(price);
-			imageGallery.setCapacity(capacity);
-			imageGallery.setEventDescription(descriptions[0]);
-			imageGallery.setCreateDate(createDate);
-			eventService.saveEvent(imageGallery);
+		Event event = new Event();
+			event.setEventName(names[0]);
+			event.setImage(imageData);
+			event.setTicketPrice(ticketPrice);
+			event.setCapacity(capacity);
+			event.setLocation(location);
+			event.setEventDescription(descriptions[0]);
+			event.setCreateDate(createDate);
+			eventService.saveEvent(event);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-			return new ResponseEntity<>("Product Saved With File - " + fileName, HttpStatus.OK);
+			return new ResponseEntity<>("Event Saved With File - " + fileName, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("Exception: " + e);
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	
+	@GetMapping("/event/imageDetails")
+	String showEventDetails(@RequestParam("id") Long id, Optional<Event> event, Model model) {
+		try {
+			log.info("Id :: " + id);
+			if (id != 0) {
+				event = eventService.getEventById(id);
+			
+				log.info("events :: " + event);
+				if (event.isPresent()) {
+					model.addAttribute("id", event.get().getId());
+					model.addAttribute("eventDescription", event.get().getEventDescription());
+					model.addAttribute("eventName", event.get().getEventName());
+					model.addAttribute("location", event.get().getLocation());
+					model.addAttribute("eventDate", event.get().getEventDate());
+					model.addAttribute("ticketPrice", event.get().getTicketPrice());
+					return "eventdetails";
+				}
+				return "redirect:/http://localhost:8080/eventDisplay";
+			}
+		return "redirect:/http://localhost:8080/eventDisplay";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/http://localhost:8080/eventDisplay";
+		}	
+	}
+
+
+	
+    @GetMapping("/all")
+	String show(Model map) {
+		List<Event> events = eventService.getAllActiveEvents();
+		map.addAttribute("events", events);
+		return "events";
 	}
 
 
@@ -144,7 +186,7 @@ public class EventController {
 */
 
 
-	    
+	/*    
 	    @PostMapping("/upload")
 	    public Event uploadEventWithImage(@RequestParam("file") MultipartFile file,
 	                                       @RequestParam("eventName") String eventName,

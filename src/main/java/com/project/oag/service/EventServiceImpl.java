@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> getAllActiveImages() {
+	public List<Event> getAllActiveEvents() {
 		return eventRepository.findAll();
 	}
 	

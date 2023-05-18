@@ -12,7 +12,7 @@ public interface EventService {
 
 	public void saveEvent(Event event);
 
-	public List<Event> getAllActiveImages();
+	public List<Event> getAllActiveEvents();
 
 	public Optional<Event> getEventById(Long id);
 	/*void uploadEvent(Event event);
