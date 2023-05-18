@@ -1,25 +1,11 @@
 package com.project.oag.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-
-import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 import com.project.oag.repository.EventRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
