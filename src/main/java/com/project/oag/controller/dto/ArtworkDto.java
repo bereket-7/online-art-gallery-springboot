@@ -10,34 +10,33 @@ public class ArtworkDto {
 
 	private String artworkCategory;
 	
-	private String artworkPhoto;
+    private byte[] image;
 	
 	private int price;
 	
 	private String size;
 	
-	
-	
-	
-    public ArtworkDto() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public ArtworkDto(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
-			int price, String size) {
+    public ArtworkDto(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
+			String size) {
 		super();
 		this.artworkName = artworkName;
 		this.artworkDescription = artworkDescription;
 		this.artworkCategory = artworkCategory;
-		this.artworkPhoto = artworkPhoto;
+		this.image = image;
 		this.price = price;
 		this.size = size;
 	}
 
+
+	public ArtworkDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public ArtworkDto(Artwork product) {
         this.setArtworkName(product.getArtworkName());
-        this.setArtworkPhoto(product.getArtworkPhoto());
+        this.setImage(product.getImage());
         this.setArtworkDescription(product.getArtworkDescription());
         this.setPrice(product.getPrice());
         this.setArtworkCategory(product.getArtworkCategory());
@@ -45,7 +44,7 @@ public class ArtworkDto {
 	
 	public static ArtworkDto toDto(Artwork artwork) {
 	    ArtworkDto artworkDTO = new ArtworkDto();
-	    artworkDTO.setArtworkPhoto(artwork.getArtworkPhoto());
+	    artworkDTO.setImage(artwork.getImage());
 	    artworkDTO.setArtworkCategory(artwork.getArtworkCategory());
 	    artworkDTO.setPrice(artwork.getPrice());
 	    artworkDTO.setSize(artwork.getSize());
@@ -76,13 +75,15 @@ public class ArtworkDto {
 		this.artworkCategory = artworkCategory;
 	}
 
-	public String getArtworkPhoto() {
-		return artworkPhoto;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
+
 
 	public int getPrice() {
 		return price;

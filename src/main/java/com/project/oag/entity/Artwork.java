@@ -1,5 +1,6 @@
 package com.project.oag.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -173,6 +174,14 @@ public class Artwork {
 
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
+	}
+
+	@Override
+	public String toString() {
+		return "Artwork [id=" + id + ", artworkName=" + artworkName + ", artworkDescription=" + artworkDescription
+				+ ", artworkCategory=" + artworkCategory + ", image=" + Arrays.toString(image) + ", price=" + price
+				+ ", createDate=" + createDate + ", artistId=" + artistId + ", size=" + size + ", status=" + status
+				+ ", ratings=" + ratings + "]";
 	}	
 
 	
