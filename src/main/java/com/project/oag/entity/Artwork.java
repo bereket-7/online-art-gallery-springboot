@@ -1,6 +1,6 @@
 package com.project.oag.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import com.project.oag.repository.RatingRepository;
@@ -11,8 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="Artwork")
@@ -31,13 +34,15 @@ public class Artwork {
     @Column(nullable=true)
     private String artworkCategory;
 	
-    @Column(nullable=true)
-    private String artworkPhoto;
+	@Lob
+    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] image;
 	
 	private int price;
-	
-    @Column(name = "create_date", nullable = false, columnDefinition = "DATE")
-    private LocalDate createDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "create_date", nullable = false)
+    private Date createDate;
 	
     @Column(nullable=true)
     private int artistId;
@@ -52,21 +57,7 @@ public class Artwork {
     private List<Rating> ratings;
     
     
-	public Artwork(String artworkName, String artworkDescription, String artworkCategory, String artworkPhoto,
-			int price, LocalDate createDate, int artistId, String size, String status,
-			List<Rating> ratings) {
-		super();
-		this.artworkName = artworkName;
-		this.artworkDescription = artworkDescription;
-		this.artworkCategory = artworkCategory;
-		this.artworkPhoto = artworkPhoto;
-		this.price = price;
-		this.createDate = createDate;
-		this.artistId = artistId;
-		this.size = size;
-		this.status = status;
-		this.ratings = ratings;
-	}
+
 
 	public Artwork() {
 		super();
@@ -114,13 +105,6 @@ public class Artwork {
 		this.artworkCategory = artworkCategory;
 	}
 
-	public String getArtworkPhoto() {
-		return artworkPhoto;
-	}
-
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
-	}
 
 	public int getPrice() {
 		return price;
@@ -128,14 +112,6 @@ public class Artwork {
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public LocalDate getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(LocalDate createDate) {
-		this.createDate = createDate;
 	}
 
 	public int getArtistId() {
@@ -168,22 +144,7 @@ public class Artwork {
 
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
-	}
-	
-	/*
-	public void addRating(Rating rating) {
-	    ratings.add(rating);
-	    rating.setArtwork(this);
-	    updateAverageRating();
-	}
-
-	private void updateAverageRating() {
-	    int sum = 0;
-	    for (Rating rating : ratings) {
-	       sum += rating.getRating();
-	    }
-	    averageRating = (double) sum / ratings.size();
-	}*/
+	}	
 
 	
 }
