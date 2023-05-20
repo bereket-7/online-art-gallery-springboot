@@ -53,7 +53,6 @@ public class EventController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	// private String path = "src/main/resources/static/img/event-images/";
 
 	 @PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
