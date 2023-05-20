@@ -1,9 +1,12 @@
 package com.project.oag.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 import com.project.oag.repository.EventRepository;
 import jakarta.transaction.Transactional;
@@ -28,10 +31,13 @@ public class EventServiceImpl implements EventService {
         event.setImage(eventDto.getImage());
         return eventRepository.save(event);
     }*/
-
+	
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
+	
 	@Override
 	public void saveEvent(Event event) {
-		event.setStatus("pending");
 		eventRepository.save(event);	
 	}
 
@@ -44,6 +50,8 @@ public class EventServiceImpl implements EventService {
 	public Optional<Event> getEventById(Long id) {
 		return eventRepository.findById(id);
 	}
+	
+	
 	/*
 	@Override
 	public void uploadEvent(Event event) {

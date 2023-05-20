@@ -16,15 +16,12 @@ public class EventDto {
         private String eventDescription;
         private LocalDate eventDate;
         private String location;
-        private String capacity;
-        private int ticketPrice;
-        private String status;
-  
+        private int capacity;
+        private double ticketPrice;
+        private String status;    
+        private Long id;
         private byte[] image;
-
-        // Getter and setter methods here..
-
-    
+    	
   
     // Constructors
  /*   public EventDto() {
@@ -42,10 +39,31 @@ public class EventDto {
         this.eventPhoto = event.getEventPhoto(); // Set the photo URL to the event's photo path
     }*/
     
-    public EventDto(Event event, Resource file) {
+        
+        
+    public byte[] getImage() {
+			return image;
+		}
+
+		public void setImage(byte[] image) {
+			this.image = image;
+		}
+
+	public EventDto(Event event, Resource file) {
 		// TODO Auto-generated constructor stub
 	}
 
+	public EventDto() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getEventName() {
 		return eventName;
 	}
@@ -78,19 +96,19 @@ public class EventDto {
 		this.location = location;
 	}
 
-	public String getCapacity() {
+	public int getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(String capacity) {
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 
-	public int getTicketPrice() {
+	public double getTicketPrice() {
 		return ticketPrice;
 	}
 
-	public void setTicketPrice(int ticketPrice) {
+	public void setTicketPrice(double ticketPrice) {
 		this.ticketPrice = ticketPrice;
 	}
 
@@ -102,13 +120,6 @@ public class EventDto {
 		this.status = status;
 	}
 
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
 
    
 }

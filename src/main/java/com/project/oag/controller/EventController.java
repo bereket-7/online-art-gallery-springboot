@@ -1,25 +1,30 @@
 package com.project.oag.controller;
 
+
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
-
-import org.springframework.stereotype.Controller;
-import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,16 +32,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
-import com.project.oag.exceptions.EntityNotFoundException;
 import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/event")
-@CrossOrigin("http://localhost:8080/")
 public class EventController {
 	 @Autowired
 	 private EventService eventService;
@@ -89,6 +95,8 @@ public class EventController {
 			event.setTicketPrice(ticketPrice);
 			event.setCapacity(capacity);
 			event.setLocation(location);
+			event.setStatus("pending");
+			event.setEventDate(eventDate);
 			event.setEventDescription(descriptions[0]);
 			event.setCreateDate(createDate);
 			eventService.saveEvent(event);
@@ -100,9 +108,164 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	 
+ /*
+	 @GetMapping("/{id}")
+	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
+	     Optional<Event> event = eventService.getEventById(id);
 
-	
-	@GetMapping("/event/imageDetails")
+	     if (event == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+	     byte[] imageBytes = event.get().getImage();
+    return new ResponseEntity<>(imageBytes, HttpStatus.OK);
+	 } */
+	 
+	 @GetMapping("/{id}")
+	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
+	     Optional<Event> event = eventService.getEventById(id);
+
+	     if (event == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+    return new ResponseEntity<>(event.get(), HttpStatus.OK);
+	 }
+	 
+	 
+	 @GetMapping("/{id}/image")
+	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
+	     Optional<Event> event = eventService.getEventById(id);
+	     if (event == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+	     byte[] imageBytes = event.get().getImage();
+	 
+	     HttpHeaders headers = new HttpHeaders();
+   		headers.setContentType(MediaType.IMAGE_PNG);
+    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+	 }
+	 
+	 
+	 @GetMapping
+	 public ResponseEntity<List<Event>> getAllEvent() {
+	     List<Event> eventList = eventService.getAllEvents();
+
+	     if (eventList == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+    return new ResponseEntity<>(eventList, HttpStatus.OK);
+	 }
+	 
+	 
+	 
+/*
+	 	
+	 @GetMapping("/images")
+	 public ResponseEntity<List<byte[]>> getAllEventImages() {
+	     List<Event> events = eventService.getAllEvents();
+	     List<byte[]> imageBytesList = new ArrayList<>();
+
+	     for (Event event : events) {
+	         byte[] imageBytes = event.getImage();
+	         imageBytesList.add(imageBytes);
+	     }
+
+	     
+	     return new ResponseEntity<>(imageBytesList, HttpStatus.OK);
+	 }
+
+
+	 /*
+	  * 
+	  * 
+	  * 
+	  * 	 @GetMapping("/{id}")
+	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
+	     Optional<Event> event = eventService.getEventById(id);
+
+	     if (event == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+	     byte[] imageBytes = event.get().getImage();
+	     String eventName= event.get().getEventName();
+	     String location= event.get().getLocation();
+	     String eventDescription= event.get().getEventDescription();
+	     event.get().getEventDescription();
+
+   HttpHeaders headers = new HttpHeaders();
+   headers.setContentType(MediaType.IMAGE_PNG);
+	     headers.add("event-name", eventName);
+    headers.add("x-location", location);	  
+    headers.add("x-event-description", eventDescription);
+    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+	 }
+	 
+	 
+	 
+	 
+	 
+	 @GetMapping("/{id}")
+	 public ResponseEntity<String> getEventImage(@PathVariable Long id, Model model) {
+	     Optional<Event> event = eventService.getEventById(id);
+
+	     if (event.isEmpty()) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+	     byte[] imageBytes = event.get().getImage();
+
+	     // Convert the image byte array to a base64-encoded string
+	     String base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+	     HttpHeaders headers = new HttpHeaders();
+	     headers.setContentType(MediaType.TEXT_PLAIN);
+	     headers.add("event-name", event.get().getEventName());
+	     headers.add("x-location", event.get().getLocation());
+	     headers.add("x-event-description", event.get().getEventDescription());
+
+	     return new ResponseEntity<>(base64Image, headers, HttpStatus.OK);
+	 }
+
+	 */
+	 @GetMapping("events/{id}")
+	 public ResponseEntity<EventDto> getEvent(@PathVariable Long id) {
+	     Optional<Event> event = eventService.getEventById(id);
+
+	     if (event.isEmpty()) {
+	         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	     }
+	     byte[] imageBytes = event.get().getImage();
+	     
+	     EventDto eventDto = new EventDto();
+	     eventDto.setImage(imageBytes);
+	     eventDto.setEventName(event.get().getEventName());
+	     eventDto.setEventDescription(event.get().getEventDescription());
+	     eventDto.setEventDate(event.get().getEventDate());
+	     eventDto.setLocation(event.get().getLocation());
+	     eventDto.setCapacity(event.get().getCapacity());
+	     eventDto.setTicketPrice(event.get().getTicketPrice());
+	     eventDto.setStatus(event.get().getStatus()); 
+
+	     return new ResponseEntity<>(eventDto, HttpStatus.OK);
+	 }
+
+	 
+	    @GetMapping("/display/{id}")
+		@ResponseBody
+		void showEvent(@PathVariable("id") Long id, HttpServletResponse response, Optional<Event> event)
+				throws ServletException, IOException {
+			log.info("Id :: " + id);
+			event = eventService.getEventById(id);
+			response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+			response.getOutputStream().write(event.get().getImage());
+			response.getOutputStream().close();
+		} 
+	    
+	    
+	@GetMapping("/eventDetails/{id}")
 	String showEventDetails(@RequestParam("id") Long id, Optional<Event> event, Model model) {
 		try {
 			log.info("Id :: " + id);
@@ -133,7 +296,7 @@ public class EventController {
     @GetMapping("/all")
 	String show(Model map) {
 		List<Event> events = eventService.getAllActiveEvents();
-		map.addAttribute("events", events);
+		map.addAttribute("Events", events);
 		return "events";
 	}
 

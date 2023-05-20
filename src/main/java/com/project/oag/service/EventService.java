@@ -11,6 +11,7 @@ import com.project.oag.entity.Event;
 public interface EventService {
 
 	public void saveEvent(Event event);
+	public List<Event> getAllEvents();
 
 	public List<Event> getAllActiveEvents();
 
