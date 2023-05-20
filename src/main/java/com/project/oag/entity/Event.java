@@ -64,6 +64,23 @@ public class Event {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Event(String eventName, String eventDescription, LocalDate eventDate, String location, int capacity,
+			double ticketPrice, byte[] image, String status, Date createDate, Organization organization) {
+		super();
+		this.eventName = eventName;
+		this.eventDescription = eventDescription;
+		this.eventDate = eventDate;
+		this.location = location;
+		this.capacity = capacity;
+		this.ticketPrice = ticketPrice;
+		this.image = image;
+		this.status = status;
+		this.createDate = createDate;
+		this.organization = organization;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

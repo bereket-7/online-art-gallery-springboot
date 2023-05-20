@@ -56,8 +56,37 @@ public class Artwork {
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
     
-    
 
+	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
+			Date createDate, int artistId, String size, String status, List<Rating> ratings) {
+		super();
+		this.artworkName = artworkName;
+		this.artworkDescription = artworkDescription;
+		this.artworkCategory = artworkCategory;
+		this.image = image;
+		this.price = price;
+		this.createDate = createDate;
+		this.artistId = artistId;
+		this.size = size;
+		this.status = status;
+		this.ratings = ratings;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
 
 	public Artwork() {
 		super();
