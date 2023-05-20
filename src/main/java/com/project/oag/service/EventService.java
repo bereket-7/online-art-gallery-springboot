@@ -15,9 +15,6 @@ public interface EventService {
 
 	public List<Event> getAllActiveEvents();
 
-	public Optional<Event> getEventById(Long id);
-	/*void uploadEvent(Event event);
-
 	boolean acceptEvent(Long id);
 
 	boolean rejectEvent(Long id);
@@ -28,18 +25,9 @@ public interface EventService {
 
 	List<Event> getRejectedEvents();
 
-	Event getEvent(Long eventId);
-
-	Resource getEventPhoto(Long eventId);
-
-	List<EventDto> getAllEvents();
-
-	List<EventDto> getEventsWithPhotos();
-
-	List<Event> getAllEvent();
-
-	List<Event> getAllEventsWithImages();
-*/
+	void deleteEvent(Long eventId);
+	
+	Optional<Event> getEventById(Long id);
 	
 
 }
