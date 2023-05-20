@@ -109,18 +109,6 @@ public class EventController {
 		}
 	}
 	 
- /*
-	 @GetMapping("/{id}")
-	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
-	     Optional<Event> event = eventService.getEventById(id);
-
-	     if (event == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-	     byte[] imageBytes = event.get().getImage();
-    return new ResponseEntity<>(imageBytes, HttpStatus.OK);
-	 } */
-	 
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -158,78 +146,7 @@ public class EventController {
     return new ResponseEntity<>(eventList, HttpStatus.OK);
 	 }
 	 
-	 
-	 
-/*
-	 	
-	 @GetMapping("/images")
-	 public ResponseEntity<List<byte[]>> getAllEventImages() {
-	     List<Event> events = eventService.getAllEvents();
-	     List<byte[]> imageBytesList = new ArrayList<>();
-
-	     for (Event event : events) {
-	         byte[] imageBytes = event.getImage();
-	         imageBytesList.add(imageBytes);
-	     }
-
-	     
-	     return new ResponseEntity<>(imageBytesList, HttpStatus.OK);
-	 }
-
-
-	 /*
-	  * 
-	  * 
-	  * 
-	  * 	 @GetMapping("/{id}")
-	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
-	     Optional<Event> event = eventService.getEventById(id);
-
-	     if (event == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-
-	     byte[] imageBytes = event.get().getImage();
-	     String eventName= event.get().getEventName();
-	     String location= event.get().getLocation();
-	     String eventDescription= event.get().getEventDescription();
-	     event.get().getEventDescription();
-
-   HttpHeaders headers = new HttpHeaders();
-   headers.setContentType(MediaType.IMAGE_PNG);
-	     headers.add("event-name", eventName);
-    headers.add("x-location", location);	  
-    headers.add("x-event-description", eventDescription);
-    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-	 }
-	 
-	 
-	 
-	 
-	 
-	 @GetMapping("/{id}")
-	 public ResponseEntity<String> getEventImage(@PathVariable Long id, Model model) {
-	     Optional<Event> event = eventService.getEventById(id);
-
-	     if (event.isEmpty()) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-
-	     byte[] imageBytes = event.get().getImage();
-
-	     // Convert the image byte array to a base64-encoded string
-	     String base64Image = Base64.getEncoder().encodeToString(imageBytes);
-
-	     HttpHeaders headers = new HttpHeaders();
-	     headers.setContentType(MediaType.TEXT_PLAIN);
-	     headers.add("event-name", event.get().getEventName());
-	     headers.add("x-location", event.get().getLocation());
-	     headers.add("x-event-description", event.get().getEventDescription());
-
-	     return new ResponseEntity<>(base64Image, headers, HttpStatus.OK);
-	 }
-
-	 */
+	
 	 @GetMapping("events/{id}")
 	 public ResponseEntity<EventDto> getEvent(@PathVariable Long id) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -251,54 +168,6 @@ public class EventController {
 
 	     return new ResponseEntity<>(eventDto, HttpStatus.OK);
 	 }
-
-	 
-	    @GetMapping("/display/{id}")
-		@ResponseBody
-		void showEvent(@PathVariable("id") Long id, HttpServletResponse response, Optional<Event> event)
-				throws ServletException, IOException {
-			log.info("Id :: " + id);
-			event = eventService.getEventById(id);
-			response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
-			response.getOutputStream().write(event.get().getImage());
-			response.getOutputStream().close();
-		} 
-	    
-	    
-	@GetMapping("/eventDetails/{id}")
-	String showEventDetails(@RequestParam("id") Long id, Optional<Event> event, Model model) {
-		try {
-			log.info("Id :: " + id);
-			if (id != 0) {
-				event = eventService.getEventById(id);
-			
-				log.info("events :: " + event);
-				if (event.isPresent()) {
-					model.addAttribute("id", event.get().getId());
-					model.addAttribute("eventDescription", event.get().getEventDescription());
-					model.addAttribute("eventName", event.get().getEventName());
-					model.addAttribute("location", event.get().getLocation());
-					model.addAttribute("eventDate", event.get().getEventDate());
-					model.addAttribute("ticketPrice", event.get().getTicketPrice());
-					return "eventdetails";
-				}
-				return "redirect:/http://localhost:8080/eventDisplay";
-			}
-		return "redirect:/http://localhost:8080/eventDisplay";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/http://localhost:8080/eventDisplay";
-		}	
-	}
-
-
-	
-    @GetMapping("/all")
-	String show(Model map) {
-		List<Event> events = eventService.getAllActiveEvents();
-		map.addAttribute("Events", events);
-		return "events";
-	}
 
 
 
