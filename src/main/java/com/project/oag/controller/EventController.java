@@ -43,7 +43,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/event")
+@RequestMapping("/events")
 public class EventController {
 	 @Autowired
 	 private EventService eventService;

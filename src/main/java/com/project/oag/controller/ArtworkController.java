@@ -149,14 +149,6 @@ public class ArtworkController {
 
     return new ResponseEntity<>(artworkList, HttpStatus.OK);
 	 }
-	 
-	 
-	 
-
-	   @GetMapping("/all")
-	   public List<Artwork> getAllPhotos() { 
-	       return artworkService.getAllArtworks(); 
-	   }
 	   
 	   @DeleteMapping("/{id}") 
 	   public void deleteArtwork(@PathVariable Long id) { 
