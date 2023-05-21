@@ -116,8 +116,6 @@ public class ArtworkController {
 	     }
 	 }
 
-	
-	 
 	   @GetMapping("/all")
 	   public List<Artwork> getAllPhotos() { 
 	       return artworkService.getAllArtworks(); 
@@ -131,10 +129,7 @@ public class ArtworkController {
 	   public List<Artwork> getArtworkByCategory(@PathVariable String artworkCategory) { 
 	       return artworkService.getArtworkByCategory(artworkCategory); 
 	   }
-	   @GetMapping("/byArtistName/{artistName}") 
-	   public List<Artwork> getPhotosByArtistName(@PathVariable String artistName) {       
-		   return artworkService.getArtworksByArtistName(artistName);    
-		   }
+	   
 	   @GetMapping("/byArtistId/{artistId}")      
 	   public List<Artwork> getPhotosByArtworkName(@PathVariable int artistId) {        
 		   return artworkService.getArtworksByArtistId(artistId);      
@@ -177,12 +172,6 @@ public class ArtworkController {
 	        } else {
 	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending status");
 	        }
-	    }
-
-	    @PutMapping("/{id}")
-	    public ResponseEntity<ArtworkDto> updateArtwork(@PathVariable Long id, @RequestBody ArtworkDto artworkDto) {
-	        ArtworkDto updatedArtworkDto = artworkService.updateArtwork(id, artworkDto);
-	        return ResponseEntity.ok(updatedArtworkDto);
 	    }
 
 	    @GetMapping("/recent")

@@ -15,8 +15,6 @@ public interface ArtworkService {
 
 	List<Artwork> getArtworkByCategory(String category);
 
-	List<Artwork> getArtworksByArtistName(String artistName);
-
 	Artwork getArtworkById(Long artworkId);
 
 	List<Artwork> getArtworksByArtistId(int artistId);
@@ -28,8 +26,6 @@ public interface ArtworkService {
 	boolean acceptArtwork(Long id);
 
 	boolean rejectArtwork(Long id);
- 
-	 ArtworkDto updateArtwork(Long id, ArtworkDto artworkDto);
 
 	List<Artwork> getAcceptedArtworks();
 
