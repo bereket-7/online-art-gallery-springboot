@@ -104,7 +104,6 @@ public class ArtworkController {
 	         artwork.setImage(imageData);
 	         artwork.setPrice(price);
 	         artwork.setStatus("pending");
-	         artwork.
 	         artwork.setArtworkDescription(descriptions[0]);
 	         artwork.setCreateDate(createDate);
 	         artworkService.saveArtwork(artwork);
@@ -118,17 +117,6 @@ public class ArtworkController {
 	 }
 
 	
-	
-	
-
-	 @PostMapping("/upload")
-	 public ResponseEntity<Artwork> artworkUpload(@ModelAttribute("artwork") Artwork artwork,@RequestParam("image") MultipartFile image) throws IOException{
-		  String filename = StringUtils.cleanPath(image.getOriginalFilename());
-			artwork.setArtworkPhoto(path + filename);
-			artworkService.saveArtwork(artwork);
-			FileUploadUtil.uploadFile(path, filename, image); 	
-			return new ResponseEntity<>(new Artwork(filename,"Artwork is successfully submitted,it will display in the gallery after approval thank you"),HttpStatus.OK);	
-	 }
 	 
 	   @GetMapping("/all")
 	   public List<Artwork> getAllPhotos() { 
