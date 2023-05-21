@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
+import com.project.oag.entity.Event;
 import com.project.oag.entity.Vote;
 import com.project.oag.repository.CompetitorRepository;
 import com.project.oag.repository.VoteRepository;
@@ -27,6 +28,12 @@ public class CompetitorServiceImpl implements CompetitorService{
 	VoteRepository voteRepository; 
 	
 	@Override
+	public void saveCompetitor(Competitor competitor) {
+		competitorRepository.save(competitor);	
+	}
+	
+	
+	@Override
 	public List<Competitor> getAllCompetitors() {
 		return competitorRepository.findAll();
 	}
@@ -34,18 +41,6 @@ public class CompetitorServiceImpl implements CompetitorService{
 	@Override
 	public Optional<Competitor> getCompetitorById(Long id) {
 		return competitorRepository.findById(id);
-	}
-
-	@Override
-	public void registerCompetitor(Competitor competitor) {
-		competitor.setFirstName(competitor.getFirstName());
-		competitor.setLastName(competitor.getLastName());
-		competitor.setPhone(competitor.getPhone());
-		competitor.setEmail(competitor.getEmail());
-		competitor.setCategory(competitor.getCategory());
-		competitor.setArtDescription(competitor.getArtDescription());
-		competitor.setArtworkPhoto(competitor.getArtworkPhoto());
-		competitorRepository.save(competitor);
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class CompetitorServiceImpl implements CompetitorService{
                     competitor.setLastName(competitorUpdate.getLastName());
                     competitor.setPhone(competitorUpdate.getPhone());
                     competitor.setArtDescription(competitorUpdate.getArtDescription());
-                    competitor.setArtworkPhoto(competitorUpdate.getArtworkPhoto());
+                    competitor.setImage(competitorUpdate.getImage());
                     competitor.setCategory(competitorUpdate.getCategory());
                     return competitorRepository.save(competitor);
                 }).orElseThrow(() -> new Exception("Competitor with this id not found"));
@@ -114,11 +109,18 @@ public class CompetitorServiceImpl implements CompetitorService{
 		        for (Competitor competitor : competitors) {
 		            CompetitorDto dto = new CompetitorDto();
 		            dto.setFirstName(competitor.getFirstName());
-		            dto.setArtworkPhoto(competitor.getArtworkPhoto());
+		            dto.setImage(competitor.getImage());
 		            dtos.add(dto);
 		        }
 		        
 		        // Return only the first element of the list
 		        return dtos.subList(0, 1);
 		    }
+
+
+		@Override
+		public void registerCompetitor(Competitor competitor) {
+			// TODO Auto-generated method stub
+			
+		}
 }

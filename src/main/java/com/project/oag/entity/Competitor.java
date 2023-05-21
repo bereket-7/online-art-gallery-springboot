@@ -27,7 +27,9 @@ public class Competitor {
 
 	private String phone;
 
-	private String artworkPhoto;
+	@Lob
+    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] image;
 
 	private String artDescription;
 	
@@ -44,14 +46,14 @@ public class Competitor {
 		super();
 	}
 
-	public Competitor(String firstName, String lastName, String email, String phone, String artworkPhoto,
+	public Competitor(String firstName, String lastName, String email, String phone, byte[] image,
 			String artDescription, String category, int vote, Competition competition) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
-		this.artworkPhoto = artworkPhoto;
+		this.image = image;
 		this.artDescription = artDescription;
 		this.category = category;
 		this.vote = vote;
@@ -59,9 +61,7 @@ public class Competitor {
 	}
 
 
-
 	public Competitor(String filename, String string) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public long getId() {
@@ -120,37 +120,25 @@ public class Competitor {
 		this.competition = competition;
 	}
 
-
-
-	public String getArtworkPhoto() {
-		return artworkPhoto;
+	public byte[] getImage() {
+		return image;
 	}
 
-
-
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
-
-
 
 	public String getCategory() {
 		return category;
 	}
 
-
-
 	public void setCategory(String category) {
 		this.category = category;
 	}
 
-
-
 	public int getVote() {
 		return vote;
 	}
-
-
 
 	public void setVote(int vote) {
 		this.vote = vote;

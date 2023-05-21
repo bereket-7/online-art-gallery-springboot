@@ -5,18 +5,20 @@ public class CompetitorDto {
 	private String lastName;
 	private String email;
 	private String phone;
-	private String artworkPhoto;
+	private byte[] image;
 	private String artDescription;
 	private String category;
 	
-	public CompetitorDto(String firstName, String lastName, String email, String phone, String artworkPhoto,
+
+
+	public CompetitorDto(String firstName, String lastName, String email, String phone, byte[] image,
 			String artDescription, String category) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phone = phone;
-		this.artworkPhoto = artworkPhoto;
+		this.image = image;
 		this.artDescription = artDescription;
 		this.category = category;
 	}
@@ -57,12 +59,12 @@ public class CompetitorDto {
 		this.artDescription = artDescription;
 	}
 
-	public String getArtworkPhoto() {
-		return artworkPhoto;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public String getCategory() {

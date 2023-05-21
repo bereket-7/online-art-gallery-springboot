@@ -12,8 +12,6 @@ public interface CompetitorService {
 
 	Optional<Competitor> getCompetitorById(Long id);
 
-	void registerCompetitor(Competitor competitor);
-
 	void deleteCompetitor(Long id);
 
 	Competitor updateCompetitor(Long id, Competitor competitor) throws Exception;
@@ -25,5 +23,7 @@ public interface CompetitorService {
 	void recordUserVote(Long id, String ipAddress);
 
 	List<CompetitorDto> getTopCompetitors();
+
+	void saveCompetitor(Competitor competitor);
 
 }

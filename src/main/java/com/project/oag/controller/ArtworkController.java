@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Event;
 import com.project.oag.service.ArtworkService;
 import com.project.oag.service.UserService;
 
@@ -97,7 +96,7 @@ public class ArtworkController {
 	         byte[] imageData = file.getBytes();
 	         Artwork artwork = new Artwork();
 	         artwork.setArtworkName(names[0]);
-	         artwork.setImage(imageData);
+	         artwork.setImage(imageData); 
 	         artwork.setPrice(price);
 	         artwork.setSize(size);
 	         artwork.setArtworkCategory(artworkCategory);
@@ -113,6 +112,7 @@ public class ArtworkController {
 	         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }
 	 }
+	 
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
