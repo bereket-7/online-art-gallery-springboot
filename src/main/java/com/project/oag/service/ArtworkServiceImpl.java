@@ -3,6 +3,7 @@ package com.project.oag.service;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
 import com.project.oag.repository.ArtworkRepository;
 import com.project.oag.repository.UserRepository;
+
 import jakarta.transaction.Transactional;
 
 @Service
@@ -28,6 +30,11 @@ public class ArtworkServiceImpl implements ArtworkService{
 		return artworkRepository.findAll();
 	}
 	
+	
+	@Override
+	public Optional<Artwork> getArtworkById(Long id) {
+		return artworkRepository.findById(id);
+	}
 	
 	
 	@Override
@@ -123,12 +130,6 @@ public class ArtworkServiceImpl implements ArtworkService{
         return name;
     }
 */
-
-	@Override
-	public Artwork getArtworkById(Long artworkId) {
-        Optional<Artwork> artwork = artworkRepository.findById(artworkId);
-        return artwork.get();
-    }
 
 	@Override
 	public ArtworkDto getDtoFromArtwork(Artwork artwork) {

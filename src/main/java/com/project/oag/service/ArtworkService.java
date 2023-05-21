@@ -1,6 +1,7 @@
 package com.project.oag.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
@@ -14,8 +15,6 @@ public interface ArtworkService {
 	void deleteArtwork(Long id);
 
 	List<Artwork> getArtworkByCategory(String category);
-
-	Artwork getArtworkById(Long artworkId);
 
 	List<Artwork> getArtworksByArtistId(int artistId);
 
@@ -35,7 +34,6 @@ public interface ArtworkService {
 
 	ArtworkDto getDtoFromArtwork(Artwork artwork);
 
-	//void saveArtwork(Artwork artwork);
-
+	Optional<Artwork> getArtworkById(Long id);
 
 }

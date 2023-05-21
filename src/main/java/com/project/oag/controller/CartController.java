@@ -1,5 +1,7 @@
 package com.project.oag.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,8 +47,8 @@ public class CartController {
                                                  @RequestParam("token") String token) throws AuthenticationFailException {
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
-        Artwork artwork = artworkService.getArtworkById(addToCartDto.getArtworkId());
-        System.out.println("artwork to add"+ artwork.getArtworkName());
+        Optional<Artwork> artwork = artworkService.getArtworkById(addToCartDto.getArtworkId());
+        System.out.println("artwork to add"+ artwork.get().getArtworkName());
         cartService.addToCart(addToCartDto, artwork, user);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
     }
@@ -63,7 +65,7 @@ public class CartController {
                                                       @RequestParam("token") String token) throws AuthenticationFailException,CartItemNotExistException {
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
-        Artwork artwork = artworkService.getArtworkById(cartDto.getArtworkId());
+        Optional<Artwork> artwork = artworkService.getArtworkById(cartDto.getArtworkId());
         cartService.updateCartItem(cartDto, user,artwork);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Item has been updated"), HttpStatus.OK);
     }

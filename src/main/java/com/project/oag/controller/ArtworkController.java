@@ -6,12 +6,15 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.entity.Artwork;
+import com.project.oag.entity.Event;
 import com.project.oag.service.ArtworkService;
 import com.project.oag.service.UserService;
 
@@ -109,6 +113,45 @@ public class ArtworkController {
 	         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }
 	 }
+	 @GetMapping("/{id}")
+	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
+	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
+
+	     if (artwork == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+    return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
+	 }
+	 
+	 
+	 @GetMapping("/{id}/image")
+	 public ResponseEntity<byte[]> getArtworkImage(@PathVariable Long id, Model model) {
+	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
+	     if (artwork == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+	     byte[] imageBytes = artwork.get().getImage();
+	 
+	     HttpHeaders headers = new HttpHeaders();
+   		headers.setContentType(MediaType.IMAGE_PNG);
+    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+	 }
+	 
+	 
+	 @GetMapping
+	 public ResponseEntity<List<Artwork>> getAllArtwork() {
+	     List<Artwork> artworkList = artworkService.getAllArtworks();
+
+	     if (artworkList == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+
+    return new ResponseEntity<>(artworkList, HttpStatus.OK);
+	 }
+	 
+	 
+	 
 
 	   @GetMapping("/all")
 	   public List<Artwork> getAllPhotos() { 
