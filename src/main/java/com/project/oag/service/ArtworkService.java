@@ -17,11 +17,7 @@ public interface ArtworkService {
 
 	List<Artwork> getArtworksByArtistName(String artistName);
 
-	List<Artwork> getArtworksByArtworkName(String artworkName);
-
 	Artwork getArtworkById(Long artworkId);
-
-	ArtworkDto getDtoFromArtwork(Artwork artwork);
 
 	List<Artwork> getArtworksByArtistId(int artistId);
 
@@ -32,10 +28,6 @@ public interface ArtworkService {
 	boolean acceptArtwork(Long id);
 
 	boolean rejectArtwork(Long id);
-	
-	
-	//List<ArtworkDto> getArtworkPhotoAndCategoryAndPriceAndSize();
-	List<ArtworkDto> getArtworkPhotoAndCategoryAndPriceAndSize(String artworkPhoto, String artworkCategory, int price, String size);
  
 	 ArtworkDto updateArtwork(Long id, ArtworkDto artworkDto);
 
