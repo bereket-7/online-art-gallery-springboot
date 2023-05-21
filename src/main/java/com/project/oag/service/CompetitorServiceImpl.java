@@ -116,11 +116,4 @@ public class CompetitorServiceImpl implements CompetitorService{
 		        // Return only the first element of the list
 		        return dtos.subList(0, 1);
 		    }
-
-
-		@Override
-		public void registerCompetitor(Competitor competitor) {
-			// TODO Auto-generated method stub
-			
-		}
 }
