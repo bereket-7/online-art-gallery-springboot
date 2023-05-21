@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
+import com.project.oag.entity.Event;
 import com.project.oag.service.CompetitorService;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -116,13 +119,27 @@ public class CompetitorController {
 	}
 
 	 
+	 @GetMapping("/{id}/image")
+	 public ResponseEntity<byte[]> getCompetitorImage(@PathVariable Long id, Model model) {
+	     Optional<Competitor> competitor = competitorService.getCompetitorById(id);
+	     if (competitor == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+	     byte[] imageBytes = competitor.get().getImage();
 	 
+	     HttpHeaders headers = new HttpHeaders();
+  		headers.setContentType(MediaType.IMAGE_PNG);
+   return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+	 }
 	 
-	 
-    @GetMapping("/all")
-    public List<Competitor> getAllCompetitor() {
-        return competitorService.getAllCompetitors();
-    }
+	 @GetMapping
+	 public ResponseEntity<List<Competitor>> getAllCompetitor() {
+	     List<Competitor> competitorList = competitorService.getAllCompetitors();
+	     if (competitorList == null) {
+	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+	     }
+     return new ResponseEntity<>(competitorList, HttpStatus.OK);
+	 }
     
     @GetMapping("/{id}")
     public ResponseEntity<Competitor> getCompetitorById(@PathVariable Long id) {

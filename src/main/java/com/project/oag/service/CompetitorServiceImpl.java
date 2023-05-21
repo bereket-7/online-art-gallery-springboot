@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
-import com.project.oag.entity.Event;
 import com.project.oag.entity.Vote;
 import com.project.oag.repository.CompetitorRepository;
 import com.project.oag.repository.VoteRepository;
@@ -79,7 +78,6 @@ public class CompetitorServiceImpl implements CompetitorService{
 	        Vote vote = new Vote();
 	        vote.setCompetitorId(competitorId);
 	        vote.setIpAddress(ipAddress);
-
 	        voteRepository.save(vote);
 	    }
 /*
