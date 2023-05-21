@@ -1,21 +1,15 @@
 package com.project.oag.service;
 
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Event;
-import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.repository.ArtworkRepository;
 import com.project.oag.repository.UserRepository;
-
 import jakarta.transaction.Transactional;
 
 @Service
@@ -40,7 +34,6 @@ public class ArtworkServiceImpl implements ArtworkService{
 	public void saveArtwork(Artwork artwork) {
 		artworkRepository.save(artwork);	
 	}
-
 	@Override
 	public void deleteArtwork(Long id) {
 		artworkRepository.deleteById(id);// TODO Auto-generated method stub
@@ -95,7 +88,7 @@ public class ArtworkServiceImpl implements ArtworkService{
              }
          }
          return false;
-    }
+	}
     
     public List<Artwork> getRecentArtworks() {
         return artworkRepository.findAllByOrderByCreateDateDesc();
@@ -131,12 +124,17 @@ public class ArtworkServiceImpl implements ArtworkService{
     }
 */
 
-
 	@Override
 	public Artwork getArtworkById(Long artworkId) {
         Optional<Artwork> artwork = artworkRepository.findById(artworkId);
         return artwork.get();
     }
+
+	@Override
+	public ArtworkDto getDtoFromArtwork(Artwork artwork) {
+	    ArtworkDto artworkDto = new ArtworkDto(artwork);
+        return artworkDto;
+	}
 
 	@Override
 	public List<Artwork> getArtworksByArtistId(int artistId) {

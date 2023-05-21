@@ -33,6 +33,8 @@ public interface ArtworkService {
 
 	List<Artwork> getRecentArtworks();
 
+	ArtworkDto getDtoFromArtwork(Artwork artwork);
+
 	//void saveArtwork(Artwork artwork);
 
 

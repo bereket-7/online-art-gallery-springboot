@@ -3,9 +3,7 @@ package com.project.oag.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,34 +14,28 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.common.FileUploadUtil;
-import com.project.oag.controller.dto.ArtworkDto;
 import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Event;
 import com.project.oag.service.ArtworkService;
 import com.project.oag.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("/artwork")
+@RequestMapping("/artworks")
 @CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
-	private String path = "src/main/resources/static/img/artwork-images/";
+	//private String path = "src/main/resources/static/img/artwork-images/";
 	
 	 @Value("${uploadDir}")
 	 private String uploadFolder;

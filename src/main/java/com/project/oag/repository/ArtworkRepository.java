@@ -16,10 +16,6 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	 List<Artwork> findByPriceBetween(double minPrice, double maxPrice);
 	 
 	 List<Artwork> findByStatus(String status);
-	 
-	  //List<Object[]> findByArtworkPhotoAndArtworkCategoryAndPriceAndSize();
-	  
-	  List<Object[]> findByArtworkPhotoAndArtworkCategoryAndPriceAndSize(String artworkPhoto, String artworkCategory, int price, String size);
 
 	  List<Artwork> findAllByOrderByCreateDateDesc();
 }
