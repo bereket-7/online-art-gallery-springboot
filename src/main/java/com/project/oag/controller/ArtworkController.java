@@ -95,6 +95,8 @@ public class ArtworkController {
 	         artwork.setArtworkName(names[0]);
 	         artwork.setImage(imageData);
 	         artwork.setPrice(price);
+	         artwork.setSize(size);
+	         artwork.setArtworkCategory(artworkCategory);
 	         artwork.setStatus("pending");
 	         artwork.setArtworkDescription(descriptions[0]);
 	         artwork.setCreateDate(createDate);
