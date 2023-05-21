@@ -3,6 +3,7 @@ package com.project.oag.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,12 +32,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addToCart(AddToCartDto addToCartDto, Artwork artwork, User user){
-        Cart cart = new Cart(artwork, addToCartDto.getQuantity(), user);
-        cartRepository.save(cart);
-    }
-
-    @Override
     public CartDto listCartItems(User user) {
         List<Cart> cartList = cartRepository.findAllByUserOrderByCreatedDateDesc(user);
         List<CartItemDto> cartItems = new ArrayList<>();
@@ -55,14 +50,6 @@ public class CartServiceImpl implements CartService {
     public CartItemDto getDtoFromCart(Cart cart) {
         return new CartItemDto(cart);
     }
-
-    @Override
-    public void updateCartItem(AddToCartDto cartDto, User user,Artwork artwork){
-        Cart cart = cartRepository.getOne(cartDto.getId());
-        cart.setQuantity(cartDto.getQuantity());
-        cart.setCreatedDate(new Date());
-        cartRepository.save(cart);
-    }
     
     @Override
     public void deleteCartItems(long userId) {
@@ -79,5 +66,21 @@ public class CartServiceImpl implements CartService {
 	      if (!cartRepository.existsById(id))
 	            throw new CartItemNotExistException("Cart id is invalid : " + id);
 	        cartRepository.deleteById(id);	
+	}
+
+	@Override
+	public void addToCart(AddToCartDto addToCartDto, Optional<Artwork> artwork, User user) {
+		  Cart cart = new Cart(artwork, addToCartDto.getQuantity(), user);
+	        cartRepository.save(cart);
+		
+	}
+
+	@Override
+	public void updateCartItem(AddToCartDto cartDto, User user, Optional<Artwork> artwork) {
+        Cart cart = cartRepository.getOne(cartDto.getId());
+        cart.setQuantity(cartDto.getQuantity());
+        cart.setCreatedDate(new Date());
+        cartRepository.save(cart);
+		
 	}
 }

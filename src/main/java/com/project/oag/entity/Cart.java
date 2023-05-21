@@ -1,6 +1,7 @@
 package com.project.oag.entity;
 
 import java.util.Date;
+import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -46,7 +47,11 @@ public class Cart {
         this.createdDate = new Date();
     }
 
-    public Long getId() {
+    public Cart(Optional<Artwork> artwork, Integer quantity, User user) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Long getId() {
         return id;
     }
 
