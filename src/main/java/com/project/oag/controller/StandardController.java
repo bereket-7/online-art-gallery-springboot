@@ -20,14 +20,14 @@ import com.project.oag.entity.Standard;
 import com.project.oag.service.StandardService;
 
 @RestController
-@RequestMapping("/standard")
+@RequestMapping("/standards")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {
-	
+	  
 	  @Autowired
 	   private StandardService standardService;
 	  
-	  @GetMapping("/all")
+	  @GetMapping
 	    public List<Standard> getAllStandards() {
 	        return standardService.getAllStandards();
 	    }
