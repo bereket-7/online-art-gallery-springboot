@@ -85,20 +85,6 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
-    /*
-    @Override
-    public void registerNewUserAccount(User user) {
-        if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException(
-                    "There is an account with that email address: " + user.getEmail());
-        }
-        user.setEnabled(false);
-       // String token = UUID.randomUUID().toString();
-        //user.setToken(token);
-        userRepository.save(user);
-        sendConfirmationEmail(user.getEmail());
-        userRepository.save(user);
-    }*/
     
     @Override
     public void registerUser(UserDto userDto) {

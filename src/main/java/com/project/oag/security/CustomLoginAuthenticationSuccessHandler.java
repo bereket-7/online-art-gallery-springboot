@@ -9,6 +9,8 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import com.project.oag.entity.User;
 
 import jakarta.servlet.http.Cookie;
@@ -16,6 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+@CrossOrigin("http://localhost:8080/")
 public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -25,7 +28,7 @@ public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSu
 	    @Override
 	    public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException {
 	        addWelcomeCookie(getUserName(authentication), response);
-	        redirectStrategy.sendRedirect(request, response, "/homepage.html?user=" + authentication.getName());
+	        redirectStrategy.sendRedirect(request, response, "http://localhost:8080/?user=" + authentication.getName());
 
 	        final HttpSession session = request.getSession(false);
 	        if (session != null) {
