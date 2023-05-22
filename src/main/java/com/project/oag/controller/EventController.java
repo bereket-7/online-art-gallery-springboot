@@ -4,11 +4,8 @@ package com.project.oag.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,14 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/events")
@@ -133,7 +126,6 @@ public class EventController {
    		headers.setContentType(MediaType.IMAGE_PNG);
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
-	 
 	 
 	 @GetMapping
 	 public ResponseEntity<List<Event>> getAllEvent() {
