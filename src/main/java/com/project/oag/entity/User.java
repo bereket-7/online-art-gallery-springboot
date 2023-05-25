@@ -76,7 +76,6 @@ public class User {
     @Column(nullable = true)
     private LocalDateTime expirationTime;
 
-
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
