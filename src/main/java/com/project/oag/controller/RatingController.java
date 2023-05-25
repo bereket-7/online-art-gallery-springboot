@@ -41,17 +41,18 @@ public class RatingController {
 //        }
 //    }
     
-    @PostMapping("/rate")
-    public ResponseEntity<?> addRating(@RequestParam Long userId, @RequestParam Long artworkId, @RequestParam int rating) {
+    
+    @PostMapping("/{artworkId}/rate")
+    public ResponseEntity<?> addRating(@PathVariable Long artworkId, @RequestParam Long userId, @RequestParam int rating) {
         try {
             ratingService.addRating(userId, artworkId, rating);
             return ResponseEntity.ok().build();
-        } catch (ArtworkNotFoundException | UserNotFoundException e) {
+        } catch (ArtworkNotFoundException | UserNotFoundException | RatingAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    @GetMapping("/{artworkId}/average")
+    
+    @GetMapping("/{artworkId}/average-rating")
     public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
         try {
             double averageRating = ratingService.getAverageRatingForArtwork(artworkId);
@@ -60,6 +61,26 @@ public class RatingController {
             return ResponseEntity.notFound().build();
         }
     }
+    
+//    @PostMapping("/rate")
+//    public ResponseEntity<?> addRating(@RequestParam Long userId, @RequestParam Long artworkId, @RequestParam int rating) {
+//        try {
+//            ratingService.addRating(userId, artworkId, rating);
+//            return ResponseEntity.ok().build();
+//        } catch (ArtworkNotFoundException | UserNotFoundException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+//
+//    @GetMapping("/{artworkId}/average")
+//    public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
+//        try {
+//            double averageRating = ratingService.getAverageRatingForArtwork(artworkId);
+//            return ResponseEntity.ok().body(averageRating);
+//        } catch (ArtworkNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
 
 }
