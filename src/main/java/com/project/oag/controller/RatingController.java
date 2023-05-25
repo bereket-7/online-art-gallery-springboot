@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.oag.entity.Rating;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
@@ -20,16 +22,6 @@ public class RatingController {
 
     @Autowired
     private RatingService ratingService;
-
-//    @PostMapping("/rate")
-//    public ResponseEntity<?> addRating(@RequestParam Long userId, @RequestParam Long artworkId, @RequestParam int rating) {
-//        try {
-//            ratingService.addRating(userId, artworkId, rating);
-//            return ResponseEntity.ok().build();
-//        } catch (ArtworkNotFoundException | UserNotFoundException | RatingAlreadyExistsException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
 //    
 //    @GetMapping("/{artworkId}/average")
 //    public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
@@ -40,18 +32,27 @@ public class RatingController {
 //            return ResponseEntity.notFound().build();
 //        }
 //    }
-    
-    
+      
     @PostMapping("/{artworkId}/rate")
-    public ResponseEntity<?> addRating(@PathVariable Long artworkId, @RequestParam Long userId, @RequestParam int rating) {
+    public ResponseEntity<?> addRating(@PathVariable Long artworkId, @RequestBody Rating rating) {
         try {
-            ratingService.addRating(userId, artworkId, rating);
+            ratingService.addRating(rating.getUser().getId(), artworkId, rating.getRating());
             return ResponseEntity.ok().build();
         } catch (ArtworkNotFoundException | UserNotFoundException | RatingAlreadyExistsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    
+
+//    @PostMapping("/{artworkId}/rate")
+//    public ResponseEntity<?> addRating(@PathVariable Long artworkId, @PathVariable Long userId, @RequestParam int rating) {
+//        try {
+//            ratingService.addRating(userId, artworkId, rating);
+//            return ResponseEntity.ok().build();
+//        } catch (ArtworkNotFoundException | UserNotFoundException | RatingAlreadyExistsException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//    }
+   
     @GetMapping("/{artworkId}/average-rating")
     public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
         try {
@@ -61,27 +62,5 @@ public class RatingController {
             return ResponseEntity.notFound().build();
         }
     }
-    
-//    @PostMapping("/rate")
-//    public ResponseEntity<?> addRating(@RequestParam Long userId, @RequestParam Long artworkId, @RequestParam int rating) {
-//        try {
-//            ratingService.addRating(userId, artworkId, rating);
-//            return ResponseEntity.ok().build();
-//        } catch (ArtworkNotFoundException | UserNotFoundException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
-//
-//    @GetMapping("/{artworkId}/average")
-//    public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
-//        try {
-//            double averageRating = ratingService.getAverageRatingForArtwork(artworkId);
-//            return ResponseEntity.ok().body(averageRating);
-//        } catch (ArtworkNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-
-
 }
 
