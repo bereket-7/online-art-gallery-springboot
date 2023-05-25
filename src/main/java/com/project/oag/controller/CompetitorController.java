@@ -32,10 +32,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
-import com.project.oag.entity.Event;
 import com.project.oag.service.CompetitorService;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -117,7 +118,6 @@ public class CompetitorController {
 	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
 	}
-
 	 
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getCompetitorImage(@PathVariable Long id, Model model) {
@@ -174,18 +174,12 @@ public class CompetitorController {
 
 	    @PostMapping("/{id}/vote")
 	    public ResponseEntity<?> vote(@PathVariable Long id, HttpServletRequest request) {
-	        // Check if the user has already voted for this competitor
 	        String ipAddress = request.getRemoteAddr();
 	        if (competitorService.hasUserVoted(id, ipAddress)) {
 	            return ResponseEntity.badRequest().body("You have already voted for this Artwork.");
 	        }
-
-	        // Increment the vote count for the competitor
 	        competitorService.incrementVoteCount(id);
-
-	        // Record the user's vote
 	        competitorService.recordUserVote(id, ipAddress);
-
 	        return ResponseEntity.ok("Thank you for voting!");
 	    }
 	    /*
