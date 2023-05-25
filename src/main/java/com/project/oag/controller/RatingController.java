@@ -15,7 +15,7 @@ import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.service.RatingService;
 
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("/artworks")
 public class RatingController {
 
     @Autowired
