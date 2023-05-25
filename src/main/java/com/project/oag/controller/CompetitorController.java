@@ -57,7 +57,7 @@ public class CompetitorController {
 		this.competitorService = competitorService;
 	}
 
-	@PostMapping("/registerCompetitor")
+	@PostMapping("/register")
 	public @ResponseBody ResponseEntity<?> registerCompetitor(
 	        @RequestParam("firstName") String firstName,
 	        @RequestParam("lastName") String lastName,
