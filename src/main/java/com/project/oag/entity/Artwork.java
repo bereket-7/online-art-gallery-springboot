@@ -174,6 +174,17 @@ public class Artwork {
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
 	}
+	
+	  public double getAverageRating() {
+	        if (ratings == null || ratings.isEmpty()) {
+	            return 0.0;
+	        }
+	        double sum = 0;
+	        for (Rating rating : ratings) {
+	            sum += rating.getRating();
+	        }
+	        return sum / ratings.size();
+	    }
 
 	@Override
 	public String toString() {

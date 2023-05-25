@@ -26,9 +26,18 @@ public class Rating {
     @Column(nullable = false)
     private int rating;
     
-    
+    public Rating() {
+		super();
+	}
 
-    //@Column(unique = true, nullable = false)
+	public Rating(User user, Artwork artwork, int rating) {
+		super();
+		this.user = user;
+		this.artwork = artwork;
+		this.rating = rating;
+	}
+
+	//@Column(unique = true, nullable = false)
     //private String userIdAndArtworkId;
 
 //    public Rating() {
