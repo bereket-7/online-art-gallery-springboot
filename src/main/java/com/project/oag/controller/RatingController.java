@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.entity.Rating;
@@ -22,17 +21,7 @@ public class RatingController {
 
     @Autowired
     private RatingService ratingService;
-//    
-//    @GetMapping("/{artworkId}/average")
-//    public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
-//        try {
-//            double averageRating = ratingService.getAverageRatingForArtwork(artworkId);
-//            return ResponseEntity.ok().body(averageRating);
-//        } catch (ArtworkNotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
-      
+    
     @PostMapping("/{artworkId}/rate")
     public ResponseEntity<?> addRating(@PathVariable Long artworkId, @RequestBody Rating rating) {
         try {
@@ -42,16 +31,6 @@ public class RatingController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-//    @PostMapping("/{artworkId}/rate")
-//    public ResponseEntity<?> addRating(@PathVariable Long artworkId, @PathVariable Long userId, @RequestParam int rating) {
-//        try {
-//            ratingService.addRating(userId, artworkId, rating);
-//            return ResponseEntity.ok().build();
-//        } catch (ArtworkNotFoundException | UserNotFoundException | RatingAlreadyExistsException e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//    }
    
     @GetMapping("/{artworkId}/average-rating")
     public ResponseEntity<Double> getAverageRatingForArtwork(@PathVariable Long artworkId) {
