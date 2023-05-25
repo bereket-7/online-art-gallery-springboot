@@ -9,7 +9,6 @@ import com.project.oag.entity.Artwork;
 import com.project.oag.entity.Rating;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.ArtworkNotFoundException;
-import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.repository.ArtworkRepository;
 import com.project.oag.repository.RatingRepository;
@@ -67,20 +66,17 @@ public class RatingService {
 	    if (artwork == null) {
 	        throw new ArtworkNotFoundException("Artwork not found with ID: " + artworkId);
 	    }
-
 	    User user = userRepository.findById(userId).orElse(null);
 	    if (user == null) {
 	        throw new UserNotFoundException("User not found with ID: " + userId);
 	    }
-
 	    Rating newRating = new Rating();
 	    newRating.setUser(user);
 	    newRating.setArtwork(artwork);
 	    newRating.setRating(rating);
 	    ratingRepository.save(newRating);
 	}
-	
-	
+		
 	public double getAverageRatingForArtwork(Long artworkId) throws ArtworkNotFoundException {
 	    Artwork artwork = artworkRepository.findById(artworkId).orElse(null);
 	    if (artwork == null) {
@@ -96,8 +92,6 @@ public class RatingService {
 	    }
 	    return sum / ratings.size();
 	}
-
-
 	 
 //	 public double getAverageRatingForArtwork(Long artworkId) throws ArtworkNotFoundException {
 //		    Artwork artwork = artworkRepository.findById(artworkId).orElse(null);
