@@ -84,8 +84,7 @@ public class UserController {
 	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
 	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
 	        return "users";
-	    }
-	    
+	    }	    
 	    
 	    @PostMapping("/{userId}/uploadProfilePhoto")
 	    public ApiResponse uploadProfilePhoto(@PathVariable Long userId, @RequestParam("image") MultipartFile image) {
@@ -124,12 +123,32 @@ public class UserController {
 	        return new ApiResponse(true, "Registration confirmed successfully.");
 	    }    
 	    
+//	    @PostMapping("/send-confirm/{email}")
+//	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam String email) {
+//	        userService.sendConfirmationEmail(email);
+//	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
+//	        return ResponseEntity.ok(response);
+//	    }
+	    
 	    @PostMapping("/send-confirm")
-	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam String email) {
-	        userService.sendConfirmationEmail(email);
+	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam(required = false) String email, @RequestBody(required = false) Map<String, String> requestBody) {
+	        String emailParameter = null;
+
+	        if (email != null) {
+	            emailParameter = email;
+	        } else if (requestBody != null && requestBody.containsKey("email")) {
+	            emailParameter = requestBody.get("email");
+	        }
+
+	        if (emailParameter == null) {
+	            throw new IllegalArgumentException("Email is required");
+	        }
+
+	        userService.sendConfirmationEmail(emailParameter);
 	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
 	        return ResponseEntity.ok(response);
 	    }
+
 	   
 	    @PostMapping("/signup")
 	    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {

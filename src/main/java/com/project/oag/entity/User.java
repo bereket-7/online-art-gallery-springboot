@@ -1,5 +1,6 @@
 package com.project.oag.entity;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -71,6 +72,10 @@ public class User {
     private String token;
     
     private boolean isUsing2FA;
+    
+    @Column(nullable = true)
+    private LocalDateTime expirationTime;
+
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
@@ -244,6 +249,16 @@ public class User {
     public void setUsing2FA(boolean isUsing2FA) {
         this.isUsing2FA = isUsing2FA;
     }
+
+    
+    
+	public LocalDateTime getExpirationTime() {
+		return expirationTime;
+	}
+
+	public void setExpirationTime(LocalDateTime expirationTime) {
+		this.expirationTime = expirationTime;
+	}
 
 	public Set<Role> getRoles() {
 		return roles;
