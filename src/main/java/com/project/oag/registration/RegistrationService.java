@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,11 @@ import com.project.oag.service.UserService;
 @AllArgsConstructor
 public class RegistrationService {
 
-    private final UserService userService;
-    private final EmailValidator emailValidator;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
+	@Autowired
+    private  UserService userService;
+    private  EmailValidator emailValidator;
+    private  ConfirmationTokenService confirmationTokenService;
+    private  EmailSender emailSender;
 
     
     public String register(RegistrationRequest request) {

@@ -40,8 +40,7 @@ public class UserService  implements UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-      return userRepository.findByEmail(email).orElseThrow(() ->
-                      new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
+      return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
   }
 	
 
@@ -51,34 +50,19 @@ public class UserService  implements UserDetailsService{
         if (userExists) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
-
             throw new IllegalStateException("email already taken");
         }
-
-        String encodedPassword = bCryptPasswordEncoder
-                .encode(user.getPassword());
-
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-
         userRepository.save(user);
-
         String token = UUID.randomUUID().toString();
-
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),user);
-
-        confirmationTokenService.saveConfirmationToken(
-                confirmationToken);
-
-//        TODO: SEND EMAIL
-
+        ConfirmationToken confirmationToken = new ConfirmationToken(token,LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
+        confirmationTokenService.saveConfirmationToken(confirmationToken);
         return token;
     }
 
     public int enableAppUser(String email) {
-        return appUserRepository.enableAppUser(email);
+        return userRepository.enableUser(email);
     }
 
 
