@@ -45,7 +45,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 @Transactional
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl {
 	
     private String path = "src/main/resources/static/img/user-images/";
     @Autowired
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService{
         this.userRepository = userRepository;
     }
     
-    @Override
+  
     public User authenticateUser(String username, String password) {
         Optional<User> optionalUser = userRepository.findByUsernameAndPassword(username, password);
         if (optionalUser.isPresent()) {
@@ -120,28 +120,27 @@ public class UserServiceImpl implements UserService{
 //    }
     
 
-    @Override
+  
     public void createPasswordResetTokenForUser(final User user, final String token) {
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
         passwordTokenRepository.save(myToken);
     }
 
-    @Override
+
     public User findUserByEmail(final String email) {
         return userRepository.findByEmail(email);
     }
 
-    @Override
+
     public PasswordResetToken getPasswordResetToken(final String token) {
         return passwordTokenRepository.findByToken(token);
     }
 
-    @Override
     public Optional<User> getUserByPasswordResetToken(final String token) {
         return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
     }
 
-    @Override
+
     public Optional<User> getUserByID(final long id) {
         return userRepository.findById(id);
     }
@@ -152,19 +151,15 @@ public class UserServiceImpl implements UserService{
 //        userRepository.save(user);
 //    }
 
-    @Override
     public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
-
-    @Override
     public String generateQRUrl(User user) throws UnsupportedEncodingException {
         return QR_PREFIX + URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", APP_NAME,
                 user.getEmail(), user.getSecret(), APP_NAME), "UTF-8");
     }
 
-    @Override
     public User updateUser2FA(boolean use2FA) {
         final Authentication curAuth = SecurityContextHolder.getContext()
                 .getAuthentication();
@@ -182,7 +177,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findByEmail(email) != null;
     }
 
-    @Override
+
     public List<String> getUsersFromSessionRegistry() {
         return sessionRegistry.getAllPrincipals()
                 .stream()
@@ -197,15 +192,8 @@ public class UserServiceImpl implements UserService{
                 }).collect(Collectors.toList());
     }
 
-    @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
-    }
-    
-    @Override
-    public List<User> getUsersByRole(String name) {
-        Role role = new Role(name);
-        return userRepository.findByRolesContains(role);
     }
     
     @Override
@@ -216,24 +204,23 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-    @Override
-    public User updateUser(Long id, User updatedUser) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            user.setUsername(updatedUser.getUsername());
-            user.setEmail(updatedUser.getEmail());
-            user.setEnabled(true);
-            user.setPhone(updatedUser.getPhone());
-            user.setFirstname(updatedUser.getFirstname());
-            user.setLastname(updatedUser.getLastname());
-            user.setAddress(updatedUser.getAddress());
-            user.setAge(updatedUser.getAge());
-            return userRepository.save(user);
-        }
-        return null;
-    }
+//    @Override
+//    public User updateUser(Long id, User updatedUser) {
+//        User user = userRepository.findById(id).orElse(null);
+//        if (user != null) {
+//            user.setUsername(updatedUser.getUsername());
+//            user.setEmail(updatedUser.getEmail());
+//            user.setEnabled(true);
+//            user.setPhone(updatedUser.getPhone());
+//            user.setFirstname(updatedUser.getFirstname());
+//            user.setLastname(updatedUser.getLastname());
+//            user.setAddress(updatedUser.getAddress());
+//            user.setAge(updatedUser.getAge());
+//            return userRepository.save(user);
+//        }
+//        return null;
+//    }
     
-    @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -271,7 +258,7 @@ public class UserServiceImpl implements UserService{
         return code.toString();
     } 
     
-	  @Override
+
 	  public void sendConfirmationEmail(String email) {
 	      User user = userRepository.findByEmail(email);
 	      if (user == null) {
@@ -308,7 +295,6 @@ public class UserServiceImpl implements UserService{
 //	        }
 //	    }
 	  	
-	  	@Override
 	  	public void confirmRegistration(String email, String confirmationCode) {
 	  	    User user = userRepository.findByEmail(email);
 	  	    if (user == null) {

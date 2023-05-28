@@ -6,57 +6,29 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.core.io.Resource;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 
-public interface UserService {
+import lombok.AllArgsConstructor;
 
-	void createPasswordResetTokenForUser(User user, String token);
+@Service
+@AllArgsConstructor
+public class UserService  implements UserDetailsService{
 
-	User findUserByEmail(String email);
-
-	PasswordResetToken getPasswordResetToken(String token);
-
-	Optional<User> getUserByPasswordResetToken(String token);
-
-	Optional<User> getUserByID(long id);
-
-	void changeUserPassword(User user, String password);
-
-	boolean checkIfValidOldPassword(User user, String password);
-
-	String generateQRUrl(User user) throws UnsupportedEncodingException;
-
-	User updateUser2FA(boolean use2FA);
-
-	List<String> getUsersFromSessionRegistry();
-
-	public List<User> getAllUsers();
-
-	User addUser(User user);
-
-	void deleteUser(Long id);
-
-	User updateUser(Long id, User updatedUser);
-
-	User getUserById(Long id);
-
-	List<User> getUsersByRole(String string);
-
-	void confirmRegistration(String email, String confirmationCode);
-	
-	void sendConfirmationEmail(String email);
-
-	void registerUser(UserDto userDto);
-
-	void uploadProfilePhoto(Long userId, MultipartFile image) throws IOException;
-
-	User authenticateUser(String username, String password);
-
-	Resource getProfilePhoto(Long userId);
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+      return userRepository.findByEmail(email)
+              .orElseThrow(() ->
+                      new UsernameNotFoundException(
+                              String.format(USER_NOT_FOUND_MSG, email)));
+  }
 
 
 }
