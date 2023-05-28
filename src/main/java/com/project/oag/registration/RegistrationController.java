@@ -16,8 +16,13 @@ public class RegistrationController {
 	
 	@Autowired
 	private RegistrationService registrationService;
+	
+    public RegistrationController(RegistrationService registrationService) {
+		super();
+		this.registrationService = registrationService;
+	}
 
-    @PostMapping
+	@PostMapping
     public String register(@RequestBody RegistrationRequest request) {
         return registrationService.register(request);
     }

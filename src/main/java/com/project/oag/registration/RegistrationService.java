@@ -70,7 +70,7 @@ public class RegistrationService {
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
-        return "confirmed";
+        return "Email confirmed successfully";
     }
     
     private String buildEmail(String name, String link) {
@@ -141,4 +141,9 @@ public class RegistrationService {
                 "\n" +
                 "</div></div>";
     }
+
+	public String confirmToken(String token) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
