@@ -130,10 +130,10 @@ public class User implements UserDetails{
         this.bid = bid;
     }
 
-    public User() {
-	    super();
-        this.secret = Base32.random();
-	}
+//    public User() {
+//	    super();
+//        this.secret = Base32.random();
+//	}
     
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
     Integer age, String username, String password, String role) {
