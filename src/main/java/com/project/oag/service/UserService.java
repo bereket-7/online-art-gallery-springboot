@@ -1,23 +1,15 @@
 package com.project.oag.service;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
@@ -28,7 +20,8 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class UserService  implements UserDetailsService{
-	
+     private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
+
 	@Autowired
     private UserRepository userRepository;
 	
@@ -42,7 +35,8 @@ public class UserService  implements UserDetailsService{
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
       return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
   }
-	
+
+
 
     public String signUpUser(User user) {
         boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();

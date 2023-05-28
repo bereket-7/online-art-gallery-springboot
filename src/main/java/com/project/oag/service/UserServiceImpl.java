@@ -60,8 +60,6 @@ public class UserServiceImpl {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Autowired
     private SessionRegistry sessionRegistry;
