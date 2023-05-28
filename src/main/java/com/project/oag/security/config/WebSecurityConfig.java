@@ -13,28 +13,49 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenRepository;
+import com.project.oag.service.UserService;
 
 @Configuration
-@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
-	 private final ConfirmationTokenRepository confirmationTokenRepository;
 
-	    public void saveConfirmationToken(ConfirmationToken token) {
-	        confirmationTokenRepository.save(token);
+    private final UserService userService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+    
+
+	    public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		super();
+		this.userService = userService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+		@Override
+	    protected void configure(HttpSecurity http) throws Exception {
+	        http
+	                .csrf().disable()
+	                .authorizeRequests()
+	                    .antMatchers("/api/v*/registration/**")
+	                    .permitAll()
+	                .anyRequest()
+	                .authenticated().and()
+	                .formLogin();
 	    }
 
-	    public Optional<ConfirmationToken> getToken(String token) {
-	        return confirmationTokenRepository.findByToken(token);
+	    @Override
+	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	        auth.authenticationProvider(daoAuthenticationProvider());
 	    }
 
-	    public int setConfirmedAt(String token) {
-	        return confirmationTokenRepository.updateConfirmedAt(
-	                token, LocalDateTime.now());
+	    @Bean
+	    public DaoAuthenticationProvider daoAuthenticationProvider() {
+	        DaoAuthenticationProvider provider =
+	                new DaoAuthenticationProvider();
+	        provider.setPasswordEncoder(bCryptPasswordEncoder);
+	        provider.setUserDetailsService(userService);
+	        return provider;
 	    }
 	
 }
