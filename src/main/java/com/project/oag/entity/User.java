@@ -74,35 +74,20 @@ public class User implements UserDetails{
 //          inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 //  private Set<Role> roles;
 
-	public User(String firstname, String lastname, String phone, String address, String email, String sex,
-    Integer age, String username, String password, String role) {
-    }
+//	public User(String firstname, String lastname, String phone, String address, String email, String sex,
+//    Integer age, String username, String password, String role) {
+//    }
+
 	
-	public User(String firstname, String lastname, String email, String phone, String address, String sex, Integer age,
-		String username, String password, Boolean locked, Boolean enabled, Role role, byte[] image,
-		String selectedForBid, String secret, boolean isUsing2FA, List<Order> orders, List<Rating> ratings,
-		List<Bid> bid) {
-	super();
-	this.firstname = firstname;
-	this.lastname = lastname;
-	this.email = email;
-	this.phone = phone;
-	this.address = address;
-	this.sex = sex;
-	this.age = age;
-	this.username = username;
-	this.password = password;
-	this.locked = locked;
-	this.enabled = enabled;
-	this.role = role;
-	this.image = image;
-	this.selectedForBid = selectedForBid;
-	this.secret = secret;
-	this.isUsing2FA = isUsing2FA;
-	this.orders = orders;
-	this.ratings = ratings;
-	this.bid = bid;
-}
+
+	
+
+
+
+	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
+			String address, String email, String password) {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.oag.email.EmailSender;
+import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
 import com.project.oag.service.UserService;
@@ -36,9 +37,7 @@ public class RegistrationService {
         }
 
         String token = userService.signUpUser(
-                new User(
-
-                        request.getFirstname(),
+                new User (request.getFirstname(),
                         request.getLastname(),
                         request.getPhone(),
                         request.getUsername(),
@@ -46,13 +45,11 @@ public class RegistrationService {
                         request.getSex(),
                         request.getAddress(),
                         request.getEmail(),
-                        request.getPassword()
-
-                ));
+                        request.getPassword()));
         String link = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
         emailSender.send(
                 request.getEmail(),
-                buildEmail(request.getFirstName(), link));
+                buildEmail(request.getFirstname(), link));
 
         return token;
     }
