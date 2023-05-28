@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -66,10 +68,13 @@ public class User implements UserDetails{
 	@Column(nullable = false)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+//    private Set<Role> roles;
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;
     
     @Column(nullable = true)
     private String photos; 
@@ -139,7 +144,6 @@ public class User implements UserDetails{
 		// TODO Auto-generated constructor stub
 	}
     
-    
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
     Integer age, String username, String password, String role) {
     }
@@ -154,9 +158,8 @@ public class User implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		 SimpleGrantedAuthority authority =
-	                new SimpleGrantedAuthority(appUserRole.name());
+			       new SimpleGrantedAuthority(role.name());
 	        return Collections.singletonList(authority);
-		return null;
 	}
 
 	@Override
