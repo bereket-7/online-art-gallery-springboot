@@ -22,15 +22,11 @@ import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
 
 
 @Service
-@AllArgsConstructor
 @Transactional
 public class UserServiceImpl {
-	
-    private String path = "src/main/resources/static/img/user-images/";
     @Autowired
     private UserRepository userRepository;
 
@@ -45,9 +41,6 @@ public class UserServiceImpl {
 
     @Autowired
     private SessionRegistry sessionRegistry;
-    
-    @Value("${email.throttle.delay}")
-    private long emailThrottleDelay;
     
      @Value("${spring.mail.username}")
      private String senderEmail;
@@ -110,12 +103,6 @@ public class UserServiceImpl {
         return userRepository.findById(id);
     }
 
-//    @Override
-//    public void changeUserPassword(final User user, final String password) {
-//        user.setPassword(passwordEncoder.encode(password));
-//        userRepository.save(user);
-//    }
-
     public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
@@ -160,13 +147,8 @@ public class UserServiceImpl {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+  
     
-    public User addUser(User user) {
-        return userRepository.save(user);
-    }
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
-    }
 //    @Override
 //    public User updateUser(Long id, User updatedUser) {
 //        User user = userRepository.findById(id).orElse(null);
@@ -243,6 +225,4 @@ public class UserServiceImpl {
 //	  	        userRepository.save(user);
 //	  	    }
 //	  	}
-
-
 }

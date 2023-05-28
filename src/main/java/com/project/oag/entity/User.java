@@ -79,7 +79,7 @@ public class User implements UserDetails{
 
 
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
-			String address, String email, String password) {
+			String address, String email, String password,Role role) {
 		// TODO Auto-generated constructor stub
 	}
 
