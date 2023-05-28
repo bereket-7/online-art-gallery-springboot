@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.oag.email.EmailSender;
+import com.project.oag.registration.token.ConfirmationTokenService;
 import com.project.oag.service.UserService;
 
 @Service
