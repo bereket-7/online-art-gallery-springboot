@@ -78,15 +78,6 @@ public class UserServiceImpl {
         this.userRepository = userRepository;
     }
     
-  
-    public User authenticateUser(String username, String password) {
-        Optional<User> optionalUser = userRepository.findByUsernameAndPassword(username, password);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        } else {
-            return null;
-        }
-    }
 //    
 //    @Override
 //    public void registerUser(UserDto userDto) {
@@ -123,12 +114,6 @@ public class UserServiceImpl {
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
         passwordTokenRepository.save(myToken);
     }
-
-
-    public User findUserByEmail(final String email) {
-        return userRepository.findByEmail(email);
-    }
-
 
     public PasswordResetToken getPasswordResetToken(final String token) {
         return passwordTokenRepository.findByToken(token);
@@ -194,11 +179,9 @@ public class UserServiceImpl {
         return userRepository.findAll();
     }
     
-    @Override
     public User addUser(User user) {
         return userRepository.save(user);
     }
-    @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -223,95 +206,61 @@ public class UserServiceImpl {
         return userRepository.findById(id).orElse(null);
     }
     
-    
-    /*   Email confiramation    */
-//	  @Override
-//	    public void sendConfirmationEmail(String email) {
-//	        User user = userRepository.findByEmail(email);
-//	        if (user == null) {
-//	            throw new IllegalArgumentException("Invalid email");
-//	        }
-//	        SimpleMailMessage message = new SimpleMailMessage();
-//	        message.setFrom(senderEmail);
-//	        message.setTo(email);
-//	        message.setSubject("Confirm your registration");
-//	        Random random = new Random();
-//	        String confirmationCode = String.format("%06d", random.nextInt(1000000));
-//	        user.setToken(confirmationCode);
-//	        userRepository.save(user);
-//	        message.setText("Please enter the following confirmation code on our website to confirm your registration: " + confirmationCode);
-//	        mailSender.send(message);
-//	    }
-    private String generateConfirmationCode() {
-        int codeLength = 6; 
-        String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder code = new StringBuilder();
-
-        Random random = new Random();
-        for (int i = 0; i < codeLength; i++) {
-            int randomIndex = random.nextInt(allowedChars.length());
-            char randomChar = allowedChars.charAt(randomIndex);
-            code.append(randomChar);
-        }
-        return code.toString();
-    } 
-    
-
-	  public void sendConfirmationEmail(String email) {
-	      User user = userRepository.findByEmail(email);
-	      if (user == null) {
-	          throw new IllegalArgumentException("Invalid email");
-	      }
-	      LocalDateTime expirationTime = LocalDateTime.now().plusHours(24); // Set expiration time to 24 hours from now
-	      user.setExpirationTime(expirationTime);
-
-	      String confirmationCode = generateConfirmationCode();
-	      user.setToken(confirmationCode);
-	      userRepository.save(user);
-
-	      SimpleMailMessage message = new SimpleMailMessage();
-	      message.setFrom(senderEmail);
-	      message.setTo(email);
-	      message.setSubject("Confirm your registration");
-	      message.setText("Please enter the following confirmation code on our website to confirm your registration: " + confirmationCode);
-	      mailSender.send(message);
-	  }
-
-	  	
-//	  	@Override
-//	    public void confirmRegistration(String email, String confirmationCode) {
-//	        User user = userRepository.findByEmail(email);
-//	        if (user == null) {
-//	            throw new IllegalArgumentException("Invalid email");
-//	        } else {
-//	            if (!user.getToken().equals(confirmationCode)) {
-//	                throw new IllegalArgumentException("Invalid confirmation code");
-//	            }
-//	            user.setEnabled(true);
-//	            user.setToken(null);
-//	            userRepository.save(user);
-//	        }
-//	    }
-	  	
-	  	public void confirmRegistration(String email, String confirmationCode) {
-	  	    User user = userRepository.findByEmail(email);
-	  	    if (user == null) {
-	  	        throw new IllegalArgumentException("Invalid email");
-	  	    } else {
-	  	        if (!user.getToken().equals(confirmationCode)) {
-	  	            throw new IllegalArgumentException("Invalid confirmation code");
-	  	        }
-	  	        if (user.getExpirationTime().isBefore(LocalDateTime.now())) {
-	  	            throw new IllegalArgumentException("Confirmation code has expired");
-	  	        }
-	  	        if (user.isEnabled()) {
-	  	            throw new IllegalArgumentException("User is already enabled");
-	  	        }
-	  	        user.setEnabled(true);
-	  	        user.setToken(null);
-	  	        userRepository.save(user);
-	  	    }
-	  	}
+//    
+//    private String generateConfirmationCode() {
+//        int codeLength = 6; 
+//        String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//        StringBuilder code = new StringBuilder();
+//
+//        Random random = new Random();
+//        for (int i = 0; i < codeLength; i++) {
+//            int randomIndex = random.nextInt(allowedChars.length());
+//            char randomChar = allowedChars.charAt(randomIndex);
+//            code.append(randomChar);
+//        }
+//        return code.toString();
+//    } 
+//    
+//
+//	  public void sendConfirmationEmail(String email) {
+//	      User user = userRepository.findByEmail(email);
+//	      if (user == null) {
+//	          throw new IllegalArgumentException("Invalid email");
+//	      }
+//	      LocalDateTime expirationTime = LocalDateTime.now().plusHours(24); // Set expiration time to 24 hours from now
+//	      user.setExpirationTime(expirationTime);
+//
+//	      String confirmationCode = generateConfirmationCode();
+//	      user.setToken(confirmationCode);
+//	      userRepository.save(user);
+//
+//	      SimpleMailMessage message = new SimpleMailMessage();
+//	      message.setFrom(senderEmail);
+//	      message.setTo(email);
+//	      message.setSubject("Confirm your registration");
+//	      message.setText("Please enter the following confirmation code on our website to confirm your registration: " + confirmationCode);
+//	      mailSender.send(message);
+//	  }
+//	  	
+//	  	public void confirmRegistration(String email, String confirmationCode) {
+//	  	    User user = userRepository.findByEmail(email);
+//	  	    if (user == null) {
+//	  	        throw new IllegalArgumentException("Invalid email");
+//	  	    } else {
+//	  	        if (!user.getToken().equals(confirmationCode)) {
+//	  	            throw new IllegalArgumentException("Invalid confirmation code");
+//	  	        }
+//	  	        if (user.getExpirationTime().isBefore(LocalDateTime.now())) {
+//	  	            throw new IllegalArgumentException("Confirmation code has expired");
+//	  	        }
+//	  	        if (user.isEnabled()) {
+//	  	            throw new IllegalArgumentException("User is already enabled");
+//	  	        }
+//	  	        user.setEnabled(true);
+//	  	        user.setToken(null);
+//	  	        userRepository.save(user);
+//	  	    }
+//	  	}
 
 
 }
