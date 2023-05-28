@@ -39,10 +39,13 @@ import com.project.oag.repository.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
 
 @Service
+@AllArgsConstructor
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
 	
     private String path = "src/main/resources/static/img/user-images/";
     @Autowired

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,9 +19,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -36,6 +32,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
+
 @Table(name = "users")
 public class User implements UserDetails{
     @Id
@@ -75,12 +72,8 @@ public class User implements UserDetails{
     
     @Enumerated(EnumType.STRING)
     private Role role;
+     
     
-    @Column(nullable = true)
-    private String photos; 
-    
-	private boolean enabled;
-	
 	private String selectedForBid;
 	
     private String secret;
@@ -101,6 +94,9 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
+	
+    private Boolean locked = false;
+    private Boolean enabled = false;
 
     public User(String firstname, 
     		String lastname, 
@@ -108,11 +104,10 @@ public class User implements UserDetails{
             String address, 
             String sex, Integer age,
             String username, String password, 
-            String photos, boolean enabled,
             String selectedForBid, 
             String secret, String token, 
             boolean isUsing2FA, 
-            Set<Role> roles,
+            Role role,
             List<Order> orders, 
             List<Rating> ratings, 
             List<Bid> bid) {
@@ -125,13 +120,11 @@ public class User implements UserDetails{
         this.age = age;
         this.username = username;
         this.password = password;
-        this.photos = photos;
-        this.enabled = enabled;
         this.selectedForBid = selectedForBid;
         this.secret = secret;
         this.token = token;
         this.isUsing2FA = isUsing2FA;
-        this.roles = roles;
+        this.role = role;
         this.orders = orders;
         this.ratings = ratings;
         this.bid = bid;
@@ -140,19 +133,10 @@ public class User implements UserDetails{
     public User() {
 	    super();
         this.secret = Base32.random();
-        this.enabled = false;
-		// TODO Auto-generated constructor stub
 	}
     
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
     Integer age, String username, String password, String role) {
-    }
-   
-    @Transient
-    public String getPhotosImagePath() {
-        if (photos == null || id == null) return null;
-         
-        return "/user-photos/" + id + "/" + photos;
     }
 
 	@Override
@@ -164,38 +148,32 @@ public class User implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
+		return password;
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
+		return email;
 	}
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		return !locked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+	     return enabled;
 	}
 
 //    @Override

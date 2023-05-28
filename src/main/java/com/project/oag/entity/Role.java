@@ -4,9 +4,5 @@ public enum Role {
 		    ADMIN,
 		    CUSTOMER,
 		    ARTIST,
-		    ORGANIZATION,
 		    MANAGER
-		    
-		}
-
-
+}
