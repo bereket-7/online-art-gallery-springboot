@@ -89,69 +89,36 @@ public class UserServiceImpl implements UserService{
             return null;
         }
     }
+//    
+//    @Override
+//    public void registerUser(UserDto userDto) {
+//        User user = new User();
+//        user.setFirstname(userDto.getFirstname());
+//        user.setLastname(userDto.getLastname());
+//        user.setEmail(userDto.getEmail());
+//        user.setPhone(userDto.getPhone());
+//        user.setAddress(userDto.getAddress());
+//        user.setSex(userDto.getSex());
+//        user.setAge(userDto.getAge());
+//        user.setUsername(userDto.getUsername());
+//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//        List<Role> roles = new ArrayList<>();
+//        for (Role.RoleType roleType : userDto.getRoles()) {
+//            Role role = roleRepository.findByName(roleType);
+//            if (role == null) {
+//                throw new EntityNotFoundException("Role not found with name: " + roleType);
+//            }
+//            roles.add(role);
+//        }
+//        user.setRoles(roles);
+//        if (emailExists(user.getEmail())) {
+//            throw new UserAlreadyExistException(
+//                "There is an account with that email address: " + user.getEmail());
+//        }
+//        userRepository.save(user);
+//    }
     
-    @Override
-    public void registerUser(UserDto userDto) {
-        User user = new User();
-        user.setFirstname(userDto.getFirstname());
-        user.setLastname(userDto.getLastname());
-        user.setEmail(userDto.getEmail());
-        user.setPhone(userDto.getPhone());
-        user.setAddress(userDto.getAddress());
-        user.setSex(userDto.getSex());
-        user.setAge(userDto.getAge());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-
-        List<Role> roles = new ArrayList<>();
-        for (Role.RoleType roleType : userDto.getRoles()) {
-            Role role = roleRepository.findByName(roleType);
-            if (role == null) {
-                throw new EntityNotFoundException("Role not found with name: " + roleType);
-            }
-            roles.add(role);
-        }
-        user.setRoles(roles);
-        if (emailExists(user.getEmail())) {
-            throw new UserAlreadyExistException(
-                "There is an account with that email address: " + user.getEmail());
-        }
-        userRepository.save(user);
-    }
-    
-    @Override
-    public void uploadProfilePhoto(Long userId, MultipartFile image) throws IOException {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-        String uploadDir = path + userId;
-        String fileName = image.getOriginalFilename();
-        FileUploadUtil.uploadFile(uploadDir, fileName, image);
-        user.setPhotos(uploadDir + "/" + fileName);
-        userRepository.save(user);
-    }
-    
-
-    @Override
-    public Resource getProfilePhoto(Long userId) {
-    User user = userRepository.findById(userId)
-            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
-    
-    String profilePhotoPath = user.getPhotos();  // Make sure it returns the complete file path
-    if (profilePhotoPath != null) {
-        try {
-            Path filePath = Paths.get(profilePhotoPath);
-            Resource file = new UrlResource(filePath.toUri());
-            if (file.exists()) {
-                return file;
-            } else {
-                throw new EntityNotFoundException("File not found " + profilePhotoPath);
-            }
-        } catch (MalformedURLException e) {
-            throw new EntityNotFoundException("File not found " + profilePhotoPath, e);
-        }
-    }
-    return null;
-}
 
     @Override
     public void createPasswordResetTokenForUser(final User user, final String token) {
@@ -179,11 +146,11 @@ public class UserServiceImpl implements UserService{
         return userRepository.findById(id);
     }
 
-    @Override
-    public void changeUserPassword(final User user, final String password) {
-        user.setPassword(passwordEncoder.encode(password));
-        userRepository.save(user);
-    }
+//    @Override
+//    public void changeUserPassword(final User user, final String password) {
+//        user.setPassword(passwordEncoder.encode(password));
+//        userRepository.save(user);
+//    }
 
     @Override
     public boolean checkIfValidOldPassword(final User user, final String oldPassword) {

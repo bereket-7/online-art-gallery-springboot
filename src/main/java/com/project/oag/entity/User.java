@@ -19,6 +19,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -73,6 +74,9 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private Role role;
      
+	@Lob
+    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    private byte[] image;
     
 	private String selectedForBid;
 	
@@ -81,7 +85,11 @@ public class User implements UserDetails{
     @Column(nullable = true)
     private String token;
     
-    private boolean isUsing2FA;
+    public void setUsing2FA(boolean isUsing2FA) {
+		this.isUsing2FA = isUsing2FA;
+	}
+
+	private boolean isUsing2FA;
     
     @Column(nullable = true)
     private LocalDateTime expirationTime;
@@ -135,9 +143,83 @@ public class User implements UserDetails{
 //        this.secret = Base32.random();
 //	}
     
+	public Long getId() {
+		return id;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public String getSelectedForBid() {
+		return selectedForBid;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public boolean isUsing2FA() {
+		return isUsing2FA;
+	}
+
+	public LocalDateTime getExpirationTime() {
+		return expirationTime;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public List<Bid> getBid() {
+		return bid;
+	}
+
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
     Integer age, String username, String password, String role) {
     }
+	
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
