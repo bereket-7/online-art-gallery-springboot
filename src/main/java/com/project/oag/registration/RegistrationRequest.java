@@ -20,8 +20,22 @@ public class RegistrationRequest {
 	private String address;
     private String sex;
     private Integer age;
-    private String username; 
+    private String username;
     
+    
+	public RegistrationRequest(String firstname, String lastname, String email, String password, String phone,
+			String address, String sex, Integer age, String username) {
+		super();
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.phone = phone;
+		this.address = address;
+		this.sex = sex;
+		this.age = age;
+		this.username = username;
+	}
 	public String getFirstname() {
 		return firstname;
 	}

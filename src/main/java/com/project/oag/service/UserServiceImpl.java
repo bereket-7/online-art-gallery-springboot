@@ -1,23 +1,13 @@
 package com.project.oag.service;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URLEncoder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,19 +15,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.common.FileUploadUtil;
-import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
-import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
-import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.repository.PasswordResetTokenRepository;
-import com.project.oag.repository.RoleRepository;
 import com.project.oag.repository.UserRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -59,7 +42,6 @@ public class UserServiceImpl {
     
     @Autowired
     private JavaMailSender mailSender;
-
 
     @Autowired
     private SessionRegistry sessionRegistry;
