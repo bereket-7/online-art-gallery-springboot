@@ -1,47 +1,31 @@
 package com.project.oag.registration.token;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
+import java.util.Optional;
 
-import com.project.oag.entity.User;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@Entity
+@Service
+@AllArgsConstructor
 public class ConfirmationTokenService {
+		@Autowired
+	    private ConfirmationTokenRepository confirmationTokenRepository;
+
+	    public void saveConfirmationToken(ConfirmationToken token) {
+	        confirmationTokenRepository.save(token);
+	    }
+
+	    public Optional<ConfirmationToken> getToken(String token) {
+	        return confirmationTokenRepository.findByToken(token);
+	    }
+
+	    public int setConfirmedAt(String token) {
+	        return confirmationTokenRepository.updateConfirmedAt(
+	                token, LocalDateTime.now());
+	    }
 	
-	  @SequenceGenerator(
-	            name = "confirmation_token_sequence",
-	            sequenceName = "confirmation_token_sequence",
-	            allocationSize = 1
-	    )
-	    @Id
-	    @GeneratedValue(
-	            strategy = GenerationType.SEQUENCE,
-	            generator = "confirmation_token_sequence"
-	    )
-	    private Long id;
-
-	    @Column(nullable = false)
-	    private String token;
-
-	    @Column(nullable = false)
-	    private LocalDateTime createdAt;
-
-	    @Column(nullable = false)
-	    private LocalDateTime expiresAt;
-
-	    private LocalDateTime confirmedAt;
-	    
-	    @ManyToOne
-	    @JoinColumn(
-	            nullable = false,
-	            name = "user_id"
-	    )
-	    private User user;
-
+	
 }
