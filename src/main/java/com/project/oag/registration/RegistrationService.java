@@ -14,16 +14,20 @@ import com.project.oag.registration.token.ConfirmationTokenService;
 import com.project.oag.service.UserService;
 
 @Service
-@AllArgsConstructor
 public class RegistrationService {
 
 	@Autowired
     private  UserService userService;
+	
+	@Autowired
     private  EmailValidator emailValidator;
+	
+	@Autowired
     private  ConfirmationTokenService confirmationTokenService;
+	
+	@Autowired
     private  EmailSender emailSender;
-
-    
+ 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.
                 test(request.getEmail());
@@ -38,6 +42,7 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail(),
                         request.getPassword(),
+                        request.
                         Role.USER
 
                 )
