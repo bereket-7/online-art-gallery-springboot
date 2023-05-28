@@ -37,7 +37,7 @@ public class RegistrationService {
         }
 
         String token = userService.signUpUser(
-                new User (request.getFirstname(),
+                new User(request.getFirstname(),
                         request.getLastname(),
                         request.getPhone(),
                         request.getUsername(),
@@ -156,8 +156,4 @@ public class RegistrationService {
                 "</div></div>";
     }
 
-    public String confirmToken(String token) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
