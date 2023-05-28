@@ -1,6 +1,5 @@
 package com.project.oag.entity;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -21,79 +20,47 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.Email;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-@Getter
-@Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@Entity
 
+@EqualsAndHashCode
+@Entity
 @Table(name = "users")
 public class User implements UserDetails{
+	
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
     private Long id;
-    
-	@Column(nullable = true)
     private String firstname;
-
-	@Column(nullable = true)
     private String lastname;
-
-    @Email(message = "Email is not valid")
     private String email;
-
-	@Column(nullable = true)
 	private String phone;
-
-    @Column(nullable = true)
 	private String address;
-
-	@Column(nullable = true)
     private String sex;
-
-	@Column(nullable = true)
     private Integer age;
-
     private String username;
-
-	@Column(nullable = false)
     private String password;
-
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-//    private Set<Role> roles;
-    
+    private Boolean locked = false;
+    private Boolean enabled = false;
     @Enumerated(EnumType.STRING)
     private Role role;
-     
 	@Lob
-    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    @Column(name = "Image", nullable = true)
     private byte[] image;
-    
 	private String selectedForBid;
+    private String secret= Base32.random();
+	private boolean isUsing2FA = false;
 	
-    private String secret;
-    
-    @Column(nullable = true)
-    private String token;
-    
-    public void setUsing2FA(boolean isUsing2FA) {
-		this.isUsing2FA = isUsing2FA;
-	}
-
-	private boolean isUsing2FA;
-    
-    @Column(nullable = true)
-    private LocalDateTime expirationTime;
-
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
@@ -102,124 +69,40 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
-	
-    private Boolean locked = false;
-    private Boolean enabled = false;
-
-    public User(String firstname, 
-    		String lastname, 
-    	    String email, String phone,
-            String address, 
-            String sex, Integer age,
-            String username, String password, 
-            String selectedForBid, 
-            String secret, String token, 
-            boolean isUsing2FA, 
-            Role role,
-            List<Order> orders, 
-            List<Rating> ratings, 
-            List<Bid> bid) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.sex = sex;
-        this.age = age;
-        this.username = username;
-        this.password = password;
-        this.selectedForBid = selectedForBid;
-        this.secret = secret;
-        this.token = token;
-        this.isUsing2FA = isUsing2FA;
-        this.role = role;
-        this.orders = orders;
-        this.ratings = ratings;
-        this.bid = bid;
-    }
-
-//    public User() {
-//	    super();
-//        this.secret = Base32.random();
-//	}
-    
-	public Long getId() {
-		return id;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public Integer getAge() {
-		return age;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public String getSelectedForBid() {
-		return selectedForBid;
-	}
-
-	public String getSecret() {
-		return secret;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public boolean isUsing2FA() {
-		return isUsing2FA;
-	}
-
-	public LocalDateTime getExpirationTime() {
-		return expirationTime;
-	}
-
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-
-	public List<Bid> getBid() {
-		return bid;
-	}
+//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//  @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+//          inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+//  private Set<Role> roles;
 
 	public User(String firstname, String lastname, String phone, String address, String email, String sex,
     Integer age, String username, String password, String role) {
     }
 	
-	
+	public User(String firstname, String lastname, String email, String phone, String address, String sex, Integer age,
+		String username, String password, Boolean locked, Boolean enabled, Role role, byte[] image,
+		String selectedForBid, String secret, boolean isUsing2FA, List<Order> orders, List<Rating> ratings,
+		List<Bid> bid) {
+	super();
+	this.firstname = firstname;
+	this.lastname = lastname;
+	this.email = email;
+	this.phone = phone;
+	this.address = address;
+	this.sex = sex;
+	this.age = age;
+	this.username = username;
+	this.password = password;
+	this.locked = locked;
+	this.enabled = enabled;
+	this.role = role;
+	this.image = image;
+	this.selectedForBid = selectedForBid;
+	this.secret = secret;
+	this.isUsing2FA = isUsing2FA;
+	this.orders = orders;
+	this.ratings = ratings;
+	this.bid = bid;
+}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -257,6 +140,161 @@ public class User implements UserDetails{
 	public boolean isEnabled() {
 	     return enabled;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+
+	public String getSelectedForBid() {
+		return selectedForBid;
+	}
+
+	public void setSelectedForBid(String selectedForBid) {
+		this.selectedForBid = selectedForBid;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
+	}
+
+	public boolean isUsing2FA() {
+		return isUsing2FA;
+	}
+
+	public void setUsing2FA(boolean isUsing2FA) {
+		this.isUsing2FA = isUsing2FA;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+	public List<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(List<Rating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public List<Bid> getBid() {
+		return bid;
+	}
+
+	public void setBid(List<Bid> bid) {
+		this.bid = bid;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
+	
 
 //    @Override
 //    public int hashCode() {

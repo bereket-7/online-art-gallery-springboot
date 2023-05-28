@@ -2,10 +2,12 @@ package com.project.oag.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.oag.controller.dto.UserDto;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
+import com.project.oag.registration.token.ConfirmationToken;
+import com.project.oag.registration.token.ConfirmationTokenService;
+import com.project.oag.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -24,23 +29,24 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserService  implements UserDetailsService{
 	
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+	@Autowired
+    private UserRepository userRepository;
+	
+	@Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    
+	@Autowired
+    private ConfirmationTokenService confirmationTokenService;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-      return userRepository.findByEmail(email)
-              .orElseThrow(() ->
-                      new UsernameNotFoundException(
-                              String.format(USER_NOT_FOUND_MSG, email)));
+      return userRepository.findByEmail(email).orElseThrow(() ->
+                      new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
   }
 	
 
-    public String signUpUser(AppUser appUser) {
-        boolean userExists = appUserRepository
-                .findByEmail(appUser.getEmail())
-                .isPresent();
+    public String signUpUser(User user) {
+        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
         if (userExists) {
             // TODO check of attributes are the same and
@@ -50,20 +56,18 @@ public class UserService  implements UserDetailsService{
         }
 
         String encodedPassword = bCryptPasswordEncoder
-                .encode(appUser.getPassword());
+                .encode(user.getPassword());
 
-        appUser.setPassword(encodedPassword);
+        user.setPassword(encodedPassword);
 
-        userRepository.save(appUser);
+        userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
 
         ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
                 LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                appUser
-        );
+                LocalDateTime.now().plusMinutes(15),user);
 
         confirmationTokenService.saveConfirmationToken(
                 confirmationToken);
