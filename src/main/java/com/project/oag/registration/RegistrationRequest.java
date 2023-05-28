@@ -1,5 +1,7 @@
 package com.project.oag.registration;
 
+import com.project.oag.entity.Role;
+
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -16,6 +18,7 @@ public class RegistrationRequest {
     private String sex;
     private Integer age;
     private String username;
+    private Role role;
     
     
 	public RegistrationRequest(String firstname, String lastname, String email, String password, String phone,
@@ -84,6 +87,12 @@ public class RegistrationRequest {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	

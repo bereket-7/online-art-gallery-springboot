@@ -23,7 +23,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode
 @Entity
@@ -77,11 +76,6 @@ public class User implements UserDetails{
 //	public User(String firstname, String lastname, String phone, String address, String email, String sex,
 //    Integer age, String username, String password, String role) {
 //    }
-
-	
-
-	
-
 
 
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
@@ -278,9 +272,6 @@ public class User implements UserDetails{
 		this.password = password;
 	}
 	
-	
-	
-
 //    @Override
 //    public int hashCode() {
 //        final int prime = 31;
