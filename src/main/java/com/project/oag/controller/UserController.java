@@ -1,56 +1,28 @@
 package com.project.oag.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.common.ApiResponse;
-import com.project.oag.common.GenericResponse;
-import com.project.oag.controller.dto.PasswordDto;
-import com.project.oag.controller.dto.UserDto;
-import com.project.oag.entity.Role;
-import com.project.oag.entity.User;
-import com.project.oag.exceptions.InvalidOldPasswordException;
-import com.project.oag.exceptions.UserAlreadyExistException;
 import com.project.oag.security.ActiveUserStore;
 import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.NonUniqueResultException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
@@ -79,24 +51,12 @@ public class UserController {
 	        model.addAttribute("users", activeUserStore.getUsers());
 	        return "users";
 	    }
-
-	    @GetMapping("/loggedUsersFromSessionRegistry")
-	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
-	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
-	        return "users";
-	    }	    
-	    
-	    @PostMapping("/{userId}/uploadProfilePhoto")
-	    public ApiResponse uploadProfilePhoto(@PathVariable Long userId, @RequestParam("image") MultipartFile image) {
-	        try {
-	            userService.uploadProfilePhoto(userId, image);
-	            return new ApiResponse(true, "Profile photo uploaded successfully");
-	        } catch (EntityNotFoundException e) {
-	            return new ApiResponse(false, e.getMessage());
-	        } catch (IOException e) {
-	            return new ApiResponse(false, "Failed to upload profile photo");
-	        }
-	    }
+//
+//	    @GetMapping("/loggedUsersFromSessionRegistry")
+//	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
+//	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
+//	        return "users";
+//	    }	    
 //	    
 //	    @PostMapping("/confirm-registration")
 //	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
@@ -157,46 +117,46 @@ public class UserController {
 	        }
 	    }*/
 	    
-	    @GetMapping("/all")
-	    public List<User> getAllUsers() {
-	        return userService.getAllUsers();
-	    }
-	    
-	    @PostMapping("/add")
-	    public User addUser(@RequestBody User user) {
-	        return userService.addUser(user);
-	    }
-	    
-	    @PutMapping("/{id}")
-	    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-	        return userService.updateUser(id, updatedUser);
-	    }
-	    
-	    @GetMapping("/{id}")
-	    public User getUserById(@PathVariable Long id) {
-	        return userService.getUserById(id);
-	    }
-	    
-	    @GetMapping("/admins")
-	    public List<User> getAdminUsers() {
-	        return userService.getUsersByRole("ADMIN");
-	    }
-	    
-	    @GetMapping("/users")
-	    public List<User> getNormalUsers() {
-	        return userService.getUsersByRole("USER");
-	    }
-	    
-	    @GetMapping("/artists")
-	    public List<User> getArtistUsers() {
-	        return userService.getUsersByRole("ARTIST");
-	    }
-	    
-	    @GetMapping("/managers")
-	    public List<User> getManagerUsers() {
-	        return userService.getUsersByRole("MANAGER");
-	    }
-	    
+//	    @GetMapping("/all")
+//	    public List<User> getAllUsers() {
+//	        return userService.getAllUsers();
+//	    }
+//	    
+//	    @PostMapping("/add")
+//	    public User addUser(@RequestBody User user) {
+//	        return userService.addUser(user);
+//	    }
+//	    
+//	    @PutMapping("/{id}")
+//	    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+//	        return userService.updateUser(id, updatedUser);
+//	    }
+//	    
+//	    @GetMapping("/{id}")
+//	    public User getUserById(@PathVariable Long id) {
+//	        return userService.getUserById(id);
+//	    }
+//	    
+//	    @GetMapping("/admins")
+//	    public List<User> getAdminUsers() {
+//	        return userService.getUsersByRole("ADMIN");
+//	    }
+//	    
+//	    @GetMapping("/users")
+//	    public List<User> getNormalUsers() {
+//	        return userService.getUsersByRole("USER");
+//	    }
+//	    
+//	    @GetMapping("/artists")
+//	    public List<User> getArtistUsers() {
+//	        return userService.getUsersByRole("ARTIST");
+//	    }
+//	    
+//	    @GetMapping("/managers")
+//	    public List<User> getManagerUsers() {
+//	        return userService.getUsersByRole("MANAGER");
+//	    }
+//	    
 	    @PostMapping("/logout")
 	    public String logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	        

@@ -1,9 +1,6 @@
 package com.project.oag.controller.dto;
 
-import java.util.List;
-
 import com.project.oag.entity.Role;
-import com.project.oag.entity.Role.RoleType;
 
 public class UserDto {
 	
@@ -16,13 +13,10 @@ public class UserDto {
     private Integer age;
     private String username;
     private String password;
-	private List<Role.RoleType> roles;
-	
-	
+	private Role role;
 
-	
 	public UserDto(String firstname, String lastname, String email, String phone, String address, String sex,
-			Integer age, String username, String password, List<RoleType> roles) {
+			Integer age, String username, String password, Role role) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -33,160 +27,82 @@ public class UserDto {
 		this.age = age;
 		this.username = username;
 		this.password = password;
-		this.roles = roles;
+		this.role = role;
 	}
-
-
-
 
 	public UserDto() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
-
-
 	public String getFirstname() {
 		return firstname;
 	}
 
-
-
-
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
-
-
-
-
 	public String getLastname() {
 		return lastname;
 	}
 
-
-
-
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
-
-
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
-
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-
-
 	public String getPhone() {
 		return phone;
 	}
-
-
-
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-
-
-
 	public String getAddress() {
 		return address;
 	}
-
-
-
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-
-
-
 	public String getSex() {
 		return sex;
 	}
-
-
-
 
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
-
-
-
 	public Integer getAge() {
 		return age;
 	}
-
-
-
-
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-
-
-
-
 	public String getUsername() {
 		return username;
 	}
-
-
-
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
-
-
-
 	public String getPassword() {
 		return password;
 	}
-
-
-
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-
-
-
-	public List<Role.RoleType> getRoles() {
-		return roles;
+	public Role getRole() {
+		return role;
 	}
-
-
-
-
-	public void setRoles(List<Role.RoleType> roles) {
-		this.roles = roles;
+	public void setRole(Role role) {
+		this.role = role;
 	}
-
-
-
-
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
@@ -207,7 +123,7 @@ public class UserDto {
 				.append(", username=")
 				.append(username)
 				.append(", role=")
-				.append(roles).append("]");
+				.append(role).append("]");
 		return builder.toString();
 
 	}

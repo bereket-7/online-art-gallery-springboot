@@ -1,6 +1,7 @@
 package com.project.oag.security;
 
 import java.util.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -52,7 +53,7 @@ public class CustomRememberMeServices extends PersistentTokenBasedRememberMeServ
 
     @Override
     protected Authentication createSuccessfulAuthentication(HttpServletRequest request, UserDetails user) {
-        User auser = userRepository.findByEmail(user.getUsername());
+        Optional<User> auser = userRepository.findByEmail(user.getUsername());
         RememberMeAuthenticationToken auth = new RememberMeAuthenticationToken(key, auser, authoritiesMapper.mapAuthorities(user.getAuthorities()));
         auth.setDetails(authenticationDetailsSource.buildDetails(request));
         return auth;

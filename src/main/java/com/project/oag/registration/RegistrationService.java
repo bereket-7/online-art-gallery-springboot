@@ -1,9 +1,6 @@
 package com.project.oag.registration;
 
-import lombok.AllArgsConstructor;
-
 import java.time.LocalDateTime;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

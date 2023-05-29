@@ -17,18 +17,17 @@ import com.project.oag.entity.User;
 public interface UserRepository extends JpaRepository<User, Long>{
     //User findByEmail(String email);
     
-    List<User> findByRolesContains(Role role);
+    List<User> findByRoleContains(Role role);
 
     @Override
-    void delete(User user);
-	/*@Query("SELECT u FROM user u WHERE u.email = ?1")
-	 User findByEmail(String email);*/
-    
+    void delete(User user);    
+
     @Transactional
     @Modifying
-    @Query("UPDATE users a " +
+    @Query("UPDATE User a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
+    
     Optional<User> findByEmail(String email);
 
 }

@@ -1,12 +1,9 @@
 package com.project.oag.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.oag.entity.User;
 import com.project.oag.repository.UserRepository;
 
 @Service("userDetailsService")
@@ -22,34 +19,35 @@ public class UserDetailService {
 	public UserDetailService() {
 		super();
 	}
-
-	// @Override
-	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-		  	boolean enabled = true;
-		    boolean accountNonExpired = true;
-		    boolean credentialsNonExpired = true;
-		    boolean accountNonLocked = true;
-		if (loginAttemptService.isBlocked()) {
-			throw new RuntimeException("blocked");
-		}
-
-		try {
-			final User user = userRepository.findByEmail(email);
-			if (user == null) {
-				throw new UsernameNotFoundException("No user found with username: " + email);
-			}
-
-			  return new org.springframework.security.core.userdetails.User(
-			          user.getEmail(), 
-			          user.getPassword().toLowerCase(), 
-			          user.isEnabled(), 
-			          accountNonExpired, 
-			          credentialsNonExpired, 
-			          accountNonLocked,null);
-		} catch (final Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
+	
+//
+//	// @Override
+//	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+//		  	boolean enabled = true;
+//		    boolean accountNonExpired = true;
+//		    boolean credentialsNonExpired = true;
+//		    boolean accountNonLocked = true;
+//		if (loginAttemptService.isBlocked()) {
+//			throw new RuntimeException("blocked");
+//		}
+//
+//		try {
+//			final Optional<User> user = userRepository.findByEmail(email);
+//			if (user == null) {
+//				throw new UsernameNotFoundException("No user found with username: " + email);
+//			}
+//
+//			  return new org.springframework.security.core.userdetails.User(
+//			          user.getEmail(), 
+//			          user.getPassword().toLowerCase(), 
+//			          user.isEnabled(), 
+//			          accountNonExpired, 
+//			          credentialsNonExpired, 
+//			          accountNonLocked,null);
+//		} catch (final Exception e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 	// UTIL
 /*
 	private Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles) {

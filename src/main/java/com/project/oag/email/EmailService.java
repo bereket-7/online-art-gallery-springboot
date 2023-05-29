@@ -14,13 +14,14 @@ import jakarta.mail.MessagingException;
 
 @Service
 @AllArgsConstructor
-public class EmailService {
+public class EmailService implements EmailSender{
 	 private final static Logger LOGGER = LoggerFactory
 	            .getLogger(EmailService.class);
 
 	 	@Autowired
 	    private JavaMailSender mailSender;
 
+	 	@Override
 	    @Async
 	    public void send(String to, String email) {
 	        try {

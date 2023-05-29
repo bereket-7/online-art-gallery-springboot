@@ -31,25 +31,20 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.entity.Artwork;
 import com.project.oag.service.ArtworkService;
-import com.project.oag.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/artworks")
 @CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
-	//private String path = "src/main/resources/static/img/artwork-images/";
 	
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
+	 
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-
+	 
 	@Autowired
-	private ArtworkService artworkService;
-
-	@Autowired
-	private UserService userService;	
+	private ArtworkService artworkService;	
 
 	public ArtworkController(ArtworkService artworkService) {
 		super();
