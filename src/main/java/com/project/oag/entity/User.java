@@ -79,7 +79,6 @@ public class User implements UserDetails{
 
 	
 	  public User() {
-	        // default constructor
 	    }	  
 
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
