@@ -20,6 +20,11 @@ public class RegistrationRequest {
     private String username;
     private Role role;
     
+
+    public RegistrationRequest() {
+        // Default constructor
+    }
+    
     
 	public RegistrationRequest(String firstname, String lastname, String email, String password, String phone,
 			String address, String sex, Integer age, String username) {
