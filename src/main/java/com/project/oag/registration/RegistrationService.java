@@ -45,10 +45,7 @@ public class RegistrationService {
                         request.getEmail(),
                         request.getRole()));
         String link = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
-        emailSender.send(
-                request.getEmail(),
-                buildEmail(request.getFirstname(), link));
-
+        emailSender.send(request.getEmail(),buildEmail(request.getFirstname(), link));
         return token;
     }
 
@@ -71,7 +68,7 @@ public class RegistrationService {
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
-        return "Email confirmed successfully";
+        return "Thank you, you have confirmed your email successfully";
     }
 
     private String buildEmail(String name, String link) {
