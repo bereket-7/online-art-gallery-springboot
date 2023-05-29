@@ -97,31 +97,14 @@ public class UserController {
 	            return new ApiResponse(false, "Failed to upload profile photo");
 	        }
 	    }
-	    
-	    @GetMapping("/{userId}/profilePhoto")
-	    public ResponseEntity getProfilePhoto(@PathVariable Long userId) {
-	        try {
-	            Resource file = userService.getProfilePhoto(userId);
-	            if (file != null) {
-	                HttpHeaders headers = new HttpHeaders();
-	                headers.setContentType(MediaType.IMAGE_JPEG); // Or use MediaType.IMAGE_PNG if the image is a PNG
-	                return new ResponseEntity<>(file, headers, HttpStatus.OK);
-	            } else {
-	                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	            }
-	        } catch (Exception e) {
-	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	        }
-	    }
-	    
-	    
-	    @PostMapping("/confirm-registration")
-	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
-	        String email = request.get("email");
-	        String confirmationCode = request.get("confirmationCode");
-	        userService.confirmRegistration(email, confirmationCode);
-	        return new ApiResponse(true, "Registration confirmed successfully.");
-	    }    
+//	    
+//	    @PostMapping("/confirm-registration")
+//	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
+//	        String email = request.get("email");
+//	        String confirmationCode = request.get("confirmationCode");
+//	        userService.confirmRegistration(email, confirmationCode);
+//	        return new ApiResponse(true, "Registration confirmed successfully.");
+//	    }    
 	    
 //	    @PostMapping("/send-confirm/{email}")
 //	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam String email) {
@@ -129,38 +112,38 @@ public class UserController {
 //	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
 //	        return ResponseEntity.ok(response);
 //	    }
-	    
-	    @PostMapping("/send-confirm")
-	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam(required = false) String email, @RequestBody(required = false) Map<String, String> requestBody) {
-	        String emailParameter = null;
-
-	        if (email != null) {
-	            emailParameter = email;
-	        } else if (requestBody != null && requestBody.containsKey("email")) {
-	            emailParameter = requestBody.get("email");
-	        }
-
-	        if (emailParameter == null) {
-	            throw new IllegalArgumentException("Email is required");
-	        }
-
-	        userService.sendConfirmationEmail(emailParameter);
-	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
-	        return ResponseEntity.ok(response);
-	    }
+   
+//	    @PostMapping("/send-confirm")
+//	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam(required = false) String email, @RequestBody(required = false) Map<String, String> requestBody) {
+//	        String emailParameter = null;
+//
+//	        if (email != null) {
+//	            emailParameter = email;
+//	        } else if (requestBody != null && requestBody.containsKey("email")) {
+//	            emailParameter = requestBody.get("email");
+//	        }
+//
+//	        if (emailParameter == null) {
+//	            throw new IllegalArgumentException("Email is required");
+//	        }
+//
+//	        userService.sendConfirmationEmail(emailParameter);
+//	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
+//	        return ResponseEntity.ok(response);
+//	    }
 
 	   
-	    @PostMapping("/signup")
-	    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
-	        try {
-	            userService.registerUser(userDto);
-	            return ResponseEntity.status(HttpStatus.CREATED).build();
-	        } catch (UserAlreadyExistException e) {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-	        } catch (NonUniqueResultException ex) {
-	            return ResponseEntity.badRequest().body("There is an account with that email address: " + userDto.getEmail());
-	        }
-	    }
+//	    @PostMapping("/signup")
+//	    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
+//	        try {
+//	            userService.registerUser(userDto);
+//	            return ResponseEntity.status(HttpStatus.CREATED).build();
+//	        } catch (UserAlreadyExistException e) {
+//	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+//	        } catch (NonUniqueResultException ex) {
+//	            return ResponseEntity.badRequest().body("There is an account with that email address: " + userDto.getEmail());
+//	        }
+//	    }
 
 	    
 	    /*
@@ -212,36 +195,6 @@ public class UserController {
 	    @GetMapping("/managers")
 	    public List<User> getManagerUsers() {
 	        return userService.getUsersByRole("MANAGER");
-	    }
-	   
-	    
-	    @PostMapping("/login")
-	    public ResponseEntity<String> login(@RequestBody User user) {
-	        User authenticatedUser = userService.authenticateUser(user.getUsername(), user.getPassword());
-	        if (authenticatedUser != null) {
-	            Set<Role> role = authenticatedUser.getRoles();
-	            if (role.equals("ADMIN")) {
-	                // Redirect to admin page
-	                return new ResponseEntity<>("Redirecting to admin page", HttpStatus.OK);
-	            } else if (role.equals("MANAGER")) {
-	                // Redirect to manager page
-	                return new ResponseEntity<>("Redirecting to manager page", HttpStatus.OK);
-	            } else if (role.equals("ARTIST")) {
-	                // Redirect to artist page
-	                return new ResponseEntity<>("Redirecting to artist page", HttpStatus.OK);
-	            } else if (role.equals("CUSTOMER")) {
-	                // Redirect to customer page
-	                return new ResponseEntity<>("Redirecting to customer page", HttpStatus.OK);
-	            }
-	        }
-	        // Login failed
-	        return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
-	    }
-
-	    @DeleteMapping("/{id}")
-	    public ResponseEntity<User> deleteUser(@PathVariable Long id) {
-	        userService.deleteUser(id);
-	        return ResponseEntity.noContent().build();
 	    }
 	    
 	    @PostMapping("/logout")
