@@ -223,46 +223,46 @@ public class UserController {
 	    }*/
 
 	    // Save password
-	    @PostMapping("/savePassword")
-	    public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
+//	    @PostMapping("/savePassword")
+//	    public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
+//
+//	        final String result = userSecurityService.validatePasswordResetToken(passwordDto.getToken());
+//
+//	        if (result != null) {
+//	            return new GenericResponse(messages.getMessage("auth.message." + result, null, locale));
+//	        }
+//
+//	        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
+//	        if (user.isPresent()) {
+//	            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
+//	            return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale));
+//	        } else {
+//	            return new GenericResponse(messages.getMessage("auth.message.invalid", null, locale));
+//	        }
+//	    }
 
-	        final String result = userSecurityService.validatePasswordResetToken(passwordDto.getToken());
-
-	        if (result != null) {
-	            return new GenericResponse(messages.getMessage("auth.message." + result, null, locale));
-	        }
-
-	        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
-	        if (user.isPresent()) {
-	            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
-	            return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale));
-	        } else {
-	            return new GenericResponse(messages.getMessage("auth.message.invalid", null, locale));
-	        }
-	    }
-
-	    // Change user password
-	    @PostMapping("/updatePassword")
-	    public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
-	        final User user = userService.findUserByEmail(
-	                ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
-	        if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
-	            throw new InvalidOldPasswordException();
-	        }
-	        userService.changeUserPassword(user, passwordDto.getNewPassword());
-	        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
-	    }
-
-	    // Change user 2 factor authentication
-	    @PostMapping("/update/2fa")
-	    public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA)
-	            throws UnsupportedEncodingException {
-	        final User user = userService.updateUser2FA(use2FA);
-	        if (use2FA) {
-	            return new GenericResponse(userService.generateQRUrl(user));
-	        }
-	        return null;
-	    }
+//	    // Change user password
+//	    @PostMapping("/updatePassword")
+//	    public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
+//	        final User user = userService.findUserByEmail(
+//	                ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
+//	        if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
+//	            throw new InvalidOldPasswordException();
+//	        }
+//	        userService.changeUserPassword(user, passwordDto.getNewPassword());
+//	        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
+//	    }
+//
+//	    // Change user 2 factor authentication
+//	    @PostMapping("/update/2fa")
+//	    public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA)
+//	            throws UnsupportedEncodingException {
+//	        final User user = userService.updateUser2FA(use2FA);
+//	        if (use2FA) {
+//	            return new GenericResponse(userService.generateQRUrl(user));
+//	        }
+//	        return null;
+//	    }
 
 	    // ============== NON-API ============
 
