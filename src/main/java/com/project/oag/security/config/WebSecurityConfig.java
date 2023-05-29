@@ -3,8 +3,10 @@ package com.project.oag.security.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 import com.project.oag.service.UserService;
   
@@ -20,6 +22,21 @@ public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPa
 		this.userService = userService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
+
+
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    return http.cors()
+            .and().csrf().disable()
+            .authorizeHttpRequests()
+            .requestMatchers("/api/v*/registration/**")
+            .permitAll()
+            .and()
+            .authorizeHttpRequests()
+            .requestMatchers("/users/**")
+            .hasAnyAuthority("CUSTOMER", "ADMIN","ARTIST","MANAGER")
+            .and().formLogin().and().build();
+}
 
 //		@Override
 //	    protected void configure(HttpSecurity http) throws Exception {
