@@ -77,9 +77,14 @@ public class User implements UserDetails{
 //    Integer age, String username, String password, String role) {
 //    }
 
+	
+	  public User() {
+	        // default constructor
+	    }
 
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
 			String address, String email, String password,Role role) {
+		   this.password = password;
 		// TODO Auto-generated constructor stub
 	}
 
