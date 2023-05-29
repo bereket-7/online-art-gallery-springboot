@@ -80,12 +80,20 @@ public class User implements UserDetails{
 	
 	  public User() {
 	        // default constructor
-	    }
+	    }	  
 
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
 			String address, String email, String password,Role role) {
 		   this.password = password;
-		// TODO Auto-generated constructor stub
+		   this.firstname =firstname;
+		   this.lastname =lastname;
+		   this.phone =phone;
+		   this.age=age;
+		   this.username=username;
+		   this.email=email;
+		   this.sex=sex;
+		   this.address=address;
+		   this.role=role;
 	}
 
 	@Override
