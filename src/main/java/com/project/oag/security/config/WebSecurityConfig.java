@@ -34,7 +34,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
             .and()
             .authorizeHttpRequests()
             .requestMatchers("/users/**")
-            .hasAnyAuthority("CUSTOMER", "ADMIN","ARTIST","MANAGER")
+            .hasAnyAuthority("USER","CUSTOMER", "ADMIN","ARTIST","MANAGER")
             .and().formLogin().and().build();
 }
 
