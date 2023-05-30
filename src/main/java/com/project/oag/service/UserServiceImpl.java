@@ -125,11 +125,6 @@ public class UserServiceImpl {
         return currentUser;
     }
 
-    private boolean emailExists(final String email) {
-        return userRepository.findByEmail(email) != null;
-    }
-
-
     public List<String> getUsersFromSessionRegistry() {
         return sessionRegistry.getAllPrincipals()
                 .stream()

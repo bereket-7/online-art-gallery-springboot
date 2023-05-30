@@ -44,7 +44,9 @@ public class ConfirmationToken {
 	    )
 	    private User user;
 	    
-
+	    public ConfirmationToken() {
+	        // Default constructor
+	    }
 	    public ConfirmationToken(String token,
 	                             LocalDateTime createdAt,
 	                             LocalDateTime expiresAt,

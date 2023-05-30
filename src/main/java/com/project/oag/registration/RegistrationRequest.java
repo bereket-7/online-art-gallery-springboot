@@ -22,7 +22,6 @@ public class RegistrationRequest {
     
 
     public RegistrationRequest() {
-        // Default constructor
     }
     
     
@@ -98,8 +97,6 @@ public class RegistrationRequest {
 	}
 	public void setRole(Role role) {
 		this.role = role;
-	}
-	
-	
+	}	
 
 }

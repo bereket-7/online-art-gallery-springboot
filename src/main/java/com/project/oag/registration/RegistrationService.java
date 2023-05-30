@@ -32,18 +32,18 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new IllegalStateException("email not valid");
         }
-
+        
         String token = userService.signUpUser(
-                new User(request.getFirstname(),
-                        request.getLastname(),
-                        request.getPhone(),
-                        request.getUsername(),
-                        request.getAge(),
-                        request.getSex(),
-                        request.getAddress(),
-                        request.getPassword(),
-                        request.getEmail(),
-                        request.getRole()));
+        	    new User(request.getFirstname(),
+        	        request.getLastname(),
+        	        request.getPhone(),
+        	        request.getUsername(),
+        	        request.getAge(),
+        	        request.getSex(),
+        	        request.getAddress(),
+        	        request.getEmail(), // Corrected order: email before password
+        	        request.getPassword(), // Corrected order: password after email
+        	        request.getRole()));
         String link = "http://localhost:8081/api/v1/registration/confirm?token=" + token;
         emailSender.send(request.getEmail(),buildEmail(request.getFirstname(), link));
         return token;

@@ -276,7 +276,6 @@ public class User implements UserDetails{
 	public void setBid(List<Bid> bid) {
 		this.bid = bid;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
