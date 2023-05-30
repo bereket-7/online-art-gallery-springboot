@@ -42,7 +42,7 @@ public class UserService  implements UserDetailsService{
         if (userExists) {
             // TODO check of attributes are the same and
             // TODO if email not confirmed send confirmation email.
-            throw new IllegalStateException("email already taken");
+            throw new IllegalStateException("email already registered");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
