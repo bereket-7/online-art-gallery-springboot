@@ -56,40 +56,6 @@ public class UserController {
 //	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
 //	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
 //	        return "users";
-//	    }	    
-//	    
-//	    @PostMapping("/confirm-registration")
-//	    public ApiResponse confirmRegistration(@RequestBody Map<String, String> request) {
-//	        String email = request.get("email");
-//	        String confirmationCode = request.get("confirmationCode");
-//	        userService.confirmRegistration(email, confirmationCode);
-//	        return new ApiResponse(true, "Registration confirmed successfully.");
-//	    }    
-	    
-//	    @PostMapping("/send-confirm/{email}")
-//	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam String email) {
-//	        userService.sendConfirmationEmail(email);
-//	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
-//	        return ResponseEntity.ok(response);
-//	    }
-   
-//	    @PostMapping("/send-confirm")
-//	    public ResponseEntity<ApiResponse> sendConfirmationEmail(@RequestParam(required = false) String email, @RequestBody(required = false) Map<String, String> requestBody) {
-//	        String emailParameter = null;
-//
-//	        if (email != null) {
-//	            emailParameter = email;
-//	        } else if (requestBody != null && requestBody.containsKey("email")) {
-//	            emailParameter = requestBody.get("email");
-//	        }
-//
-//	        if (emailParameter == null) {
-//	            throw new IllegalArgumentException("Email is required");
-//	        }
-//
-//	        userService.sendConfirmationEmail(emailParameter);
-//	        ApiResponse response = new ApiResponse(true, "Confirmation email sent successfully");
-//	        return ResponseEntity.ok(response);
 //	    }
 
 	   
@@ -103,19 +69,7 @@ public class UserController {
 //	        } catch (NonUniqueResultException ex) {
 //	            return ResponseEntity.badRequest().body("There is an account with that email address: " + userDto.getEmail());
 //	        }
-//	    }
-
-	    
-	    /*
-	    @PostMapping("/confirm")
-	    public ResponseEntity<String> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
-	        try {
-	            userService.confirmRegistration(email, confirmationCode);
-	            return ResponseEntity.ok("Registration confirmed successfully!");
-	        } catch (IllegalArgumentException e) {
-	            return ResponseEntity.badRequest().body(e.getMessage());
-	        }
-	    }*/
+//
 	    
 //	    @GetMapping("/all")
 //	    public List<User> getAllUsers() {
