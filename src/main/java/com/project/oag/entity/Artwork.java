@@ -5,17 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.project.oag.repository.RatingRepository;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="Artwork")
@@ -43,10 +33,7 @@ public class Artwork {
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
     private Date createDate;
-	
-    @Column(nullable=true)
-    private int artistId;
-	 
+
     @Column(nullable=true)
 	private String size;
 	
@@ -55,10 +42,13 @@ public class Artwork {
 
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-    
+
+	@ManyToOne
+	@JoinColumn(name = "artist_id")
+	private User artist;
 
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
-			Date createDate, int artistId, String size, String status, List<Rating> ratings) {
+			Date createDate, String size, String status, List<Rating> ratings) {
 		super();
 		this.artworkName = artworkName;
 		this.artworkDescription = artworkDescription;
@@ -66,7 +56,6 @@ public class Artwork {
 		this.image = image;
 		this.price = price;
 		this.createDate = createDate;
-		this.artistId = artistId;
 		this.size = size;
 		this.status = status;
 		this.ratings = ratings;
@@ -143,14 +132,6 @@ public class Artwork {
 		this.price = price;
 	}
 
-	public int getArtistId() {
-		return artistId;
-	}
-
-	public void setArtistId(int artistId) {
-		this.artistId = artistId;
-	}
-
 	public String getSize() {
 		return size;
 	}
@@ -190,7 +171,7 @@ public class Artwork {
 	public String toString() {
 		return "Artwork [id=" + id + ", artworkName=" + artworkName + ", artworkDescription=" + artworkDescription
 				+ ", artworkCategory=" + artworkCategory + ", image=" + Arrays.toString(image) + ", price=" + price
-				+ ", createDate=" + createDate + ", artistId=" + artistId + ", size=" + size + ", status=" + status
+				+ ", createDate=" + createDate + ", size=" + size + ", status=" + status
 				+ ", ratings=" + ratings + "]";
 	}	
 

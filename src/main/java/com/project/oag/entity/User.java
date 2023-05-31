@@ -68,10 +68,9 @@ public class User implements UserDetails{
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
-//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//  @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-//          inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-//  private Set<Role> roles;
+
+	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+	private List<Artwork> artworks;
 
 //	public User(String firstname, String lastname, String phone, String address, String email, String sex,
 //    Integer age, String username, String password, String role) {

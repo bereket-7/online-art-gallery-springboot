@@ -75,42 +75,20 @@ public class UserController {
 //	    public List<User> getAllUsers() {
 //	        return userService.getAllUsers();
 //	    }
-//	    
+
 //	    @PostMapping("/add")
 //	    public User addUser(@RequestBody User user) {
 //	        return userService.addUser(user);
 //	    }
-//	    
+//
 //	    @PutMapping("/{id}")
 //	    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
 //	        return userService.updateUser(id, updatedUser);
-//	    }
-//	    
+//}
 //	    @GetMapping("/{id}")
 //	    public User getUserById(@PathVariable Long id) {
 //	        return userService.getUserById(id);
-//	    }
-//	    
-//	    @GetMapping("/admins")
-//	    public List<User> getAdminUsers() {
-//	        return userService.getUsersByRole("ADMIN");
-//	    }
-//	    
-//	    @GetMapping("/users")
-//	    public List<User> getNormalUsers() {
-//	        return userService.getUsersByRole("USER");
-//	    }
-//	    
-//	    @GetMapping("/artists")
-//	    public List<User> getArtistUsers() {
-//	        return userService.getUsersByRole("ARTIST");
-//	    }
-//	    
-//	    @GetMapping("/managers")
-//	    public List<User> getManagerUsers() {
-//	        return userService.getUsersByRole("MANAGER");
-//	    }
-//	    
+//	   }
 	    @PostMapping("/logout")
 	    public String logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 	        
