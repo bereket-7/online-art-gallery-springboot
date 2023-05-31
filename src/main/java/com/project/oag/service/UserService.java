@@ -1,21 +1,21 @@
 package com.project.oag.service;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
+import com.project.oag.entity.User;
+import com.project.oag.registration.token.ConfirmationToken;
+import com.project.oag.registration.token.ConfirmationTokenService;
+import com.project.oag.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.entity.User;
-import com.project.oag.registration.token.ConfirmationToken;
-import com.project.oag.registration.token.ConfirmationTokenService;
-import com.project.oag.repository.UserRepository;
-
-import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -55,5 +55,24 @@ public class UserService  implements UserDetailsService{
 
     public int enableUser(String email) {
         return userRepository.enableUser(email);
+    }
+
+    public void uploadProfilePhoto(String loggedInEmail, MultipartFile file) {
+        // Retrieve the user from the database based on the email
+        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            try {
+                user.setImage(file.getBytes());
+                userRepository.save(user);
+            } catch (IOException e) {
+                // Handle the exception as needed
+                e.printStackTrace();
+                throw new RuntimeException("Failed to upload profile photo");
+            }
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 }

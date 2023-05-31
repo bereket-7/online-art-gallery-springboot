@@ -6,15 +6,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.project.oag.security.ActiveUserStore;
 import com.project.oag.security.UserSecurityService;
@@ -23,6 +20,7 @@ import com.project.oag.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -51,6 +49,16 @@ public class UserController {
 	        model.addAttribute("users", activeUserStore.getUsers());
 	        return "users";
 	    }
+
+	@PostMapping("/upload")
+	public ResponseEntity<String> uploadProfilePhoto(
+			@RequestParam("file") MultipartFile file,
+			Authentication authentication
+	) {
+		String loggedInEmail = authentication.getName();
+		userService.uploadProfilePhoto(loggedInEmail, file);
+		return ResponseEntity.ok("Profile photo uploaded successfully");
+	}
 //
 //	    @GetMapping("/loggedUsersFromSessionRegistry")
 //	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
