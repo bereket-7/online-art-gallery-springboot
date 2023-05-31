@@ -1,6 +1,5 @@
 package com.project.oag.service;
 
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class PaypalService {
 	
 	@Autowired
 	private APIContext apiContext;
-	
 	
 	public Payment createPayment(
 			Double total, 
@@ -59,7 +57,6 @@ public class PaypalService {
 
 		return payment.create(apiContext);
 	}
-	
 	public Payment executePayment(String paymentId, String payerId) throws PayPalRESTException{
 		Payment payment = new Payment();
 		payment.setId(paymentId);

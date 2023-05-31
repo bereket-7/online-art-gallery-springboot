@@ -43,21 +43,15 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/competitors")
 @CrossOrigin("http://localhost:8080/")
 public class CompetitorController {
-	
-
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
 	@Autowired
 	CompetitorService competitorService;
-	
-	//private String path = "src/main/resources/static/img/competition-images/";
 	public CompetitorController(CompetitorService competitorService) {
 		super();
 		this.competitorService = competitorService;
 	}
-
 	@PostMapping("/register")
 	public @ResponseBody ResponseEntity<?> registerCompetitor(
 	        @RequestParam("firstName") String firstName,
@@ -118,20 +112,18 @@ public class CompetitorController {
 	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	    }
 	}
-	 
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getCompetitorImage(@PathVariable Long id, Model model) {
-	     Optional<Competitor> competitor = competitorService.getCompetitorById(id);
-	     if (competitor == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-	     byte[] imageBytes = competitor.get().getImage();
-	 
-	     HttpHeaders headers = new HttpHeaders();
-  		headers.setContentType(MediaType.IMAGE_PNG);
-   return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
+		 Optional<Competitor> competitor = competitorService.getCompetitorById(id);
+		 if (competitor == null) {
+			 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		 }
+		 byte[] imageBytes = competitor.get().getImage();
+
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.setContentType(MediaType.IMAGE_PNG);
+		 return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
-	 
 	 @GetMapping
 	 public ResponseEntity<List<Competitor>> getAllCompetitor() {
 	     List<Competitor> competitorList = competitorService.getAllCompetitors();
@@ -147,7 +139,7 @@ public class CompetitorController {
         return competitor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-	@DeleteMapping("/delete/{id}") // delete existing competition from the database
+	@DeleteMapping("/delete/{id}")
 	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
 		competitorService.deleteCompetitor(id);
 	}
@@ -182,11 +174,6 @@ public class CompetitorController {
 	        competitorService.recordUserVote(id, ipAddress);
 	        return ResponseEntity.ok("Thank you for voting!");
 	    }
-	    /*
-	    @GetMapping("/top")
-	    public List<Competitor> getTopCompetitors() {
-	        return competitorService.getTopCompetitors();
-	    }*/
 	    @GetMapping("/winner")
 	    public List<CompetitorDto> getTopCompetitors() {
 	        List<CompetitorDto> topCompetitors = competitorService.getTopCompetitors();

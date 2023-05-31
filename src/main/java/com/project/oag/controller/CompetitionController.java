@@ -36,12 +36,12 @@ public class CompetitionController {
 		return competitionService.getCompetitionById(id);
 	}
 
-	@PostMapping("/add") // add new competition to the database
+	@PostMapping("/add")
 	public void addCompetition(@RequestBody Competition competition) { 																// request body with a method parameter.
 		competitionService.addCompetition(competition); // call service method to add new competition to the database }
 	}
 
-	@PutMapping("/update/{id}") // update existing competition in the database
+	@PutMapping("/update/{id}")
 	public void updateCompetition(@PathVariable Long id, @RequestBody Competition competition) { 															// parameter.
 		competitionService.updateCompetition(id, competition);
 	}

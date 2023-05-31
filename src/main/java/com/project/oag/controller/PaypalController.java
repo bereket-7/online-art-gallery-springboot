@@ -8,29 +8,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.project.oag.entity.Order;
 import com.project.oag.service.PaypalService;
-
 @RestController
 @RequestMapping("/paypal")
 @CrossOrigin("http://localhost:8080/")
 public class PaypalController {
-
 	@Autowired
 	PaypalService service;
-
 	public static final String SUCCESS_URL = "pay/success";
 	public static final String CANCEL_URL = "pay/cancel";
-
 	@GetMapping("/")
 	public String home() {
 		return "home";
 	}
-
 	@PostMapping("/pay")
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
