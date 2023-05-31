@@ -18,29 +18,21 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="orders")
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column(name = "created_date",nullable=true)
     private Date createdDate;
-
     @Column(name = "price",nullable=true)
 	private double price;
-    
     @Column(name="currency",nullable=true)
     private String currency;
-    
     @Column(name="intent",nullable=true)
     private String intent;
-    
     @Column(name="method",nullable=true)
     private String method;
-    
     @Column(name="description",nullable=true)
     private String description;
-
     @Column(name = "session_id",nullable=true)
     private String sessionId;
 

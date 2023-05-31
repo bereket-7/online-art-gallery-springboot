@@ -23,7 +23,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
-
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
@@ -59,27 +58,20 @@ public class User implements UserDetails{
 	private String selectedForBid;
     private String secret= Base32.random();
 	private boolean isUsing2FA = false;
-	
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;
-	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Rating> ratings;
-	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
-
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private List<Artwork> artworks;
 
 //	public User(String firstname, String lastname, String phone, String address, String email, String sex,
 //    Integer age, String username, String password, String role) {
 //    }
-
-	
 	  public User() {
-	    }	  
-	
+	    }
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
             String address, String email, String password, Role role) {
     this.firstname = firstname;
@@ -93,40 +85,32 @@ public class User implements UserDetails{
     this.password = password;
     this.role = role;
 }
-
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		 SimpleGrantedAuthority authority =
 			       new SimpleGrantedAuthority(role.name());
 	        return Collections.singletonList(authority);
 	}
-
 	@Override
 	public String getPassword() {
 		return password;
 	}
-
 	@Override
 	public String getUsername() {
 		return email;
 	}
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
-
 	@Override
 	public boolean isAccountNonLocked() {
 		return !locked;
 	}
-
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
-
 	@Override
 	public boolean isEnabled() {
 	     return enabled;
