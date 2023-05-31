@@ -75,8 +75,16 @@ public class UserService  implements UserDetailsService{
             throw new RuntimeException("User not found");
         }
     }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+    public byte[] getProfilePhoto(String loggedInEmail) {
+        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return user.getImage();
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 }
