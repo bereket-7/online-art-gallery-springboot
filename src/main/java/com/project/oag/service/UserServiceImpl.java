@@ -142,25 +142,6 @@ public class UserServiceImpl {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-  
-    
-//    @Override
-//    public User updateUser(Long id, User updatedUser) {
-//        User user = userRepository.findById(id).orElse(null);
-//        if (user != null) {
-//            user.setUsername(updatedUser.getUsername());
-//            user.setEmail(updatedUser.getEmail());
-//            user.setEnabled(true);
-//            user.setPhone(updatedUser.getPhone());
-//            user.setFirstname(updatedUser.getFirstname());
-//            user.setLastname(updatedUser.getLastname());
-//            user.setAddress(updatedUser.getAddress());
-//            user.setAge(updatedUser.getAge());
-//            return userRepository.save(user);
-//        }
-//        return null;
-//    }
-    
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }

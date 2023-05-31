@@ -52,7 +52,7 @@ public class UserController {
 	        return "users";
 	    }
 
-	@PostMapping("/upload")
+	@PostMapping("profile/upload")
 	public ResponseEntity<String> uploadProfilePhoto(
 			@RequestParam("file") MultipartFile file,
 			Authentication authentication
@@ -61,7 +61,7 @@ public class UserController {
 		userService.uploadProfilePhoto(loggedInEmail, file);
 		return ResponseEntity.ok("Profile photo uploaded successfully");
 	}
-//
+
 //	    @GetMapping("/loggedUsersFromSessionRegistry")
 //	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
 //	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
