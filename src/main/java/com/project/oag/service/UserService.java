@@ -1,38 +1,57 @@
 package com.project.oag.service;
 
+import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
+import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UserService  implements UserDetailsService{
      private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 	@Autowired
     private UserRepository userRepository;
-	
+
+    @Autowired
+    private PasswordResetTokenRepository passwordTokenRepository;
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
 	@Autowired
     private ConfirmationTokenService confirmationTokenService;
 
+    @Autowired
+    private SessionRegistry sessionRegistry;
+
+    public static String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
+    public static String APP_NAME = "OnlineArtGallery";
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
       return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
@@ -75,9 +94,6 @@ public class UserService  implements UserDetailsService{
             throw new RuntimeException("User not found");
         }
     }
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
     public byte[] getProfilePhoto(String loggedInEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
         if (optionalUser.isPresent()) {
@@ -87,4 +103,101 @@ public class UserService  implements UserDetailsService{
             throw new RuntimeException("User not found");
         }
     }
+
+
+
+    public void createPasswordResetTokenForUser(final User user, final String token) {
+        final PasswordResetToken myToken = new PasswordResetToken(token, user);
+        passwordTokenRepository.save(myToken);
+    }
+
+    public PasswordResetToken getPasswordResetToken(final String token) {
+        return passwordTokenRepository.findByToken(token);
+    }
+
+    public Optional<User> getUserByPasswordResetToken(final String token) {
+        return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
+    }
+
+
+    public Optional<User> getUserByID(final long id) {
+        return userRepository.findById(id);
+    }
+
+    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    public String generateQRUrl(User user) throws UnsupportedEncodingException {
+        return QR_PREFIX + URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", APP_NAME,
+                user.getEmail(), user.getSecret(), APP_NAME), "UTF-8");
+    }
+
+    public User updateUser2FA(boolean use2FA) {
+        final Authentication curAuth = SecurityContextHolder.getContext()
+                .getAuthentication();
+        User currentUser = (User) curAuth.getPrincipal();
+        currentUser.setUsing2FA(use2FA);
+        currentUser = userRepository.save(currentUser);
+        final Authentication auth = new UsernamePasswordAuthenticationToken(currentUser, currentUser.getPassword(),
+                curAuth.getAuthorities());
+        SecurityContextHolder.getContext()
+                .setAuthentication(auth);
+        return currentUser;
+    }
+
+    public List<String> getUsersFromSessionRegistry() {
+        return sessionRegistry.getAllPrincipals()
+                .stream()
+                .filter((u) -> !sessionRegistry.getAllSessions(u, false)
+                        .isEmpty())
+                .map(o -> {
+                    if (o instanceof User) {
+                        return ((User) o).getEmail();
+                    } else {
+                        return o.toString();
+                    }
+                }).collect(Collectors.toList());
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+
+
+
+    //
+//    @Override
+//    public void registerUser(UserDto userDto) {
+//        User user = new User();
+//        user.setFirstname(userDto.getFirstname());
+//        user.setLastname(userDto.getLastname());
+//        user.setEmail(userDto.getEmail());
+//        user.setPhone(userDto.getPhone());
+//        user.setAddress(userDto.getAddress());
+//        user.setSex(userDto.getSex());
+//        user.setAge(userDto.getAge());
+//        user.setUsername(userDto.getUsername());
+//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//
+//        List<Role> roles = new ArrayList<>();
+//        for (Role.RoleType roleType : userDto.getRoles()) {
+//            Role role = roleRepository.findByName(roleType);
+//            if (role == null) {
+//                throw new EntityNotFoundException("Role not found with name: " + roleType);
+//            }
+//            roles.add(role);
+//        }
+//        user.setRoles(roles);
+//        if (emailExists(user.getEmail())) {
+//            throw new UserAlreadyExistException(
+//                "There is an account with that email address: " + user.getEmail());
+//        }
+//        userRepository.save(user);
+//    }
+
 }
