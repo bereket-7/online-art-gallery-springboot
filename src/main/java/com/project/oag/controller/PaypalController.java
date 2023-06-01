@@ -19,8 +19,8 @@ import com.project.oag.service.PaypalService;
 public class PaypalController {
 	@Autowired
 	PaypalService service;
-	public static final String SUCCESS_URL = "pay/success";
-	public static final String CANCEL_URL = "pay/cancel";
+	public static final String SUCCESS_URL = "paypalSuccess";
+	public static final String CANCEL_URL = "paypalFail";
 	@GetMapping("/")
 	public String home() {
 		return "home";
@@ -29,8 +29,8 @@ public class PaypalController {
 	public String payment(@ModelAttribute("order") Order order) {
 		try {
 			Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
-					order.getIntent(), order.getDescription(), "http://localhost:8080/paypal/" + CANCEL_URL,
-					"http://localhost:8080/paypal/" + SUCCESS_URL);
+					order.getIntent(), order.getDescription(), "http://localhost:8080/" + CANCEL_URL,
+					"http://localhost:8080/" + SUCCESS_URL);
 			for (Links link : payment.getLinks()) {
 				if (link.getRel().equals("approval_url")) {
 					return "redirect:" + link.getHref();
