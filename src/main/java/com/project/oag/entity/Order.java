@@ -51,7 +51,6 @@ public class Order {
 		return currency;
 	}
 
-
 	public void setCurrency(String currency) {
 		this.currency = currency;
 	}
