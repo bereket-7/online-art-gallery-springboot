@@ -1,7 +1,6 @@
 package com.project.oag.registration.token;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -9,7 +8,6 @@ import com.project.oag.entity.User;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @Entity
 
 public class ConfirmationToken {
