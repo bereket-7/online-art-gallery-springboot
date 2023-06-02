@@ -28,6 +28,7 @@ public class Bid {
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", referencedColumnName = "id")
 	    private User user;
+
 //		@Column(nullable = false)
 //		private LocalDateTime bidEndTime;
 		public Bid() {

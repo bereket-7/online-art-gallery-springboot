@@ -179,85 +179,66 @@ public class User implements UserDetails{
 	public void setAge(Integer age) {
 		this.age = age;
 	}
-
 	public Boolean getLocked() {
 		return locked;
 	}
-
 	public void setLocked(Boolean locked) {
 		this.locked = locked;
 	}
-
 	public Boolean getEnabled() {
 		return enabled;
 	}
-
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
-
 	public Role getRole() {
 		return role;
 	}
-
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
 	public byte[] getImage() {
 		return image;
 	}
-
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
 	public String getSecret() {
 		return secret;
 	}
-
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}
-
 	public boolean isUsing2FA() {
 		return isUsing2FA;
 	}
-
 	public void setUsing2FA(boolean isUsing2FA) {
 		this.isUsing2FA = isUsing2FA;
 	}
-
 	public List<Order> getOrders() {
 		return orders;
 	}
-
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
-
 	public List<Rating> getRatings() {
 		return ratings;
 	}
-
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
 	}
-
 	public List<Bid> getBid() {
 		return bid;
 	}
-
 	public void setBid(List<Bid> bid) {
 		this.bid = bid;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public boolean getSelectedForBid() {
 		  return selectedForBid;
 	}

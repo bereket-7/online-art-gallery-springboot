@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-
 @Service
 public class BidService {
     @Autowired
@@ -84,5 +83,4 @@ public class BidService {
         User winner = winningBid.getUser();
         return winner;
     }
-
 }
