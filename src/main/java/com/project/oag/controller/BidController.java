@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/bid")
 @CrossOrigin("http://localhost:8080/")
 public class BidController {
-	/*
-	private String path = "src/main/resources/static/img/bid-images/";
+    /*
 	@Autowired
 	 private final BidService bidService;
 	    @Autowired

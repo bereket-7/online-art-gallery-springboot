@@ -4,13 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="bidArt")
@@ -22,30 +16,22 @@ public class BidArt {
     private String title;
     
     private String artist;
-    
-    private String artworkPhoto;
-    
+	@Lob
+	@Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+	private byte[] image;
     private String description;
-    
     private Double initialAmount;
-    
     private LocalDateTime bidEndTime;
-    
     private LocalDateTime startingTime;
-
 	private boolean biddingStarted;
-
 	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Bid> bids = new ArrayList<>();
-
 	public List<Bid> getBids() {
 		return bids;
 	}
-
 	public void setBids(List<Bid> bids) {
 		this.bids = bids;
 	}
-
 	public Long getId() {
 		return id;
 	}
@@ -70,12 +56,12 @@ public class BidArt {
 		this.artist = artist;
 	}
 
-	public String getArtworkPhoto() {
-		return artworkPhoto;
+	public byte[] getImage() {
+		return image;
 	}
 
-	public void setArtworkPhoto(String artworkPhoto) {
-		this.artworkPhoto = artworkPhoto;
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public String getDescription() {
