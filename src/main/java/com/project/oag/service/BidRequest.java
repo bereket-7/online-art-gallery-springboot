@@ -1,7 +1,6 @@
 package com.project.oag.service;
 
 import java.math.BigDecimal;
-
 public class BidRequest {
     private Long artworkId;
     private Long userId;
