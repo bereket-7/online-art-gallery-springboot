@@ -55,7 +55,7 @@ public class User implements UserDetails{
 	@Lob
     @Column(name = "Image", nullable = true)
     private byte[] image;
-	private String selectedForBid;
+	private boolean selectedForBid;
 	private String secret= Base32.random();
 	private boolean isUsing2FA = false;
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
@@ -211,15 +211,6 @@ public class User implements UserDetails{
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-
-	public String getSelectedForBid() {
-		return selectedForBid;
-	}
-
-	public void setSelectedForBid(String selectedForBid) {
-		this.selectedForBid = selectedForBid;
-	}
-
 	public String getSecret() {
 		return secret;
 	}
@@ -266,7 +257,11 @@ public class User implements UserDetails{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public boolean getSelectedForBid() {
+		  return selectedForBid;
+	}
+
 //    @Override
 //    public int hashCode() {
 //        final int prime = 31;

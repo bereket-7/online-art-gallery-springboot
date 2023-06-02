@@ -1,4 +1,68 @@
 package com.project.oag.service;
 
+import com.project.oag.entity.Bid;
+import com.project.oag.entity.BidArt;
+import com.project.oag.entity.User;
+import com.project.oag.repository.BidArtRepository;
+import com.project.oag.repository.BidRepository;
+import com.project.oag.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
 public class BidService {
+    @Autowired
+    private BidArtRepository bidArtRepository;
+    @Autowired
+    private BidRepository bidRepository;
+    @Autowired
+    private UserRepository userRepository;
+    public void placeBid(Long artworkId, Long userId, BigDecimal amount) {
+        BidArt artwork = bidArtRepository.findById(artworkId)
+                .orElseThrow(() -> new IllegalArgumentException("Artwork not found"));
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (!user.getSelectedForBid()) {
+            throw new IllegalStateException("User is not selected for bidding");
+        }
+
+        LocalDateTime currentTime = LocalDateTime.now();
+
+        if (currentTime.isAfter(artwork.getBidEndTime())) {
+            throw new IllegalStateException("Bidding has ended");
+        }
+
+        BigDecimal currentPrice = artwork.getInitialAmount();
+        List<Bid> bids = artwork.getBids();
+
+        if (!bids.isEmpty()) {
+            BigDecimal highestBidAmount = bids.stream()
+                    .map(Bid::getAmount)
+                    .max(BigDecimal::compareTo)
+                    .orElse(currentPrice);
+
+            currentPrice = highestBidAmount;
+        }
+
+        if (amount.compareTo(currentPrice) <= 0) {
+            throw new IllegalArgumentException("Bid amount must be greater than the current price");
+        }
+
+        Bid bid = new Bid();
+        bid.setArtwork(artwork);
+        bid.setUser(user);
+        bid.setAmount(amount);
+        bid.setTimestamp(currentTime);
+
+        bidRepository.save(bid);
+    }
+
+
+
 }

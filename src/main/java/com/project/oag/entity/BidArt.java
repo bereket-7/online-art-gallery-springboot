@@ -1,5 +1,6 @@
 package com.project.oag.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class BidArt {
 	@Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
 	private byte[] image;
     private String description;
-    private Double initialAmount;
+    private BigDecimal initialAmount;
     private LocalDateTime bidEndTime;
     private LocalDateTime startingTime;
 	private boolean biddingStarted;
@@ -69,11 +70,11 @@ public class BidArt {
 		this.description = description;
 	}
 
-	public Double getInitialAmount() {
+	public BigDecimal getInitialAmount() {
 		return initialAmount;
 	}
 
-	public void setInitialAmount(Double initialAmount) {
+	public void setInitialAmount(BigDecimal initialAmount) {
 		this.initialAmount = initialAmount;
 	}
 
