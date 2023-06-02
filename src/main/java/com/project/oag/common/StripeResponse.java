@@ -1,7 +1,6 @@
 package com.project.oag.common;
 
 public class StripeResponse {
-
 	  private String sessionId;
 
 	    public String getSessionId() {

@@ -11,5 +11,4 @@ public class AppConfig {
     public ActiveUserStore activeUserStore() {
         return new ActiveUserStore();
     }
-
 }
