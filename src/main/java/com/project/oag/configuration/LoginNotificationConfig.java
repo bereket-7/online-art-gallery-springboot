@@ -8,7 +8,6 @@ import ua_parser.Parser;
 
 @Configuration
 public class LoginNotificationConfig {
-
     @Bean
     public Parser uaParser() throws IOException {
         return new Parser();
