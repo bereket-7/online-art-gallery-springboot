@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 @Service
 @Transactional
 public class UserServiceImpl {
@@ -23,8 +22,6 @@ public class UserServiceImpl {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JavaMailSender mailSender;
-    @Autowired
-    private SessionRegistry sessionRegistry;
     @Value("${spring.mail.username}")
     private String senderEmail;
     public UserServiceImpl(UserRepository userRepository) {

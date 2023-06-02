@@ -6,7 +6,6 @@ public class LoginResponse {
         
 	public LoginResponse() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public LoginResponse(boolean success, String message) {
 		super();

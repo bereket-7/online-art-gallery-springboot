@@ -43,12 +43,8 @@ public class UserService  implements UserDetailsService{
     private PasswordResetTokenRepository passwordTokenRepository;
 	@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    
 	@Autowired
     private ConfirmationTokenService confirmationTokenService;
-
-    @Autowired
-    private SessionRegistry sessionRegistry;
 
     public static String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
     public static String APP_NAME = "OnlineArtGallery";
@@ -104,8 +100,6 @@ public class UserService  implements UserDetailsService{
         }
     }
 
-
-
     public void createPasswordResetTokenForUser(final User user, final String token) {
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
         passwordTokenRepository.save(myToken);
@@ -132,34 +126,6 @@ public class UserService  implements UserDetailsService{
         return QR_PREFIX + URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", APP_NAME,
                 user.getEmail(), user.getSecret(), APP_NAME), "UTF-8");
     }
-
-    public User updateUser2FA(boolean use2FA) {
-        final Authentication curAuth = SecurityContextHolder.getContext()
-                .getAuthentication();
-        User currentUser = (User) curAuth.getPrincipal();
-        currentUser.setUsing2FA(use2FA);
-        currentUser = userRepository.save(currentUser);
-        final Authentication auth = new UsernamePasswordAuthenticationToken(currentUser, currentUser.getPassword(),
-                curAuth.getAuthorities());
-        SecurityContextHolder.getContext()
-                .setAuthentication(auth);
-        return currentUser;
-    }
-
-    public List<String> getUsersFromSessionRegistry() {
-        return sessionRegistry.getAllPrincipals()
-                .stream()
-                .filter((u) -> !sessionRegistry.getAllSessions(u, false)
-                        .isEmpty())
-                .map(o -> {
-                    if (o instanceof User) {
-                        return ((User) o).getEmail();
-                    } else {
-                        return o.toString();
-                    }
-                }).collect(Collectors.toList());
-    }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
