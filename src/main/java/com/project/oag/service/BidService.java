@@ -7,10 +7,11 @@ import com.project.oag.repository.BidArtRepository;
 import com.project.oag.repository.BidRepository;
 import com.project.oag.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -31,13 +32,11 @@ public class BidService {
         if (!user.getSelectedForBid()) {
             throw new IllegalStateException("User is not selected for bidding");
         }
-
         LocalDateTime currentTime = LocalDateTime.now();
 
         if (currentTime.isAfter(artwork.getBidEndTime())) {
             throw new IllegalStateException("Bidding has ended");
         }
-
         BigDecimal currentPrice = artwork.getInitialAmount();
         List<Bid> bids = artwork.getBids();
 
@@ -49,20 +48,41 @@ public class BidService {
 
             currentPrice = highestBidAmount;
         }
-
         if (amount.compareTo(currentPrice) <= 0) {
             throw new IllegalArgumentException("Bid amount must be greater than the current price");
         }
-
         Bid bid = new Bid();
         bid.setArtwork(artwork);
         bid.setUser(user);
         bid.setAmount(amount);
         bid.setTimestamp(currentTime);
-
         bidRepository.save(bid);
+        scheduleBidClosing(artwork);
     }
+    @Scheduled(fixedDelay = 60000)
+    private void scheduleBidClosing(BidArt artwork) {
+        LocalDateTime currentTime = LocalDateTime.now();
 
+        if (currentTime.isAfter(artwork.getBidEndTime())) {
+            closeBidding(artwork);
+            announceWinner(artwork);
+        }
+    }
+    private void closeBidding(BidArt artwork) {
+        artwork.setBiddingClosed(true);
+        bidArtRepository.save(artwork);
+    }
+    private User announceWinner(BidArt artwork) {
+        List<Bid> bids = artwork.getBids();
 
+        if (bids.isEmpty()) {
+            return null;
+        }
+        Bid winningBid = bids.stream()
+                .max(Comparator.comparing(Bid::getAmount))
+                .orElseThrow(() -> new IllegalStateException("No winning bid found"));
+        User winner = winningBid.getUser();
+        return winner;
+    }
 
 }

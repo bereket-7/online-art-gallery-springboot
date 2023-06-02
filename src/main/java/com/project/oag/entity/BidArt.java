@@ -22,6 +22,7 @@ public class BidArt {
     private LocalDateTime bidEndTime;
     private LocalDateTime startingTime;
 	private boolean biddingStarted;
+	private boolean biddingClosed;
 	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Bid> bids = new ArrayList<>();
 	public List<Bid> getBids() {
@@ -30,30 +31,30 @@ public class BidArt {
 	public void setBids(List<Bid> bids) {
 		this.bids = bids;
 	}
+	public boolean isBiddingClosed() {
+		return biddingClosed;
+	}
+	public void setBiddingClosed(boolean biddingClosed) {
+		this.biddingClosed = biddingClosed;
+	}
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getTitle() {
 		return title;
 	}
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 	public String getArtist() {
 		return artist;
 	}
-
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-
 	public byte[] getImage() {
 		return image;
 	}

@@ -28,23 +28,10 @@ public class Bid {
 	    @ManyToOne(fetch = FetchType.LAZY)
 	    @JoinColumn(name = "user_id", referencedColumnName = "id")
 	    private User user;
-		@Column(nullable = false)
-		private LocalDateTime bidEndTime;
-		private boolean biddingClosed;
+//		@Column(nullable = false)
+//		private LocalDateTime bidEndTime;
 		public Bid() {
 			super();
-		}
-		public boolean isBiddingClosed() {
-			return biddingClosed;
-		}
-		public void setBiddingClosed(boolean biddingClosed) {
-			this.biddingClosed = biddingClosed;
-		}
-		public LocalDateTime getBidEndTime() {
-			return bidEndTime;
-		}
-		public void setBidEndTime(LocalDateTime bidEndTime) {
-			this.bidEndTime = bidEndTime;
 		}
 		public Long getId() {
 			return id;

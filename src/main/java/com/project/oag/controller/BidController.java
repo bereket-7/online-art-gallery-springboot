@@ -1,7 +1,9 @@
 package com.project.oag.controller;
 import com.project.oag.entity.BidArt;
 import com.project.oag.entity.Event;
+import com.project.oag.entity.User;
 import com.project.oag.service.BidArtService;
+import com.project.oag.service.BidRequest;
 import com.project.oag.service.BidService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -40,7 +43,7 @@ public class BidController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     @PostMapping("/saveBidArt")
     public @ResponseBody ResponseEntity<?> createBidArt(@RequestParam("title") String title,
-                                                       @RequestParam("initialAmount") double initialAmount,
+                                                       @RequestParam("initialAmount") BigDecimal initialAmount,
                                                         @RequestParam("artist") String artist,
                                                         @RequestParam("description") String description,
                                                         @RequestParam("bidEndTime") LocalDateTime  bidEndTime,
@@ -129,9 +132,17 @@ public class BidController {
         return new ResponseEntity<>(bidArtList, HttpStatus.OK);
     }
 
-
-
-
+    @PostMapping("/bids")
+    public ResponseEntity<String> placeBid(@RequestBody BidRequest bidRequest) {
+        try {
+            bidService.placeBid(bidRequest.getArtworkId(), bidRequest.getUserId(), bidRequest.getAmount());
+            return ResponseEntity.ok("Bid placed successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
 
 /*
  @PostMapping("/{artworkId}")
