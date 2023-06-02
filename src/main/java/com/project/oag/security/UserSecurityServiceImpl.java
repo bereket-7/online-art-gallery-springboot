@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 public class UserSecurityServiceImpl implements UserSecurityService {
 	  @Autowired
 	  private PasswordResetTokenRepository passwordTokenRepository;
-
 	    @Override
 	    public String validatePasswordResetToken(String token) {
 	        final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
