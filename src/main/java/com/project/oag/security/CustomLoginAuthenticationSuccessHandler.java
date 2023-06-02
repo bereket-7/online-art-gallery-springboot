@@ -1,6 +1,5 @@
 package com.project.oag.security;
 
-
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import jakarta.servlet.http.HttpSession;
 @CrossOrigin("http://localhost:8080/")
 public class CustomLoginAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 	  private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-
 	    @Autowired
 	    ActiveUserStore activeUserStore;
 

@@ -34,10 +34,9 @@ public class OrganizationController {
 	public Optional<Organization> getOrganizationById(@PathVariable Long id) {
 		return organizationService.getOrganizationById(id);
 	}
-
 	@PostMapping("/register") // add new competition to the database
-	public void addCompetition(@RequestBody Organization organization) { // RequestBody annotation is used
-		organizationService.addOrganization(organization); // call service method to add new competition
+	public void addCompetition(@RequestBody Organization organization) {
+		organizationService.addOrganization(organization);
 	}
 
 	@PutMapping("/update/{id}") // update existing competition in the database

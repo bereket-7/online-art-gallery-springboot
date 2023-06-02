@@ -13,9 +13,6 @@ public class UserDetailService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private LoginAttemptService loginAttemptService;
-
 	public UserDetailService() {
 		super();
 	}
