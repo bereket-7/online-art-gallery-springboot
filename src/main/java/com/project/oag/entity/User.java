@@ -56,7 +56,7 @@ public class User implements UserDetails{
     @Column(name = "Image", nullable = true)
     private byte[] image;
 	private String selectedForBid;
-    private String secret= Base32.random();
+	private String secret= Base32.random();
 	private boolean isUsing2FA = false;
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;

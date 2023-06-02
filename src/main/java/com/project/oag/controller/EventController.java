@@ -42,10 +42,10 @@ public class EventController {
 	 private EventService eventService;
 	 @Autowired
 	 private EventRepository eventRepository;
-
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 
 	 @PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,

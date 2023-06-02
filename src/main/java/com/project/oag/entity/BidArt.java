@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name="bidArt")
 public class BidArt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String title;
-    
     private String artist;
 	@Lob
 	@Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
