@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.entity.EmailDetail;
 import com.project.oag.service.EmailService;
-
 @RestController()
 @RequestMapping("/email")
 @CrossOrigin("http://localhost:8080/")

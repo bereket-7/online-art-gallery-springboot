@@ -28,7 +28,7 @@ public class StandardController {
 	   private StandardService standardService;
 	  
 	  @GetMapping
-	    public List<Standard> getAllStandards() {
+	  public List<Standard> getAllStandards() {
 	        return standardService.getAllStandards();
 	    }
 
@@ -40,12 +40,7 @@ public class StandardController {
 	    @PutMapping("/update") 
 	    public Standard updateStandard(@RequestBody Standard standard) { 
 	        return standardService.updateStandard(standard); 
-	    } 
-/*
-	    @DeleteMapping("/delete/{id}") 
-	    public void deleteStandard(@PathVariable Long id) { 
-	        standardService.deleteStandard(id); 
-	    } */
+	    }
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<?> deleteStandardById(@PathVariable Long id) {
 	        standardService.deleteStandardById(id);
