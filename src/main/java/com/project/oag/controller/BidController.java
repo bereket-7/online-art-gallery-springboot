@@ -1,9 +1,7 @@
 package com.project.oag.controller;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("/bid")
 @CrossOrigin("http://localhost:8080/")
@@ -13,13 +11,10 @@ public class BidController {
 	 private final BidService bidService;
 	    @Autowired
 	    private BidArtService bidArtService;
-
-
     @Autowired
     public BidController(BidService bidService) {
         this.bidService = bidService;
     }
-    
     @PostMapping("/")
     public void saveBid(@RequestBody Bid bid) {
         bidService.saveBid(bid);
