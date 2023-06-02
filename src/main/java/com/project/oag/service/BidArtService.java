@@ -1,12 +1,13 @@
 package com.project.oag.service;
 
 import com.project.oag.entity.BidArt;
+import com.project.oag.entity.Event;
 import com.project.oag.repository.BidArtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-
 @Service
 public class BidArtService {
     @Autowired
@@ -16,5 +17,8 @@ public class BidArtService {
     }
     public void saveBidArt(BidArt bidArt) {
         bidArtRepository.save(bidArt);
+    }
+    public List<BidArt> getAllBidArts() {
+        return bidArtRepository.findAll();
     }
 }

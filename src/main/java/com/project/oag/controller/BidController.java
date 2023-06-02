@@ -2,7 +2,7 @@ package com.project.oag.controller;
 import com.project.oag.entity.BidArt;
 import com.project.oag.entity.Event;
 import com.project.oag.service.BidArtService;
-import com.project.oag.service.EventService;
+import com.project.oag.service.BidService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,14 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,6 +32,11 @@ public class BidController {
     private String uploadFolder;
     @Autowired
     private BidArtService bidArtService;
+
+    @Autowired
+    private BidService bidService;
+
+
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     @PostMapping("/saveBidArt")
     public @ResponseBody ResponseEntity<?> createBidArt(@RequestParam("title") String title,
@@ -90,7 +94,6 @@ public class BidController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<BidArt> getBidArt(@PathVariable Long id, Model model) {
         Optional<BidArt> bidArt = bidArtService.getBidArtById(id);
@@ -101,7 +104,6 @@ public class BidController {
 
         return new ResponseEntity<>(bidArt.get(), HttpStatus.OK);
     }
-
 
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getBidArtImage(@PathVariable Long id, Model model) {
@@ -116,28 +118,18 @@ public class BidController {
         return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
 
-    /*
-	@Autowired
-	 private final BidService bidService;
-	    @Autowired
-	    private BidArtService bidArtService;
-    @Autowired
-    public BidController(BidService bidService) {
-        this.bidService = bidService;
-    }
-    @PostMapping("/")
-    public void saveBid(@RequestBody Bid bid) {
-        bidService.saveBid(bid);
-    }
-    @PostMapping("/bids")
-    public Bid createBid(@RequestBody Bid bid) {
-        return bidService.createBid(bid);
+    @GetMapping
+    public ResponseEntity<List<BidArt>> getAllBidArt() {
+        List<BidArt> bidArtList = bidArtService.getAllBidArts();
+
+        if (bidArtList == null) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(bidArtList, HttpStatus.OK);
     }
 
-    @GetMapping("/bids/{id}")
-    public Bid getBid(@PathVariable Long id) {
-        return bidService.getBid(id);
-    }
+    /*
 
     @GetMapping("/bids")
     public List<Bid> getAllBids() {
@@ -223,8 +215,4 @@ public class BidController {
         
         return ResponseEntity.ok(bid);
  }*/
-
-
-
- 
 }
