@@ -19,7 +19,6 @@ public class BidService {
     private UserRepository userRepository;
     @Autowired
     private BidArtService bidArtService;
-
     public void placeBid(Long artworkId, Long userId, BigDecimal amount) {
         BidArt artwork = bidArtRepository.findById(artworkId)
                 .orElseThrow(() -> new IllegalArgumentException("Artwork not found"));

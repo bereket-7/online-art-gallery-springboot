@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.project.oag.repository.RatingRepository;
 import jakarta.persistence.*;
-
 @Entity
 @Table(name="Artwork")
 public class Artwork {

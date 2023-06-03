@@ -40,18 +40,14 @@ public class ArtworkController {
 	
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
-	 
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	 
 	@Autowired
-	private ArtworkService artworkService;	
-
+	private ArtworkService artworkService;
 	public ArtworkController(ArtworkService artworkService) {
 		super();
 		this.artworkService = artworkService;
 	}
-	
-	 
+
 	 @PostMapping("/saveArtwork")
 	 public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
 	         @RequestParam("price") int price, @RequestParam("size") String size,
@@ -107,7 +103,6 @@ public class ArtworkController {
 	         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	     }
 	 }
-	 
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
@@ -115,11 +110,8 @@ public class ArtworkController {
 	     if (artwork == null) {
 	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	     }
-
     return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
 	 }
-	 
-	 
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getArtworkImage(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
@@ -132,8 +124,6 @@ public class ArtworkController {
    		headers.setContentType(MediaType.IMAGE_PNG);
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
-	 
-	 
 	 @GetMapping
 	 public ResponseEntity<List<Artwork>> getAllArtwork() {
 	     List<Artwork> artworkList = artworkService.getAllArtworks();
@@ -144,8 +134,13 @@ public class ArtworkController {
 
     return new ResponseEntity<>(artworkList, HttpStatus.OK);
 	 }
-	   
-	   @DeleteMapping("/{id}") 
+	@GetMapping("/category/{category}")
+	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable String artworkCategory) {
+		List<Artwork> artworks = artworkService.getArtworkByCategory(artworkCategory);
+		return ResponseEntity.ok(artworks);
+	}
+
+	@DeleteMapping("/{id}")
 	   public void deleteArtwork(@PathVariable Long id) { 
 		   artworkService.deleteArtwork(id); 
 	   }

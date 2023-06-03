@@ -1,8 +1,5 @@
 package com.project.oag.bidding;
-import com.project.oag.bidding.BidArt;
-import com.project.oag.bidding.BidArtService;
-import com.project.oag.bidding.BidRequest;
-import com.project.oag.bidding.BidService;
+import com.project.oag.entity.Event;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +21,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 @RestController
 @RequestMapping("/bid")
 @CrossOrigin("http://localhost:8080/")

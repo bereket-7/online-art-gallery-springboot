@@ -66,8 +66,6 @@ public class EventServiceImpl implements EventService {
         }
         return false;
     }
-    
-
     @Transactional
 	public boolean rejectEvent(Long id) {
     	 Optional<Event> eventOptional = eventRepository.findById(id);

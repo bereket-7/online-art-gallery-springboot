@@ -18,4 +18,5 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	 List<Artwork> findByStatus(String status);
 
 	  List<Artwork> findAllByOrderByCreateDateDesc();
+
 }
