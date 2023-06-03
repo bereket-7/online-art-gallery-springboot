@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.competition;
 
 import java.util.List;
 import java.util.Optional;

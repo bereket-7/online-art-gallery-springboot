@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.competition;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.entity.Competition;
-import com.project.oag.repository.CompetitionRepository;
 
 @Service
 public class CompetitionServiceImpl implements CompetitionService {

@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.competition;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.entity.Competition;
-import com.project.oag.service.CompetitionService;
 
 @RestController
 @RequestMapping("/competition")
@@ -25,27 +24,22 @@ import com.project.oag.service.CompetitionService;
 public class CompetitionController {
 	@Autowired
 	CompetitionService competitionService;
-
 	@GetMapping("/all")
 	public List<Competition> getAllCompetitions() {
 		return competitionService.getAllCompetitions();
 	}
-
 	@GetMapping("{id}")
 	public Optional<Competition> getCompetitionById(@PathVariable Long id) {
 		return competitionService.getCompetitionById(id);
 	}
-
 	@PostMapping("/add")
 	public void addCompetition(@RequestBody Competition competition) { 																// request body with a method parameter.
 		competitionService.addCompetition(competition); // call service method to add new competition to the database }
 	}
-
 	@PutMapping("/update/{id}")
 	public void updateCompetition(@PathVariable Long id, @RequestBody Competition competition) { 															// parameter.
 		competitionService.updateCompetition(id, competition);
 	}
-
 	@DeleteMapping("/delete/{id}") 
 	public void deleteCompetition(@PathVariable Long id) { 													// database
 		competitionService.deleteCompetition(id);
@@ -53,13 +47,12 @@ public class CompetitionController {
 
     @GetMapping("/most-recent")
     public ResponseEntity<Competition> getMostRecentCompetition() {
-        Competition competition = competitionService.getMostRecentCompetition();
-        if (competition != null) {
-            return ResponseEntity.ok().body(competition);
-        }
-        return ResponseEntity.notFound().build();
-    }
-    
+		Competition competition = competitionService.getMostRecentCompetition();
+		if (competition != null) {
+			return ResponseEntity.ok().body(competition);
+		}
+		return ResponseEntity.notFound().build();
+	}
     @GetMapping("/{id}/numberOfCompetitor")
     public ResponseEntity<Integer> getNumberOfCompetitor(@PathVariable Long id) {
         Integer numberOfCompetitor = competitionService.getNumberOfCompetitor(id);

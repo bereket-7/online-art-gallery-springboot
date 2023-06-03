@@ -47,62 +47,61 @@ public class ArtworkController {
 		super();
 		this.artworkService = artworkService;
 	}
+	@PostMapping("/saveArtwork")
+	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
+														   @RequestParam("price") int price, @RequestParam("size") String size,
+														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
+														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
+		try {
+			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
+			log.info("uploadDirectory:: " + uploadDirectory);
+			String fileName = file.getOriginalFilename();
+			String filePath = Paths.get(uploadDirectory, fileName).toString();
+			log.info("FileName: " + file.getOriginalFilename());
+			if (fileName == null || fileName.contains("..")) {
+				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
+				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName,
+						HttpStatus.BAD_REQUEST);
+			}
+			String[] names = artworkName.split(",");
+			String[] descriptions = artworkDescription.split(",");
+			Date createDate = new Date();
+			log.info("artworkName: " + names[0] + " " + filePath);
+			log.info("artworkDescription: " + descriptions[0]);
+			log.info("Price: " + price);
+			try {
+				File dir = new File(uploadDirectory);
+				if (!dir.exists()) {
+					log.info("Folder Created");
+					dir.mkdirs();
+				}
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+				stream.write(file.getBytes());
+				stream.close();
+			} catch (Exception e) {
+				log.info("in catch");
+				e.printStackTrace();
+			}
+			byte[] imageData = file.getBytes();
+			Artwork artwork = new Artwork();
+			artwork.setArtworkName(names[0]);
+			artwork.setImage(imageData);
+			artwork.setPrice(price);
+			artwork.setSize(size);
+			artwork.setArtworkCategory(artworkCategory);
+			artwork.setStatus("pending");
+			artwork.setArtworkDescription(descriptions[0]);
+			artwork.setCreateDate(createDate);
+			artworkService.saveArtwork(artwork);
+			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
+			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			log.info("Exception: " + e);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 
-	 @PostMapping("/saveArtwork")
-	 public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
-	         @RequestParam("price") int price, @RequestParam("size") String size,
-	         @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory, Model model, HttpServletRequest request,
-	         final @RequestParam("image") MultipartFile file) {
-	     try {
-	         String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-	         log.info("uploadDirectory:: " + uploadDirectory);
-	         String fileName = file.getOriginalFilename();
-	         String filePath = Paths.get(uploadDirectory, fileName).toString();
-	         log.info("FileName: " + file.getOriginalFilename());
-	         if (fileName == null || fileName.contains("..")) {
-	             model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-	             return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName,
-	                     HttpStatus.BAD_REQUEST);
-	         }
-	         String[] names = artworkName.split(",");
-	         String[] descriptions = artworkDescription.split(",");
-	         Date createDate = new Date();
-	         log.info("artworkName: " + names[0] + " " + filePath);
-	         log.info("artworkDescription: " + descriptions[0]);
-	         log.info("Price: " + price);
-	         try {
-	             File dir = new File(uploadDirectory);
-	             if (!dir.exists()) {
-	                 log.info("Folder Created");
-	                 dir.mkdirs();
-	             }
-	             // Save the file locally
-	             BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-	             stream.write(file.getBytes());
-	             stream.close();
-	         } catch (Exception e) {
-	             log.info("in catch");
-	             e.printStackTrace();
-	         }
-	         byte[] imageData = file.getBytes();
-	         Artwork artwork = new Artwork();
-	         artwork.setArtworkName(names[0]);
-	         artwork.setImage(imageData); 
-	         artwork.setPrice(price);
-	         artwork.setSize(size);
-	         artwork.setArtworkCategory(artworkCategory);
-	         artwork.setStatus("pending");
-	         artwork.setArtworkDescription(descriptions[0]);
-	         artwork.setCreateDate(createDate);
-	         artworkService.saveArtwork(artwork);
-	         log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-	         return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
-	     } catch (Exception e) {
-	         e.printStackTrace();
-	         log.info("Exception: " + e);
-	         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	     }
-	 }
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
@@ -129,15 +128,17 @@ public class ArtworkController {
 	     List<Artwork> artworkList = artworkService.getAllArtworks();
 
 	     if (artworkList == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-
+			 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		 }
     return new ResponseEntity<>(artworkList, HttpStatus.OK);
 	 }
 	@GetMapping("/category/{category}")
 	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable String artworkCategory) {
 		List<Artwork> artworks = artworkService.getArtworkByCategory(artworkCategory);
-		return ResponseEntity.ok(artworks);
+		if (artworks == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(artworks, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

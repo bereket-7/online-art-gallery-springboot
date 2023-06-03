@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.competition;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,7 +35,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
-import com.project.oag.service.CompetitorService;
 
 import jakarta.servlet.http.HttpServletRequest;
 

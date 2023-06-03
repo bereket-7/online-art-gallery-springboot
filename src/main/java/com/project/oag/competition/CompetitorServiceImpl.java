@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.competition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
 import com.project.oag.entity.Vote;
-import com.project.oag.repository.CompetitorRepository;
 import com.project.oag.repository.VoteRepository;
 
 import jakarta.transaction.Transactional;

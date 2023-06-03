@@ -1,4 +1,4 @@
-package com.project.oag.repository;
+package com.project.oag.competition;
 
 import java.util.List;
 
