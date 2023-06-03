@@ -118,7 +118,6 @@ public class ArtworkController {
 	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	     }
 	     byte[] imageBytes = artwork.get().getImage();
-	 
 	     HttpHeaders headers = new HttpHeaders();
    		headers.setContentType(MediaType.IMAGE_PNG);
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
@@ -151,42 +150,48 @@ public class ArtworkController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
-
 	@DeleteMapping("/{id}")
 	   public void deleteArtwork(@PathVariable Long id) { 
 		   artworkService.deleteArtwork(id); 
 	   }
-	   @GetMapping("/byCategory/{artworkCategory}") 
-	   public List<Artwork> getArtworkByCategory(@PathVariable String artworkCategory) { 
-	       return artworkService.getArtworkByCategory(artworkCategory); 
-	   }
+	@GetMapping("/pending")
+	public ResponseEntity<List<Artwork>> getPendingArtworks() {
+		List<Artwork> pendingArtworkList = artworkService.getPendingArtworks();
 
-	    @GetMapping("/pending")
-	    public List<Artwork> getPendingArtworks() {
-	        return artworkService.getPendingArtworks();
-	    }
+		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 
-	    @GetMapping("/accepted")
-	    public List<Artwork> getAcceptedArtworks() {
-	        return artworkService.getAcceptedArtworks();
-	    }
+		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+	}
+	@GetMapping("/accepted")
+	public ResponseEntity<List<Artwork>> getAcceptedArtworks() {
+		List<Artwork> pendingArtworkList = artworkService.getAcceptedArtworks();
 
-	    @GetMapping("/rejected")
-	    public List<Artwork> getRejectedArtworks() {
-	        return artworkService.getRejectedArtworks();
-	    }
+		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 
+		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+	}
+	@GetMapping("/rejected")
+	public ResponseEntity<List<Artwork>> getRejectedArtworks()  {
+		List<Artwork> pendingArtworkList = artworkService.getRejectedArtworks();
+
+		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+	}
 	    @PutMapping("/{id}/accept")
 	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
 	        boolean accepted = artworkService.acceptArtwork(id);
 	        if (accepted) {
 	            return ResponseEntity.ok("Artwork with ID " + id + " has been accepted");
 	        } else {
-	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not pending");
+	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending list");
 	        }
 	    }
-
 	    @PutMapping("/{id}/reject")
 	    public ResponseEntity<String> rejectArtwork(@PathVariable Long id) {
 	        boolean rejected = artworkService.rejectArtwork(id);
@@ -202,11 +207,11 @@ public class ArtworkController {
 	        List<Artwork> artworks = artworkService.getRecentArtworks();
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
 	    }
-	   /*
+
 	  
 	    @GetMapping("/{artworkId}/average-rating")
 	    public double getAverageRating(@PathVariable Long artworkId) {
 	        return artworkService.getAverageRating(artworkId);
-	    }*/
+	    }
 
 }
