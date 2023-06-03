@@ -21,6 +21,9 @@ public class BidService {
     private BidRepository bidRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BidArtService bidArtService;
+
     public void placeBid(Long artworkId, Long userId, BigDecimal amount) {
         BidArt artwork = bidArtRepository.findById(artworkId)
                 .orElseThrow(() -> new IllegalArgumentException("Artwork not found"));
@@ -56,17 +59,32 @@ public class BidService {
         bid.setAmount(amount);
         bid.setTimestamp(currentTime);
         bidRepository.save(bid);
-        scheduleBidClosing(artwork);
+        scheduleBidClosing();
     }
+//    @Scheduled(fixedDelay = 60000)
+//    private void scheduleBidClosing(BidArt artwork) {
+//        LocalDateTime currentTime = LocalDateTime.now();
+//
+//        if (currentTime.isAfter(artwork.getBidEndTime())) {
+//            closeBidding(artwork);
+//            announceWinner(artwork);
+//        }
+//    }
+
     @Scheduled(fixedDelay = 60000)
-    private void scheduleBidClosing(BidArt artwork) {
+    private void scheduleBidClosing() {
         LocalDateTime currentTime = LocalDateTime.now();
 
-        if (currentTime.isAfter(artwork.getBidEndTime())) {
-            closeBidding(artwork);
-            announceWinner(artwork);
+        List<BidArt> artworks = bidArtService.getAllBidArts();
+
+        for (BidArt artwork : artworks) {
+            if (currentTime.isAfter(artwork.getBidEndTime()) && !artwork.isBiddingClosed()) {
+                closeBidding(artwork);
+                announceWinner(artwork);
+            }
         }
     }
+
     private void closeBidding(BidArt artwork) {
         artwork.setBiddingClosed(true);
         bidArtRepository.save(artwork);
@@ -83,4 +101,6 @@ public class BidService {
         User winner = winningBid.getUser();
         return winner;
     }
+
+
 }

@@ -1,7 +1,5 @@
 package com.project.oag.controller;
 import com.project.oag.entity.BidArt;
-import com.project.oag.entity.Event;
-import com.project.oag.entity.User;
 import com.project.oag.service.BidArtService;
 import com.project.oag.service.BidRequest;
 import com.project.oag.service.BidService;
@@ -35,11 +33,8 @@ public class BidController {
     private String uploadFolder;
     @Autowired
     private BidArtService bidArtService;
-
     @Autowired
     private BidService bidService;
-
-
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     @PostMapping("/saveBidArt")
     public @ResponseBody ResponseEntity<?> createBidArt(@RequestParam("title") String title,
@@ -107,7 +102,6 @@ public class BidController {
 
         return new ResponseEntity<>(bidArt.get(), HttpStatus.OK);
     }
-
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getBidArtImage(@PathVariable Long id, Model model) {
         Optional<BidArt> bidArt = bidArtService.getBidArtById(id);
@@ -120,7 +114,6 @@ public class BidController {
         headers.setContentType(MediaType.IMAGE_PNG);
         return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
-
     @GetMapping
     public ResponseEntity<List<BidArt>> getAllBidArt() {
         List<BidArt> bidArtList = bidArtService.getAllBidArts();
@@ -131,7 +124,6 @@ public class BidController {
 
         return new ResponseEntity<>(bidArtList, HttpStatus.OK);
     }
-
     @PostMapping("/placeBid")
     public ResponseEntity<String> placeBid(@RequestBody BidRequest bidRequest) {
         try {
