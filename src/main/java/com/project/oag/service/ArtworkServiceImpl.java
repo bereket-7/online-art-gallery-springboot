@@ -37,9 +37,10 @@ public class ArtworkServiceImpl implements ArtworkService{
 	public List<Artwork> getArtworkByCategory(String artworkCategory) {
 		return artworkRepository.findByArtworkCategory(artworkCategory);
 	}
-    public List<Artwork> getArtworkByPriceRange(double minPrice, double maxPrice) {
-        return artworkRepository.findByPriceBetween(minPrice, maxPrice);
-    }
+	@Override
+	public List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice) {
+		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
+	}
     public List<Artwork> getPendingArtworks() {
         return artworkRepository.findByStatus("pending");
     }

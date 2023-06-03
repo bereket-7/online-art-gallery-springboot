@@ -37,7 +37,6 @@ import com.project.oag.controller.dto.CompetitorDto;
 import com.project.oag.entity.Competitor;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/competitors")
 @CrossOrigin("http://localhost:8080/")
@@ -131,23 +130,19 @@ public class CompetitorController {
 	     }
      return new ResponseEntity<>(competitorList, HttpStatus.OK);
 	 }
-    
     @GetMapping("/{id}")
     public ResponseEntity<Competitor> getCompetitorById(@PathVariable Long id) {
         Optional<Competitor> competitor = competitorService.getCompetitorById(id);
         return competitor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
 	@DeleteMapping("/delete/{id}")
 	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
 		competitorService.deleteCompetitor(id);
 	}
-	
 	 @PutMapping("/update/{id}")
 	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
 	        return competitorService.updateCompetitor(id, competitor);
 	 }
-	 
 	    @GetMapping("/art")
 	    public ResponseEntity<List<Map<String, Object>>> getAllCompetitors() {
 	        List<Competitor> competitors = competitorService.getAllCompetitors();
@@ -162,7 +157,6 @@ public class CompetitorController {
 	        }
 	        return ResponseEntity.ok().body(response);
 	  }
-
 	    @PostMapping("/{id}/vote")
 	    public ResponseEntity<?> vote(@PathVariable Long id, HttpServletRequest request) {
 	        String ipAddress = request.getRemoteAddr();
@@ -177,7 +171,5 @@ public class CompetitorController {
 	    public List<CompetitorDto> getTopCompetitors() {
 	        List<CompetitorDto> topCompetitors = competitorService.getTopCompetitors();
 			return topCompetitors;
-	    } 
-	    
-	    
+	    }
 }

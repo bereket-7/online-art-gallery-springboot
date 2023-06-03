@@ -140,6 +140,18 @@ public class ArtworkController {
 		}
 		return new ResponseEntity<>(artworks, HttpStatus.OK);
 	}
+	@GetMapping("/priceRange")
+	public ResponseEntity<List<Artwork>> getArtworksByPriceRange(@RequestParam("minPrice") int minPrice,
+																 @RequestParam("maxPrice") int maxPrice) {
+		try {
+			List<Artwork> artworks = artworkService.getArtworksByPriceRange(minPrice, maxPrice);
+			return new ResponseEntity<>(artworks, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 
 	@DeleteMapping("/{id}")
 	   public void deleteArtwork(@PathVariable Long id) { 
@@ -149,15 +161,6 @@ public class ArtworkController {
 	   public List<Artwork> getArtworkByCategory(@PathVariable String artworkCategory) { 
 	       return artworkService.getArtworkByCategory(artworkCategory); 
 	   }
-	   
-	   @GetMapping("/byArtistId/{artistId}")      
-	   public List<Artwork> getPhotosByArtworkName(@PathVariable int artistId) {        
-		   return artworkService.getArtworksByArtistId(artistId);      
-	  }
-	    @GetMapping("/priceRange")
-	    public List<Artwork> getArtworkByPriceRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
-	        return artworkService.getArtworkByPriceRange(minPrice, maxPrice);
-	    }
 
 	    @GetMapping("/pending")
 	    public List<Artwork> getPendingArtworks() {

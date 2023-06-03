@@ -18,8 +18,6 @@ public interface ArtworkService {
 
 	List<Artwork> getArtworksByArtistId(int artistId);
 
-	List<Artwork> getArtworkByPriceRange(double minPrice, double maxPrice);
-
 	List<Artwork> getPendingArtworks();
 
 	boolean acceptArtwork(Long id);
@@ -36,4 +34,5 @@ public interface ArtworkService {
 
 	Optional<Artwork> getArtworkById(Long id);
 
+	List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice);
 }
