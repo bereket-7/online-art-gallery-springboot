@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.bidding;
 import com.project.oag.bidding.BidArt;
 import com.project.oag.bidding.BidArtService;
 import com.project.oag.bidding.BidRequest;
