@@ -1,10 +1,11 @@
-package com.project.oag.entity;
+package com.project.oag.bidding;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.oag.bidding.Bid;
 import jakarta.persistence.*;
 @Entity
 @Table(name="bidArt")

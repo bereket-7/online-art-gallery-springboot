@@ -1,8 +1,9 @@
-package com.project.oag.entity;
+package com.project.oag.bidding;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.project.oag.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,8 +30,6 @@ public class Bid {
 	    @JoinColumn(name = "user_id", referencedColumnName = "id")
 	    private User user;
 
-//		@Column(nullable = false)
-//		private LocalDateTime bidEndTime;
 		public Bid() {
 			super();
 		}

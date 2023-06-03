@@ -1,6 +1,6 @@
-package com.project.oag.service;
+package com.project.oag.bidding;
 
-import com.project.oag.entity.BidArt;
+import com.project.oag.bidding.BidArt;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.bidding;
 
 import java.math.BigDecimal;
 public class BidRequest {

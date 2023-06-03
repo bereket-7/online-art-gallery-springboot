@@ -1,10 +1,6 @@
-package com.project.oag.service;
+package com.project.oag.bidding;
 
-import com.project.oag.entity.Bid;
-import com.project.oag.entity.BidArt;
 import com.project.oag.entity.User;
-import com.project.oag.repository.BidArtRepository;
-import com.project.oag.repository.BidRepository;
 import com.project.oag.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -61,15 +57,6 @@ public class BidService {
         bidRepository.save(bid);
         scheduleBidClosing();
     }
-//    @Scheduled(fixedDelay = 60000)
-//    private void scheduleBidClosing(BidArt artwork) {
-//        LocalDateTime currentTime = LocalDateTime.now();
-//
-//        if (currentTime.isAfter(artwork.getBidEndTime())) {
-//            closeBidding(artwork);
-//            announceWinner(artwork);
-//        }
-//    }
 
     @Scheduled(fixedDelay = 60000)
     private void scheduleBidClosing() {

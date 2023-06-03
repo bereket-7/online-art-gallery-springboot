@@ -1,8 +1,8 @@
 package com.project.oag.controller;
-import com.project.oag.entity.BidArt;
-import com.project.oag.service.BidArtService;
-import com.project.oag.service.BidRequest;
-import com.project.oag.service.BidService;
+import com.project.oag.bidding.BidArt;
+import com.project.oag.bidding.BidArtService;
+import com.project.oag.bidding.BidRequest;
+import com.project.oag.bidding.BidService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,4 @@
 package com.project.oag.controller;
-
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +32,6 @@ import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
 
 import jakarta.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/events")
 public class EventController {
@@ -45,8 +42,6 @@ public class EventController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-
-
 	 @PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
 			@RequestParam("ticketPrice") double ticketPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
@@ -101,19 +96,14 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	 
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
-
 	     if (event == null) {
 	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	     }
-
     return new ResponseEntity<>(event.get(), HttpStatus.OK);
 	 }
-	 
-	 
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -126,7 +116,6 @@ public class EventController {
    		headers.setContentType(MediaType.IMAGE_PNG);
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
-	 
 	 @GetMapping
 	 public ResponseEntity<List<Event>> getAllEvent() {
 	     List<Event> eventList = eventService.getAllEvents();
@@ -134,26 +123,20 @@ public class EventController {
 	     if (eventList == null) {
 	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	     }
-
     return new ResponseEntity<>(eventList, HttpStatus.OK);
 	 }
-	 
-	   
 	   @GetMapping("/pending")
 	    public List<Event> getPendingEvents() {
 	        return eventService.getPendingEvents();
 	    }
-	    
 	    @GetMapping("/accepted")
 	    public List<Event> getAcceptedEvents() {
 	        return eventService.getAcceptedEvents();
 	    }
-	    
 	    @GetMapping("/rejected")
 	    public List<Event> getRejectedEvents() {
 	        return eventService.getRejectedEvents();
 	    }
-	    
 	    @PutMapping("/{id}/accept")
 	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
 	        boolean accepted = eventService.acceptEvent(id);
@@ -163,40 +146,13 @@ public class EventController {
 	            return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not pending");
 	        }
 	    }
-	    
 	    @PutMapping("/{id}/reject")
 	    public ResponseEntity<String> rejectArtwork(@PathVariable Long id) {
-	        boolean rejected = eventService.rejectEvent(id);
-	        if (rejected) {
-	            return ResponseEntity.ok("Event with ID " + id + " has been Rejected due to the reason it does not satisfy company standard");
-	        } else {
-	            return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not in pending status");
-	        }
-	    }
-	    
-	    
-	   /*
-		
-		 @GetMapping("events/{id}")
-		 public ResponseEntity<EventDto> getEvent(@PathVariable Long id) {
-		     Optional<Event> event = eventService.getEventById(id);
-
-		     if (event.isEmpty()) {
-		         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		     }
-		     byte[] imageBytes = event.get().getImage();
-		     
-		     EventDto eventDto = new EventDto();
-		     eventDto.setImage(imageBytes);
-		     eventDto.setEventName(event.get().getEventName());
-		     eventDto.setEventDescription(event.get().getEventDescription());
-		     eventDto.setEventDate(event.get().getEventDate());
-		     eventDto.setLocation(event.get().getLocation());
-		     eventDto.setCapacity(event.get().getCapacity());
-		     eventDto.setTicketPrice(event.get().getTicketPrice());
-		     eventDto.setStatus(event.get().getStatus()); 
-
-		     return new ResponseEntity<>(eventDto, HttpStatus.OK);
-		 }  */
-		   
+			boolean rejected = eventService.rejectEvent(id);
+			if (rejected) {
+				return ResponseEntity.ok("Event with ID " + id + " has been Rejected due to the reason it does not satisfy company standard");
+			} else {
+				return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not in pending status");
+			}
+		}
 }
