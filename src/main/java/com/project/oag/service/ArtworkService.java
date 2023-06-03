@@ -35,4 +35,5 @@ public interface ArtworkService {
 	Optional<Artwork> getArtworkById(Long id);
 
 	List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice);
+
 }

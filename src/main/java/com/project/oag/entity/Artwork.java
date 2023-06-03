@@ -1,5 +1,4 @@
 package com.project.oag.entity;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -13,39 +12,28 @@ public class Artwork {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
-
 	 @Column(nullable=true)
 	private String artworkName;
-
 	 @Column(nullable=true)
     private String artworkDescription;
-	
     @Column(nullable=true)
     private String artworkCategory;
-	
 	@Lob
     @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
     private byte[] image;
-	
 	private int price;
-
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
     private Date createDate;
-
     @Column(nullable=true)
 	private String size;
-	
     @Column(nullable=true)
 	private String status;
-
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-
 	@ManyToOne
 	@JoinColumn(name = "artist_id")
 	private User artist;
-
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
 			Date createDate, String size, String status, List<Rating> ratings) {
 		super();
@@ -59,102 +47,74 @@ public class Artwork {
 		this.status = status;
 		this.ratings = ratings;
 	}
-
 	public byte[] getImage() {
 		return image;
 	}
-
 	public void setImage(byte[] image) {
 		this.image = image;
 	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
-
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-
 	public Artwork() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	
 	public Double getAverageRating(RatingRepository ratingRepository) {
 	    return ratingRepository.findAverageRatingByArtworkId(id);
 	}
-
-
 	public Artwork(String filename, String string) {
-		// TODO Auto-generated constructor stub
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getArtworkName() {
 		return artworkName;
 	}
-
 	public void setArtworkName(String artworkName) {
 		this.artworkName = artworkName;
 	}
-
 	public String getArtworkDescription() {
 		return artworkDescription;
 	}
-
 	public void setArtworkDescription(String artworkDescription) {
 		this.artworkDescription = artworkDescription;
 	}
-
 	public String getArtworkCategory() {
 		return artworkCategory;
 	}
-
 	public void setArtworkCategory(String artworkCategory) {
 		this.artworkCategory = artworkCategory;
 	}
-
-
 	public int getPrice() {
 		return price;
 	}
-
 	public void setPrice(int price) {
 		this.price = price;
 	}
-
 	public String getSize() {
 		return size;
 	}
-
 	public void setSize(String size) {
 		this.size = size;
 	}
-
 	public String getStatus() {
 		return status;
 	}
-
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 	public List<Rating> getRatings() {
 		return ratings;
 	}
-
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
 	}
-	
 	  public double getAverageRating() {
 	        if (ratings == null || ratings.isEmpty()) {
 	            return 0.0;

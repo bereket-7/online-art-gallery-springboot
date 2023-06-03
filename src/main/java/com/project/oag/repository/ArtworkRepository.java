@@ -10,13 +10,8 @@ import com.project.oag.entity.Artwork;
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	 List<Artwork> findByArtworkCategory(String artworkCategory);
-	 
 	 List<Artwork> findByArtistId(int artistId);
-	 
 	 List<Artwork> findByPriceBetween(double minPrice, double maxPrice);
-	 
 	 List<Artwork> findByStatus(String status);
-
 	  List<Artwork> findAllByOrderByCreateDateDesc();
-
 }
