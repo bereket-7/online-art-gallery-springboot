@@ -85,7 +85,6 @@ public class CompetitorController {
 	                log.info("Folder Created");
 	                dir.mkdirs();
 	            }
-	            // Save the file locally
 	            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
 	            stream.write(file.getBytes());
 	            stream.close();
