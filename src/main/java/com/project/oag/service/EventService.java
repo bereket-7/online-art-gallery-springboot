@@ -2,6 +2,8 @@ package com.project.oag.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 
 public interface EventService {
@@ -24,6 +26,7 @@ public interface EventService {
 	boolean deleteEvent(Long eventId);
 	
     public Optional<Event> getEventById(Long id);
+    public String updateEvent(Long eventId, EventDto eventUpdateDTO);
 	
 
 }

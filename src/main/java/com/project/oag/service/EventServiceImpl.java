@@ -90,4 +90,35 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    
+    public String updateEvent(Long eventId, EventDto eventUpdateDTO) {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            Event event = optionalEvent.get();
+
+            if (eventUpdateDTO.getEventName() != null) {
+                event.setEventName(eventUpdateDTO.getEventName());
+            }
+            if (eventUpdateDTO.getEventDescription() != null) {
+                event.setEventDescription(eventUpdateDTO.getEventDescription());
+            }
+            if (eventUpdateDTO.getEventDate() != null) {
+                event.setEventDate(eventUpdateDTO.getEventDate());
+            }
+            if (eventUpdateDTO.getLocation() != null) {
+                event.setLocation(eventUpdateDTO.getLocation());
+            }
+            if (eventUpdateDTO.getCapacity() != null){
+                event.setCapacity(eventUpdateDTO.getCapacity());
+            }
+            if (eventUpdateDTO.getTicketPrice() != null) {
+                event.setTicketPrice(eventUpdateDTO.getTicketPrice());
+            }
+            eventRepository.save(event);
+            return "Event updated successfully";
+        } else {
+            return "Event not found";
+        }
+    }
+
 }

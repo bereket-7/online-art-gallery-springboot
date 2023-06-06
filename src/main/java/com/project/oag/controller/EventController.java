@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
@@ -154,6 +155,19 @@ public class EventController {
 				return new ResponseEntity<>("Event deleted successfully", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
+			}
+		}
+
+		@PutMapping("/{eventId}")
+		public ResponseEntity<String> updateEvent(
+				@PathVariable Long eventId,
+				@RequestBody EventDto eventUpdateDTO
+		) {
+			String result = eventService.updateEvent(eventId, eventUpdateDTO);
+			if (result.equals("Event not found")) {
+				return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
+			} else {
+				return new ResponseEntity<>(result, HttpStatus.OK);
 			}
 		}
 }
