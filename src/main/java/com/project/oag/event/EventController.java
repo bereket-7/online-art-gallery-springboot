@@ -120,6 +120,7 @@ public class EventController {
 	     }
     return new ResponseEntity<>(eventList, HttpStatus.OK);
 	 }
+	 
 	   @GetMapping("/pending")
 	    public List<Event> getPendingEvents() {
 	        return eventService.getPendingEvents();
@@ -181,17 +182,4 @@ public class EventController {
 		 	eventService.changeEventImage(eventId, imageFile);
 			return new ResponseEntity<>("Event image changed successfully", HttpStatus.OK);
 		 }
-
-		// @PostMapping("/{eventId}/image")
-		// public ResponseEntity<String> changeEventImage(
-		// 		@PathVariable Long eventId,
-		// 		@RequestParam("image") MultipartFile imageFile
-		// ) {
-		// 	try {
-		// 		eventService.changeEventImage(eventId, imageFile);
-		// 		return new ResponseEntity<>("Event image changed successfully", HttpStatus.OK);
-		// 	} catch (IOException e) {
-		// 		return new ResponseEntity<>("Failed to change event image", HttpStatus.INTERNAL_SERVER_ERROR);
-		// 	}
-		// }
 }
