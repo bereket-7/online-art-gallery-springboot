@@ -1,9 +1,7 @@
-package com.project.oag.service;
+package com.project.oag.event;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
@@ -28,10 +26,8 @@ public interface EventService {
 	boolean deleteEvent(Long eventId);
 	
     public Optional<Event> getEventById(Long id);
-
-    public String updateEvent(Long eventId, EventDto eventUpdateDTO);
 	
-	public void changeEventImage(Long eventId, MultipartFile imageFile);
+    public String updateEvent(Long eventId, EventDto eventUpdateDTO);
 	
 
 }
