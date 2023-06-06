@@ -35,7 +35,7 @@ public class OrganizationController {
 		return organizationService.getOrganizationById(id);
 	}
 
-	@PostMapping("/add") // add new competition to the database
+	@PostMapping("/register") // add new competition to the database
 	public void addCompetition(@RequestBody Organization organization) { // RequestBody annotation is used
 		organizationService.addOrganization(organization); // call service method to add new competition
 	}

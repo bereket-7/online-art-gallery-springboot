@@ -22,12 +22,12 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
 	@Column(nullable = true)
     private String firstname;
 
@@ -75,7 +75,6 @@ public class User {
     
     @Column(nullable = true)
     private LocalDateTime expirationTime;
-
 
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
 	private List<Order> orders;

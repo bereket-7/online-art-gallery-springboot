@@ -25,20 +25,31 @@ public class Rating {
 
     @Column(nullable = false)
     private int rating;
-
-    @Column(unique = true, nullable = false)
-    private String userIdAndArtworkId;
-
+    
     public Rating() {
-        this.userIdAndArtworkId = "";
-    }
+		super();
+	}
 
-    public Rating(User user, Artwork artwork, int rating) {
-        this.user = user;
-        this.artwork = artwork;
-        this.rating = rating;
-        this.userIdAndArtworkId = user.getId() + ":" + artwork.getId();
-    }
+	public Rating(User user, Artwork artwork, int rating) {
+		super();
+		this.user = user;
+		this.artwork = artwork;
+		this.rating = rating;
+	}
+
+	//@Column(unique = true, nullable = false)
+    //private String userIdAndArtworkId;
+
+//    public Rating() {
+//        this.userIdAndArtworkId = "";
+//    }
+
+//    public Rating(User user, Artwork artwork, int rating) {
+//        this.user = user;
+//        this.artwork = artwork;
+//        this.rating = rating;
+//        this.userIdAndArtworkId = user.getId() + ":" + artwork.getId();
+//    }
 
 	public Long getId() {
 		return id;
@@ -71,13 +82,4 @@ public class Rating {
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
-	public String getUserIdAndArtworkId() {
-		return userIdAndArtworkId;
-	}
-
-	public void setUserIdAndArtworkId(String userIdAndArtworkId) {
-		this.userIdAndArtworkId = userIdAndArtworkId;
-	}
-
 }
