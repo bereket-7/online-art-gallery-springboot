@@ -1,4 +1,4 @@
-package repository;
+package com.project.oag.repository;
 
 import java.util.Date;
 import java.util.stream.Stream;
