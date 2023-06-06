@@ -31,8 +31,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public class EventController {
 	 @Autowired
 	 private EventService eventService;
-	 @Autowired
-	 private EventRepository eventRepository;
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
