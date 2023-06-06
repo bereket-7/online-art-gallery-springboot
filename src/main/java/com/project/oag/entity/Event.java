@@ -61,7 +61,6 @@ public class Event {
 
 	public Event() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Event(String eventName, String eventDescription, LocalDate eventDate, String location, int capacity,
@@ -90,7 +89,6 @@ public class Event {
 	}
 
 	public Event(String filename, String string) {
-		// TODO Auto-generated constructor stub
 	}
 	public String getEventName() {
 		return eventName;

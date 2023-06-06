@@ -23,7 +23,6 @@ public class EventDto {
 		}
 
 	public EventDto() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {

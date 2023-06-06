@@ -60,7 +60,6 @@ public class EventController {
 					log.info("Folder Created");
 					dir.mkdirs();
 				}
-				// Save the file locally
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
 				stream.write(file.getBytes());
 				stream.close();
@@ -145,6 +144,16 @@ public class EventController {
 				return ResponseEntity.ok("Event with ID " + id + " has been Rejected due to the reason it does not satisfy company standard");
 			} else {
 				return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not in pending status");
+			}
+		}
+
+		@DeleteMapping("/{eventId}")
+		public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
+			boolean deleted = eventService.deleteEvent(eventId);
+			if (deleted) {
+				return new ResponseEntity<>("Event deleted successfully", HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 			}
 		}
 }

@@ -2,10 +2,6 @@ package com.project.oag.service;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.core.io.Resource;
-
-import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
 
 public interface EventService {
@@ -25,9 +21,9 @@ public interface EventService {
 
 	List<Event> getRejectedEvents();
 
-	void deleteEvent(Long eventId);
+	boolean deleteEvent(Long eventId);
 	
-	Optional<Event> getEventById(Long id);
+    public Optional<Event> getEventById(Long id);
 	
 
 }
