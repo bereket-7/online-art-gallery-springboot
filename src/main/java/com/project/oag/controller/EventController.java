@@ -88,6 +88,7 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -96,6 +97,7 @@ public class EventController {
 	     }
     return new ResponseEntity<>(event.get(), HttpStatus.OK);
 	 }
+
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -108,6 +110,7 @@ public class EventController {
    		headers.setContentType(MediaType.IMAGE_PNG);
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
+
 	 @GetMapping
 	 public ResponseEntity<List<Event>> getAllEvent() {
 	     List<Event> eventList = eventService.getAllEvents();

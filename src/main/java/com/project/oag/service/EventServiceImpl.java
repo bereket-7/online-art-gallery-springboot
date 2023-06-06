@@ -1,10 +1,8 @@
 package com.project.oag.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.EventDto;
@@ -90,12 +88,11 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    
     public String updateEvent(Long eventId, EventDto eventUpdateDTO) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
             Event event = optionalEvent.get();
-
+    
             if (eventUpdateDTO.getEventName() != null) {
                 event.setEventName(eventUpdateDTO.getEventName());
             }
@@ -108,10 +105,10 @@ public class EventServiceImpl implements EventService {
             if (eventUpdateDTO.getLocation() != null) {
                 event.setLocation(eventUpdateDTO.getLocation());
             }
-            if (eventUpdateDTO.getCapacity() != null){
+            if (eventUpdateDTO.getCapacity() >= 0) {
                 event.setCapacity(eventUpdateDTO.getCapacity());
             }
-            if (eventUpdateDTO.getTicketPrice() != null) {
+            if (eventUpdateDTO.getTicketPrice() >= 0) {
                 event.setTicketPrice(eventUpdateDTO.getTicketPrice());
             }
             eventRepository.save(event);
@@ -120,5 +117,5 @@ public class EventServiceImpl implements EventService {
             return "Event not found";
         }
     }
-
+    
 }

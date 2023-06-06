@@ -7,9 +7,9 @@ public class EventDto {
         private String eventDescription;
         private LocalDate eventDate;
         private String location;
-        private int capacity;
-        private double ticketPrice;
-        private String status;    
+		private double ticketPrice;
+		private int capacity;
+		private String status;    
         private Long id;
         private byte[] image;
     	    
@@ -28,7 +28,21 @@ public class EventDto {
 	public Long getId() {
 		return id;
 	}
+	public double getTicketPrice() {
+		return ticketPrice;
+	}
 
+	public void setTicketPrice(double ticketPrice) {
+		this.ticketPrice = ticketPrice;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -63,23 +77,6 @@ public class EventDto {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
-	}
-
-	public double getTicketPrice() {
-		return ticketPrice;
-	}
-
-	public void setTicketPrice(double ticketPrice) {
-		this.ticketPrice = ticketPrice;
-	}
-
 	public String getStatus() {
 		return status;
 	}

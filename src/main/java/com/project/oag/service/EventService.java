@@ -26,6 +26,7 @@ public interface EventService {
 	boolean deleteEvent(Long eventId);
 	
     public Optional<Event> getEventById(Long id);
+	
     public String updateEvent(Long eventId, EventDto eventUpdateDTO);
 	
 
