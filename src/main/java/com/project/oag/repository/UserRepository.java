@@ -1,4 +1,4 @@
-package com.project.oag.repository;
+package repository;
 
 import java.util.List;
 import java.util.Optional;
