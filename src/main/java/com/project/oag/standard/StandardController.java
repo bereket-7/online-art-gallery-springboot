@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.standard;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.oag.entity.Standard;
-import com.project.oag.service.StandardService;
+import com.project.oag.standard.Standard;
+import com.project.oag.standard.StandardService;
 
 @RestController
 @RequestMapping("/standards")
@@ -37,18 +37,23 @@ public class StandardController {
 	        return standardService.addStandard(standard);
 	    }
 
-	    @PutMapping("/update") 
-	    public Standard updateStandard(@RequestBody Standard standard) { 
-	        return standardService.updateStandard(standard); 
-	    }
+	@PutMapping("/{id}")
+	public ResponseEntity<String> updateStandard(@PathVariable Long id, @RequestBody Standard updatedStandard) {
+		Standard standard = standardService.getStandardById(id);
+		if (standard == null) {
+			return ResponseEntity.notFound().build();
+		}
+
+		standard.setStandardDescription(updatedStandard.getStandardDescription());
+		standard.setStandardType(updatedStandard.getStandardType());
+
+		standardService.addStandard(standard);
+
+		return ResponseEntity.ok("Standard updated successfully");
+	}
 	    @DeleteMapping("/{id}")
 	    public ResponseEntity<?> deleteStandardById(@PathVariable Long id) {
 	        standardService.deleteStandardById(id);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
-
-	     @GetMapping("/{id}") 
-	     public Optional<Standard> getStandardById(@PathVariable Long id) { 
-	         return standardService.getStandardById(id); 
-	     }    
 }

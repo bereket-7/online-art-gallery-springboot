@@ -1,20 +1,11 @@
-package com.project.oag.service;
+package com.project.oag.standard;
 
 import java.util.List;
-import java.util.Optional;
-
-import com.project.oag.entity.Standard;
 
 public interface StandardService {
-
 	List<Standard> getAllStandards();
-
 	Standard addStandard(Standard standard);
-
-	Optional<Standard> getStandardById(Long id);
-
 	Standard updateStandard(Standard newstandard);
-
+	Standard getStandardById(Long id);
 	void deleteStandardById(Long id);
-
 }

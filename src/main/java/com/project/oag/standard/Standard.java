@@ -1,4 +1,4 @@
-package com.project.oag.entity;
+package com.project.oag.standard;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,16 +18,13 @@ public class Standard {
 	
 	public Standard() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 	public Standard(Long id, String standardDescription, String standardType) {
 		super();
 		this.id = id;
 		this.standardDescription = standardDescription;
 		this.standardType = standardType;
 	}
-
 	public Long getId() {
 		return id;
 	}

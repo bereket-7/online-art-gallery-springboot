@@ -1,13 +1,10 @@
-package com.project.oag.service;
+package com.project.oag.standard;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.project.oag.entity.Standard;
-import com.project.oag.repository.StandardRepository;
 
 @Service
 public class StandardServiceImpl implements StandardService {
@@ -26,10 +23,10 @@ public class StandardServiceImpl implements StandardService {
 	}
 
 	@Override
-	public Optional<Standard> getStandardById(Long id) {
-		return standardRepository.findById(id);
+	public Standard getStandardById(Long id) {
+		Optional<Standard> optionalStandard = standardRepository.findById(id);
+		return optionalStandard.orElse(null);
 	}
-	
 	@Override
 	public void deleteStandardById(final Long id) {
 	        this.standardRepository.deleteById(id);;
@@ -47,7 +44,6 @@ public class StandardServiceImpl implements StandardService {
 			throw new RuntimeException("No record found for the given ID");
 		}
 	}
-
 	private Optional<Standard> getOptionalByID(Long id) {
 		return this.standardRepository.findById(id);
 	}

@@ -28,9 +28,7 @@ public class Report {
 
 	public Report() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 	public Report(String reportDetail, String reportTitle, String reporterName, String reporterEmail) {
 		super();
 		this.reportDetail = reportDetail;
@@ -38,7 +36,6 @@ public class Report {
 		this.reporterName = reporterName;
 		this.reporterEmail = reporterEmail;
 	}
-
 	public Long getId() {
 		return id;
 	}
