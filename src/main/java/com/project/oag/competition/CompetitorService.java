@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import com.project.oag.controller.dto.CompetitorDto;
-import com.project.oag.entity.Competitor;
 
 public interface CompetitorService {
 

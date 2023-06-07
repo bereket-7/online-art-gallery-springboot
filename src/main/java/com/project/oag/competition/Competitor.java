@@ -1,4 +1,4 @@
-package com.project.oag.entity;
+package com.project.oag.competition;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;

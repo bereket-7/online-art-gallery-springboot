@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.CompetitorDto;
-import com.project.oag.entity.Competitor;
-import com.project.oag.entity.Vote;
-import com.project.oag.repository.VoteRepository;
 
 import jakarta.transaction.Transactional;
 

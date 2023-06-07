@@ -201,25 +201,9 @@ public class ArtworkController {
 	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending status");
 	        }
 	    }
-
 	    @GetMapping("/recent")
 	    public ResponseEntity<List<Artwork>> getRecentArtworks() {
 	        List<Artwork> artworks = artworkService.getRecentArtworks();
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
 	    }
-
-//	@GetMapping("/{artworkId}/average-rating")
-//	public ResponseEntity<Double> getAverageRating(@PathVariable Long artworkId) {
-//		Artwork artwork = artworkService.getArtworkById(artworkId);
-//
-//		if (artwork == null) {
-//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//		}
-//
-//		Double averageRating = artwork.getAverageRating();
-//
-//		return new ResponseEntity<>(averageRating, HttpStatus.OK);
-//	}
-
-
 }

@@ -1,8 +1,9 @@
-package com.project.oag.entity;
+package com.project.oag.competition;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import com.project.oag.competition.Competitor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

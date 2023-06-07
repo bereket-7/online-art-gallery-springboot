@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.CompetitorDto;
-import com.project.oag.entity.Competitor;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController

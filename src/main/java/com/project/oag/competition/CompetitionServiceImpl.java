@@ -9,8 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.entity.Competition;
-
 @Service
 public class CompetitionServiceImpl implements CompetitionService {
 	@Autowired

@@ -1,4 +1,4 @@
-package com.project.oag.entity;
+package com.project.oag.competition;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

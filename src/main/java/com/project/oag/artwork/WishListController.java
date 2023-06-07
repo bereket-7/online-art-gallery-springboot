@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.artwork;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.common.ApiResponse;
-import com.project.oag.artwork.ArtworkDto;
-import com.project.oag.artwork.Artwork;
 import com.project.oag.entity.User;
-import com.project.oag.entity.WishList;
-import com.project.oag.artwork.ArtworkService;
 import com.project.oag.service.AuthenticationService;
-import com.project.oag.service.WishListService;
 
 
 @RestController

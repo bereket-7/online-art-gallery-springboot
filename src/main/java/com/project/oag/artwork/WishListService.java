@@ -1,11 +1,11 @@
-package com.project.oag.service;
+package com.project.oag.artwork;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.oag.entity.WishList;
-import com.project.oag.repository.WishListRepository;
+import com.project.oag.artwork.WishList;
+import com.project.oag.artwork.WishListRepository;
 
 import jakarta.transaction.Transactional;
 
