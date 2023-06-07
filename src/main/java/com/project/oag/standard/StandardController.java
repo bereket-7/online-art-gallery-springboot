@@ -1,23 +1,11 @@
 package com.project.oag.standard;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.project.oag.standard.Standard;
-import com.project.oag.standard.StandardService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/standards")
@@ -26,6 +14,9 @@ public class StandardController {
 	  
 	  @Autowired
 	   private StandardService standardService;
+	public StandardController(StandardService standardService) {
+		this.standardService = standardService;
+	}
 	  
 	  @GetMapping
 	  public List<Standard> getAllStandards() {
@@ -56,4 +47,14 @@ public class StandardController {
 	        standardService.deleteStandardById(id);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
+
+	@GetMapping("/search")
+	public ResponseEntity<List<Standard>> searchByStandardType(@RequestParam("type") String standardType) {
+		List<Standard> standards = standardService.getStandardsByType(standardType);
+		if (standards.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+
+		return ResponseEntity.ok(standards);
+	}
 }
