@@ -225,4 +225,16 @@ public class ArtworkController {
 		List<String> autocompleteResults = artworkService.getAutocompleteResults(keyword);
 		return ResponseEntity.ok(autocompleteResults);
 	}
+
+	@GetMapping("/sort")
+	public ResponseEntity<List<Artwork>> getSortedArtworks(@RequestParam("sortOption") String sortOption) {
+		try {
+			List<Artwork> artworks = artworkService.getSortedArtworks(sortOption);
+			return new ResponseEntity<>(artworks, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 }

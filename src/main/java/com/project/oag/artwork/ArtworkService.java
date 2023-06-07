@@ -114,4 +114,20 @@ public class  ArtworkService{
 	public List<String> getAutocompleteResults(String keyword) {
 		return artworkRepository.getAutocompleteResults(keyword);
 	}
+
+	public List<Artwork> getSortedArtworks(String sortOption) {
+		switch (sortOption) {
+			case "rating":
+				return artworkRepository.findAllByOrderByAverageRatingDesc();
+			case "priceLowToHigh":
+				return artworkRepository.findAllByOrderByPriceAsc();
+			case "priceHighToLow":
+				return artworkRepository.findAllByOrderByPriceDesc();
+			case "latest":
+				return artworkRepository.findAllByOrderByCreateDateDesc();
+			default:
+				throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+		}
+	}
+
 }
