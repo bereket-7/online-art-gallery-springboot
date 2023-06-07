@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
-import com.project.oag.service.EventService;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
