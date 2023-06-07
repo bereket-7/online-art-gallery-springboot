@@ -35,7 +35,6 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/artworks")
 @CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
-	
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -99,7 +98,6 @@ public class ArtworkController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
@@ -209,7 +207,6 @@ public class ArtworkController {
 		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
 		return ResponseEntity.ok(countByCategory);
 	}
-
 	@GetMapping("/search")
 	public ResponseEntity<List<Artwork>> searchArtwork(
 			@RequestParam("keyword") String keyword,
@@ -219,13 +216,11 @@ public class ArtworkController {
 		List<Artwork> searchResults = artworkService.searchArtwork(keyword, page, size);
 		return ResponseEntity.ok(searchResults);
 	}
-
 	@GetMapping("/autocomplete")
 	public ResponseEntity<List<String>> autocomplete(@RequestParam("keyword") String keyword) {
 		List<String> autocompleteResults = artworkService.getAutocompleteResults(keyword);
 		return ResponseEntity.ok(autocompleteResults);
 	}
-
 	@GetMapping("/sort")
 	public ResponseEntity<List<Artwork>> getSortedArtworks(@RequestParam("sortOption") String sortOption) {
 		try {
@@ -236,5 +231,4 @@ public class ArtworkController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
 }

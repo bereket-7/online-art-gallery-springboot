@@ -1,7 +1,6 @@
-package com.project.oag.entity;
+package com.project.oag.email;
 
 public class EmailDetail {
-	  // Class data members
     private String recipient;
     private String message;
     private String subject;
@@ -9,7 +8,6 @@ public class EmailDetail {
     
 	public EmailDetail() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public EmailDetail(String recipient, String message, String subject, String attachment) {
 		super();
