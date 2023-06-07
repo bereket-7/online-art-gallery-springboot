@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.artwork;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.entity.Artwork;
-import com.project.oag.service.ArtworkService;
+import com.project.oag.artwork.Artwork;
+import com.project.oag.artwork.ArtworkService;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController

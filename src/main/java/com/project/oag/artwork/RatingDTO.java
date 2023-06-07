@@ -1,4 +1,4 @@
-package com.project.oag.controller.dto;
+package com.project.oag.artwork;
 
 public class RatingDTO {
 

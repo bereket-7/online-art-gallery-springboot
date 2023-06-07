@@ -13,40 +13,31 @@ import com.project.oag.entity.Competition;
 
 @Service
 public class CompetitionServiceImpl implements CompetitionService {
-	
 	@Autowired
 	CompetitionRepository competitionRepository;
-
-
 	@Override
 	public void deleteCompetition(Long id) {
 		competitionRepository.deleteById(id);
 	}
-    
 	@Override
     public List<Competition> getAllCompetitions() {
 		return competitionRepository.findAll();
     }
-	
 	@Override
 	public Optional<Competition> getCompetitionById(Long id) {
 		  return competitionRepository.findById(id);}
-
 	@Override
 	public void addCompetition (Competition comp){
 	    	competitionRepository.saveAndFlush(comp);
 	    	}
-
 	@Override
 	public void updateCompetition (Long id, Competition comp){
 	    	competitionRepository.saveAndFlush(comp);
 }
-
 	@Override
 	public void deleteCompeition (Long id){
 	    	 competitionRepository.deleteById(id);
 	}
-	
 	@Override
     public Competition getMostRecentCompetition() {
         Pageable pageable = PageRequest.of(0, 1, Sort.by("expiryDate").descending());
@@ -56,7 +47,6 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
         return null;
     }
-	
 	@Override
 	public Integer getNumberOfCompetitor(Long id) {
         Optional<Competition> optionalCompetition = competitionRepository.findById(id);

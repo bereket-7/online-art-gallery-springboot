@@ -1,6 +1,4 @@
-package com.project.oag.controller.dto;
-
-import com.project.oag.entity.Artwork;
+package com.project.oag.artwork;
 
 public class ArtworkDto {
 

@@ -1,9 +1,9 @@
-package com.project.oag.entity;
+package com.project.oag.artwork;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.project.oag.repository.RatingRepository;
+import com.project.oag.entity.User;
 import jakarta.persistence.*;
 @Entity
 @Table(name="Artwork")

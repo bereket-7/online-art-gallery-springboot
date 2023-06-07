@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.project.oag.controller.dto.AddToCartDto;
 import com.project.oag.controller.dto.CartDto;
 import com.project.oag.controller.dto.CartItemDto;
-import com.project.oag.entity.Artwork;
+import com.project.oag.artwork.Artwork;
 import com.project.oag.entity.Cart;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.CartItemNotExistException;

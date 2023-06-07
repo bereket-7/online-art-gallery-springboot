@@ -1,4 +1,4 @@
-package com.project.oag.controller;
+package com.project.oag.artwork;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.oag.entity.Rating;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.service.RatingService;
 
 @RestController
 @RequestMapping("/artworks")

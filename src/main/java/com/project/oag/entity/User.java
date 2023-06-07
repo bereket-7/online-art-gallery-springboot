@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.project.oag.artwork.Artwork;
+import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;

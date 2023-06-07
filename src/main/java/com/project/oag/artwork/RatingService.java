@@ -1,16 +1,16 @@
-package com.project.oag.service;
+package com.project.oag.artwork;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.entity.Artwork;
-import com.project.oag.entity.Rating;
+import com.project.oag.artwork.Artwork;
+import com.project.oag.artwork.Rating;
 import com.project.oag.entity.User;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.repository.ArtworkRepository;
-import com.project.oag.repository.RatingRepository;
+import com.project.oag.artwork.ArtworkRepository;
+import com.project.oag.artwork.RatingRepository;
 import com.project.oag.repository.UserRepository;
 
 @Service

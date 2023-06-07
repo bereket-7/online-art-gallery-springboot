@@ -1,13 +1,10 @@
-package com.project.oag.service;
+package com.project.oag.artwork;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.controller.dto.ArtworkDto;
-import com.project.oag.entity.Artwork;
-import com.project.oag.repository.ArtworkRepository;
 import com.project.oag.repository.UserRepository;
 
 import jakarta.transaction.Transactional;

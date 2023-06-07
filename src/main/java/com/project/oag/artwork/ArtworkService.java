@@ -1,10 +1,7 @@
-package com.project.oag.service;
+package com.project.oag.artwork;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.project.oag.controller.dto.ArtworkDto;
-import com.project.oag.entity.Artwork;
 
 public interface ArtworkService {
 

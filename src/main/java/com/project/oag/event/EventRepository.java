@@ -9,6 +9,5 @@ import com.project.oag.entity.Event;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, Long>{
-
 	List<Event> findByStatus(String string);
 }

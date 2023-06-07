@@ -1,31 +1,24 @@
 package com.project.oag.report;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 @Entity
 @Table(name = "report")
 public class Report {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(name = "report_detail", nullable = false)
 	private String reportDetail;
-
 	@Column(name = "report_name", nullable = false)
 	private String reportTitle;
-
 	@Column(name = "reporter_name")
 	private String reporterName;
-
 	@Column(name = "reporter_email")
 	private String reporterEmail;
-
 	public Report() {
 		super();
 	}
