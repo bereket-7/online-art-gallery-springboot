@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -28,9 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.project.oag.artwork.Artwork;
-import com.project.oag.artwork.ArtworkService;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
@@ -206,4 +204,21 @@ public class ArtworkController {
 	        List<Artwork> artworks = artworkService.getRecentArtworks();
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
 	    }
+	@GetMapping("/count-by-category")
+	public ResponseEntity<Map<String, Integer>> getCountByCategory() {
+		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
+		return ResponseEntity.ok(countByCategory);
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<List<Artwork>> searchArtwork(@RequestParam("keyword") String keyword) {
+		List<Artwork> searchResults = artworkService.searchArtwork(keyword);
+		return ResponseEntity.ok(searchResults);
+	}
+
+	@GetMapping("/autocomplete")
+	public ResponseEntity<List<String>> autocomplete(@RequestParam("keyword") String keyword) {
+		List<String> autocompleteResults = artworkService.getAutocompleteResults(keyword);
+		return ResponseEntity.ok(autocompleteResults);
+	}
 }

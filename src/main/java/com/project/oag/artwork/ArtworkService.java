@@ -1,36 +1,113 @@
 package com.project.oag.artwork;
-
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-public interface ArtworkService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-	List<Artwork> getAllArtworks();
+import com.project.oag.repository.UserRepository;
 
-	void saveArtwork(Artwork artwork);
+import jakarta.transaction.Transactional;
+@Service
+@Transactional
+public class  ArtworkService{
+	@Autowired
+	private ArtworkRepository artworkRepository;
 
-	void deleteArtwork(Long id);
+	public ArtworkService(ArtworkRepository artworkRepository) {
+		this.artworkRepository = artworkRepository;
+	}
 
-	List<Artwork> getArtworkByCategory(String category);
+	@Autowired
+	private UserRepository userRepository;
 
-	List<Artwork> getArtworksByArtistId(int artistId);
 
-	List<Artwork> getPendingArtworks();
+	public List<Artwork> getAllArtworks() {
+		return artworkRepository.findAll();
+	}
 
-	boolean acceptArtwork(Long id);
+	public Optional<Artwork> getArtworkById(Long id) {
+		return artworkRepository.findById(id);
+	}
 
-	boolean rejectArtwork(Long id);
+	public void saveArtwork(Artwork artwork) {
+		artworkRepository.save(artwork);	
+	}
 
-	List<Artwork> getAcceptedArtworks();
+	public void deleteArtwork(Long id) {
+		artworkRepository.deleteById(id);
+	}
 
-	List<Artwork> getRejectedArtworks();
+	public List<Artwork> getArtworkByCategory(String artworkCategory) {
+		return artworkRepository.findByArtworkCategory(artworkCategory);
+	}
 
-	List<Artwork> getRecentArtworks();
+	public List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice) {
+		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
+	}
 
-	ArtworkDto getDtoFromArtwork(Artwork artwork);
+	public List<Artwork> getPendingArtworks() {
+        return artworkRepository.findByStatus("pending");
+    }
+	public List<Artwork> getAcceptedArtworks() {
+		 return artworkRepository.findByStatus("accepted");
+	}
+	public List<Artwork> getRejectedArtworks() {
+		 return artworkRepository.findByStatus("rejected");
+	}
+    @Transactional
+    public boolean acceptArtwork(Long id) {
+        Optional<Artwork> artworkOptional = artworkRepository.findById(id);
+        if (artworkOptional.isPresent()) {
+            Artwork artwork = artworkOptional.get();
+            if (artwork.getStatus().equals("pending")) {
+                artwork.setStatus("accepted");
+                artworkRepository.save(artwork);
+                return true;
+            }
+        }
+        return false;
+    }
+    @Transactional
+	public boolean rejectArtwork(Long id) {
+    	 Optional<Artwork> artworkOptional = artworkRepository.findById(id);
+         if (artworkOptional.isPresent()) {
+             Artwork artwork = artworkOptional.get();
+             if (artwork.getStatus().equals("pending")) {
+                 artwork.setStatus("rejected");
+                 artworkRepository.save(artwork);
+                 return true;
+             }
+         }
+         return false;
+	}
+    public List<Artwork> getRecentArtworks() {
+        return artworkRepository.findAllByOrderByCreateDateDesc();
+    }
 
-	Optional<Artwork> getArtworkById(Long id);
-
-	List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice);
-
+	public ArtworkDto getDtoFromArtwork(Artwork artwork) {
+	    ArtworkDto artworkDto = new ArtworkDto(artwork);
+        return artworkDto;
+	}
+	public List<Artwork> getArtworksByArtistId(int artistId) {
+		return artworkRepository.findByArtistId(artistId);
+	}
+	public Map<String, Integer> getCountByCategory() {
+		List<Object[]> countByCategory = artworkRepository.countByCategory();
+		Map<String, Integer> result = new HashMap<>();
+		for (Object[] obj : countByCategory) {
+			String category = (String) obj[0];
+			Integer count = ((Number) obj[1]).intValue();
+			result.put(category, count);
+		}
+		return result;
+	}
+	public List<Artwork> searchArtwork(String keyword) {
+		return artworkRepository.searchArtwork(keyword);
+	}
+	public List<String> getAutocompleteResults(String keyword) {
+		return artworkRepository.getAutocompleteResults(keyword);
+	}
 }
