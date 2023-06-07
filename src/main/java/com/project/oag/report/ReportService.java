@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.report;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.entity.Report;
-import com.project.oag.repository.ReportRepository;
+import com.project.oag.report.Report;
+import com.project.oag.report.ReportRepository;
 
 @Service
 public class ReportService {
@@ -34,20 +34,5 @@ public class ReportService {
     public void deleteReportById(final Long id) {
         this.reportRepository.deleteById(id);
     }
-
-    /*
-     * public Report updateReportById(final Long id, final Report updatedData) {
-     * final Optional<Report> existingData = Optional.ofNullable(this.getOne(id));
-     * existingData.ifPresent(data -> {
-     * data.setReportTitle(updatedData.getReportTitle());
-     * data.setReportDetail(updatedData.getReportDetail());
-     * data.setReporterName(updatedData.getReporterName());
-     * data.setReporterEmail(updatedData.getReporterEmail());
-     * });
-     * existingData.orElseThrow(() -> new
-     * ResourceNotFoundException("No Data Found with Id : " + id));
-     * return this.saveAndFlush(existingData);
-     * }
-     */
 
 }
