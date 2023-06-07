@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WishListRepository extends JpaRepository<WishList, Integer> {
-
     List<WishList> findAllByUserIdOrderByCreatedDateDesc(Long user_id);
-
 }

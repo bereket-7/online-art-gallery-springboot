@@ -21,18 +21,14 @@ public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
     @Column(name = "created_date")
     private Date createdDate;
-
     @ManyToOne()
     @JoinColumn(name = "artwork_id")
     private Artwork artwork;
-
     public WishList() {
     }
     
@@ -41,7 +37,6 @@ public class WishList {
         this.artwork = artwork;
         this.createdDate = new Date();
     }
-
 	public Integer getId() {
 		return id;
 	}
