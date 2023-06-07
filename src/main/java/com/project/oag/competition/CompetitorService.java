@@ -3,8 +3,6 @@ package com.project.oag.competition;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.oag.controller.dto.CompetitorDto;
-
 public interface CompetitorService {
 
 	List<Competitor> getAllCompetitors();

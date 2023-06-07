@@ -33,8 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.CompetitorDto;
-
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/competitors")

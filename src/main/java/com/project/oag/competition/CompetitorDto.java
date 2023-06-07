@@ -1,4 +1,4 @@
-package com.project.oag.controller.dto;
+package com.project.oag.competition;
 
 public class CompetitorDto {
 	private String firstName;

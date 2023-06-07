@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.project.oag.controller.dto.EventDto;
 import jakarta.transaction.Transactional;
 
 @Service
