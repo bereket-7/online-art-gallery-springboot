@@ -34,4 +34,16 @@ public class WishListService {
         return false;
     }
 
+    public boolean deleteWishList(Integer wishlistId, String username) {
+        Optional<WishList> optionalWishList = wishListRepository.findById(wishlistId);
+        if (optionalWishList.isPresent()) {
+            WishList wishList = optionalWishList.get();
+            if (wishList.getUser().getUsername().equals(username)) {
+                wishListRepository.delete(wishList);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.project.oag.artwork;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,15 @@ public class WishListController {
     @DeleteMapping("/{wishlistId}")
     public ResponseEntity<String> deleteWishList(@PathVariable Integer wishlistId) {
         boolean deleted = wishListService.deleteWishList(wishlistId);
+        if (deleted) {
+            return ResponseEntity.ok("WishList deleted successfully");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    @DeleteMapping("/{wishlistId}")
+    public ResponseEntity<String> deleteWishList(@PathVariable Integer wishlistId, Principal principal) {
+        boolean deleted = wishListService.deleteWishList(wishlistId, principal.getName());
         if (deleted) {
             return ResponseEntity.ok("WishList deleted successfully");
         } else {
