@@ -1,10 +1,12 @@
 package com.project.oag.artwork;
+import org.springframework.data.domain.Pageable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.repository.UserRepository;
@@ -104,8 +106,10 @@ public class  ArtworkService{
 		}
 		return result;
 	}
-	public List<Artwork> searchArtwork(String keyword) {
-		return artworkRepository.searchArtwork(keyword);
+
+	public List<Artwork> searchArtwork(String keyword, int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return artworkRepository.searchArtwork(keyword, pageable);
 	}
 	public List<String> getAutocompleteResults(String keyword) {
 		return artworkRepository.getAutocompleteResults(keyword);

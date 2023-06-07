@@ -1,5 +1,6 @@
 package com.project.oag.artwork;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,9 +22,11 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 
 	@Query("SELECT a FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
 			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
-	List<Artwork> searchArtwork(@Param("keyword") String keyword);
-
+	List<Artwork> searchArtwork(@Param("keyword") String keyword, Pageable pageable);
 	@Query("SELECT a.artworkCategory FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
 			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
 	List<String> getAutocompleteResults(@Param("keyword") String keyword);
+
+
+
 }

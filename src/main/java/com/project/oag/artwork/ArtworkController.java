@@ -211,8 +211,12 @@ public class ArtworkController {
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<List<Artwork>> searchArtwork(@RequestParam("keyword") String keyword) {
-		List<Artwork> searchResults = artworkService.searchArtwork(keyword);
+	public ResponseEntity<List<Artwork>> searchArtwork(
+			@RequestParam("keyword") String keyword,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "10") int size
+	) {
+		List<Artwork> searchResults = artworkService.searchArtwork(keyword, page, size);
 		return ResponseEntity.ok(searchResults);
 	}
 
