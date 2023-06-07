@@ -1,4 +1,4 @@
-package com.project.oag.controller.dto;
+package com.project.oag.event;
 
 import java.time.LocalDate;
 

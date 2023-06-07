@@ -1,9 +1,11 @@
-package com.project.oag.service;
+package com.project.oag.event;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
@@ -78,7 +80,7 @@ public class EventServiceImpl implements EventService {
          return false;
 	}
 
-    
+    @Override
     public boolean deleteEvent(Long eventId) {
         if (eventRepository.existsById(eventId)) {
             eventRepository.deleteById(eventId);
@@ -88,6 +90,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    @Override
     public String updateEvent(Long eventId, EventDto eventUpdateDTO) {
         Optional<Event> optionalEvent = eventRepository.findById(eventId);
         if (optionalEvent.isPresent()) {
@@ -117,5 +120,23 @@ public class EventServiceImpl implements EventService {
             return "Event not found";
         }
     }
+
+    public void changeEventImage(Long eventId, MultipartFile imageFile) {
+        try {
+            Optional<Event> optionalEvent = eventRepository.findById(eventId);
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                byte[] imageBytes = imageFile.getBytes();
+                event.setImage(imageBytes);
+    
+                eventRepository.save(event);
+            } else {
+                throw new IllegalArgumentException("Event not found");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
 }

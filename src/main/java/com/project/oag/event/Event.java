@@ -1,8 +1,10 @@
-package com.project.oag.entity;
+package com.project.oag.event;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
+
+import com.project.oag.entity.Organization;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

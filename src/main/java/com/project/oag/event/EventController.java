@@ -1,7 +1,8 @@
-package com.project.oag.controller;
+package com.project.oag.event;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
@@ -22,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.oag.controller.dto.EventDto;
 import com.project.oag.entity.Event;
-import com.project.oag.repository.EventRepository;
 import com.project.oag.service.EventService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -120,6 +120,7 @@ public class EventController {
 	     }
     return new ResponseEntity<>(eventList, HttpStatus.OK);
 	 }
+	 
 	   @GetMapping("/pending")
 	    public List<Event> getPendingEvents() {
 	        return eventService.getPendingEvents();
@@ -173,4 +174,12 @@ public class EventController {
 				return new ResponseEntity<>(result, HttpStatus.OK);
 			}
 		}
+
+		@PostMapping("/{eventId}/image")
+		 public ResponseEntity<String> changeEventImage(
+		 		@PathVariable Long eventId,
+		 		@RequestParam("image") MultipartFile imageFile ) throws IOException {
+		 	eventService.changeEventImage(eventId, imageFile);
+			return new ResponseEntity<>("Event image changed successfully", HttpStatus.OK);
+		 }
 }
