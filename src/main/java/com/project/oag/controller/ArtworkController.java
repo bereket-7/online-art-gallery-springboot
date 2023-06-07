@@ -208,18 +208,18 @@ public class ArtworkController {
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
 	    }
 
-	@GetMapping("/{artworkId}/average-rating")
-	public ResponseEntity<Double> getAverageRating(@PathVariable Long artworkId) {
-		Artwork artwork = artworkService.getArtworkById(artworkId);
-
-		if (artwork == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
-		Double averageRating = artwork.getAverageRating();
-
-		return new ResponseEntity<>(averageRating, HttpStatus.OK);
-	}
+//	@GetMapping("/{artworkId}/average-rating")
+//	public ResponseEntity<Double> getAverageRating(@PathVariable Long artworkId) {
+//		Artwork artwork = artworkService.getArtworkById(artworkId);
+//
+//		if (artwork == null) {
+//			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//		}
+//
+//		Double averageRating = artwork.getAverageRating();
+//
+//		return new ResponseEntity<>(averageRating, HttpStatus.OK);
+//	}
 
 
 }
