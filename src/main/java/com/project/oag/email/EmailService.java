@@ -1,6 +1,5 @@
 package com.project.oag.email;
 
-
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;

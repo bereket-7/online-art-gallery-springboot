@@ -1,6 +1,7 @@
 package com.project.oag.service;
 
 import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
@@ -134,6 +135,17 @@ public class UserService  implements UserDetailsService{
     }
 
 
+    public Long getTotalCustomerUsers() {
+        return userRepository.countTotalUsersByRole(Role.CUSTOMER);
+    }
+
+    public Long getTotalArtistUsers() {
+        return userRepository.countTotalUsersByRole(Role.ARTIST);
+    }
+
+    public Long getTotalManagerUsers() {
+        return userRepository.countTotalUsersByRole(Role.MANAGER);
+    }
 
 
     //

@@ -16,7 +16,7 @@ import com.project.oag.entity.User;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long>{
     //User findByEmail(String email);
-    
+    Long countTotalUsersByRole(Role role);
     List<User> findByRoleContains(Role role);
 
     @Override

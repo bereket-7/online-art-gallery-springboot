@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/email")
 @CrossOrigin("http://localhost:8080/")
 public class EmailController {
-	
 	   @Autowired 
 	   private EmailService emailService;
     @PostMapping("/sendEmail")

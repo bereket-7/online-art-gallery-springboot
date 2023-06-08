@@ -78,19 +78,6 @@ public class UserController {
 //	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
 //	        return "users";
 //	    }
-
-	   
-//	    @PostMapping("/signup")
-//	    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto) {
-//	        try {
-//	            userService.registerUser(userDto);
-//	            return ResponseEntity.status(HttpStatus.CREATED).build();
-//	        } catch (UserAlreadyExistException e) {
-//	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-//	        } catch (NonUniqueResultException ex) {
-//	            return ResponseEntity.badRequest().body("There is an account with that email address: " + userDto.getEmail());
-//	        }
-//
 	    
 	    @GetMapping("/all")
 	    public List<User> getAllUsers() {
@@ -176,6 +163,22 @@ public class UserController {
 //	        }
 //	        return null;
 //	    }
+
+
+	@GetMapping("/total-customer-users")
+	public Long getTotalCustomerUsers() {
+		return userService.getTotalCustomerUsers();
+	}
+
+	@GetMapping("/total-artist-users")
+	public Long getTotalArtistUsers() {
+		return userService.getTotalArtistUsers();
+	}
+
+	@GetMapping("/total-manager-users")
+	public Long getTotalManagerUsers() {
+		return userService.getTotalManagerUsers();
+	}
 
 	    // ============== NON-API ============
 
