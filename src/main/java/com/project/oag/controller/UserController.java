@@ -163,8 +163,6 @@ public class UserController {
 //	        }
 //	        return null;
 //	    }
-
-
 	@GetMapping("/total-customer-users")
 	public Long getTotalCustomerUsers() {
 		return userService.getTotalCustomerUsers();
