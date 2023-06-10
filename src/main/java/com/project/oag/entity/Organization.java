@@ -3,6 +3,7 @@ package com.project.oag.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.oag.event.Event;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

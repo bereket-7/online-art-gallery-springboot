@@ -41,7 +41,6 @@ public class CompetitorServiceImpl implements CompetitorService{
 		competitorRepository.deleteById(id);
 		
 	}
-	
 	@Override
     public Competitor updateCompetitor(Long id, Competitor competitorUpdate) throws Exception {
         return competitorRepository.findById(id).map(competitor -> {
@@ -85,18 +84,12 @@ public class CompetitorServiceImpl implements CompetitorService{
 		 public List<CompetitorDto> getTopCompetitors() {
 		        List<Competitor> competitors = competitorRepository.findAll();
 		        List<Vote> votes = voteRepository.findAll();
-		        
-		        // Map competitors to their vote count
 		        Map<Long, Integer> voteCounts = new HashMap<>();
 		        for (Vote vote : votes) {
-		            Long competitorId = vote.getCompetitorId();
-		            voteCounts.put(competitorId, voteCounts.getOrDefault(competitorId, 0) + 1);
-		        }
-		        
-		        // Sort competitors by vote count
+					Long competitorId = vote.getCompetitorId();
+					voteCounts.put(competitorId, voteCounts.getOrDefault(competitorId, 0) + 1);
+				}
 		        competitors.sort((c1, c2) -> voteCounts.getOrDefault(c2.getId(), 0) - voteCounts.getOrDefault(c1.getId(), 0));
-		        
-		        // Create a CompetitorDto list with only firstName and artworkPhoto
 		        List<CompetitorDto> dtos = new ArrayList<>();
 		        for (Competitor competitor : competitors) {
 		            CompetitorDto dto = new CompetitorDto();
@@ -104,8 +97,6 @@ public class CompetitorServiceImpl implements CompetitorService{
 		            dto.setImage(competitor.getImage());
 		            dtos.add(dto);
 		        }
-		        
-		        // Return only the first element of the list
 		        return dtos.subList(0, 1);
 		    }
 }
