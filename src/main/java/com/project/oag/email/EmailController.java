@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class EmailController {
 	   @Autowired 
 	   private EmailService emailService;
-    @PostMapping("/sendEmail")
-    public String
-    sendMail(@RequestBody EmailDetail details)
-    {
-        String status= emailService.sendSimpleMail(details);
-        return status;
-    }
-    @PostMapping("/sendWithAttachment")
-    public String sendMailWithAttachment(
-        @RequestBody EmailDetail details)
-    {
-        String status= emailService.sendMailWithAttachment(details);
-        return status;
-    }
+//    @PostMapping("/sendEmail")
+//    public String
+//    sendMail(@RequestBody EmailDetail details)
+//    {
+//        String status= emailService.sendSimpleMail(details);
+//        return status;
+//    }
+//    @PostMapping("/sendWithAttachment")
+//    public String sendMailWithAttachment(
+//        @RequestBody EmailDetail details)
+//    {
+//        String status= emailService.sendMailWithAttachment(details);
+//        return status;
+//    }
 
 }

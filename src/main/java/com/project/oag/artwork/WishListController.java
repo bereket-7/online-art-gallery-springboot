@@ -51,14 +51,5 @@ public class WishListController {
             return ResponseEntity.notFound().build();
         }
     }
-    @DeleteMapping("/{wishlistId}")
-    public ResponseEntity<String> deleteWishList(@PathVariable Integer wishlistId, Principal principal) {
-        boolean deleted = wishListService.deleteWishList(wishlistId, principal.getName());
-        if (deleted) {
-            return ResponseEntity.ok("WishList deleted successfully");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
 }

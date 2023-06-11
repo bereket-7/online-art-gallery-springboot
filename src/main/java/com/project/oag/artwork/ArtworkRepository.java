@@ -26,6 +26,7 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
 	List<String> getAutocompleteResults(@Param("keyword") String keyword);
 
+	@Query("SELECT a FROM Artwork a JOIN a.ratings r GROUP BY a.id ORDER BY AVG(r.rating) DESC")
 	List<Artwork> findAllByOrderByAverageRatingDesc();
 	List<Artwork> findAllByOrderByPriceAsc();
 	List<Artwork> findAllByOrderByPriceDesc();

@@ -19,9 +19,6 @@ import java.io.File;
 @Service
 @AllArgsConstructor
 public class EmailService implements EmailSender{
-
-    @Value("${spring.mail.username}")
-    private String sender;
     private final static Logger LOGGER = LoggerFactory
             .getLogger(EmailService.class);
 
@@ -43,44 +40,6 @@ public class EmailService implements EmailSender{
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
             throw new IllegalStateException("failed to send email");
-        }
-    }
-
-    public String sendSimpleMail(EmailDetail details)
-    {
-        try {
-            SimpleMailMessage mailMessage= new SimpleMailMessage();
-            mailMessage.setFrom(sender);
-            mailMessage.setTo(details.getRecipient());
-            mailMessage.setText(details.getMessage());
-            mailMessage.setSubject(details.getSubject());
-            mailSender.send(mailMessage);
-            return "Email Sent Successfully";
-        }
-        catch (Exception e) {
-            return "Error while Sending Email";
-        }
-    }
-
-    public String sendMailWithAttachment(EmailDetail details)
-    {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper;
-
-        try {
-            mimeMessageHelper= new MimeMessageHelper(mimeMessage, true);
-            mimeMessageHelper.setFrom(sender);
-            mimeMessageHelper.setTo(details.getRecipient());
-            mimeMessageHelper.setText(details.getMessage());
-            mimeMessageHelper.setSubject(details.getSubject());
-            FileSystemResource file= new FileSystemResource(
-                    new File(details.getAttachment()));
-            mimeMessageHelper.addAttachment(file.getFilename(), file);
-            mailSender.send(mimeMessage);
-            return "Email sent Successfully.";
-        }
-        catch (MessagingException e) {
-            return "Error while sending Email!!!";
         }
     }
 }
