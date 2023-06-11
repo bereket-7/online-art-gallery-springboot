@@ -34,7 +34,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@Lazy
 @AllArgsConstructor
 @Configuration
 public class UserService  implements UserDetailsService{
