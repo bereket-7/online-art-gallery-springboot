@@ -1,6 +1,7 @@
 package com.project.oag.security.config;
 
 import com.project.oag.security.filter.JwtTokenFilter;
+import com.project.oag.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,16 +38,19 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
         this.daoAuthenticationProvider = daoAuthenticationProvider;
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
+
     @Bean
     AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
