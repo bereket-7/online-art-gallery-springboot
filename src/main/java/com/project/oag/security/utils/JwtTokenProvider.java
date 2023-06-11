@@ -1,4 +1,4 @@
-package com.project.oag.utils;
+package com.project.oag.security.utils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

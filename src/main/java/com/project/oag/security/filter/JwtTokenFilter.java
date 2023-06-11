@@ -1,6 +1,6 @@
 package com.project.oag.security.filter;
 
-import com.project.oag.utils.JwtTokenProvider;
+import com.project.oag.security.utils.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
