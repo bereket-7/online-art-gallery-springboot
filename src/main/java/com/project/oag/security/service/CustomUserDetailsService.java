@@ -1,4 +1,4 @@
-package com.project.oag.security;
+package com.project.oag.security.service;
 
 import com.project.oag.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

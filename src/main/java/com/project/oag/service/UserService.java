@@ -7,6 +7,7 @@ import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
 import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.UserRepository;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -58,8 +59,6 @@ public class UserService  implements UserDetailsService{
         boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
         if (userExists) {
-            // TODO check of attributes are the same and
-            // TODO if email not confirmed send confirmation email.
             throw new IllegalStateException("email already registered");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
