@@ -10,7 +10,9 @@ import com.project.oag.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserService  implements UserDetailsService {
+public class UserService {
      private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
 	@Autowired
     private UserRepository userRepository;
@@ -103,9 +105,9 @@ public class UserService  implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
-        return passwordEncoder.matches(oldPassword, user.getPassword());
-    }
+//    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
+//        return passwordEncoder.matches(oldPassword, user.getPassword());
+//    }
 
     public String generateQRUrl(User user) throws UnsupportedEncodingException {
         return QR_PREFIX + URLEncoder.encode(String.format("otpauth://totp/%s:%s?secret=%s&issuer=%s", APP_NAME,

@@ -25,13 +25,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-		
-<!--	<dependency>-->
-<!--        <groupId>org.springframework.boot</groupId>-->
-<!--        <artifactId>spring-boot-starter-security</artifactId>-->
-<!--    </dependency>-->
 
         <!-- spring security test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -53,7 +52,6 @@
 			<artifactId>jjwt-jackson</artifactId>
 			<version>0.11.2</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -145,16 +143,11 @@
 		</dependency>
 		
 		<dependency>
-    		<groupId>com.twilio.sdk</groupId>
-    		<artifactId>twilio</artifactId>
-    		<version>9.2.5</version>
-		</dependency>
-		
-		<dependency>
 		    <groupId>com.stripe</groupId>
 		    <artifactId>stripe-java</artifactId>
 		    <version>20.77.0</version>
 		</dependency>
+
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>
@@ -162,11 +155,11 @@
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
+			<artifactId>spring-security-config</artifactId>
+			<version>6.0.2</version>
 		</dependency>
+
 	</dependencies>
-	
-	
 	<build>
 		<plugins>
 			<plugin>
