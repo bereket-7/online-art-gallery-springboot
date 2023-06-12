@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.oag.security.ActiveUserStore;
 import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
 
