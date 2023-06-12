@@ -10,6 +10,8 @@ import com.project.oag.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,11 +26,8 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class UserService  implements UserDetailsService{
+public class UserService  implements UserDetailsService {
      private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 	@Autowired
     private UserRepository userRepository;
 

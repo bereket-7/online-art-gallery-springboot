@@ -13,9 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.oag.security.UserSecurityService;
@@ -34,10 +31,6 @@ public class UserController {
     private String path = "src/main/resources/static/img/user-images/";
 	@Autowired
 	private UserService userService;
-	
-	   @Autowired
-	    ActiveUserStore activeUserStore;
-	   
 	   @Autowired
 	    private MessageSource messages;
 	   
@@ -48,12 +41,6 @@ public class UserController {
 		super();
 		this.userService = userService;
 	}
-	    @GetMapping("/loggedUsers")
-	    public String getLoggedUsers(final Locale locale, final Model model) {
-	        model.addAttribute("users", activeUserStore.getUsers());
-	        return "users";
-	    }
-
 	@PostMapping("profile/upload")
 	public ResponseEntity<String> uploadProfilePhoto(
 			@RequestParam("file") MultipartFile file,
@@ -71,41 +58,10 @@ public class UserController {
 		headers.setContentType(MediaType.IMAGE_JPEG);
 		return new ResponseEntity<>(photoBytes, headers, HttpStatus.OK);
 	}
-
-//	    @GetMapping("/loggedUsersFromSessionRegistry")
-//	    public String getLoggedUsersFromSessionRegistry(final Locale locale, final Model model) {
-//	        model.addAttribute("users", userService.getUsersFromSessionRegistry());
-//	        return "users";
-//	    }
-	    
 	    @GetMapping("/all")
 	    public List<User> getAllUsers() {
 	        return userService.getAllUsers();
 	    }
-
-//	    @PostMapping("/add")
-//	    public User addUser(@RequestBody User user) {
-//	        return userService.addUser(user);
-//	    }
-//
-//	    @PutMapping("/{id}")
-//	    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-//	        return userService.updateUser(id, updatedUser);
-//}
-//	    @GetMapping("/{id}")
-//	    public User getUserById(@PathVariable Long id) {
-//	        return userService.getUserById(id);
-//	   }
-	    @PostMapping("/logout")
-	    public String logout(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-	        
-	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	        if (auth != null) {
-	            new SecurityContextLogoutHandler().logout(request, response, auth);
-	        }
-	        return "redirect:/login?logout"; //localhost:8080/login.vue
-	    }
-	    
 	    
 	    // Reset password
 	    /*
