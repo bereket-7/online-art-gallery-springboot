@@ -36,52 +36,10 @@ public class UserService {
     private PasswordResetTokenRepository passwordTokenRepository;
 //	@Autowired
 //    private BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-    private ConfirmationTokenService confirmationTokenService;
     public static String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
     public static String APP_NAME = "OnlineArtGallery";
-    public String signUpUser(User user) {
-        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
-        if (userExists) {
-            throw new IllegalStateException("email already registered");
-        }
-        //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        //user.setPassword(encodedPassword);
-        userRepository.save(user);
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token,LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
-    }
-    public int enableUser(String email) {
-        return userRepository.enableUser(email);
-    }
-    public void uploadProfilePhoto(String loggedInEmail, MultipartFile file) {
-        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
 
-            try {
-                user.setImage(file.getBytes());
-                userRepository.save(user);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Failed to upload profile photo");
-            }
-        } else {
-            throw new RuntimeException("User not found");
-        }
-    }
-    public byte[] getProfilePhoto(String loggedInEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            return user.getImage();
-        } else {
-            throw new RuntimeException("User not found");
-        }
-    }
     public void createPasswordResetTokenForUser(final User user, final String token) {
         final PasswordResetToken myToken = new PasswordResetToken(token, user);
         passwordTokenRepository.save(myToken);
