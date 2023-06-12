@@ -9,7 +9,6 @@ import com.project.oag.email.EmailSender;
 import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
-import com.project.oag.service.UserService;
 
 @Service
 public class RegistrationService {

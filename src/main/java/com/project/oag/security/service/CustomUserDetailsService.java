@@ -1,8 +1,11 @@
 package com.project.oag.security.service;
 
+import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
+import com.project.oag.repository.PasswordResetTokenRepository;
 import com.project.oag.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,13 +13,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 @Configuration
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -24,6 +30,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordTokenRepository;
+
+    //@Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -76,4 +88,46 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
+
+    //password reset
+    public void createPasswordResetTokenForUser(final User user, final String token) {
+        final PasswordResetToken myToken = new PasswordResetToken(token, user);
+        passwordTokenRepository.save(myToken);
+    }
+    public PasswordResetToken getPasswordResetToken(final String token) {
+        return passwordTokenRepository.findByToken(token);
+    }
+    public Optional<User> getUserByPasswordResetToken(final String token) {
+        return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
+    }
+
+
+//    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
+//        return passwordEncoder.matches(oldPassword, user.getPassword());
+//    }
+
+
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    public Long getTotalCustomerUsers() {
+        return userRepository.countTotalUsersByRole(Role.CUSTOMER);
+    }
+    public Long getTotalArtistUsers() {
+        return userRepository.countTotalUsersByRole(Role.ARTIST);
+    }
+    public Long getTotalManagerUsers() {
+        return userRepository.countTotalUsersByRole(Role.MANAGER);
+    }
+    public Optional<User> getUserByID(final long id) {
+        return userRepository.findById(id);
+    }
+
+
+
+
 }

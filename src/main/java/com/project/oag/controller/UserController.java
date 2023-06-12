@@ -1,7 +1,6 @@
 package com.project.oag.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import com.project.oag.entity.User;
 import org.slf4j.Logger;
@@ -14,11 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import com.project.oag.service.UserService;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
