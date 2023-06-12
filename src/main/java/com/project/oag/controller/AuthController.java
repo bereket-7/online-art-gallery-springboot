@@ -43,6 +43,10 @@ public class AuthController {
         String jwt = jwtTokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
+
+
+
+
     @GetMapping("/logout")
     public ResponseEntity<?> logoutUser() {
         SecurityContextHolder.clearContext();

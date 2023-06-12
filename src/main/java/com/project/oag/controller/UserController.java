@@ -3,6 +3,7 @@ package com.project.oag.controller;
 import java.util.List;
 
 import com.project.oag.entity.User;
+import com.project.oag.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,14 @@ public class UserController {
 	 private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private String path = "src/main/resources/static/img/user-images/";
 	@Autowired
-	private UserService userService;
+	private CustomUserDetailsService userService;
 	   @Autowired
 	    private MessageSource messages;
 	   
 //	    @Autowired
 //	    private UserSecurityService userSecurityService;
 
-	   public UserController(UserService userService) {
+	   public UserController(CustomUserDetailsService userService) {
 		super();
 		this.userService = userService;
 	}

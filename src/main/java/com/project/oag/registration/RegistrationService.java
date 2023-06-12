@@ -1,6 +1,8 @@
 package com.project.oag.registration;
 
 import java.time.LocalDateTime;
+
+import com.project.oag.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +15,7 @@ import com.project.oag.registration.token.ConfirmationTokenService;
 @Service
 public class RegistrationService {
     @Autowired
-    private UserService userService;
+    private CustomUserDetailsService userService;
     @Autowired
     private EmailValidator emailValidator;
     @Autowired
