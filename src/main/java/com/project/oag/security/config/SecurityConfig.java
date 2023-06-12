@@ -61,7 +61,7 @@ public class SecurityConfig {
         //@formatter:off
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**","api/v1/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
