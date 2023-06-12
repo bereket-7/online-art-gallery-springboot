@@ -41,18 +41,15 @@ public class SecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -62,6 +59,7 @@ public class SecurityConfig {
         //@formatter:off
         httpSecurity
                 .authorizeHttpRequests()
+                //.requestMatchers( "/api/v1/registration/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/registration/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/registration/confirm").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
