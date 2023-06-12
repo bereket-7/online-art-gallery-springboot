@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -61,7 +62,9 @@ public class SecurityConfig {
         //@formatter:off
         httpSecurity
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**","api/v1/registration/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/registration/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/registration/confirm").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
