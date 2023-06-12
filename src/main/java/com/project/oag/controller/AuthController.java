@@ -13,11 +13,18 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AuthController {
+    private AuthenticationManager authenticationManager;
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    public void setJwtTokenProvider(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(
             @RequestBody AuthenticationRequest authenticationRequest) {
@@ -35,5 +42,4 @@ public class AuthController {
         SecurityContextHolder.clearContext();
         return ResponseEntity.ok("Logout successful");
     }
-
 }

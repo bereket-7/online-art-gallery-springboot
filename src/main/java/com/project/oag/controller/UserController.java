@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import com.project.oag.security.UserSecurityService;
 import com.project.oag.service.UserService;
 
 import jakarta.servlet.ServletException;
@@ -34,8 +32,8 @@ public class UserController {
 	   @Autowired
 	    private MessageSource messages;
 	   
-	    @Autowired
-	    private UserSecurityService userSecurityService;
+//	    @Autowired
+//	    private UserSecurityService userSecurityService;
 
 	   public UserController(UserService userService) {
 		super();
