@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,8 +35,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordResetTokenRepository passwordTokenRepository;
 
-    //@Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -52,8 +53,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userExists) {
             throw new IllegalStateException("email already registered");
         }
-        //String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
-        //user.setPassword(encodedPassword);
+        String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
         userRepository.save(user);
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
@@ -100,14 +101,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public Optional<User> getUserByPasswordResetToken(final String token) {
         return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
     }
-
-
 //    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
 //        return passwordEncoder.matches(oldPassword, user.getPassword());
 //    }
-
-
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -126,8 +122,4 @@ public class CustomUserDetailsService implements UserDetailsService {
     public Optional<User> getUserByID(final long id) {
         return userRepository.findById(id);
     }
-
-
-
-
 }
