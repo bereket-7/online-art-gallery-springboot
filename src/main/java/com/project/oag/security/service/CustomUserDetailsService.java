@@ -36,7 +36,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     private PasswordResetTokenRepository passwordTokenRepository;
 
     private BCryptPasswordEncoder passwordEncoder;
-
     public CustomUserDetailsService(UserRepository userRepository,
                                     ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
