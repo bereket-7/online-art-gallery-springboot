@@ -26,24 +26,16 @@ import java.util.UUID;
 @Service
 @Configuration
 public class CustomUserDetailsService implements UserDetailsService {
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
-
     @Autowired
     private PasswordResetTokenRepository passwordTokenRepository;
-
-    private BCryptPasswordEncoder passwordEncoder;
-
     public CustomUserDetailsService(UserRepository userRepository,
                                     ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
         this.confirmationTokenService = confirmationTokenService;
-    }
-    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -60,8 +52,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userExists) {
             throw new IllegalStateException("email already registered");
         }
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
         userRepository.save(user);
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);

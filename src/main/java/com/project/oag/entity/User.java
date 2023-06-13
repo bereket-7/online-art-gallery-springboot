@@ -26,6 +26,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
@@ -69,10 +71,6 @@ public class User implements UserDetails{
 	private List<Bid> bid;
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private List<Artwork> artworks;
-
-//	public User(String firstname, String lastname, String phone, String address, String email, String sex,
-//    Integer age, String username, String password, String role) {
-//    }
 	  public User() {
 	    }
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
@@ -88,37 +86,6 @@ public class User implements UserDetails{
     this.password = password;
     this.role = role;
 }
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		 SimpleGrantedAuthority authority =
-			       new SimpleGrantedAuthority(role.name());
-	        return Collections.singletonList(authority);
-	}
-	@Override
-	public String getPassword() {
-		return password;
-	}
-	@Override
-	public String getUsername() {
-		return email;
-	}
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isAccountNonLocked() {
-		return !locked;
-	}
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isEnabled() {
-	     return enabled;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -240,9 +207,41 @@ public class User implements UserDetails{
 		this.username = username;
 	}
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new BCryptPasswordEncoder().encode(password);
 	}
 	public boolean getSelectedForBid() {
 		  return selectedForBid;
+	}
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority authority =
+				new SimpleGrantedAuthority(role.name());
+		return Collections.singletonList(authority);
+	}
+	@Override
+	public String getPassword() {
+		return password;
+	}
+	@Override
+	public String getUsername() {
+		return email;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return !locked;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 }
