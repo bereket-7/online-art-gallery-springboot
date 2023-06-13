@@ -10,25 +10,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class  EventService {
 	private final EventRepository eventRepository;
-
 	public EventService(EventRepository eventRepository) {
 		this.eventRepository = eventRepository;
 	}
 	public void saveEvent(Event event) {
 		eventRepository.save(event);
 	}
-
 	public List<Event> getAllEvents() {
 		return eventRepository.findAll();
 	}
 	public Optional<Event> getEventById(Long id) {
 		return eventRepository.findById(id);
 	}
-
-	public List<Event> getAllActiveEvents() {
-		return eventRepository.findByStatus("active");
-	}
-
 	public boolean acceptEvent(Long id) {
 		Optional<Event> optionalEvent = eventRepository.findById(id);
 		if (optionalEvent.isPresent()) {
@@ -41,7 +34,6 @@ public class  EventService {
 		}
 		return false;
 	}
-
 	public boolean rejectEvent(Long id) {
 		Optional<Event> optionalEvent = eventRepository.findById(id);
 		if (optionalEvent.isPresent()) {
@@ -54,19 +46,15 @@ public class  EventService {
 		}
 		return false;
 	}
-
 	public List<Event> getPendingEvents() {
 		return eventRepository.findByStatus("pending");
 	}
-
 	public List<Event> getAcceptedEvents() {
 		return eventRepository.findByStatus("accepted");
 	}
-
 	public List<Event> getRejectedEvents() {
 		return eventRepository.findByStatus("rejected");
 	}
-
 	public boolean deleteEvent(Long eventId) {
 		Optional<Event> optionalEvent = eventRepository.findById(eventId);
 		if (optionalEvent.isPresent()) {
