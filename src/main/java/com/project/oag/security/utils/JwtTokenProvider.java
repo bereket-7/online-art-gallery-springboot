@@ -38,10 +38,7 @@ public class JwtTokenProvider {
         }
         return null;
     }
-
-
     public boolean validateToken(String token) {
-        // Check if the token is valid and not expired
         try {
             Jwts.parser().setSigningKey(key).parseClaimsJws(token);
             return true;
@@ -58,7 +55,6 @@ public class JwtTokenProvider {
         }
         return false;
     }
-
     public String getUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(key)
