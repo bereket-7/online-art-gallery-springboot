@@ -83,6 +83,7 @@ public class User implements UserDetails{
     this.sex = sex;
     this.address = address;
     this.email = email;
+	//this.password = new BCryptPasswordEncoder().encode(password);
     this.password = password;
     this.role = role;
 }
@@ -206,8 +207,8 @@ public class User implements UserDetails{
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public void setPassword(String password) {
-		this.password = new BCryptPasswordEncoder().encode(password);
+	public void setPassword(String password){
+		  this.password = password;
 	}
 	public boolean getSelectedForBid() {
 		  return selectedForBid;

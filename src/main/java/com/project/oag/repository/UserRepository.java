@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.oag.entity.Role;
 import com.project.oag.entity.User;
-
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long>{
