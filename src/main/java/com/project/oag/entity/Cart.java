@@ -19,23 +19,18 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="cart")
 public class Cart {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "created_date")
     private Date createdDate;
-
     @ManyToOne
     @JoinColumn(name = "artwork_id", referencedColumnName = "id")
     private Artwork artwork;
-
     @JsonIgnore
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
-
     private int quantity;
 
     public Cart() {
@@ -49,7 +44,6 @@ public class Cart {
     }
 
     public Cart(Optional<Artwork> artwork, Integer quantity, User user) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Long getId() {

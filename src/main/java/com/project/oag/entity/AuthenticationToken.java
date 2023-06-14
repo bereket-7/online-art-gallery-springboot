@@ -21,8 +21,6 @@ public class AuthenticationToken {
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Column(name = "id")
 	    private Integer id;
-
-
 	    private String token;
 
 	    @Column(name = "created_date")
