@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.project.oag.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/artworks")
@@ -50,6 +52,8 @@ public class ArtworkController {
 														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
 														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
 		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			User loggedInUser = (User) authentication.getPrincipal();
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 			log.info("uploadDirectory:: " + uploadDirectory);
 			String fileName = file.getOriginalFilename();
@@ -89,6 +93,7 @@ public class ArtworkController {
 			artwork.setStatus("pending");
 			artwork.setArtworkDescription(descriptions[0]);
 			artwork.setCreateDate(createDate);
+			artwork.setArtist(loggedInUser);
 			artworkService.saveArtwork(artwork);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
 			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);

@@ -15,17 +15,13 @@ import com.project.oag.common.Helper;
 public class AuthenticationServiceImpl implements AuthenticationService{
 	 	@Autowired
 	    private TokenRepository repository;
-	 	
-	 	
 	 	@Override
 	    public void saveConfirmationToken(AuthenticationToken authenticationToken) {
 	        repository.save(authenticationToken);
 	    }
-
 	    public AuthenticationToken getToken(User user) {
 	        return repository.findTokenByUser(user);
 	    }
-	    
 	    @Override
 	    public User getUser(String token) {
 	        AuthenticationToken authenticationToken = repository.findTokenByToken(token);
@@ -36,7 +32,6 @@ public class AuthenticationServiceImpl implements AuthenticationService{
 	        }
 	        return null;
 	    }
-
 	    @Override
 	    public void authenticate(String token) throws AuthenticationFailException {
 	        if (!Helper.notNull(token)) {

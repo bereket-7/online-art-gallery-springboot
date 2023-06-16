@@ -109,6 +109,14 @@ public class Artwork {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
+	public User getArtist() {
+		return artist;
+	}
+
+	public void setArtist(User artist) {
+		this.artist = artist;
+	}
 	public List<Rating> getRatings() {
 		return ratings;
 	}
