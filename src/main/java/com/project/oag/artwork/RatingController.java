@@ -14,7 +14,7 @@ import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
 
 @RestController
-@RequestMapping("/artworks")
+@RequestMapping("rating/artworks")
 public class RatingController {
 
     @Autowired

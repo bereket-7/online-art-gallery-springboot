@@ -1,12 +1,11 @@
-package com.project.oag.controller;
+package com.project.oag.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.project.oag.entity.Order;
-import com.project.oag.service.PaypalService;
+
 @RestController
 @RequestMapping("/paypal")
 @CrossOrigin("http://localhost:8080/")

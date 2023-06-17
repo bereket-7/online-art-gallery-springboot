@@ -1,4 +1,4 @@
-package com.project.oag.configuration;
+package com.project.oag.payment;
 
 import java.util.HashMap;
 import java.util.Map;

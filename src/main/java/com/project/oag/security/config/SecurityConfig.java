@@ -73,6 +73,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/autocomplete").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/recent").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/accepted").permitAll()
+                .requestMatchers("/rating/artworks/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
