@@ -167,22 +167,22 @@ public class ArtworkController {
 	}
 	@GetMapping("/accepted")
 	public ResponseEntity<List<Artwork>> getAcceptedArtworks() {
-		List<Artwork> pendingArtworkList = artworkService.getAcceptedArtworks();
+		List<Artwork> acceptedArtworkList = artworkService.getAcceptedArtworks();
 
-		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
+		if (acceptedArtworkList == null || acceptedArtworkList.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+		return new ResponseEntity<>(acceptedArtworkList, HttpStatus.OK);
 	}
 	@GetMapping("/rejected")
 	public ResponseEntity<List<Artwork>> getRejectedArtworks()  {
-		List<Artwork> pendingArtworkList = artworkService.getRejectedArtworks();
+		List<Artwork> rejectedArtworkList = artworkService.getRejectedArtworks();
 
-		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
+		if (rejectedArtworkList == null || rejectedArtworkList.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+		return new ResponseEntity<>(rejectedArtworkList, HttpStatus.OK);
 	}
 	    @PutMapping("/{id}/accept")
 	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
