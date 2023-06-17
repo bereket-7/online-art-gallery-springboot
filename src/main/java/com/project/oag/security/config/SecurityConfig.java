@@ -22,11 +22,9 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-
     private final JwtTokenFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
 
@@ -73,8 +71,8 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/autocomplete").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/recent").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/accepted").permitAll()
-                .requestMatchers("/rating/artworks/{artworkId}/rate").permitAll()
-                .requestMatchers("/rating/artworks/{artworkId}/average-rating").permitAll()
+                .requestMatchers(HttpMethod.POST,"/rating/artworks/{artworkId}/rate").permitAll()
+                .requestMatchers(HttpMethod.GET,"/rating/artworks/{artworkId}/average-rating").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
