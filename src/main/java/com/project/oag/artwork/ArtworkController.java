@@ -133,7 +133,7 @@ public class ArtworkController {
     return new ResponseEntity<>(artworkList, HttpStatus.OK);
 	 }
 	@GetMapping("/category/{category}")
-	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable String artworkCategory) {
+	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable("category") String artworkCategory) {
 		List<Artwork> artworks = artworkService.getArtworkByCategory(artworkCategory);
 		if (artworks == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
