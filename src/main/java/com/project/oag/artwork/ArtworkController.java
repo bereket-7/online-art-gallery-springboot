@@ -34,7 +34,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("/artworks")
+@RequestMapping("api/artworks")
 @CrossOrigin("http://localhost:8080/")
 public class ArtworkController {
 	 @Value("${uploadDir}")
@@ -212,15 +212,30 @@ public class ArtworkController {
 		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
 		return ResponseEntity.ok(countByCategory);
 	}
+//	@GetMapping("/search")
+//	public ResponseEntity<List<Artwork>> searchArtwork(
+//			@RequestParam("keyword") String keyword,
+//			@RequestParam(value = "page", defaultValue = "0") int page,
+//			@RequestParam(value = "size", defaultValue = "10") int size
+//	) {
+//		List<Artwork> searchResults = artworkService.searchArtwork(keyword, page, size);
+//		return ResponseEntity.ok(searchResults);
+//	}
 	@GetMapping("/search")
 	public ResponseEntity<List<Artwork>> searchArtwork(
 			@RequestParam("keyword") String keyword,
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "size", defaultValue = "10") int size
 	) {
-		List<Artwork> searchResults = artworkService.searchArtwork(keyword, page, size);
-		return ResponseEntity.ok(searchResults);
+		try {
+			List<Artwork> searchResults = artworkService.searchArtwork("%" + keyword + "%", page, size);
+			return ResponseEntity.ok(searchResults);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
+
 	@GetMapping("/autocomplete")
 	public ResponseEntity<List<String>> autocomplete(@RequestParam("keyword") String keyword) {
 		List<String> autocompleteResults = artworkService.getAutocompleteResults(keyword);
