@@ -20,7 +20,6 @@ public class EmailService implements EmailSender{
             .getLogger(EmailService.class);
     @Autowired
     private JavaMailSender mailSender;
-
     @Override
     @Async
     public void send(String to, String email) {
@@ -43,16 +42,16 @@ public class EmailService implements EmailSender{
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-
-            helper.setTo(emailDetail.getRecipient());
+            //helper.setTo(emailDetail.getRecipient());
+            helper.setTo("kelem.oag.app@gmail.com");
             helper.setSubject(emailDetail.getSubject());
+            helper.setFrom(emailDetail.getSender());
             helper.setText(emailDetail.getMessage());
 
             if (emailDetail.getAttachment() != null && !emailDetail.getAttachment().isEmpty()) {
                 File attachmentFile = new File(emailDetail.getAttachment());
                 helper.addAttachment(attachmentFile.getName(), attachmentFile);
             }
-
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

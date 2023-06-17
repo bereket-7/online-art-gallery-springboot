@@ -5,6 +5,16 @@ public class EmailDetail {
     private String message;
     private String subject;
     private String attachment;
+
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
+	private String sender;
     
 	public EmailDetail() {
 		super();
