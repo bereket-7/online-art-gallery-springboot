@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,11 +25,13 @@ public class StandardController {
 	    }
 
 	    @PostMapping("/add")
+		@PreAuthorize("hasRole('MANAGER')")
 	    public Standard addStandard(@RequestBody Standard standard) {
 	        return standardService.addStandard(standard);
 	    }
 
 	@PutMapping("/{id}")
+	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<String> updateStandard(@PathVariable Long id, @RequestBody Standard updatedStandard) {
 		Standard standard = standardService.getStandardById(id);
 		if (standard == null) {
@@ -43,6 +46,7 @@ public class StandardController {
 		return ResponseEntity.ok("Standard updated successfully");
 	}
 	    @DeleteMapping("/{id}")
+		@PreAuthorize("hasRole('MANAGER')")
 	    public ResponseEntity<?> deleteStandardById(@PathVariable Long id) {
 	        standardService.deleteStandardById(id);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
