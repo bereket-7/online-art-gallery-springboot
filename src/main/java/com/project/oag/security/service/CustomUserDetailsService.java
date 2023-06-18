@@ -1,5 +1,6 @@
 package com.project.oag.security.service;
 
+import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.entity.PasswordResetToken;
 import com.project.oag.user.Role;
 import com.project.oag.user.User;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -120,5 +122,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public List<User> getArtistUsers() {
         return userRepository.findByRole(Role.ARTIST);
+    }
+    public List<ArtistDTO> getArtistDetail() {
+        List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
+        List<ArtistDTO> artistUserDTOs = new ArrayList<>();
+
+        for (User user : artistUsers) {
+            ArtistDTO artistUserDTO = new ArtistDTO();
+            artistUserDTO.setId(user.getId());
+            artistUserDTO.setFirstname(user.getFirstname());
+            artistUserDTO.setLastname(user.getLastname());
+            artistUserDTO.setUsername(user.getUsername());
+            artistUserDTO.setArtworks(user.getArtworks());
+            artistUserDTOs.add(artistUserDTO);
+        }
+        return artistUserDTOs;
     }
 }

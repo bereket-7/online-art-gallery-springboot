@@ -2,6 +2,7 @@ package com.project.oag.user;
 
 import java.util.List;
 
+import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.user.User;
 import com.project.oag.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
@@ -124,6 +125,12 @@ public class UserController {
 		List<User> artistUsers = userService.getArtistUsers();
 		return ResponseEntity.ok(artistUsers);
 	}
+	@GetMapping("/artist-detail")
+	public ResponseEntity<List<ArtistDTO>> getArtistDetail() {
+		List<ArtistDTO> artistUsers = userService.getArtistDetail();
+		return ResponseEntity.ok(artistUsers);
+	}
+
 
 
 

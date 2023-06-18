@@ -69,6 +69,7 @@ public class User implements UserDetails{
 	private List<Rating> ratings;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
+
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private List<Artwork> artworks;
 	  public User() {
@@ -213,7 +214,13 @@ public class User implements UserDetails{
 	public boolean getSelectedForBid() {
 		  return selectedForBid;
 	}
+	public List<Artwork> getArtworks() {
+		return artworks;
+	}
 
+	public void setArtworks(List<Artwork> artworks) {
+		this.artworks = artworks;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
