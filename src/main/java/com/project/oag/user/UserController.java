@@ -118,10 +118,11 @@ public class UserController {
 	public Long getTotalManagerUsers() {
 		return userService.getTotalManagerUsers();
 	}
-	@GetMapping("/artists")
+
+	@GetMapping("/artist-users")
 	public ResponseEntity<List<User>> getArtistUsers() {
-		List<User> artists = userService.getUsersByRole(User.Role.ARTIST);
-		return ResponseEntity.ok(artists);
+		List<User> artistUsers = userService.getArtistUsers();
+		return ResponseEntity.ok(artistUsers);
 	}
 
 

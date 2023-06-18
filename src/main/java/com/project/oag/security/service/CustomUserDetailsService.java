@@ -118,7 +118,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
-    public List<User> getUsersByRole(User.Role role) {
-        return userRepository.findByRole(role);
+    public List<User> getArtistUsers() {
+        return userRepository.findByRole(Role.ARTIST);
     }
 }
