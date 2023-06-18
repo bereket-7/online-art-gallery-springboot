@@ -57,8 +57,9 @@ public class UserController {
 	    public List<User> getAllUsers() {
 	        return userService.getAllUsers();
 	    }
-	    
-	    // Reset password
+
+
+	// Reset password
 	    /*
 	    @PostMapping("/resetPassword")
 	    public GenericResponse resetPassword(final HttpServletRequest request,
@@ -102,17 +103,7 @@ public class UserController {
 //	        userService.changeUserPassword(user, passwordDto.getNewPassword());
 //	        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
 //	    }
-//
-//	    // Change user 2 factor authentication
-//	    @PostMapping("/update/2fa")
-//	    public GenericResponse modifyUser2FA(@RequestParam("use2FA") final boolean use2FA)
-//	            throws UnsupportedEncodingException {
-//	        final User user = userService.updateUser2FA(use2FA);
-//	        if (use2FA) {
-//	            return new GenericResponse(userService.generateQRUrl(user));
-//	        }
-//	        return null;
-//	    }
+
 	@GetMapping("/total-customer-users")
 	public Long getTotalCustomerUsers() {
 		return userService.getTotalCustomerUsers();
@@ -127,8 +118,15 @@ public class UserController {
 	public Long getTotalManagerUsers() {
 		return userService.getTotalManagerUsers();
 	}
+	@GetMapping("/artists")
+	public ResponseEntity<List<User>> getArtistUsers() {
+		List<User> artists = userService.getUsersByRole(User.Role.ARTIST);
+		return ResponseEntity.ok(artists);
+	}
 
-	    // ============== NON-API ============
+
+
+	// ============== NON-API ============
 
 	    private String getAppUrl(HttpServletRequest request) {
 	        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
