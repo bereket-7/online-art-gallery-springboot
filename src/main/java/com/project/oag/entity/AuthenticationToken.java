@@ -3,6 +3,7 @@ package com.project.oag.entity;
 import java.util.Date;
 import java.util.UUID;
 
+import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.oag.configuration.MessageStrings;
 import com.project.oag.entity.AuthenticationToken;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.exceptions.AuthenticationFailException;
 import com.project.oag.repository.TokenRepository;
 import com.project.oag.common.Helper;

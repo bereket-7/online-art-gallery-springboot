@@ -1,4 +1,4 @@
-package com.project.oag.entity;
+package com.project.oag.user;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import com.project.oag.artwork.Artwork;
 import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
+import com.project.oag.entity.Order;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,7 +27,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EqualsAndHashCode
 @Entity

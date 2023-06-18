@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.project.oag.entity.AuthenticationToken;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 
 @Repository
 public interface TokenRepository extends JpaRepository<AuthenticationToken, Integer> {

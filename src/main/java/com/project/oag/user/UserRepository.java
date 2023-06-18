@@ -1,4 +1,4 @@
-package com.project.oag.repository;
+package com.project.oag.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.oag.entity.Role;
-import com.project.oag.entity.User;
+import com.project.oag.user.Role;
+import com.project.oag.user.User;
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long>{

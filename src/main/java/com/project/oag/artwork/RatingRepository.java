@@ -5,9 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.artwork.Artwork;
-import com.project.oag.artwork.Rating;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {

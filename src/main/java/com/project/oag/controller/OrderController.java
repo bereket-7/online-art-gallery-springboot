@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.oag.common.ApiResponse;
 import com.project.oag.entity.Order;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.exceptions.AuthenticationFailException;
 import com.project.oag.exceptions.OrderNotFoundException;
 import com.project.oag.service.AuthenticationService;

@@ -73,6 +73,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/accepted").permitAll()
                 .requestMatchers(HttpMethod.POST,"/rating/artworks/{artworkId}/rate").permitAll()
                 .requestMatchers(HttpMethod.GET,"/rating/artworks/{artworkId}/average-rating").permitAll()
+                .requestMatchers(HttpMethod.POST,"/email/sendEmail").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

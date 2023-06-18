@@ -3,7 +3,7 @@ package com.project.oag.bidding;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

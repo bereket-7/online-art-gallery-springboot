@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.controller.dto.CartDto;
 import com.project.oag.controller.dto.CartItemDto;
 import com.project.oag.entity.Order;
 import com.project.oag.entity.OrderItem;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.exceptions.OrderNotFoundException;
 import com.project.oag.repository.OrderItemRepository;
 import com.project.oag.repository.OrderRepository;

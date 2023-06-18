@@ -1,7 +1,7 @@
 package com.project.oag.bidding;
 
-import com.project.oag.entity.User;
-import com.project.oag.repository.UserRepository;
+import com.project.oag.user.User;
+import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

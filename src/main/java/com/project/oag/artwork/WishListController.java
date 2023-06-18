@@ -1,6 +1,5 @@
 package com.project.oag.artwork;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.oag.common.ApiResponse;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.service.AuthenticationService;
 @RestController
 @RequestMapping("/wishlist")

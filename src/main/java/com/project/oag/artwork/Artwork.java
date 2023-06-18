@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import jakarta.persistence.*;
 @Entity
 @Table(name="Artwork")

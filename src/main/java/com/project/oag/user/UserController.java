@@ -1,8 +1,8 @@
-package com.project.oag.controller;
+package com.project.oag.user;
 
 import java.util.List;
 
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

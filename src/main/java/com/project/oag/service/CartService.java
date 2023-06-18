@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.project.oag.controller.dto.AddToCartDto;
 import com.project.oag.controller.dto.CartDto;
 import com.project.oag.artwork.Artwork;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import com.project.oag.exceptions.CartItemNotExistException;
 
 public interface CartService {

@@ -1,7 +1,6 @@
 package com.project.oag.artwork;
 
-import com.project.oag.artwork.Artwork;
-import com.project.oag.entity.User;
+import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

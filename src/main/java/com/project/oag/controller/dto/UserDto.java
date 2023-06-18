@@ -1,6 +1,6 @@
 package com.project.oag.controller.dto;
 
-import com.project.oag.entity.Role;
+import com.project.oag.user.Role;
 
 public class UserDto {
 	
