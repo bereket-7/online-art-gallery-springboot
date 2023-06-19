@@ -1,8 +1,10 @@
 package com.project.oag.artwork;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.project.oag.entity.Cart;
 import com.project.oag.user.User;
 import jakarta.persistence.*;
 @Entity
@@ -34,6 +36,8 @@ public class Artwork {
 	@ManyToOne
 	@JoinColumn(name = "artist_id")
 	private User artist;
+	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Cart> carts = new ArrayList<>();
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
 			Date createDate, String size, String status, List<Rating> ratings) {
 		super();
@@ -46,6 +50,14 @@ public class Artwork {
 		this.size = size;
 		this.status = status;
 		this.ratings = ratings;
+	}
+	public void addToCarts(Cart cart) {
+		carts.add(cart);
+		cart.setArtwork(this);
+	}
+	public void removeFromCarts(Cart cart) {
+		carts.remove(cart);
+		cart.setArtwork(null);
 	}
 	public byte[] getImage() {
 		return image;
