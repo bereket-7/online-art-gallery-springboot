@@ -169,6 +169,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return resetCode.toString();
     }
+
     public void changePassword(ChangePasswordRequest request) {
         User user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
