@@ -88,19 +88,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     //password reset
-    public void createPasswordResetTokenForUser(final User user, final String token) {
-        final PasswordResetToken myToken = new PasswordResetToken(token, user);
-        passwordTokenRepository.save(myToken);
-    }
-    public PasswordResetToken getPasswordResetToken(final String token) {
-        return passwordTokenRepository.findByToken(token);
-    }
+//    public void createPasswordResetTokenForUser(final User user, final String token) {
+//        final PasswordResetToken myToken = new PasswordResetToken(token, user);
+//        passwordTokenRepository.save(myToken);
+//    }
+//    public PasswordResetToken getPasswordResetToken(final String token) {
+//        return passwordTokenRepository.findByToken(token);
+//    }
     public Optional<User> getUserByPasswordResetToken(final String token) {
         return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
     }
-//    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
-//        return passwordEncoder.matches(oldPassword, user.getPassword());
-//    }
 
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);

@@ -1,8 +1,11 @@
 package com.project.oag.user;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import com.project.oag.artwork.ArtistDTO;
+import com.project.oag.common.GenericResponse;
 import com.project.oag.user.User;
 import com.project.oag.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
@@ -70,20 +73,20 @@ public class UserController {
 	}
 
 	// Reset password
-	    /*
-	    @PostMapping("/resetPassword")
-	    public GenericResponse resetPassword(final HttpServletRequest request,
-	            @RequestParam("email") final String userEmail) {
-	        final User user = userService.findUserByEmail(userEmail);
-	        if (user != null) {
-	            final String token = UUID.randomUUID().toString();
-	            userService.createPasswordResetTokenForUser(user, token);
-	            mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
-	        }
-	        return new GenericResponse(messages.getMessage("message.resetPasswordEmail", null, request.getLocale()));
-	    }*/
 
-	    // Save password
+	@PostMapping("password-reset/forgot")
+	public ResponseEntity<String> forgotPassword(@RequestParam("email") String email) {
+		userService.initiatePasswordReset(email);
+		return ResponseEntity.ok("Password reset code has been sent to your email.");
+	}
+	@PostMapping("password-reset/reset")
+	public ResponseEntity<String> resetPassword(@RequestParam("email") String email,
+												@RequestParam("code") String code,
+												@RequestParam("newPassword") String newPassword) {
+		userService.resetPassword(email, code, newPassword);
+		return ResponseEntity.ok("Password has been successfully reset.");
+	}
+
 //	    @PostMapping("/savePassword")
 //	    public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
 //
@@ -99,7 +102,7 @@ public class UserController {
 //	            return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale));
 //	        } else {
 //	            return new GenericResponse(messages.getMessage("auth.message.invalid", null, locale));
-//	        }
+//        }
 //	    }
 
 //	    // Change user password
