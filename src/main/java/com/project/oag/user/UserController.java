@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/users")
 @CrossOrigin("http://localhost:8080/")
 public class UserController {
 	 private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -120,7 +120,7 @@ public class UserController {
 		return userService.getTotalManagerUsers();
 	}
 
-	@GetMapping("/artist-users")
+	@GetMapping("/artist-list")
 	public ResponseEntity<List<User>> getArtistUsers() {
 		List<User> artistUsers = userService.getArtistUsers();
 		return ResponseEntity.ok(artistUsers);
@@ -130,8 +130,6 @@ public class UserController {
 		List<ArtistDTO> artistUsers = userService.getArtistDetail();
 		return ResponseEntity.ok(artistUsers);
 	}
-
-
 
 
 	// ============== NON-API ============

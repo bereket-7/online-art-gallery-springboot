@@ -101,9 +101,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 //    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
 //        return passwordEncoder.matches(oldPassword, user.getPassword());
 //    }
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -137,5 +135,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             artistUserDTOs.add(artistUserDTO);
         }
         return artistUserDTOs;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
