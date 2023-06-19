@@ -59,6 +59,15 @@ public class UserController {
 	        return userService.getAllUsers();
 	    }
 
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+		try {
+			userService.deleteUser(id);
+			return ResponseEntity.ok("User deleted successfully");
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
+		}
+	}
 
 	// Reset password
 	    /*

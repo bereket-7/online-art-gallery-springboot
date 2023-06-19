@@ -140,4 +140,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }
