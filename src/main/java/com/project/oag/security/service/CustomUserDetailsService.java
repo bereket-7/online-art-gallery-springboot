@@ -1,7 +1,9 @@
 package com.project.oag.security.service;
 
 import com.project.oag.artwork.ArtistDTO;
+import com.project.oag.email.EmailService;
 import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.user.Role;
 import com.project.oag.user.User;
 import com.project.oag.registration.token.ConfirmationToken;
@@ -18,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Configuration
@@ -30,8 +29,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
+
     @Autowired
-    private PasswordResetTokenRepository passwordTokenRepository;
+    EmailService emailService;
+
+    @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
     public CustomUserDetailsService(UserRepository userRepository,
                                     ConfirmationTokenService confirmationTokenService) {
         this.userRepository = userRepository;
@@ -86,19 +89,6 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
-
-    //password reset
-//    public void createPasswordResetTokenForUser(final User user, final String token) {
-//        final PasswordResetToken myToken = new PasswordResetToken(token, user);
-//        passwordTokenRepository.save(myToken);
-//    }
-//    public PasswordResetToken getPasswordResetToken(final String token) {
-//        return passwordTokenRepository.findByToken(token);
-//    }
-    public Optional<User> getUserByPasswordResetToken(final String token) {
-        return Optional.ofNullable(passwordTokenRepository.findByToken(token).getUser());
-    }
-
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -139,5 +129,45 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public void initiatePasswordReset(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isEmpty()) {
+            throw new UserNotFoundException("User with email " + email + " not found.");
+        }
+
+        User user = userOptional.get();
+        String resetToken = generateResetToken();
+        PasswordResetToken passwordResetToken = new PasswordResetToken(resetToken, user);
+        passwordResetTokenRepository.save(passwordResetToken);
+        String resetLink = "http://localhost:8082/reset-password?token=" + resetToken;
+        String emailContent = "Please click the following link to reset your password: " + resetLink;
+        emailService.sendEmail(user.getEmail(), "Password Reset", emailContent);
+    }
+
+
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
+        if (passwordResetToken == null || passwordResetToken.isExpired()) {
+            throw new UserNotFoundException("Invalid or expired reset token.");
+        }
+
+        User user = passwordResetToken.getUser();
+        user.setPassword(newPassword);
+        userRepository.save(user);
+        passwordResetTokenRepository.delete(passwordResetToken);
+    }
+
+    private String generateResetToken() {
+        StringBuilder resetCode = new StringBuilder();
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        int codeLength = 8;
+        Random random = new Random();
+        for (int i = 0; i < codeLength; i++) {
+            int index = random.nextInt(characters.length());
+            resetCode.append(characters.charAt(index));
+        }
+        return resetCode.toString();
     }
 }

@@ -20,4 +20,6 @@ public class UserNotFoundException extends RuntimeException {
 	        super(cause);
 	    }
 
+
 }
+
