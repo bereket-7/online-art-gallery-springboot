@@ -1,9 +1,8 @@
-package com.project.oag.entity;
+package com.project.oag.user;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import com.project.oag.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;

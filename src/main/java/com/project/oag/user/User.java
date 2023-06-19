@@ -1,5 +1,6 @@
 package com.project.oag.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import com.project.oag.artwork.Artwork;
 import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
+import com.project.oag.entity.Cart;
 import com.project.oag.entity.Order;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
@@ -69,7 +71,8 @@ public class User implements UserDetails{
 	private List<Rating> ratings;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
-
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Cart> carts = new ArrayList<>();
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private List<Artwork> artworks;
 	  public User() {
@@ -88,6 +91,15 @@ public class User implements UserDetails{
     this.password = password;
     this.role = role;
 }
+	public void addCart(Cart cart) {
+		carts.add(cart);
+		cart.setUser(this);
+	}
+
+	public void removeCart(Cart cart) {
+		carts.remove(cart);
+		cart.setUser(null);
+	}
 	public Long getId() {
 		return id;
 	}

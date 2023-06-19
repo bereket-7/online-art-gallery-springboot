@@ -2,7 +2,7 @@ package com.project.oag.security.service;
 
 import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.email.EmailService;
-import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.user.PasswordResetToken;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.user.ChangePasswordRequest;
@@ -10,7 +10,7 @@ import com.project.oag.user.Role;
 import com.project.oag.user.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
-import com.project.oag.repository.PasswordResetTokenRepository;
+import com.project.oag.user.PasswordResetTokenRepository;
 import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

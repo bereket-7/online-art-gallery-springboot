@@ -1,4 +1,4 @@
-package com.project.oag.repository;
+package com.project.oag.user;
 
 import java.util.Date;
 import java.util.stream.Stream;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.user.PasswordResetToken;
 import com.project.oag.user.User;
 
 @Repository

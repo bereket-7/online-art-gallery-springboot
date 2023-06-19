@@ -5,8 +5,8 @@ package com.project.oag.security;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
 //
-//import com.project.oag.entity.PasswordResetToken;
-//import com.project.oag.repository.PasswordResetTokenRepository;
+//import com.project.oag.user.PasswordResetToken;
+//import com.project.oag.user.PasswordResetTokenRepository;
 //
 //import jakarta.transaction.Transactional;
 //
