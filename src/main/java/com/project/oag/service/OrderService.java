@@ -31,34 +31,31 @@ public class OrderService {
 	    @Autowired
 	    OrderItemRepository orderItemRepository;
 
-	    public void placeOrder(User user, String sessionId) {
-	        // first let get cart items for the user
-	        CartDto cartDto = cartService.listCartItems(user);
-
-	        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
-
-	        // create the order and save it
-	        Order newOrder = new Order();
-	        newOrder.setCreatedDate(new Date());
-	        newOrder.setSessionId(sessionId);
-	        newOrder.setUser(user);
-	        newOrder.setPrice(cartDto.getTotalCost());
-	        orderRepository.save(newOrder);
-
-	        for (CartItemDto cartItemDto : cartItemDtoList) {
-	            // create orderItem and save each one
-	            OrderItem orderItem = new OrderItem();
-	            orderItem.setCreatedDate(new Date());
-	            orderItem.setPrice(cartItemDto.getArtwork().getPrice());
-	            orderItem.setArtwork(cartItemDto.getArtwork());
-	            orderItem.setQuantity(cartItemDto.getQuantity());
-	            orderItem.setOrder(newOrder);
-	            // add to order item list
-	            orderItemRepository.save(orderItem);
-	        }
-	        //
-	        cartService.deleteUserCartItems(user);
-	    }
+//	    public void placeOrder(User user, String sessionId) {
+//	        CartDto cartDto = user.listCartItems();
+//	        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
+//
+//	        // create the order and save it
+//	        Order newOrder = new Order();
+//	        newOrder.setCreatedDate(new Date());
+//	        newOrder.setSessionId(sessionId);
+//	        newOrder.setUser(user);
+//	        newOrder.setPrice(cartDto.getTotalCost());
+//	        orderRepository.save(newOrder);
+//
+//	        for (CartItemDto cartItemDto : cartItemDtoList) {
+//	            // create orderItem and save each one
+//	            OrderItem orderItem = new OrderItem();
+//	            orderItem.setCreatedDate(new Date());
+//	            orderItem.setPrice(cartItemDto.getArtwork().getPrice());
+//	            orderItem.setArtwork(cartItemDto.getArtwork());
+//	            orderItem.setQuantity(cartItemDto.getQuantity());
+//	            orderItem.setOrder(newOrder);
+//	            // add to order item list
+//	            orderItemRepository.save(orderItem);
+//	        }
+//	        cartService.clearCart(user.getUsername());
+//	    }
 
 	    public List<Order> listOrders(User user) {
 	        return orderRepository.findAllByUserOrderByCreatedDateDesc(user);

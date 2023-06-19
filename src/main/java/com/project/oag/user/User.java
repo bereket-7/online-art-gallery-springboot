@@ -92,6 +92,9 @@ public class User implements UserDetails{
     this.password = password;
     this.role = role;
 }
+	public List<Cart> listCartItems() {
+		return carts;
+	}
 	public List<Cart> getCarts() {
 		return carts;
 	}

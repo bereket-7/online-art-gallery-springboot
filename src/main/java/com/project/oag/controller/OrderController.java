@@ -31,17 +31,17 @@ public class OrderController {
 	    private AuthenticationService authenticationService;
 
 	    // place order after checkout
-	    @PostMapping("/add")
-	    public ResponseEntity<ApiResponse> placeOrder(@RequestParam("token") String token, @RequestParam("sessionId") String sessionId)
-	            throws AuthenticationFailException {
-	        // validate token
-	        authenticationService.authenticate(token);
-	        // retrieve user
-	        User user = authenticationService.getUser(token);
-	        // place the order
-	        orderService.placeOrder(user, sessionId);
-	        return new ResponseEntity<>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
-	    }
+//	    @PostMapping("/add")
+//	    public ResponseEntity<ApiResponse> placeOrder(@RequestParam("token") String token, @RequestParam("sessionId") String sessionId)
+//	            throws AuthenticationFailException {
+//	        // validate token
+//	        authenticationService.authenticate(token);
+//	        // retrieve user
+//	        User user = authenticationService.getUser(token);
+//	        // place the order
+//	        orderService.placeOrder(user, sessionId);
+//	        return new ResponseEntity<>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
+//	    }
 	    // get all orders
 	    @GetMapping("/all")
 	    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("token") String token) throws AuthenticationFailException {
