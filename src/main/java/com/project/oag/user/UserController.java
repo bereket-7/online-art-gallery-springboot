@@ -1,14 +1,18 @@
 package com.project.oag.user;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.IncorrectPasswordException;
+import com.project.oag.exceptions.InvalidOldPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.user.User;
 import com.project.oag.security.service.CustomUserDetailsService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -85,7 +90,7 @@ public class UserController {
 	}
 
 
-	@PostMapping("/change")
+	@PostMapping("password/change")
 	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
 		try {
 			userService.changePassword(request);
@@ -97,25 +102,7 @@ public class UserController {
 		}
 	}
 
-//	    @PostMapping("/savePassword")
-//	    public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
-//
-//	        final String result = userSecurityService.validatePasswordResetToken(passwordDto.getToken());
-//
-//	        if (result != null) {
-//	            return new GenericResponse(messages.getMessage("auth.message." + result, null, locale));
-//	        }
-//
-//	        Optional<User> user = userService.getUserByPasswordResetToken(passwordDto.getToken());
-//	        if (user.isPresent()) {
-//	            userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
-//	            return new GenericResponse(messages.getMessage("message.resetPasswordSuc", null, locale));
-//	        } else {
-//	            return new GenericResponse(messages.getMessage("auth.message.invalid", null, locale));
-//        }
-//	    }
-
-//	    // Change user password
+	    // Change user password
 //	    @PostMapping("/updatePassword")
 //	    public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
 //	        final User user = userService.findUserByEmail(

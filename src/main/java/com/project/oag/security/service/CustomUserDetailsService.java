@@ -3,7 +3,9 @@ package com.project.oag.security.service;
 import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.email.EmailService;
 import com.project.oag.entity.PasswordResetToken;
+import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.user.ChangePasswordRequest;
 import com.project.oag.user.Role;
 import com.project.oag.user.User;
 import com.project.oag.registration.token.ConfirmationToken;
@@ -175,11 +177,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UserNotFoundException("User not found.");
         }
-
         if (!passwordMatches(user.getPassword(), request.getOldPassword())) {
             throw new IncorrectPasswordException("Incorrect old password.");
         }
-
         user.setPassword(request.getNewPassword());
         userRepository.save(user);
     }
