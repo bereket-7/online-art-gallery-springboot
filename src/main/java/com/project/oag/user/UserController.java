@@ -40,9 +40,6 @@ public class UserController {
 	private CustomUserDetailsService userService;
 	   @Autowired
 	    private MessageSource messages;
-	   
-//	    @Autowired
-//	    private UserSecurityService userSecurityService;
 
 	   public UserController(CustomUserDetailsService userService) {
 		super();
