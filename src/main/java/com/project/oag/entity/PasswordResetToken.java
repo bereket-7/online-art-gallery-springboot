@@ -84,6 +84,10 @@ public class PasswordResetToken {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
+    public boolean isExpired() {
+        return new Date().after(expiryDate);
+    }
+
     //
 
     @Override

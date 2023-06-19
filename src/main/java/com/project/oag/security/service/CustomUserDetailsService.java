@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -141,18 +142,16 @@ public class CustomUserDetailsService implements UserDetailsService {
         String resetToken = generateResetToken();
         PasswordResetToken passwordResetToken = new PasswordResetToken(resetToken, user);
         passwordResetTokenRepository.save(passwordResetToken);
-        String resetLink = "http://localhost:8082/reset-password?token=" + resetToken;
+        String resetLink = "http://localhost:8082/api/users/password/reset?token=" + resetToken;
         String emailContent = "Please click the following link to reset your password: " + resetLink;
         emailService.sendEmail(user.getEmail(), "Password Reset", emailContent);
     }
-
 
     public void resetPassword(String token, String newPassword) {
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
         if (passwordResetToken == null || passwordResetToken.isExpired()) {
             throw new UserNotFoundException("Invalid or expired reset token.");
         }
-
         User user = passwordResetToken.getUser();
         user.setPassword(newPassword);
         userRepository.save(user);
@@ -169,5 +168,22 @@ public class CustomUserDetailsService implements UserDetailsService {
             resetCode.append(characters.charAt(index));
         }
         return resetCode.toString();
+    }
+    public void changePassword(ChangePasswordRequest request) {
+        User user = userRepository.findByUsername(request.getUsername());
+        if (user == null) {
+            throw new UserNotFoundException("User not found.");
+        }
+
+        if (!passwordMatches(user.getPassword(), request.getOldPassword())) {
+            throw new IncorrectPasswordException("Incorrect old password.");
+        }
+
+        user.setPassword(request.getNewPassword());
+        userRepository.save(user);
+    }
+    private boolean passwordMatches(String storedPassword, String inputPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.matches(inputPassword, storedPassword);
     }
 }

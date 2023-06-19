@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.user.User;
 import com.project.oag.security.service.CustomUserDetailsService;
 import org.slf4j.Logger;
@@ -71,20 +72,29 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
 		}
 	}
-
 	// Reset password
-
-	@PostMapping("password-reset/forgot")
-	public ResponseEntity<String> forgotPassword(@RequestParam("email") String email) {
+	@PostMapping("password/request")
+	public ResponseEntity<String> requestPasswordReset(@RequestParam("email") String email) {
 		userService.initiatePasswordReset(email);
-		return ResponseEntity.ok("Password reset code has been sent to your email.");
+		return ResponseEntity.ok("Password reset email sent.");
 	}
-	@PostMapping("password-reset/reset")
-	public ResponseEntity<String> resetPassword(@RequestParam("email") String email,
-												@RequestParam("code") String code,
-												@RequestParam("newPassword") String newPassword) {
-		userService.resetPassword(email, code, newPassword);
-		return ResponseEntity.ok("Password has been successfully reset.");
+	@PostMapping("password/reset")
+	public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
+		userService.resetPassword(token, newPassword);
+		return ResponseEntity.ok("Password reset successfully.");
+	}
+
+
+	@PostMapping("/change")
+	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+		try {
+			userService.changePassword(request);
+			return ResponseEntity.ok("Password changed successfully.");
+		} catch (UserNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		} catch (IncorrectPasswordException e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+		}
 	}
 
 //	    @PostMapping("/savePassword")
