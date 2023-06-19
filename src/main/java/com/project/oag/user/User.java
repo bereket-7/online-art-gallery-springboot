@@ -71,6 +71,7 @@ public class User implements UserDetails{
 	private List<Rating> ratings;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bid> bid;
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Cart> carts = new ArrayList<>();
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
@@ -91,6 +92,13 @@ public class User implements UserDetails{
     this.password = password;
     this.role = role;
 }
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
 	public void addCart(Cart cart) {
 		carts.add(cart);
 		cart.setUser(this);
