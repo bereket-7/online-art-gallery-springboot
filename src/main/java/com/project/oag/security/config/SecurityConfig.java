@@ -60,6 +60,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/v1/registration/register").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/password/reset").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/v1/registration/confirm").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/category/{category}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/priceRange").permitAll()

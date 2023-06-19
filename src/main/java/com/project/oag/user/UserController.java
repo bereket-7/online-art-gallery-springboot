@@ -22,7 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,12 +90,11 @@ public class UserController {
 		userService.resetPassword(token, newPassword);
 		return ResponseEntity.ok("Password reset successfully.");
 	}
-
-
-	@PostMapping("password/change")
-	public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
+	@PostMapping("/password/change")
+	public ResponseEntity<String> changePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ChangePasswordRequest request) {
 		try {
-			userService.changePassword(request);
+			String username = userDetails.getUsername();
+			userService.changePassword(username, request);
 			return ResponseEntity.ok("Password changed successfully.");
 		} catch (UserNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -101,34 +102,18 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 		}
 	}
-
-	    // Change user password
-//	    @PostMapping("/updatePassword")
-//	    public GenericResponse changeUserPassword(final Locale locale, @Valid PasswordDto passwordDto) {
-//	        final User user = userService.findUserByEmail(
-//	                ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getEmail());
-//	        if (!userService.checkIfValidOldPassword(user, passwordDto.getOldPassword())) {
-//	            throw new InvalidOldPasswordException();
-//	        }
-//	        userService.changeUserPassword(user, passwordDto.getNewPassword());
-//	        return new GenericResponse(messages.getMessage("message.updatePasswordSuc", null, locale));
-//	    }
-
 	@GetMapping("/total-customer-users")
 	public Long getTotalCustomerUsers() {
 		return userService.getTotalCustomerUsers();
 	}
-
 	@GetMapping("/total-artist-users")
 	public Long getTotalArtistUsers() {
 		return userService.getTotalArtistUsers();
 	}
-
 	@GetMapping("/total-manager-users")
 	public Long getTotalManagerUsers() {
 		return userService.getTotalManagerUsers();
 	}
-
 	@GetMapping("/artist-list")
 	public ResponseEntity<List<User>> getArtistUsers() {
 		List<User> artistUsers = userService.getArtistUsers();

@@ -63,7 +63,7 @@ public class EmailService implements EmailSender{
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(email);
             helper.setSubject(subject);
-            helper.setText(emailContent, true); // Enable HTML content
+            helper.setText(emailContent, true);
             mailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();

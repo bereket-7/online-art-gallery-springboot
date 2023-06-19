@@ -172,8 +172,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         return resetCode.toString();
     }
 
-    public void changePassword(ChangePasswordRequest request) {
-        User user = userRepository.findByUsername(request.getUsername());
+    public void changePassword(String username, ChangePasswordRequest request) {
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UserNotFoundException("User not found.");
         }
@@ -182,6 +182,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         user.setPassword(request.getNewPassword());
         userRepository.save(user);
+        String email = user.getEmail();
     }
     private boolean passwordMatches(String storedPassword, String inputPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
