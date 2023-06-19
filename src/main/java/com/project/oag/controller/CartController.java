@@ -64,11 +64,10 @@ public class CartController {
         cartService.updateCartQuantity(username, cartId, quantity);
         return ResponseEntity.ok("Cart quantity updated successfully.");
     }
-
     @GetMapping("/totalPrice")
-    public ResponseEntity<BigDecimal> calculateTotalPrice(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<Integer> calculateTotalPrice(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
-        BigDecimal totalPrice = cartService.calculateTotalPrice(username);
+        int totalPrice = cartService.calculateTotalPrice(username);
         return ResponseEntity.ok(totalPrice);
     }
 
