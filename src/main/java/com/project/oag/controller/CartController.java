@@ -1,11 +1,14 @@
 package com.project.oag.controller;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import com.project.oag.artwork.ArtworkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,6 +80,48 @@ public class CartController {
         cartService.deleteCartItem(itemID, userId);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Item has been removed"), HttpStatus.OK);
     }
+
+
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
+        String username = userDetails.getUsername();
+        cartService.addToCart(username, artworkId, quantity);
+        return ResponseEntity.ok("Item added to cart successfully.");
+    }
+
+    @DeleteMapping("/remove/{cartId}")
+    public ResponseEntity<String> removeFromCart(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long cartId) {
+        String username = userDetails.getUsername();
+        cartService.removeFromCart(username, cartId);
+        return ResponseEntity.ok("Item removed from cart successfully.");
+    }
+
+    @PutMapping("/update/{cartId}")
+    public ResponseEntity<String> updateCartQuantity(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long cartId, @RequestParam int quantity) {
+        String username = userDetails.getUsername();
+        cartService.updateCartQuantity(username, cartId, quantity);
+        return ResponseEntity.ok("Cart quantity updated successfully.");
+    }
+
+    @GetMapping("/totalPrice")
+    public ResponseEntity<BigDecimal> calculateTotalPrice(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        BigDecimal totalPrice = cartService.calculateTotalPrice(username);
+        return ResponseEntity.ok(totalPrice);
+    }
+
+    @DeleteMapping("/clear")
+    public ResponseEntity<String> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        cartService.clearCart(username);
+        return ResponseEntity.ok("Cart cleared successfully.");
+    }
+
+
+
+
+
     
 }
 

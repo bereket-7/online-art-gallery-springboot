@@ -95,10 +95,12 @@ public class User implements UserDetails{
 		carts.add(cart);
 		cart.setUser(this);
 	}
-
 	public void removeCart(Cart cart) {
 		carts.remove(cart);
 		cart.setUser(null);
+	}
+	public void clearCarts() {
+		carts.clear();
 	}
 	public Long getId() {
 		return id;
