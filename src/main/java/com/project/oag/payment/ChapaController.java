@@ -10,18 +10,18 @@ import com.yaphet.chapa.model.PostData;
 import com.yaphet.chapa.model.VerifyResponseData;
 import com.yaphet.chapa.utility.Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 
 public class ChapaController {
-    @Autowired
-    private CustomUserDetailsService userService;
     @PostMapping
-    public void pay() throws Throwable {
+    public ResponseEntity<PaymentResponse> pay() throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) authentication.getPrincipal();
         Customization customization = new Customization()
@@ -39,7 +39,7 @@ public class ChapaController {
         Chapa chapa = new Chapa("");
         InitializeResponseData response = chapa.initialize(postData);
         String checkOutUrl = response.getData().getCheckOutUrl();
-
         VerifyResponseData verify = chapa.verify(txRef);
+        return new ResponseEntity<PaymentResponse>(HttpStatus.OK);
     }
 }

@@ -7,10 +7,7 @@ import java.time.LocalDateTime;
 @Entity
 public class PaymentLog {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String token;
