@@ -33,10 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
-
     @Autowired
     EmailService emailService;
-
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
     public CustomUserDetailsService(UserRepository userRepository,
@@ -84,6 +82,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
+
     public byte[] getProfilePhoto(String loggedInEmail) {
         Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
         if (optionalUser.isPresent()) {
@@ -92,6 +91,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         } else {
             throw new RuntimeException("User not found");
         }
+    }
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);

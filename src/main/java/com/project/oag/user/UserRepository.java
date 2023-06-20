@@ -17,16 +17,13 @@ public interface UserRepository extends JpaRepository<User, Long>{
     //User findByEmail(String email);
     Long countTotalUsersByRole(Role role);
     List<User> findByRoleContains(Role role);
-
     @Override
-    void delete(User user);    
-
+    void delete(User user);
     @Transactional
     @Modifying
     @Query("UPDATE User a " +
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
-    
     Optional<User> findByEmail(String email);
 
     List<User> findByRole(Role role);

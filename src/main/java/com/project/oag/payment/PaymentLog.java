@@ -1,10 +1,8 @@
 package com.project.oag.payment;
 
 import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 public class PaymentLog {
