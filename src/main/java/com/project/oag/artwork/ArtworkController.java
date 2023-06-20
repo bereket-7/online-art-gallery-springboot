@@ -212,15 +212,6 @@ public class ArtworkController {
 		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
 		return ResponseEntity.ok(countByCategory);
 	}
-//	@GetMapping("/search")
-//	public ResponseEntity<List<Artwork>> searchArtwork(
-//			@RequestParam("keyword") String keyword,
-//			@RequestParam(value = "page", defaultValue = "0") int page,
-//			@RequestParam(value = "size", defaultValue = "10") int size
-//	) {
-//		List<Artwork> searchResults = artworkService.searchArtwork(keyword, page, size);
-//		return ResponseEntity.ok(searchResults);
-//	}
 	@GetMapping("/search")
 	public ResponseEntity<List<Artwork>> searchArtwork(
 			@RequestParam("keyword") String keyword,
