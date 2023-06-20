@@ -111,6 +111,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.github.yaphet17</groupId>
+			<artifactId>Chapa</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>net.bytebuddy</groupId>
 			<artifactId>byte-buddy</artifactId>
 		</dependency>
