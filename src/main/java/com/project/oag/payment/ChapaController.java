@@ -40,6 +40,9 @@ public class ChapaController {
         InitializeResponseData response = chapa.initialize(postData);
         String checkOutUrl = response.getData().getCheckOutUrl();
         VerifyResponseData verify = chapa.verify(txRef);
-        return new ResponseEntity<PaymentResponse>(HttpStatus.OK);
+        PaymentResponse paymentResponse = new PaymentResponse();
+        paymentResponse.getCheckOutUrl();
+        paymentResponse.getTxRef();
+        return ResponseEntity.ok(paymentResponse);
     }
 }
