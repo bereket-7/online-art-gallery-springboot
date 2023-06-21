@@ -1,16 +1,17 @@
 package com.project.oag.artwork;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Date;
+import com.project.oag.security.service.CustomUserDetailsService;
+import com.sun.security.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.project.oag.common.ApiResponse;
 import com.project.oag.user.User;
-import com.project.oag.service.AuthenticationService;
 @RestController
 @RequestMapping("/wishlist")
 @CrossOrigin("http://localhost:8080/")
@@ -20,35 +21,27 @@ public class WishListController {
     @Autowired
     private ArtworkService artworkService;
     @Autowired
-    private AuthenticationService authenticationService;
-    @GetMapping("/get/{token}")
-    public ResponseEntity<List<ArtworkDto>> getWishList(@PathVariable("token") String token) {
-            Long user_id = authenticationService.getUser(token).getId();
-            List<WishList> body = wishListService.readWishList(user_id);
-            List<ArtworkDto> artwork = new ArrayList<ArtworkDto>();
-            for (WishList wishList : body) {
-                    artwork.add(artworkService.getDtoFromArtwork(wishList.getArtwork()));
-            }
-
-            return new ResponseEntity<List<ArtworkDto>>(artwork, HttpStatus.OK);
-    }
-    @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addWishList(@RequestBody Artwork artwork, @RequestParam("token") String token) {
-            authenticationService.authenticate(token);
-            User user = authenticationService.getUser(token);
-            WishList wishList = new WishList(user, artwork);
-            wishListService.createWishlist(wishList);
-            return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Add to wishlist"), HttpStatus.CREATED);
-
+    private CustomUserDetailsService userService;
+    @PostMapping("/save")
+    public ResponseEntity<String> saveWishlist(@RequestBody Artwork artwork) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = (User) authentication.getPrincipal();
+        WishList wishlist = new WishList();
+        wishlist.setUser(loggedInUser);
+        wishlist.setArtwork(artwork);
+        wishlist.setCreatedDate(new Date());
+        wishListService.saveWishlist(wishlist);
+        return ResponseEntity.ok("Wishlist saved successfully.");
     }
     @DeleteMapping("/{wishlistId}")
-    public ResponseEntity<String> deleteWishList(@PathVariable Integer wishlistId) {
-        boolean deleted = wishListService.deleteWishList(wishlistId);
-        if (deleted) {
-            return ResponseEntity.ok("WishList deleted successfully");
-        } else {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<String> deleteWishlist(@PathVariable Integer wishlistId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = (User) authentication.getPrincipal();
+        WishList wishlist = wishListService.findById(wishlistId);
+        if (wishlist == null || !wishlist.getUser().equals(loggedInUser)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You are not authorized to delete this wishlist.");
         }
+        wishListService.deleteWishlist(wishlist);
+        return ResponseEntity.ok("Wishlist deleted successfully.");
     }
-
 }

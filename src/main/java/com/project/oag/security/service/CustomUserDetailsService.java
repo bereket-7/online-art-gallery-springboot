@@ -192,4 +192,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         return passwordEncoder.matches(inputPassword, storedPassword);
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
 }

@@ -1,13 +1,7 @@
 package com.project.oag.artwork;
 
-import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
-import com.project.oag.artwork.WishList;
-import com.project.oag.artwork.WishListRepository;
-
 import jakarta.transaction.Transactional;
 
 @Service
@@ -17,33 +11,15 @@ public class WishListService {
     public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
     }
-    public void createWishlist(WishList wishList) {
-        wishListRepository.save(wishList);
+    public void saveWishlist(WishList wishlist) {
+        wishListRepository.save(wishlist);
     }
-    public List<WishList> readWishList(Long user_id) {
-        return wishListRepository.findAllByUserIdOrderByCreatedDateDesc(user_id);
+    public void deleteWishlist(WishList wishlist) {
+        wishListRepository.delete(wishlist);
     }
-
-    public boolean deleteWishList(Integer wishlistId) {
-        Optional<WishList> optionalWishList = wishListRepository.findById(wishlistId);
-        if (optionalWishList.isPresent()) {
-            WishList wishList = optionalWishList.get();
-            wishListRepository.delete(wishList);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean deleteWishList(Integer wishlistId, String username) {
-        Optional<WishList> optionalWishList = wishListRepository.findById(wishlistId);
-        if (optionalWishList.isPresent()) {
-            WishList wishList = optionalWishList.get();
-            if (wishList.getUser().getUsername().equals(username)) {
-                wishListRepository.delete(wishList);
-                return true;
-            }
-        }
-        return false;
+    public WishList findById(Integer wishlistId) {
+        return wishListRepository.findById(wishlistId)
+                .orElse(null);
     }
 
 }
