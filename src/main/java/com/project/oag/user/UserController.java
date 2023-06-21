@@ -121,20 +121,5 @@ public class UserController {
 		List<ArtistDTO> artistUsers = userService.getArtistDetail();
 		return ResponseEntity.ok(artistUsers);
 	}
-
-
-	// ============== NON-API ============
-
-	    private String getAppUrl(HttpServletRequest request) {
-	        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-	    }
-
-	    private String getClientIP(HttpServletRequest request) {
-	        final String xfHeader = request.getHeader("X-Forwarded-For");
-	        if (xfHeader == null || xfHeader.isEmpty() || !xfHeader.contains(request.getRemoteAddr())) {
-	            return request.getRemoteAddr();
-	        }
-	        return xfHeader.split(",")[0];
-	    }
 	    
 }

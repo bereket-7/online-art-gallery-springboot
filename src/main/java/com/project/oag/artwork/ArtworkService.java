@@ -1,4 +1,5 @@
 package com.project.oag.artwork;
+import com.project.oag.user.User;
 import org.springframework.data.domain.Pageable;
 import java.util.HashMap;
 import java.util.List;
@@ -105,6 +106,9 @@ public class  ArtworkService{
 			result.put(category, count);
 		}
 		return result;
+	}
+	public List<Artwork> getArtworksForLoggedArtist(User artist) {
+		return artworkRepository.findByArtist(artist);
 	}
 
 	public List<Artwork> searchArtwork(String keyword, int page, int size) {

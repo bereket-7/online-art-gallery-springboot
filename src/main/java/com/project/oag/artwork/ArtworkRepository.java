@@ -1,5 +1,6 @@
 package com.project.oag.artwork;
 
+import com.project.oag.user.User;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import com.project.oag.artwork.Artwork;
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	 List<Artwork> findByArtworkCategory(String artworkCategory);
-	 List<Artwork> findByArtistId(int artistId);
 	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
 	 List<Artwork> findByStatus(String status);
 	  List<Artwork> findAllByOrderByCreateDateDesc();
@@ -30,5 +30,5 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	List<Artwork> findAllByOrderByAverageRatingDesc();
 	List<Artwork> findAllByOrderByPriceAsc();
 	List<Artwork> findAllByOrderByPriceDesc();
-
+    List<Artwork> findByArtist(User artist);
 }

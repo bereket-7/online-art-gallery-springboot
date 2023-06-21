@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.project.oag.user.User;
+import com.sun.security.auth.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,7 +172,6 @@ public class ArtworkController {
 		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
 	}
 	@GetMapping("/accepted")
@@ -182,14 +182,12 @@ public class ArtworkController {
 		if (acceptedArtworkList == null || acceptedArtworkList.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<>(acceptedArtworkList, HttpStatus.OK);
 	}
 	@GetMapping("/rejected")
 	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<List<Artwork>> getRejectedArtworks()  {
 		List<Artwork> rejectedArtworkList = artworkService.getRejectedArtworks();
-
 		if (rejectedArtworkList == null || rejectedArtworkList.isEmpty()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
@@ -242,7 +240,6 @@ public class ArtworkController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
 	@GetMapping("/autocomplete")
 	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<String>> autocomplete(@RequestParam("keyword") String keyword) {
@@ -259,5 +256,12 @@ public class ArtworkController {
 			e.printStackTrace();
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	@GetMapping("/my-artworks")
+	public ResponseEntity<List<Artwork>> getLoggedArtistArtworks() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User loggedArtist = (User) authentication.getPrincipal();
+		List<Artwork> artistArtworks = artworkService.getArtworksForLoggedArtist(loggedArtist);
+		return ResponseEntity.ok(artistArtworks);
 	}
 }
