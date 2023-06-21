@@ -94,9 +94,6 @@ public class  ArtworkService{
 	    ArtworkDto artworkDto = new ArtworkDto(artwork);
         return artworkDto;
 	}
-	public List<Artwork> getArtworksByArtistId(int artistId) {
-		return artworkRepository.findByArtistId(artistId);
-	}
 	public Map<String, Integer> getCountByCategory() {
 		List<Object[]> countByCategory = artworkRepository.countByCategory();
 		Map<String, Integer> result = new HashMap<>();
