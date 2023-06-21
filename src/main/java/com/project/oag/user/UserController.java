@@ -62,8 +62,8 @@ public class UserController {
 		headers.setContentType(MediaType.IMAGE_JPEG);
 		return new ResponseEntity<>(photoBytes, headers, HttpStatus.OK);
 	}
-	    @GetMapping("/all")
-	    public List<User> getAllUsers() {
+	@GetMapping("/all")
+	public List<User> getAllUsers() {
 	        return userService.getAllUsers();
 	    }
 
@@ -76,6 +76,7 @@ public class UserController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
 		}
 	}
+
 	// Reset password
 	@PostMapping("password/request")
 	public ResponseEntity<String> requestPasswordReset(@RequestParam("email") String email) {

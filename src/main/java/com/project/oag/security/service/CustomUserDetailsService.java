@@ -55,7 +55,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
 
         if (userExists) {
-            throw new IllegalStateException("email already registered");
+            throw new IllegalStateException("This Email already registered");
         }
         userRepository.save(user);
         String token = UUID.randomUUID().toString();
