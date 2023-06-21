@@ -18,25 +18,16 @@ public class Competitor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-
 	private String firstName;
-
 	private String lastName;
-
 	private String email;
-
 	private String phone;
-
 	@Lob
     @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
     private byte[] image;
-
 	private String artDescription;
-	
 	private String category;
-	
 	private int vote;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "competition_id", nullable = true)
 	@JsonIgnore

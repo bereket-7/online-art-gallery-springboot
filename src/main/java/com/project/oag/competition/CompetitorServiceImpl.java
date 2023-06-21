@@ -22,9 +22,8 @@ public class CompetitorServiceImpl implements CompetitorService{
 	
 	@Override
 	public void saveCompetitor(Competitor competitor) {
-		competitorRepository.save(competitor);	
+		competitorRepository.save(competitor);
 	}
-	
 	
 	@Override
 	public List<Competitor> getAllCompetitors() {

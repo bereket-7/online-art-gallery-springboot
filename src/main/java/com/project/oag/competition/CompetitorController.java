@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,12 +43,18 @@ public class CompetitorController {
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	CompetitorService competitorService;
-	public CompetitorController(CompetitorService competitorService) {
-		super();
+	private CompetitorService competitorService;
+
+	public CompetitorController(CompetitorService competitorService, CompetitionService competitionService) {
 		this.competitorService = competitorService;
+		this.competitionService = competitionService;
 	}
+
+	@Autowired
+	private CompetitionService competitionService;
+
 	@PostMapping("/register")
+	@PreAuthorize("hasRole('ARTIST')")
 	public @ResponseBody ResponseEntity<?> registerCompetitor(
 	        @RequestParam("firstName") String firstName,
 	        @RequestParam("lastName") String lastName,
@@ -55,6 +62,7 @@ public class CompetitorController {
 	        @RequestParam("phone") String phone,
 	        @RequestParam("email") String email,
 	        @RequestParam("category") String category,
+			@RequestParam("competitionId") Long competitionId,
 	        Model model,
 	        HttpServletRequest request,
 	        final @RequestParam("image") MultipartFile file) {
@@ -97,6 +105,8 @@ public class CompetitorController {
 	        competitor.setEmail(email);
 	        competitor.setCategory(category);
 	        competitor.setArtDescription(descriptions[0]);
+			Competition competition = competitionService.getCompetitionById(competitionId);
+			competitor.setCompetition(competition);
 	        competitorService.saveCompetitor(competitor);
 	        log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
 	        return new ResponseEntity<>("Competitor Saved With File - " + fileName, HttpStatus.OK);

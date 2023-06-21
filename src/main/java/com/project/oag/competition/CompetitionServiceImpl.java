@@ -13,6 +13,12 @@ import org.springframework.stereotype.Service;
 public class CompetitionServiceImpl implements CompetitionService {
 	@Autowired
 	CompetitionRepository competitionRepository;
+
+	@Override
+	public Competition getCompetitionById(Long competitionId) {
+		return competitionRepository.findById(competitionId)
+				.orElseThrow(() -> new NotFoundException("Competition not found"));
+	}
 	@Override
 	public void deleteCompetition(Long id) {
 		competitionRepository.deleteById(id);
@@ -21,9 +27,6 @@ public class CompetitionServiceImpl implements CompetitionService {
     public List<Competition> getAllCompetitions() {
 		return competitionRepository.findAll();
     }
-	@Override
-	public Optional<Competition> getCompetitionById(Long id) {
-		  return competitionRepository.findById(id);}
 	@Override
 	public void addCompetition (Competition comp){
 	    	competitionRepository.saveAndFlush(comp);

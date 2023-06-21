@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CompetitionService {
+	Competition getCompetitionById(Long competitionId);
 	
 	void deleteCompetition(Long id);
 
@@ -14,8 +15,6 @@ public interface CompetitionService {
 	void deleteCompeition(Long id);
 
 	void addCompetition(Competition comp);
-
-	Optional<Competition> getCompetitionById(Long id);
 
 	Competition getMostRecentCompetition();
 
