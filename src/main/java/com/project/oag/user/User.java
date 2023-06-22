@@ -30,12 +30,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
-
 @EqualsAndHashCode
 @Entity
 @Table(name = "users")
 public class User implements UserDetails{
-	
     @SequenceGenerator(
             name = "user_sequence",
             sequenceName = "user_sequence",

@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +44,21 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.createToken(authentication);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
+    }
+    @PostMapping("/organization/login")
+    public ResponseEntity<?> authenticateOrganization(@RequestBody AuthenticationRequest authenticationRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
+                            authenticationRequest.getPassword())
+            );
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtTokenProvider.createToken(authentication);
+            return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
     }
     @GetMapping("/logout")
     public ResponseEntity<?> logoutUser() {

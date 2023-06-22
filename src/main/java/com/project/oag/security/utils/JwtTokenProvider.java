@@ -14,9 +14,7 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-
     Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
     public String createToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date now = new Date();
@@ -29,8 +27,6 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
-
-
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
