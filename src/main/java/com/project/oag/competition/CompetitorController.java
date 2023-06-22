@@ -173,6 +173,7 @@ public class CompetitorController {
 		return ResponseEntity.ok("Thank you for voting!");
 	}
 	@GetMapping("/competition/{competitionId}/winner")
+	@PreAuthorize("hasRole('CUSTOMER','MANAGER')")
 	public ResponseEntity<?> getCompetitionWinner(@PathVariable Long competitionId) {
 		Competition competition = competitionService.getCompetitionById(competitionId);
 		if (competition == null) {
@@ -185,6 +186,7 @@ public class CompetitorController {
 		return ResponseEntity.ok(winner);
 	}
 	@GetMapping("/competition-competitor-data")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<Map<String, Object>> getCompetitionAndCompetitorData() {
 		try {
 			Long competitionId = 1L;
