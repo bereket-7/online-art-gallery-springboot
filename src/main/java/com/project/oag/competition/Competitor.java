@@ -27,6 +27,7 @@ public class Competitor {
 	private Competition competition;
 	@OneToMany(mappedBy = "competitor", cascade = CascadeType.ALL)
 	private List<Vote> votes;
+
 	public Competitor() {
 		super();
 	}

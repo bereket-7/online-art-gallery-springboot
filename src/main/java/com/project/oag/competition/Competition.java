@@ -1,16 +1,8 @@
 package com.project.oag.competition;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
-
-import com.project.oag.competition.Competitor;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="competition")
@@ -24,15 +16,30 @@ public class Competition {
     private String competitionDescription;
 	@Column(name = "competitor_number")
 	private int numberOfCompetitor;
-	@Column(name = "expiry_date", nullable = false, columnDefinition = "DATE")
-    private LocalDate expiryDate;
 	@OneToMany(mappedBy = "competition")
     private List<Competitor> competitor;
+	@Column(name = "expiry_date", nullable = false, columnDefinition = "DATE")
+	private LocalDateTime expiryDate;
+	@Column(name = "end_time", nullable = false)
+	private LocalDateTime endTime;
+	@OneToOne
+	@JoinColumn(name = "winner_id")
+	private Competitor winner;
+
+	@Column(name = "is_winner_announced")
+	private boolean isWinnerAnnounced;
+
+	@Column(name = "is_voting_closed")
+	private boolean isVotingClosed;
+
+	public boolean isExpired() {
+		return LocalDateTime.now().isAfter(expiryDate);
+	}
 	public Competition() {
 		super();
 	}
 	public Competition(String competitionTitle, String competitionDescription, int numberOfCompetitor,
-			LocalDate expiryDate, List<Competitor> competitor) {
+			LocalDateTime expiryDate, List<Competitor> competitor) {
 		super();
 		this.competitionTitle = competitionTitle;
 		this.competitionDescription = competitionDescription;
@@ -41,13 +48,46 @@ public class Competition {
 		this.competitor = competitor;
 	}
 	public Competition(String competitionTitle, String competitionDescription, int numberOfCompetitor,
-			LocalDate expiryDate) {
+			LocalDateTime expiryDate) {
 		super();
 		this.competitionTitle = competitionTitle;
 		this.competitionDescription = competitionDescription;
 		this.numberOfCompetitor = numberOfCompetitor;
 		this.expiryDate = expiryDate;
 	}
+
+	public LocalDateTime getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(LocalDateTime endTime) {
+		this.endTime = endTime;
+	}
+
+	public Competitor getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Competitor winner) {
+		this.winner = winner;
+	}
+
+	public boolean isWinnerAnnounced() {
+		return isWinnerAnnounced;
+	}
+
+	public void setWinnerAnnounced(boolean winnerAnnounced) {
+		isWinnerAnnounced = winnerAnnounced;
+	}
+
+	public boolean isVotingClosed() {
+		return isVotingClosed;
+	}
+
+	public void setVotingClosed(boolean votingClosed) {
+		isVotingClosed = votingClosed;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -72,10 +112,10 @@ public class Competition {
 	public void setNumberOfCompetitor(int numberOfCompetitor) {
 		this.numberOfCompetitor = numberOfCompetitor;
 	}
-	public LocalDate getExpiryDate() {
+	public LocalDateTime getExpiryDate() {
 		return expiryDate;
 	}
-	public void setExpiryDate(LocalDate expiryDate) {
+	public void setExpiryDate(LocalDateTime expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 	public List<Competitor> getCompetitor() {

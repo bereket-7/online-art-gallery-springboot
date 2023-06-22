@@ -184,9 +184,18 @@ public class CompetitorController {
 
 		return ResponseEntity.ok("Thank you for voting!");
 	}
-	@GetMapping("/winner")
-	    public List<CompetitorDto> getTopCompetitors() {
-	        List<CompetitorDto> topCompetitors = competitorService.getTopCompetitors();
-			return topCompetitors;
-	    }
+	@GetMapping("/competition/{competitionId}/winner")
+	public ResponseEntity<?> getCompetitionWinner(@PathVariable Long competitionId) {
+		Competition competition = competitionService.getCompetitionById(competitionId);
+		if (competition == null) {
+			return ResponseEntity.notFound().build();
+		}
+		Competitor winner = competition.getWinner();
+		if (winner == null) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok(winner);
+	}
+
+
 }

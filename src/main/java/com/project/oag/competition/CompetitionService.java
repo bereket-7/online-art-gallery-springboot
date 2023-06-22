@@ -1,24 +1,80 @@
 package com.project.oag.competition;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-public interface CompetitionService {
-	Competition getCompetitionById(Long competitionId);
-	
-	void deleteCompetition(Long id);
+import com.project.oag.exceptions.CompetitionNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-	List<Competition> getAllCompetitions();
+@Service
+public class CompetitionService {
+	@Autowired
+	CompetitionRepository competitionRepository;
+	public Competition getCompetitionById(Long competitionId) {
+		return competitionRepository.findById(competitionId)
+				.orElseThrow(() -> new CompetitionNotFoundException("Competition not found"));
+	}
+	public void deleteCompetition(Long id) {
+		competitionRepository.deleteById(id);
+	}
 
-	void updateCompetition(Long id, Competition comp);
+    public List<Competition> getAllCompetitions() {
+		return competitionRepository.findAll();
+    }
 
-	void deleteCompeition(Long id);
+	public void addCompetition (Competition comp){
+	    	competitionRepository.saveAndFlush(comp);
+	    	}
 
-	void addCompetition(Competition comp);
+	public void updateCompetition (Long id, Competition comp){
+	    	competitionRepository.saveAndFlush(comp);
+}
+	public List<Competition> getExpiredCompetitions() {
+		LocalDateTime currentTime = LocalDateTime.now();
+		return competitionRepository.findByEndTimeBefore(currentTime);
+	}
+	public void deleteCompeition (Long id){
+	    	 competitionRepository.deleteById(id);
+	}
 
-	Competition getMostRecentCompetition();
+    public Competition getMostRecentCompetition() {
+        Pageable pageable = PageRequest.of(0, 1, Sort.by("expiryDate").descending());
+        List<Competition> competitions = competitionRepository.findAll(pageable).getContent();
+        if (!competitions.isEmpty()) {
+            return competitions.get(0);
+        }
+        return null;
+    }
+	public Integer getNumberOfCompetitor(Long id) {
+        Optional<Competition> optionalCompetition = competitionRepository.findById(id);
+        if (optionalCompetition.isPresent()) {
+            return optionalCompetition.get().getNumberOfCompetitor();
+        } else {
+            return null;
+        }
+    }
 
-	Integer getNumberOfCompetitor(Long id);
-
+	public Competitor determineWinner(Long competitionId) {
+		Competition competition = competitionRepository.findById(competitionId).orElse(null);
+		if (competition == null || competition.isWinnerAnnounced()) {
+			return null;
+		}
+		List<Competitor> competitors = competition.getCompetitor();
+		if (competitors.isEmpty()) {
+			return null;
+		}
+		Competitor winner = Collections.max(competitors, Comparator.comparingInt(Competitor::getVote));
+		return winner;
+	}
 
 }
+
+
+
