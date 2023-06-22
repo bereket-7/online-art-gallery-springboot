@@ -16,6 +16,9 @@ import jakarta.persistence.*;
 		private Competitor competitor;
 
 		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "competition_id")
+		private Competition competition;
+		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name = "user_id", nullable = false)
 		private User user;
 
@@ -34,6 +37,14 @@ import jakarta.persistence.*;
 
 		public void setId(long id) {
 			this.id = id;
+		}
+
+		public Competition getCompetition() {
+			return competition;
+		}
+
+		public void setCompetition(Competition competition) {
+			this.competition = competition;
 		}
 
 		public Competitor getCompetitor() {

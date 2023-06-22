@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("/competition")
 @CrossOrigin("http://localhost:8080/")
@@ -46,7 +45,6 @@ public class CompetitionController {
 	public void deleteCompetition(@PathVariable Long id) { 													// database
 		competitionService.deleteCompetition(id);
 	}
-
     @GetMapping("/most-recent")
     public ResponseEntity<Competition> getMostRecentCompetition() {
 		Competition competition = competitionService.getMostRecentCompetition();
@@ -60,5 +58,4 @@ public class CompetitionController {
         Integer numberOfCompetitor = competitionService.getNumberOfCompetitor(id);
         return new ResponseEntity<>(numberOfCompetitor, HttpStatus.OK);
     }
-
 }

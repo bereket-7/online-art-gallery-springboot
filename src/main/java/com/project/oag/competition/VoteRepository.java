@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.project.oag.competition.Vote;
 
 @Repository
-public interface VoteRepository extends JpaRepository<Vote,Long> {
-
-	boolean existsByCompetitorIdAndIpAddress(Long competitorId, String ipAddress);
+public interface VoteRepository extends JpaRepository<Vote, Long> {
     boolean existsByUserIdAndCompetitionId(Long userId, Long competitionId);
 }

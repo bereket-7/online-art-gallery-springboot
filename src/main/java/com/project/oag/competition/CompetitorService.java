@@ -38,9 +38,6 @@ public class CompetitorService{
                     return competitorRepository.save(competitor);
                 }).orElseThrow(() -> new Exception("Competitor with this id not found"));
     }
-	    public boolean hasUserVoted(Long competitorId, String ipAddress) {
-	        return voteRepository.existsByCompetitorIdAndIpAddress(competitorId, ipAddress);
-	    }
 	public Competitor determineWinnerByVoteCount(Competition competition) {
 		List<Competitor> competitors = competition.getCompetitor();
 		if (competitors.isEmpty()) {
