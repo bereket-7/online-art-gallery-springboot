@@ -21,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -63,11 +64,13 @@ public class UserController {
 		return new ResponseEntity<>(photoBytes, headers, HttpStatus.OK);
 	}
 	@GetMapping("/all")
+	@PreAuthorize("hasRole('ADMIN')")
 	public List<User> getAllUsers() {
 	        return userService.getAllUsers();
 	    }
 
 	@DeleteMapping("/users/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
 			userService.deleteUser(id);
@@ -101,23 +104,28 @@ public class UserController {
 		}
 	}
 	@GetMapping("/total-customer-users")
+	@PreAuthorize("hasRole('ADMIN','MANAGER')")
 	public Long getTotalCustomerUsers() {
 		return userService.getTotalCustomerUsers();
 	}
 	@GetMapping("/total-artist-users")
+	@PreAuthorize("hasRole('ADMIN')")
 	public Long getTotalArtistUsers() {
 		return userService.getTotalArtistUsers();
 	}
 	@GetMapping("/total-manager-users")
+	@PreAuthorize("hasRole('ADMIN')")
 	public Long getTotalManagerUsers() {
 		return userService.getTotalManagerUsers();
 	}
 	@GetMapping("/artist-list")
+	@PreAuthorize("hasRole('ADMIN','MANAGER')")
 	public ResponseEntity<List<User>> getArtistUsers() {
 		List<User> artistUsers = userService.getArtistUsers();
 		return ResponseEntity.ok(artistUsers);
 	}
 	@GetMapping("/artist-detail")
+	@PreAuthorize("hasRole('MANAGER','ADMIN')")
 	public ResponseEntity<List<ArtistDTO>> getArtistDetail() {
 		List<ArtistDTO> artistUsers = userService.getArtistDetail();
 		return ResponseEntity.ok(artistUsers);

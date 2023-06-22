@@ -46,6 +46,7 @@ public class CompetitionController {
 		competitionService.deleteCompetition(id);
 	}
     @GetMapping("/most-recent")
+	@PreAuthorize("hasRole('MANAGER','ARTIST')")
     public ResponseEntity<Competition> getMostRecentCompetition() {
 		Competition competition = competitionService.getMostRecentCompetition();
 		if (competition != null) {
@@ -54,6 +55,7 @@ public class CompetitionController {
 		return ResponseEntity.notFound().build();
 	}
     @GetMapping("/{id}/numberOfCompetitor")
+	@PreAuthorize("hasRole('MANAGER','ARTIST')")
     public ResponseEntity<Integer> getNumberOfCompetitor(@PathVariable Long id) {
         Integer numberOfCompetitor = competitionService.getNumberOfCompetitor(id);
         return new ResponseEntity<>(numberOfCompetitor, HttpStatus.OK);
