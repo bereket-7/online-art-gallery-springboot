@@ -1,7 +1,11 @@
 package com.project.oag.notification;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public class NotificationRepository {
+public interface NotificationRepository extends JpaRepository<Notification,Long> {
+    List<Notification> findByUserId(Long userId);
 }

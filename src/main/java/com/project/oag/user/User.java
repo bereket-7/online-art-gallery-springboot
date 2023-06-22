@@ -10,6 +10,7 @@ import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
 import com.project.oag.entity.Cart;
 import com.project.oag.entity.Order;
+import com.project.oag.notification.Notification;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -75,7 +76,10 @@ public class User implements UserDetails{
 	private List<Cart> carts = new ArrayList<>();
 	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
 	private List<Artwork> artworks;
-	  public User() {
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Notification> notifications;
+
+	public User() {
 	    }
 	public User(String firstname, String lastname, String phone, String username, Integer age, String sex,
             String address, String email, String password, Role role) {
@@ -112,6 +116,15 @@ public class User implements UserDetails{
 	public void clearCarts() {
 		carts.clear();
 	}
+
+	public List<Notification> getNotifications() {
+		return notifications;
+	}
+
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+
 	public Long getId() {
 		return id;
 	}
