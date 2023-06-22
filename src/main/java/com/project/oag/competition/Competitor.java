@@ -1,16 +1,9 @@
 package com.project.oag.competition;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "competitor")
@@ -32,11 +25,11 @@ public class Competitor {
 	@JoinColumn(name = "competition_id", nullable = true)
 	@JsonIgnore
 	private Competition competition;
-
+	@OneToMany(mappedBy = "competitor", cascade = CascadeType.ALL)
+	private List<Vote> votes;
 	public Competitor() {
 		super();
 	}
-
 	public Competitor(String firstName, String lastName, String email, String phone, byte[] image,
 			String artDescription, String category, int vote, Competition competition) {
 		super();
@@ -51,8 +44,28 @@ public class Competitor {
 		this.competition = competition;
 	}
 
+	public void addVote(Vote vote) {
+		votes.add(vote);
+		vote.setCompetitor(this);
+	}
 
+	public void removeVote(Vote vote) {
+		votes.remove(vote);
+		vote.setCompetitor(null);
+	}
+
+	public void incrementVoteCount() {
+		vote++;
+	}
 	public Competitor(String filename, String string) {
+	}
+
+	public List<Vote> getVotes() {
+		return votes;
+	}
+
+	public void setVotes(List<Vote> votes) {
+		this.votes = votes;
 	}
 
 	public long getId() {

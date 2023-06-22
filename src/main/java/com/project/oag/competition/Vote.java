@@ -1,59 +1,56 @@
 package com.project.oag.competition;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.oag.user.User;
+import jakarta.persistence.*;
+    @Entity
+	@Table(name = "vote")
+	public class Vote {
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private long id;
 
-@Entity
-public class Vote {
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "competitor_id", nullable = false)
+		@JsonIgnore
+		private Competitor competitor;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id", nullable = false)
+		private User user;
 
-    private Long competitorId;
+		public Vote() {
+		}
 
-    private String ipAddress;
+		public Vote(long id, Competitor competitor, User user) {
+			this.id = id;
+			this.competitor = competitor;
+			this.user = user;
+		}
 
-	public Long getId() {
-		return id;
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
+		public Competitor getCompetitor() {
+			return competitor;
+		}
+
+		public void setCompetitor(Competitor competitor) {
+			this.competitor = competitor;
+		}
+
+		public User getUser() {
+			return user;
+		}
+
+		public void setUser(User user) {
+			this.user = user;
+		}
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	public Long getCompetitorId() {
-		return competitorId;
-	}
-
-	public void setCompetitorId(Long competitorId) {
-		this.competitorId = competitorId;
-	}
-
-	public String getIpAddress() {
-		return ipAddress;
-	}
-
-	public void setIpAddress(String ipAddress) {
-		this.ipAddress = ipAddress;
-	}
-
-	public Vote() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public Vote(Long id, Long competitorId, String ipAddress) {
-		super();
-		this.id = id;
-		this.competitorId = competitorId;
-		this.ipAddress = ipAddress;
-	}
-
-    // Getters and setters
-    
-    
-    
-}

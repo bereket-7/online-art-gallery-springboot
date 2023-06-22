@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.project.oag.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +46,9 @@ public class CompetitorController {
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private CompetitorService competitorService;
+
+	@Autowired
+	private VoteService voteService;
 
 	public CompetitorController(CompetitorService competitorService, CompetitionService competitionService) {
 		this.competitorService = competitorService;
@@ -118,11 +123,11 @@ public class CompetitorController {
 	}
 	 @GetMapping("/{id}/image")
 	 public ResponseEntity<byte[]> getCompetitorImage(@PathVariable Long id, Model model) {
-		 Optional<Competitor> competitor = competitorService.getCompetitorById(id);
+		 Competitor competitor = competitorService.getCompetitorById(id);
 		 if (competitor == null) {
 			 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		 }
-		 byte[] imageBytes = competitor.get().getImage();
+		 byte[] imageBytes = competitor.getImage();
 
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.setContentType(MediaType.IMAGE_PNG);
@@ -136,44 +141,50 @@ public class CompetitorController {
 	     }
      return new ResponseEntity<>(competitorList, HttpStatus.OK);
 	 }
-    @GetMapping("/{id}")
-    public ResponseEntity<Competitor> getCompetitorById(@PathVariable Long id) {
-        Optional<Competitor> competitor = competitorService.getCompetitorById(id);
-        return competitor.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasRole('MANAGER')")
 	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
 		competitorService.deleteCompetitor(id);
 	}
 	 @PutMapping("/update/{id}")
+	 @PreAuthorize("hasRole('MANAGER')")
 	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
 	        return competitorService.updateCompetitor(id, competitor);
 	 }
-	    @GetMapping("/art")
-	    public ResponseEntity<List<Map<String, Object>>> getAllCompetitors() {
-	        List<Competitor> competitors = competitorService.getAllCompetitors();
-	        List<Map<String, Object>> response = new ArrayList<>();
-	        for (Competitor competitor : competitors) {
-	            Map<String, Object> competitorMap = new HashMap<>();
-	            competitorMap.put("artworkPhoto", competitor.getImage());
-	            competitorMap.put("artDescription", competitor.getArtDescription());
-	            competitorMap.put("category", competitor.getCategory());
-	            competitorMap.put("firstName", competitor.getFirstName());
-	            response.add(competitorMap);
-	        }
-	        return ResponseEntity.ok().body(response);
-	  }
-	    @PostMapping("/{id}/vote")
-	    public ResponseEntity<?> vote(@PathVariable Long id, HttpServletRequest request) {
-	        String ipAddress = request.getRemoteAddr();
-	        if (competitorService.hasUserVoted(id, ipAddress)) {
-	            return ResponseEntity.badRequest().body("You have already voted for this Artwork.");
-	        }
-	        competitorService.incrementVoteCount(id);
-	        competitorService.recordUserVote(id, ipAddress);
-	        return ResponseEntity.ok("Thank you for voting!");
-	    }
-	    @GetMapping("/winner")
+//	    @GetMapping("/art")
+//	    public ResponseEntity<List<Map<String, Object>>> getAllCompetitors() {
+//	        List<Competitor> competitors = competitorService.getAllCompetitors();
+//	        List<Map<String, Object>> response = new ArrayList<>();
+//	        for (Competitor competitor : competitors) {
+//	            Map<String, Object> competitorMap = new HashMap<>();
+//	            competitorMap.put("artworkPhoto", competitor.getImage());
+//	            competitorMap.put("artDescription", competitor.getArtDescription());
+//	            competitorMap.put("category", competitor.getCategory());
+//	            competitorMap.put("firstName", competitor.getFirstName());
+//	            response.add(competitorMap);
+//	        }
+//	        return ResponseEntity.ok().body(response);
+//	  }
+	@PostMapping("/vote")
+	public ResponseEntity<String> voteForCompetitor(
+			@RequestParam("competitionId") Long competitionId,
+			@RequestParam("competitorId") Long competitorId,
+			Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
+		if (voteService.hasUserVotedForCompetition(user.getId(), competitionId)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You have already voted for this competition.");
+		}
+		Competitor competitor = competitorService.getCompetitorById(competitorId);
+		Competition competition = competitionService.getCompetitionById(competitionId);
+		Vote vote = new Vote();
+		vote.setCompetitor(competitor);
+		vote.setUser(user);
+		voteService.saveVote(vote);
+		competitor.incrementVoteCount();
+
+		return ResponseEntity.ok("Thank you for voting!");
+	}
+	@GetMapping("/winner")
 	    public List<CompetitorDto> getTopCompetitors() {
 	        List<CompetitorDto> topCompetitors = competitorService.getTopCompetitors();
 			return topCompetitors;

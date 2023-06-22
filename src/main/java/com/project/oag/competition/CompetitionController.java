@@ -28,7 +28,7 @@ public class CompetitionController {
 		return competitionService.getAllCompetitions();
 	}
 	@GetMapping("{id}")
-	public Optional<Competition> getCompetitionById(@PathVariable Long id) {
+	public Competition getCompetitionById(@PathVariable Long id) {
 		return competitionService.getCompetitionById(id);
 	}
 	@PostMapping("/add")

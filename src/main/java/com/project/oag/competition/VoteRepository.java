@@ -9,5 +9,5 @@ import com.project.oag.competition.Vote;
 public interface VoteRepository extends JpaRepository<Vote,Long> {
 
 	boolean existsByCompetitorIdAndIpAddress(Long competitorId, String ipAddress);
-
+    boolean existsByUserIdAndCompetitionId(Long userId, Long competitionId);
 }
