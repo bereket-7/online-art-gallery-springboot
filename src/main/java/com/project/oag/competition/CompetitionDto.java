@@ -10,7 +10,6 @@ public class CompetitionDto {
 	private LocalDate expiryDate;
 	public CompetitionDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public CompetitionDto(String competitionTitle, String competitionDescription, int numberOfCompetitor,
 			LocalDate expiryDate) {

@@ -49,12 +49,4 @@ public class CompetitorService{
 		Competitor winner = Collections.max(competitors, Comparator.comparingInt(Competitor::getVote));
 		return winner;
 	}
-
-
-/*
-		@Override
-	    public List<Competitor> getTopCompetitors() {
-	        return competitorRepository.findTop10ByOrderByVoteDesc();
-	    }
-		*/
 }

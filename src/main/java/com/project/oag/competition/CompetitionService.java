@@ -24,11 +24,9 @@ public class CompetitionService {
 	public void deleteCompetition(Long id) {
 		competitionRepository.deleteById(id);
 	}
-
     public List<Competition> getAllCompetitions() {
 		return competitionRepository.findAll();
     }
-
 	public void addCompetition (Competition comp){
 	    	competitionRepository.saveAndFlush(comp);
 	    	}
@@ -60,7 +58,6 @@ public class CompetitionService {
             return null;
         }
     }
-
 	public Competitor determineWinner(Long competitionId) {
 		Competition competition = competitionRepository.findById(competitionId).orElse(null);
 		if (competition == null || competition.isWinnerAnnounced()) {
@@ -73,7 +70,6 @@ public class CompetitionService {
 		Competitor winner = Collections.max(competitors, Comparator.comparingInt(Competitor::getVote));
 		return winner;
 	}
-
 }
 
 
