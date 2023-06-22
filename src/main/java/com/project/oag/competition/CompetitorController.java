@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.project.oag.exceptions.CompetitionNotFoundException;
+import com.project.oag.exceptions.CompetitorNotFoundException;
 import com.project.oag.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("/competitors")
+@RequestMapping("api/competitors")
 @CrossOrigin("http://localhost:8080/")
 public class CompetitorController {
 	 @Value("${uploadDir}")
@@ -151,21 +153,8 @@ public class CompetitorController {
 	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
 	        return competitorService.updateCompetitor(id, competitor);
 	 }
-//	    @GetMapping("/art")
-//	    public ResponseEntity<List<Map<String, Object>>> getAllCompetitors() {
-//	        List<Competitor> competitors = competitorService.getAllCompetitors();
-//	        List<Map<String, Object>> response = new ArrayList<>();
-//	        for (Competitor competitor : competitors) {
-//	            Map<String, Object> competitorMap = new HashMap<>();
-//	            competitorMap.put("artworkPhoto", competitor.getImage());
-//	            competitorMap.put("artDescription", competitor.getArtDescription());
-//	            competitorMap.put("category", competitor.getCategory());
-//	            competitorMap.put("firstName", competitor.getFirstName());
-//	            response.add(competitorMap);
-//	        }
-//	        return ResponseEntity.ok().body(response);
-//	  }
 	@PostMapping("/vote")
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> voteForCompetitor(
 			@RequestParam("competitionId") Long competitionId,
 			@RequestParam("competitorId") Long competitorId,
@@ -181,7 +170,6 @@ public class CompetitorController {
 		vote.setUser(user);
 		voteService.saveVote(vote);
 		competitor.incrementVoteCount();
-
 		return ResponseEntity.ok("Thank you for voting!");
 	}
 	@GetMapping("/competition/{competitionId}/winner")
@@ -196,6 +184,22 @@ public class CompetitorController {
 		}
 		return ResponseEntity.ok(winner);
 	}
-
+	@GetMapping("/competition-competitor-data")
+	public ResponseEntity<Map<String, Object>> getCompetitionAndCompetitorData() {
+		try {
+			Long competitionId = 1L;
+			Long competitorId = 1L;
+			Competition competition = competitionService.getCompetitionById(competitionId);
+			Competitor competitor = competitorService.getCompetitorById(competitorId);
+			Map<String, Object> response = new HashMap<>();
+			response.put("competition", competition);
+			response.put("competitor", competitor);
+			return ResponseEntity.ok(response);
+		} catch (CompetitionNotFoundException | CompetitorNotFoundException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 
 }

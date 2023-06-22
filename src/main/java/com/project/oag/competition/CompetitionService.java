@@ -30,7 +30,6 @@ public class CompetitionService {
 	public void addCompetition (Competition comp){
 	    	competitionRepository.saveAndFlush(comp);
 	    	}
-
 	public void updateCompetition (Long id, Competition comp){
 	    	competitionRepository.saveAndFlush(comp);
 }
