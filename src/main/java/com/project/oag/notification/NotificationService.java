@@ -1,5 +1,6 @@
 package com.project.oag.notification;
 
+import com.project.oag.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,10 @@ public class NotificationService {
     public List<Notification> getNotificationsByUserId(Long userId) {
         return notificationRepository.findByUserId(userId);
     }
+    public List<Notification> getNotificationsForUser(User user) {
+        return notificationRepository.findByUser(user);
+    }
+
 
     public void markNotificationAsRead(Long notificationId) {
         Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
