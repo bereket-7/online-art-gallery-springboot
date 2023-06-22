@@ -3,6 +3,7 @@ package com.project.oag.competition;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.exceptions.CompetitionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +18,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 	@Override
 	public Competition getCompetitionById(Long competitionId) {
 		return competitionRepository.findById(competitionId)
-				.orElseThrow(() -> new NotFoundException("Competition not found"));
+				.orElseThrow(() -> new CompetitionNotFoundException("Competition not found"));
 	}
 	@Override
 	public void deleteCompetition(Long id) {
