@@ -37,6 +37,8 @@ public class Order {
     @Column(name = "session_id",nullable=true)
     private String sessionId;
 
+    @Column(name = "email",nullable=true)
+    private String email;
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderItem> orderItem;
 
