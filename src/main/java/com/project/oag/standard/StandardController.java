@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@PreAuthorize("hasRole('ARTIST')")
 @RequestMapping("/standards")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {

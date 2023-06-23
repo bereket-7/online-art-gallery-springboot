@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:8080/")
 @RequestMapping("/api/auth")
 public class AuthController {
     private AuthenticationManager authenticationManager;

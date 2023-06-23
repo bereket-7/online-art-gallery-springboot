@@ -41,7 +41,6 @@ public class UserController {
 	private CustomUserDetailsService userService;
 	   @Autowired
 	    private MessageSource messages;
-
 	   public UserController(CustomUserDetailsService userService) {
 		super();
 		this.userService = userService;
@@ -69,7 +68,7 @@ public class UserController {
 	        return userService.getAllUsers();
 	    }
 
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
