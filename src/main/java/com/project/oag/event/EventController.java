@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -117,6 +118,7 @@ public class EventController {
 	 }
 	 
 	   @GetMapping("/pending")
+	   @PreAuthorize("hasRole('MANAGER')")
 	    public List<Event> getPendingEvents() {
 	        return eventService.getPendingEvents();
 	    }
@@ -129,6 +131,7 @@ public class EventController {
 	        return eventService.getRejectedEvents();
 	    }
 	    @PutMapping("/{id}/accept")
+		@PreAuthorize("hasRole('MANAGER')")
 	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
 	        boolean accepted = eventService.acceptEvent(id);
 	        if (accepted) {

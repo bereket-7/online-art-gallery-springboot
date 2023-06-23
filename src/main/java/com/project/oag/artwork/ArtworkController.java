@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.project.oag.user.User;
-import com.sun.security.auth.UserPrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +48,7 @@ public class ArtworkController {
 		this.artworkService = artworkService;
 	}
 	@PostMapping("/saveArtwork")
-	@PreAuthorize("hasRole('ARTIST')")
+	//@PreAuthorize("hasRole('ARTIST')")
 	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
 														   @RequestParam("price") int price, @RequestParam("size") String size,
 														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
@@ -214,7 +213,7 @@ public class ArtworkController {
 	        }
 	    }
 	    @GetMapping("/recent")
-		@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
+		//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	    public ResponseEntity<List<Artwork>> getRecentArtworks() {
 	        List<Artwork> artworks = artworkService.getRecentArtworks();
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
