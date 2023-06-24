@@ -1,6 +1,8 @@
 package com.project.oag.artwork;
 
 import java.util.Date;
+import java.util.List;
+
 import com.project.oag.security.service.CustomUserDetailsService;
 import com.sun.security.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class WishListController {
         wishlist.setCreatedDate(new Date());
         wishListService.saveWishlist(wishlist);
         return ResponseEntity.ok("Wishlist saved successfully.");
+    }
+    @GetMapping
+    public ResponseEntity<List<WishList>> getUserWishlist() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedInUser = (User) authentication.getPrincipal();
+        List<WishList> wishlist = wishListService.getUserWishlist(loggedInUser);
+        return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
     @DeleteMapping("/{wishlistId}")
     public ResponseEntity<String> deleteWishlist(@PathVariable Integer wishlistId) {
