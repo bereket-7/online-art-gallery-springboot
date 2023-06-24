@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("/events")
+@RequestMapping("api/events")
 @CrossOrigin("http://localhost:8080/")
 public class EventController {
 	 @Autowired
@@ -132,7 +132,7 @@ public class EventController {
 	    }
 	    @PutMapping("/{id}/accept")
 		@PreAuthorize("hasRole('MANAGER')")
-	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
+	    public ResponseEntity<String> acceptEvent(@PathVariable Long id) {
 	        boolean accepted = eventService.acceptEvent(id);
 	        if (accepted) {
 	            return ResponseEntity.ok("Event with ID " + id + " has been accepted");
@@ -141,7 +141,8 @@ public class EventController {
 	        }
 	    }
 	    @PutMapping("/{id}/reject")
-	    public ResponseEntity<String> rejectArtwork(@PathVariable Long id) {
+		@PreAuthorize("hasRole('MANAGER')")
+	    public ResponseEntity<String> rejectEvent(@PathVariable Long id) {
 			boolean rejected = eventService.rejectEvent(id);
 			if (rejected) {
 				return ResponseEntity.ok("Event with ID " + id + " has been Rejected due to the reason it does not satisfy company standard");
@@ -151,6 +152,7 @@ public class EventController {
 		}
 
 		@DeleteMapping("/{eventId}")
+		@PreAuthorize("hasRole('MANAGER')")
 		public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
 			boolean deleted = eventService.deleteEvent(eventId);
 			if (deleted) {
@@ -161,6 +163,7 @@ public class EventController {
 		}
 
 		@PutMapping("/{eventId}")
+		@PreAuthorize("hasRole('MANAGER')")
 		public ResponseEntity<String> updateEvent(
 				@PathVariable Long eventId,
 				@RequestBody EventDto eventUpdateDTO

@@ -6,10 +6,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
     private String accessToken;
     private String role;
 
+    public AuthenticationResponse(String accessToken, String role) {
+        this.accessToken = accessToken;
+        this.role = role;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getRole() {
+        return role;
+    }
 }
