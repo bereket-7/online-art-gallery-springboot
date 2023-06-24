@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.artwork.Artwork;
 import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
@@ -72,7 +73,8 @@ public class User implements UserDetails{
 	private List<Bid> bid;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Cart> carts = new ArrayList<>();
-	@OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+	@JsonIgnore
+	@OneToMany(mappedBy = "artist")
 	private List<Artwork> artworks;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Notification> notifications;

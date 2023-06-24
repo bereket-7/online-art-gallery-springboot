@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import com.project.oag.common.ApiResponse;
 import com.project.oag.user.User;
 @RestController
-@RequestMapping("/wishlist")
+@RequestMapping("api/wishlist")
 @CrossOrigin("http://localhost:8080/")
 public class WishListController {
     @Autowired

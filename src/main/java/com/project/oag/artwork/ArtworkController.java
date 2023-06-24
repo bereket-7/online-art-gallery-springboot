@@ -116,7 +116,7 @@ public class ArtworkController {
     return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
 	 }
 	 @GetMapping("/{id}/image")
-	 @PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
+	 //@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	 public ResponseEntity<byte[]> getArtworkImage(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
 	     if (artwork == null) {
@@ -128,7 +128,7 @@ public class ArtworkController {
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
 	 @GetMapping
-	 @PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
+	 //@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	 public ResponseEntity<List<Artwork>> getAllArtwork() {
 	     List<Artwork> artworkList = artworkService.getAllArtworks();
 
@@ -138,7 +138,7 @@ public class ArtworkController {
     return new ResponseEntity<>(artworkList, HttpStatus.OK);
 	 }
 	@GetMapping("/category/{category}")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
+	//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable("category") String artworkCategory) {
 		List<Artwork> artworks = artworkService.getArtworkByCategory(artworkCategory);
 		if (artworks == null) {
