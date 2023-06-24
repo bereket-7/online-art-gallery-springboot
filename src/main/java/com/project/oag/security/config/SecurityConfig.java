@@ -69,6 +69,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/{id}/image").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/artworks/my-artworks").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/artworks/{id}").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/search").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/autocomplete").permitAll()
