@@ -1,17 +1,12 @@
 package com.project.oag.payment;
 
-import com.project.oag.security.service.CustomUserDetailsService;
 import com.project.oag.user.User;
-import com.project.oag.user.UserRepository;
 import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
 import com.yaphet.chapa.model.InitializeResponseData;
 import com.yaphet.chapa.model.PostData;
 import com.yaphet.chapa.model.VerifyResponseData;
 import com.yaphet.chapa.utility.Util;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,13 +34,17 @@ public class ChapaController {
                 .setEmail(loggedInUser.getEmail())
                 .setTxRef(txRef)
                 .setCustomization(customization);
-        Chapa chapa = new Chapa("");
+
+
+        Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
         InitializeResponseData response = chapa.initialize(postData);
         String checkOutUrl = response.getData().getCheckOutUrl();
         VerifyResponseData verify = chapa.verify(txRef);
         PaymentResponse paymentResponse = new PaymentResponse();
-        paymentResponse.getCheckOutUrl();
-        paymentResponse.getTxRef();
+        paymentResponse.setCheckOutUrl(checkOutUrl);
+        paymentResponse.setTxRef(txRef);
+        //paymentResponse.getCheckOutUrl();
+        //paymentResponse.getTxRef();
         return ResponseEntity.ok(paymentResponse);
     }
 }

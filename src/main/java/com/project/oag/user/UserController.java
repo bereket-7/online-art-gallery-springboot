@@ -118,10 +118,24 @@ public class UserController {
 		return userService.getTotalManagerUsers();
 	}
 	@GetMapping("/artist-list")
-	@PreAuthorize("hasRole('ADMIN','MANAGER')")
 	public ResponseEntity<List<User>> getArtistUsers() {
 		List<User> artistUsers = userService.getArtistUsers();
 		return ResponseEntity.ok(artistUsers);
+	}
+	@GetMapping("/manager-list")
+	public ResponseEntity<List<User>> getManagerUsers() {
+		List<User> managerUsers = userService.getManagerUsers();
+		return ResponseEntity.ok(managerUsers);
+	}
+	@GetMapping("/customer-list")
+	public ResponseEntity<List<User>> getCustomerUsers() {
+		List<User> customerUsers = userService.getCustomerUsers();
+		return ResponseEntity.ok(customerUsers);
+	}
+	@GetMapping("/organization-list")
+	public ResponseEntity<List<User>> getOrganizationUsers() {
+		List<User> organizationUsersUsers = userService.getOrganizationUsers();
+		return ResponseEntity.ok(organizationUsersUsers);
 	}
 	@GetMapping("/artist-detail")
 	@PreAuthorize("hasRole('MANAGER','ADMIN')")

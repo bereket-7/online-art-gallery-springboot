@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("api/report")
 @CrossOrigin("http://localhost:8080/")
 public class ReportController {
 
@@ -29,7 +29,6 @@ public class ReportController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('ARTIST','CUSTOMER')")
     public ResponseEntity<Report> createReport(@RequestBody Report report) {
         return new ResponseEntity<>(reportService.createReport(report), HttpStatus.CREATED);
     }

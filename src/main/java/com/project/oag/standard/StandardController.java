@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/standards")
+@RequestMapping("api/standards")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {
 	  
@@ -58,7 +58,6 @@ public class StandardController {
 		if (standards.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-
 		return ResponseEntity.ok(standards);
 	}
 }

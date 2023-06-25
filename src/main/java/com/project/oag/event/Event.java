@@ -4,8 +4,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
-import com.project.oag.entity.Organization;
-
+import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -52,21 +51,27 @@ public class Event {
 	
 	@Column(name = "status",nullable = true)
 	private String status;
-
 	@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
     private Date createDate;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "organization_id")
-	private Organization organization;
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	public Event() {
 		super();
 	}
 
 	public Event(String eventName, String eventDescription, LocalDate eventDate, String location, int capacity,
-			double ticketPrice, byte[] image, String status, Date createDate, Organization organization) {
+			double ticketPrice, byte[] image, String status, Date createDate, User user) {
 		super();
 		this.eventName = eventName;
 		this.eventDescription = eventDescription;
@@ -77,7 +82,7 @@ public class Event {
 		this.image = image;
 		this.status = status;
 		this.createDate = createDate;
-		this.organization = organization;
+		this.user = user;
 	}
 
 
@@ -135,19 +140,12 @@ public class Event {
 		this.status = status;
 	}
 
-	public Organization getOrganization() {
-		return organization;
-	}
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
 	@Override
 	public String toString() {
 		return "Event [id=" + id + ", eventName=" + eventName + ", eventDescription=" + eventDescription
 				+ ", eventDate=" + eventDate + ", location=" + location + ", capacity=" + capacity + ", ticketPrice="
 				+ ticketPrice + ", image=" + Arrays.toString(image) + ", status=" + status + ", createDate="
-				+ createDate + ", organization=" + organization + "]";
+				+ createDate + "]";
 	}
 
 	public byte[] getImage() {

@@ -11,6 +11,7 @@ import com.project.oag.artwork.Rating;
 import com.project.oag.bidding.Bid;
 import com.project.oag.entity.Cart;
 import com.project.oag.entity.Order;
+import com.project.oag.event.Event;
 import com.project.oag.notification.Notification;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +79,18 @@ public class User implements UserDetails{
 	private List<Artwork> artworks;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Notification> notifications;
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Event> events;
 
 	public User() {
 	    }

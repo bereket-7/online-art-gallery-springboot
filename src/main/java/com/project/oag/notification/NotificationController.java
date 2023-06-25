@@ -46,7 +46,7 @@ public class NotificationController {
         }
     }
 
-    @GetMapping("/notifications")
+    @GetMapping()
     public ResponseEntity<List<Notification>> getUserNotifications(Authentication authentication) {
         try {
             User user = (User) authentication.getPrincipal();

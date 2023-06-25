@@ -34,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private ConfirmationTokenService confirmationTokenService;
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
     public CustomUserDetailsService(UserRepository userRepository,
@@ -113,6 +113,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public List<User> getArtistUsers() {
         return userRepository.findByRole(Role.ARTIST);
+    }
+    public List<User> getManagerUsers() {
+        return userRepository.findByRole(Role.MANAGER);
+    }
+    public List<User> getCustomerUsers() {
+        return userRepository.findByRole(Role.CUSTOMER);
+    }
+    public List<User> getOrganizationUsers() {
+        return userRepository.findByRole(Role.ORGANIZATION);
     }
     public List<ArtistDTO> getArtistDetail() {
         List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
