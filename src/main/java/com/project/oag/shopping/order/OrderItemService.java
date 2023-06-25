@@ -1,10 +1,9 @@
-package com.project.oag.service;
+package com.project.oag.shopping.order;
 
+import com.project.oag.shopping.order.OrderItem;
+import com.project.oag.shopping.order.OrderItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.project.oag.entity.OrderItem;
-import com.project.oag.repository.OrderItemRepository;
 
 import jakarta.transaction.Transactional;
 

@@ -1,4 +1,4 @@
-package com.project.oag.payment;
+package com.project.oag.shopping.payment;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;

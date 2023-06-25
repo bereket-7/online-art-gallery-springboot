@@ -1,7 +1,7 @@
 package com.project.oag.controller.dto;
 
 import com.project.oag.artwork.Artwork;
-import com.project.oag.entity.Cart;
+import com.project.oag.shopping.cart.Cart;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,10 +1,10 @@
-package com.project.oag.payment;
+package com.project.oag.shopping.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import com.project.oag.entity.Order;
+import com.project.oag.shopping.order.Order;
 
 @RestController
 @RequestMapping("/paypal")

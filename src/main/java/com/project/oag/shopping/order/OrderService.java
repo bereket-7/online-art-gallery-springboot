@@ -1,20 +1,17 @@
-package com.project.oag.service;
+package com.project.oag.shopping.order;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.shopping.cart.CartService;
+import com.project.oag.shopping.order.Order;
+import com.project.oag.shopping.order.OrderItemRepository;
+import com.project.oag.shopping.order.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.controller.dto.CartDto;
-import com.project.oag.controller.dto.CartItemDto;
-import com.project.oag.entity.Order;
-import com.project.oag.entity.OrderItem;
 import com.project.oag.user.User;
 import com.project.oag.exceptions.OrderNotFoundException;
-import com.project.oag.repository.OrderItemRepository;
-import com.project.oag.repository.OrderRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -26,10 +23,10 @@ public class OrderService {
 	    private CartService cartService;
 
 	    @Autowired
-	    OrderRepository orderRepository;
+		OrderRepository orderRepository;
 
 	    @Autowired
-	    OrderItemRepository orderItemRepository;
+		OrderItemRepository orderItemRepository;
 
 //	    public void placeOrder(User user, String sessionId) {
 //	        CartDto cartDto = user.listCartItems();

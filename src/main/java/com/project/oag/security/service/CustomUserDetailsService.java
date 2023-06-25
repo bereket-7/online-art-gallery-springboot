@@ -2,7 +2,6 @@ package com.project.oag.security.service;
 
 import com.project.oag.artwork.ArtistDTO;
 import com.project.oag.email.EmailService;
-import com.project.oag.entity.Cart;
 import com.project.oag.user.PasswordResetToken;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;

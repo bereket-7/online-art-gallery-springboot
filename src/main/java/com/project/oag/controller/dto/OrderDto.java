@@ -1,6 +1,6 @@
 package com.project.oag.controller.dto;
 
-import com.project.oag.entity.Order;
+import com.project.oag.shopping.order.Order;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.project.oag.entity.Cart;
+import com.project.oag.shopping.cart.Cart;
 import com.project.oag.user.User;
 import jakarta.persistence.*;
 @Entity
@@ -36,7 +36,7 @@ public class Artwork {
 	@ManyToOne
 	@JoinColumn(name = "artist_id")
 	private User artist;
-	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
 	private List<Cart> carts = new ArrayList<>();
 	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
 			Date createDate, String size, String status, List<Rating> ratings) {

@@ -1,4 +1,4 @@
-package com.project.oag.payment;
+package com.project.oag.shopping.payment;
 
 public class PaymentResponse {
     private String checkOutUrl;

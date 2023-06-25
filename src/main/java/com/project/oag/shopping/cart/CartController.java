@@ -1,7 +1,6 @@
-package com.project.oag.controller;
+package com.project.oag.shopping.cart;
 
 import com.project.oag.artwork.ArtworkService;
-import com.project.oag.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

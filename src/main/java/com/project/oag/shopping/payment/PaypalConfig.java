@@ -1,4 +1,4 @@
-package com.project.oag.payment;
+package com.project.oag.shopping.payment;
 
 import java.util.HashMap;
 import java.util.Map;

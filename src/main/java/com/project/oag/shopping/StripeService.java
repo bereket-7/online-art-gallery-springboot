@@ -1,4 +1,4 @@
-package com.project.oag.service;
+package com.project.oag.shopping;
 
 import java.util.ArrayList;
 import java.util.List;

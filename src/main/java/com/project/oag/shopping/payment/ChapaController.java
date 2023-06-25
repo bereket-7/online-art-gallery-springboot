@@ -1,4 +1,4 @@
-package com.project.oag.payment;
+package com.project.oag.shopping.payment;
 
 import com.project.oag.user.User;
 import com.yaphet.chapa.Chapa;
