@@ -14,7 +14,6 @@ import com.project.oag.user.User;
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long>{
-    //User findByEmail(String email);
     Long countTotalUsersByRole(Role role);
     @Override
     void delete(User user);

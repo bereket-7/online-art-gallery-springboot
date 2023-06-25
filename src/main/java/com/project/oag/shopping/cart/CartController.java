@@ -15,21 +15,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("api/cart")
 @CrossOrigin("http://localhost:8080/")
 public class CartController {
     @Autowired
     private CartService cartService;
-
     @Autowired
     private ArtworkService artworkService;
 
     @PostMapping("/add")
     public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
-        String username = userDetails.getUsername();
-        cartService.addToCart(username, artworkId, quantity);
+        String email = userDetails.getUsername(); // Use email instead of username
+        cartService.addToCart(email, artworkId, quantity);
         return ResponseEntity.ok("Item added to cart successfully.");
+    }
+
+    @GetMapping("/carts")
+    public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername(); // Use email instead of username
+        List<Cart> carts = cartService.getCartsByEmail(email);
+
+        List<CartDTO> cartDTOs = carts.stream()
+                .map(cart -> new CartDTO(cart.getId(), cart.getArtwork().getArtworkName(), cart.getQuantity()))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(cartDTOs);
     }
 
     @DeleteMapping("/remove/{cartId}")
@@ -51,15 +65,12 @@ public class CartController {
         int totalPrice = cartService.calculateTotalPrice(username);
         return ResponseEntity.ok(totalPrice);
     }
-
     @DeleteMapping("/clear")
     public ResponseEntity<String> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         cartService.clearCart(username);
         return ResponseEntity.ok("Cart cleared successfully.");
     }
-
-    
 }
 
 

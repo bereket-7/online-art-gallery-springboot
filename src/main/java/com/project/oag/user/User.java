@@ -83,11 +83,9 @@ public class User implements UserDetails{
 	public List<Event> getEvents() {
 		return events;
 	}
-
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Event> events;

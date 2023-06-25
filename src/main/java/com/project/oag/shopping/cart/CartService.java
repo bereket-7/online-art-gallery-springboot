@@ -1,9 +1,11 @@
 package com.project.oag.shopping.cart;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.project.oag.artwork.ArtworkService;
 import com.project.oag.exceptions.ArtworkNotFoundException;
+import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
 import com.project.oag.shopping.cart.Cart;
 import com.project.oag.shopping.cart.CartRepository;
@@ -31,24 +33,40 @@ public class CartService {
 		super();
 		this.cartRepository = cartRepository;
 	}
-	public void addToCart(String username, Long artworkId, int quantity) {
-		User user = userRepository.findByUsername(username);
-		Optional<Artwork> optionalArtwork = artworkService.getArtworkById(artworkId);
-		if (optionalArtwork.isEmpty()) {
-			throw new ArtworkNotFoundException("Artwork not found.");
+	public void addToCart(String email, Long artworkId, int quantity) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			Optional<Artwork> optionalArtwork = artworkService.getArtworkById(artworkId);
+			if (optionalArtwork.isEmpty()) {
+				throw new ArtworkNotFoundException("Artwork not found.");
+			}
+			Artwork artwork = optionalArtwork.get();
+
+			Cart cart = new Cart();
+			cart.setArtwork(artwork);
+			cart.setQuantity(quantity);
+
+			user.addCart(cart);
+			userRepository.save(user);
+		} else {
+			throw new UserNotFoundException("User not found.");
 		}
-		Artwork artwork = optionalArtwork.get();
-
-		Cart cart = new Cart();
-		cart.setArtwork(artwork);
-		cart.setQuantity(quantity);
-
-		user.addCart(cart);
-		userRepository.save(user);
+	}
+	public List<Cart> getCartsByEmail(String email) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			return user.getCarts();
+		} else {
+			throw new UserNotFoundException("User not found.");
+		}
 	}
 
-	public void removeFromCart(String username, Long cartId) {
-		User user = userRepository.findByUsername(username);
+	public void removeFromCart(String email, Long cartId) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
 
 		Optional<Cart> optionalCart = user.getCarts().stream()
 				.filter(cart -> cart.getId().equals(cartId))
@@ -59,19 +77,26 @@ public class CartService {
 			user.removeCart(cart);
 			userRepository.save(user);
 		}
+		}else {
+			throw new UserNotFoundException("User not found.");
+		}
 	}
 
-	public void updateCartQuantity(String username, Long cartId, int quantity) {
-		User user = userRepository.findByUsername(username);
+	public void updateCartQuantity(String email, Long cartId, int quantity) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			Optional<Cart> optionalCart = user.getCarts().stream()
+					.filter(cart -> cart.getId().equals(cartId))
+					.findFirst();
 
-		Optional<Cart> optionalCart = user.getCarts().stream()
-				.filter(cart -> cart.getId().equals(cartId))
-				.findFirst();
-
-		if (optionalCart.isPresent()) {
-			Cart cart = optionalCart.get();
-			cart.setQuantity(quantity);
-			userRepository.save(user);
+			if (optionalCart.isPresent()) {
+				Cart cart = optionalCart.get();
+				cart.setQuantity(quantity);
+				userRepository.save(user);
+			}
+		} else {
+			throw new UserNotFoundException("User not found.");
 		}
 	}
 
