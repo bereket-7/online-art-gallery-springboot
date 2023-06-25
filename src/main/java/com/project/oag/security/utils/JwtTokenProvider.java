@@ -17,7 +17,8 @@ import java.util.Date;
 @Component
 @Slf4j
 public class JwtTokenProvider {
-    Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    String secrete = "asdfghjklpoiuytrewefgnnbvcxpoiuytrewqzxcvbnmlkjhgfdsarghnmpoijhgcqsxcvbnjioiuytredfgbytfdsazxcvbnjujmlkjhgfdpokjhgfdszqwsdfvgbnmkpoiuytrew";
+
     public String createToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date now = new Date();
@@ -26,7 +27,7 @@ public class JwtTokenProvider {
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, key)
+                .signWith(SignatureAlgorithm.HS512, secrete)
                 .compact();
     }
     public String resolveToken(HttpServletRequest request) {
@@ -38,7 +39,7 @@ public class JwtTokenProvider {
     }
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secrete).parseClaimsJws(token);
             return true;
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
@@ -55,7 +56,7 @@ public class JwtTokenProvider {
     }
     public String getUsername(String token) {
         return Jwts.parser()
-                .setSigningKey(key)
+                .setSigningKey(secrete)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();

@@ -3,7 +3,6 @@ package com.project.oag.shopping.payment;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
 @Entity
 public class PaymentLog {
     @Id
@@ -15,6 +14,14 @@ public class PaymentLog {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    public Status getStatus() {
+        return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
