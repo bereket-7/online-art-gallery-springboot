@@ -19,6 +19,7 @@ public class Cart {
     @Column(name = "created_date")
     private Date createdDate;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artwork_id")
     private Artwork artwork;

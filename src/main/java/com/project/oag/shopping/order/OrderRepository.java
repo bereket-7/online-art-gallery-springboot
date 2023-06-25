@@ -9,7 +9,5 @@ import com.project.oag.shopping.order.Order;
 import com.project.oag.user.User;
 
 @Repository
-public interface OrderRepository  extends JpaRepository<Order, Integer> {
-    List<Order> findAllByUserOrderByCreatedDateDesc(User user);
-
+public interface OrderRepository  extends JpaRepository<Order, Long> {
 }

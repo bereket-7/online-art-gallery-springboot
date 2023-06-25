@@ -1,141 +1,100 @@
 package com.project.oag.shopping.order;
 
-import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.project.oag.shopping.cart.Cart;
 import com.project.oag.user.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.Date;
+
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(name = "created_date",nullable=true)
-    private Date createdDate;
-    @Column(name = "price",nullable=true)
-	private double price;
-    @Column(name="currency",nullable=true)
-    private String currency;
-    @Column(name="intent",nullable=true)
-    private String intent;
-    @Column(name="method",nullable=true)
-    private String method;
-    @Column(name="description",nullable=true)
-    private String description;
-    @Column(name = "session_id",nullable=true)
-    private String sessionId;
-
-    @Column(name = "email",nullable=true)
+    private Long id;
+    private String firstname;
+    private String lastname;
     private String email;
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItem;
-
-    @ManyToOne()
-    @JsonIgnore
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private String phone;
+    private String address;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "order_date")
+    private Date orderDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
-	
+    @OneToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
     public Order() {
     }
-    
-    public String getCurrency() {
-		return currency;
-	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
-
-
-	public String getIntent() {
-		return intent;
-	}
-
-
-	public void setIntent(String intent) {
-		this.intent = intent;
-	}
-
-
-	public String getMethod() {
-		return method;
-	}
-
-
-	public void setMethod(String method) {
-		this.method = method;
-	}
-
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
-	public List<OrderItem> getOrderItem() {
-		return orderItem;
-	}
-
-	public void setOrderItem(List<OrderItem> orderItem) {
-		this.orderItem = orderItem;
-	}
-
-	public List<OrderItem> getOrderItems() {
-        return orderItem;
+    public Order(Long id, String firstname, String lastname, String email, String phone, String address, Date orderDate, User user, Cart cart) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.orderDate = orderDate;
+        this.user = user;
+        this.cart = cart;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
-        this.orderItem = orderItems;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public double getPrice() {
-		return price;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
-
-	public String getSessionId() {
-        return sessionId;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public User getUser() {
@@ -146,4 +105,11 @@ public class Order {
         this.user = user;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
 }

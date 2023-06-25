@@ -143,5 +143,4 @@ public class UserController {
 		List<ArtistDTO> artistUsers = userService.getArtistDetail();
 		return ResponseEntity.ok(artistUsers);
 	}
-	    
 }

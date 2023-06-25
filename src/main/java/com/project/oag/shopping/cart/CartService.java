@@ -15,8 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.oag.artwork.Artwork;
 import com.project.oag.user.User;
-
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -53,16 +52,30 @@ public class CartService {
 			throw new UserNotFoundException("User not found.");
 		}
 	}
+//	public List<Cart> getCartsByEmail(String email) {
+//		Optional<User> optionalUser = userRepository.findByEmail(email);
+//		if (optionalUser.isPresent()) {
+//			User user = optionalUser.get();
+//			return user.getCarts();
+//		} else {
+//			throw new UserNotFoundException("User not found.");
+//		}
+//	}
+	@Transactional(readOnly = true)
 	public List<Cart> getCartsByEmail(String email) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
-			return user.getCarts();
+			List<Cart> carts = user.getCarts();
+			// Initialize the associated artwork objects
+			carts.forEach(cart -> {
+				cart.getArtwork().getArtworkName();
+			});
+			return carts;
 		} else {
 			throw new UserNotFoundException("User not found.");
 		}
 	}
-
 	public void removeFromCart(String email, Long cartId) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent()) {

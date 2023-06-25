@@ -116,7 +116,6 @@ public class ArtworkController {
     return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
 	 }
 	 @GetMapping("/{id}/image")
-	 //@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	 public ResponseEntity<byte[]> getArtworkImage(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
 	     if (artwork == null) {
@@ -174,7 +173,6 @@ public class ArtworkController {
 		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
 	}
 	@GetMapping("/accepted")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> getAcceptedArtworks() {
 		List<Artwork> acceptedArtworkList = artworkService.getAcceptedArtworks();
 

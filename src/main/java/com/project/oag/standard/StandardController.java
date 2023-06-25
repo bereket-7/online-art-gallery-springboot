@@ -12,24 +12,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/standards")
 @CrossOrigin("http://localhost:8080/")
 public class StandardController {
-	  
 	  @Autowired
 	   private StandardService standardService;
 	public StandardController(StandardService standardService) {
 		this.standardService = standardService;
 	}
-	  
 	  @GetMapping
 	  public List<Standard> getAllStandards() {
 	        return standardService.getAllStandards();
 	    }
-
 	    @PostMapping("/add")
 		@PreAuthorize("hasRole('MANAGER')")
 	    public Standard addStandard(@RequestBody Standard standard) {
 	        return standardService.addStandard(standard);
 	    }
-
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<String> updateStandard(@PathVariable Long id, @RequestBody Standard updatedStandard) {
@@ -37,12 +33,9 @@ public class StandardController {
 		if (standard == null) {
 			return ResponseEntity.notFound().build();
 		}
-
 		standard.setStandardDescription(updatedStandard.getStandardDescription());
 		standard.setStandardType(updatedStandard.getStandardType());
-
 		standardService.addStandard(standard);
-
 		return ResponseEntity.ok("Standard updated successfully");
 	}
 	    @DeleteMapping("/{id}")
@@ -51,7 +44,6 @@ public class StandardController {
 	        standardService.deleteStandardById(id);
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
-
 	@GetMapping("/search")
 	public ResponseEntity<List<Standard>> searchByStandardType(@RequestParam("type") String standardType) {
 		List<Standard> standards = standardService.getStandardsByType(standardType);

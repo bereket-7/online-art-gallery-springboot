@@ -34,15 +34,14 @@ public class CartController {
         return ResponseEntity.ok("Item added to cart successfully.");
     }
 
-    @GetMapping("/carts")
+    @GetMapping
     public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails.getUsername(); // Use email instead of username
+        String email = userDetails.getUsername();
         List<Cart> carts = cartService.getCartsByEmail(email);
 
         List<CartDTO> cartDTOs = carts.stream()
                 .map(cart -> new CartDTO(cart.getId(), cart.getArtwork().getArtworkName(), cart.getQuantity()))
                 .collect(Collectors.toList());
-
         return ResponseEntity.ok(cartDTOs);
     }
 

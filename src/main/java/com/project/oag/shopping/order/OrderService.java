@@ -1,12 +1,13 @@
 package com.project.oag.shopping.order;
 
-import java.util.List;
+import java.util.Date;
 import java.util.Optional;
 
+import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.shopping.cart.Cart;
+import com.project.oag.shopping.cart.CartRepository;
 import com.project.oag.shopping.cart.CartService;
-import com.project.oag.shopping.order.Order;
-import com.project.oag.shopping.order.OrderItemRepository;
-import com.project.oag.shopping.order.OrderRepository;
+import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,48 +19,41 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class OrderService {
-	
-	 	@Autowired
-	    private CartService cartService;
+	private final UserRepository userRepository;
+	private final CartRepository cartRepository;
+	private final OrderRepository orderRepository;
 
-	    @Autowired
-		OrderRepository orderRepository;
+	public OrderService(UserRepository userRepository, CartRepository cartRepository, OrderRepository orderRepository) {
+		this.userRepository = userRepository;
+		this.cartRepository = cartRepository;
+		this.orderRepository = orderRepository;
+	}
 
-	    @Autowired
-		OrderItemRepository orderItemRepository;
+	public Order createOrder(String email, Long cartId, String firstName, String lastName, String phone, String address) {
+		Optional<User> optionalUser = userRepository.findByEmail(email);
+		Optional<Cart> optionalCart = cartRepository.findById(cartId);
 
-//	    public void placeOrder(User user, String sessionId) {
-//	        CartDto cartDto = user.listCartItems();
-//	        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
-//
-//	        // create the order and save it
-//	        Order newOrder = new Order();
-//	        newOrder.setCreatedDate(new Date());
-//	        newOrder.setSessionId(sessionId);
-//	        newOrder.setUser(user);
-//	        newOrder.setPrice(cartDto.getTotalCost());
-//	        orderRepository.save(newOrder);
-//
-//	        for (CartItemDto cartItemDto : cartItemDtoList) {
-//	            // create orderItem and save each one
-//	            OrderItem orderItem = new OrderItem();
-//	            orderItem.setCreatedDate(new Date());
-//	            orderItem.setPrice(cartItemDto.getArtwork().getPrice());
-//	            orderItem.setArtwork(cartItemDto.getArtwork());
-//	            orderItem.setQuantity(cartItemDto.getQuantity());
-//	            orderItem.setOrder(newOrder);
-//	            // add to order item list
-//	            orderItemRepository.save(orderItem);
-//	        }
-//	        cartService.clearCart(user.getUsername());
-//	    }
+		if (optionalUser.isPresent() && optionalCart.isPresent()) {
+			User user = optionalUser.get();
+			Cart cart = optionalCart.get();
+			// Create the order
+			Order order = new Order();
+			order.setUser(user);
+			order.setCart(cart);
+			order.setOrderDate(new Date());
+			order.setFirstname(firstName);
+			order.setLastname(lastName);
+			order.setEmail(email);
+			order.setPhone(phone);
+			order.setAddress(address);
+			userRepository.save(user);
+			return orderRepository.save(order);
+		} else {
+			throw new UserNotFoundException("Cart not found.");
+		}
+	}
 
-	    public List<Order> listOrders(User user) {
-	        return orderRepository.findAllByUserOrderByCreatedDateDesc(user);
-	    }
-
-
-	    public Order getOrder(Integer orderId) throws OrderNotFoundException {
+	    public Order getOrder(Long orderId) throws OrderNotFoundException {
 	        Optional<Order> order = orderRepository.findById(orderId);
 	        if (order.isPresent()) {
 	            return order.get();

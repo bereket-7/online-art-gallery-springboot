@@ -18,19 +18,19 @@ public class PaypalController {
 	public String home() {
 		return "home";
 	}
-	@PostMapping("/pay")
-	@ResponseBody
-	public Payment payment(@RequestBody Order order) {
-		try {
-			Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
-					order.getIntent(), order.getDescription(), "http://localhost:9090/" + CANCEL_URL,
-					"http://localhost:9090/" + SUCCESS_URL);
-			return payment;
-		} catch (PayPalRESTException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	@PostMapping("/pay")
+//	@ResponseBody
+//	public Payment payment(@RequestBody Order order) {
+//		try {
+//			Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
+//					order.getIntent(), order.getDescription(), "http://localhost:9090/" + CANCEL_URL,
+//					"http://localhost:9090/" + SUCCESS_URL);
+//			return payment;
+//		} catch (PayPalRESTException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	@GetMapping(value = CANCEL_URL)
 	@ResponseBody
 	public String cancelPay() {
