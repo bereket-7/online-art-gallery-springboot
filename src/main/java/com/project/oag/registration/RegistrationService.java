@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.project.oag.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,29 +23,60 @@ public class RegistrationService {
     private ConfirmationTokenService confirmationTokenService;
     @Autowired
     private EmailSender emailSender;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
 
         if (!isValidEmail) {
-            throw new IllegalStateException("email not valid");
+            throw new IllegalStateException("Email not valid.");
         }
-        
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         String token = userService.signUpUser(
-        	    new User(request.getFirstname(),
-        	        request.getLastname(),
-        	        request.getPhone(),
-        	        request.getUsername(),
-        	        request.getAge(),
-        	        request.getSex(),
-        	        request.getAddress(),
-        	        request.getEmail(),
-        	        request.getPassword(),
-        	        request.getRole()));
+                new User(
+                        request.getFirstname(),
+                        request.getLastname(),
+                        request.getPhone(),
+                        request.getUsername(),
+                        request.getAge(),
+                        request.getSex(),
+                        request.getAddress(),
+                        request.getEmail(),
+                        encodedPassword,
+                        request.getRole()
+                )
+        );
         String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(),buildEmail(request.getFirstname(), link));
+        emailSender.send(request.getEmail(), buildEmail(request.getFirstname(), link));
         return token;
     }
 
+//    public String register(RegistrationRequest request) {
+//        boolean isValidEmail = emailValidator.test(request.getEmail());
+//
+//        if (!isValidEmail) {
+//            throw new IllegalStateException("email not valid");
+//        }
+//        String token = userService.signUpUser(
+//        	    new User(request.getFirstname(),
+//        	        request.getLastname(),
+//        	        request.getPhone(),
+//        	        request.getUsername(),
+//        	        request.getAge(),
+//        	        request.getSex(),
+//        	        request.getAddress(),
+//        	        request.getEmail(),
+//        	        request.getPassword(),
+//        	        request.getRole()));
+//        String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
+//        emailSender.send(request.getEmail(),buildEmail(request.getFirstname(), link));
+//        return token;
+//    }
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService

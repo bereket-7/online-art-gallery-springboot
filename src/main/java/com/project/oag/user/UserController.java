@@ -83,7 +83,7 @@ public class UserController {
 	@PostMapping("password/request")
 	public ResponseEntity<String> requestPasswordReset(@RequestParam("email") String email) {
 		userService.initiatePasswordReset(email);
-		return ResponseEntity.ok("Password reset email sent.");
+		return ResponseEntity.ok("Password reset email sent check your email.");
 	}
 	@PostMapping("password/reset")
 	public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
@@ -93,8 +93,8 @@ public class UserController {
 	@PostMapping("/password/change")
 	public ResponseEntity<String> changePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ChangePasswordRequest request) {
 		try {
-			String username = userDetails.getUsername();
-			userService.changePassword(username, request);
+			String email = userDetails.getUsername();
+			userService.changePassword(email, request);
 			return ResponseEntity.ok("Password changed successfully.");
 		} catch (UserNotFoundException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

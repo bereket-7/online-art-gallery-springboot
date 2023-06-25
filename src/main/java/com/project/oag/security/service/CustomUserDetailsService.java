@@ -137,7 +137,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return artistUserDTOs;
     }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -150,13 +149,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User with email " + email + " not found.");
         }
-
         User user = userOptional.get();
         String resetToken = generateResetToken();
         PasswordResetToken passwordResetToken = new PasswordResetToken(resetToken, user);
         passwordResetTokenRepository.save(passwordResetToken);
         String resetLink = "http://localhost:8082/api/users/password/reset?token=" + resetToken;
-        String emailContent = "Please click the following link to reset your password: " + resetLink;
+        String emailContent = "Please click the following link to reset your password: <a href=\"" + resetLink + "\">Reset Password</a>";
         emailService.sendEmail(user.getEmail(), "Password Reset", emailContent);
     }
 
@@ -182,19 +180,19 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return resetCode.toString();
     }
-
-    public void changePassword(String username, ChangePasswordRequest request) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
+    public void changePassword(String email, ChangePasswordRequest request) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("User not found.");
         }
+        User user = optionalUser.get();
         if (!passwordMatches(user.getPassword(), request.getOldPassword())) {
             throw new IncorrectPasswordException("Incorrect old password.");
         }
         user.setPassword(request.getNewPassword());
         userRepository.save(user);
-        String email = user.getEmail();
     }
+
     private boolean passwordMatches(String storedPassword, String inputPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(inputPassword, storedPassword);
