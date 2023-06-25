@@ -5,5 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaymentLogRepository  extends JpaRepository<PaymentLog, Long> {
+    PaymentLog findByToken(String token);
 
 }

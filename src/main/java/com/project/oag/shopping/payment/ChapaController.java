@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 public class ChapaController {
     @Autowired
     PaymentLogService paymentLogService;
+
+    @Autowired
+    PaymentLog paymentLog;
     @PostMapping("/initialize")
     public ResponseEntity<PaymentResponse> pay() throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -61,6 +64,8 @@ public class ChapaController {
         Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
         VerifyResponseData verify = chapa.verify(txRef);
         if(verify.getStatusCode() == 200) {
+            paymentLogService.findByToken(txRef);
+            paymentLog.setStatus(Status.VERIFIED);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
