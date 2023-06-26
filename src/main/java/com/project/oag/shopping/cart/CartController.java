@@ -5,17 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,23 +21,55 @@ public class CartController {
     @Autowired
     private ArtworkService artworkService;
 
+//    @PostMapping("/add")
+//    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
+//        String email = userDetails.getUsername();
+//        cartService.addToCart(email, artworkId, quantity);
+//        return ResponseEntity.ok("Item added to cart successfully.");
+//    }
+
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
+    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Map<String, Object> request) {
         String email = userDetails.getUsername();
+        Long artworkId = Long.parseLong(request.get("artworkId").toString());
+        int quantity = Integer.parseInt(request.get("quantity").toString());
         cartService.addToCart(email, artworkId, quantity);
         return ResponseEntity.ok("Item added to cart successfully.");
     }
-    @GetMapping
-    public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
-        String email = userDetails.getUsername();
-        List<Cart> carts = cartService.getCartsByEmail(email);
 
-        List<CartDTO> cartDTOs = carts.stream()
-                .map(cart -> new CartDTO(cart.getId(), cart.getArtwork().getArtworkName(), cart.getQuantity()))
-                .collect(Collectors.toList());
+//    @GetMapping
+//    public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
+//        String email = userDetails.getUsername();
+//        List<Cart> carts = cartService.getCartsByEmail(email);
+//
+//        List<CartDTO> cartDTOs = carts.stream()
+//                .map(cart -> new CartDTO(cart.getId(), cart.getArtwork().getArtworkName(), cart.getQuantity()))
+//                .collect(Collectors.toList());
+//        return ResponseEntity.ok(cartDTOs);
+//    }
+//    @GetMapping
+//    public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
+//        String email = userDetails.getUsername();
+//        List<Cart> carts = cartService.getCartsByEmail(email);
+//        System.out.println("Cart size: " + carts.size());
+//
+//        List<CartDTO> cartDTOs = new ArrayList<>();
+////                .map(cart -> new CartDTO(
+////                        cart.getId(),
+////                        cart.getArtwork().getArtworkName(), // Populate the artwork details
+////                        cart.getQuantity()
+////                ))
+////                .collect(Collectors.toList());
+//        return ResponseEntity.ok(cartDTOs);
+//    }
+
+
+    @GetMapping
+    public ResponseEntity<List<CartDTO>> getCartsByEmail(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        List<CartDTO> cartDTOs = cartService.getCartsByEmail(email);
         return ResponseEntity.ok(cartDTOs);
     }
-
     @DeleteMapping("/remove/{cartId}")
     public ResponseEntity<String> removeFromCart(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long cartId) {
         String username = userDetails.getUsername();

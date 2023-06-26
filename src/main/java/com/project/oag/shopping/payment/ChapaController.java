@@ -1,5 +1,6 @@
 package com.project.oag.shopping.payment;
 
+import com.project.oag.shopping.cart.CartService;
 import com.project.oag.user.User;
 import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
@@ -13,27 +14,37 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("api/payment")
 public class ChapaController {
     private final PaymentLogService paymentLogService;
+
+    private final CartService cartService;
+
+
 @Autowired
-    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog) {
+    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog,CartService cartService) {
         this.paymentLogService = paymentLogService;
         this.paymentLog = paymentLog;
+        this.cartService = cartService;
     }
     private final PaymentLog paymentLog;
+
     @PostMapping("/initialize")
     public ResponseEntity<PaymentResponse> pay() throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) authentication.getPrincipal();
+        int totalPrice = cartService.calculateTotalPrice(loggedInUser.getUsername());
+
         Customization customization = new Customization()
-                .setDescription("Test")
-                .setTitle("Test");
+                .setDescription("Payment for Kelem OAG")
+                .setTitle("Kelem OAG");
         String txRef = Util.generateToken();
         PostData postData = new PostData()
-                .setAmount(new BigDecimal("100"))
+                .setAmount(BigDecimal.valueOf(totalPrice))
+                //.setAmount(new BigDecimal("10000"))
                 .setCurrency("ETB")
                 .setFirstName(loggedInUser.getFirstname())
                 .setLastName(loggedInUser.getLastname())
@@ -41,21 +52,23 @@ public class ChapaController {
                 .setReturnUrl("http://localhost:8080/paymentSuccess/" + txRef) // send verification url: /verify/{txRef}
                 .setTxRef(txRef)
                 .setCustomization(customization);
+
         Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
         InitializeResponseData response = chapa.initialize(postData);
         String checkOutUrl = response.getData().getCheckOutUrl();
+
         PaymentResponse paymentResponse = new PaymentResponse();
         paymentResponse.setCheckOutUrl(checkOutUrl);
         paymentResponse.setTxRef(txRef);
 
         PaymentLog paymentLog = new PaymentLog();
-        paymentLog.setAmount(postData.getAmount());
+        paymentLog.setAmount(BigDecimal.valueOf(totalPrice));
         paymentLog.setEmail(loggedInUser.getEmail());
+        paymentLog.setCreateDate(LocalDateTime.now());
         paymentLog.setStatus(Status.INTIALIZED);
         paymentLog.setToken(txRef);
         paymentLogService.createPaymentLog(paymentLog);
-        //paymentResponse.getCheckOutUrl();
-        //paymentResponse.getTxRef();
+
         return ResponseEntity.ok(paymentResponse);
     }
     @GetMapping("/verify/{txRef}")

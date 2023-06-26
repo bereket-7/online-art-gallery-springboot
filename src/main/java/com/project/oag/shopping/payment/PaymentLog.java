@@ -15,7 +15,7 @@ public class PaymentLog {
     private String token;
     private BigDecimal amount;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     private LocalDateTime createDate;
     @Enumerated(EnumType.STRING)
     private Status status;

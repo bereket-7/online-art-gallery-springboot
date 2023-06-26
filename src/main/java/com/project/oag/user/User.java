@@ -8,7 +8,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.artwork.Artwork;
 import com.project.oag.artwork.Rating;
-import com.project.oag.bidding.Bid;
 import com.project.oag.shopping.cart.Cart;
 import com.project.oag.shopping.order.Order;
 import com.project.oag.event.Event;
@@ -71,8 +70,6 @@ public class User implements UserDetails{
 	private List<Order> orders;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Rating> ratings;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Bid> bid;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Cart> carts = new ArrayList<>();
 	@JsonIgnore
@@ -247,12 +244,6 @@ public class User implements UserDetails{
 	}
 	public void setRatings(List<Rating> ratings) {
 		this.ratings = ratings;
-	}
-	public List<Bid> getBid() {
-		return bid;
-	}
-	public void setBid(List<Bid> bid) {
-		this.bid = bid;
 	}
 	public void setUsername(String username) {
 		this.username = username;

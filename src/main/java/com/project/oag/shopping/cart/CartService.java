@@ -1,21 +1,23 @@
 package com.project.oag.shopping.cart;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.transaction.annotation.Transactional;
 import com.project.oag.artwork.ArtworkService;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
-import com.project.oag.shopping.cart.Cart;
-import com.project.oag.shopping.cart.CartRepository;
 import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.artwork.Artwork;
 import com.project.oag.user.User;
-import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Transactional
@@ -52,6 +54,23 @@ public class CartService {
 			throw new UserNotFoundException("User not found.");
 		}
 	}
+
+//	@Transactional(readOnly = true)
+//	public List<Cart> getCartsByEmail(String email) {
+//		Optional<User> optionalUser = userRepository.findByEmail(email);
+//		if (optionalUser.isPresent()) {
+//			User user = optionalUser.get();
+//			List<Cart> carts = user.getCarts();
+//			carts.forEach(cart -> {
+//				cart.getArtwork().getArtworkName();
+//			});
+//			return carts;
+//		} else {
+//			throw new UserNotFoundException("User not found.");
+//		}
+//	}
+
+//	@Transactional(readOnly = true)
 //	public List<Cart> getCartsByEmail(String email) {
 //		Optional<User> optionalUser = userRepository.findByEmail(email);
 //		if (optionalUser.isPresent()) {
@@ -61,21 +80,22 @@ public class CartService {
 //			throw new UserNotFoundException("User not found.");
 //		}
 //	}
-	@Transactional(readOnly = true)
-	public List<Cart> getCartsByEmail(String email) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isPresent()) {
-			User user = optionalUser.get();
-			List<Cart> carts = user.getCarts();
-			// Initialize the associated artwork objects
-			carts.forEach(cart -> {
-				cart.getArtwork().getArtworkName();
-			});
-			return carts;
-		} else {
-			throw new UserNotFoundException("User not found.");
-		}
+public List<CartDTO> getCartsByEmail(String email) {
+	List<Object[]> results = cartRepository.getCartsWithEmailAndArtworkName(email);
+
+	List<CartDTO> cartDTOs = new ArrayList<>();
+
+	for (Object[] result : results) {
+		System.out.println(Arrays.stream(result).toList());
+		CartDTO cartDTO = new CartDTO();
+		cartDTO.setId((Long) result[0]); // cart ID
+		cartDTO.setQuantity((int) result[1]); // quantity
+		cartDTO.setArtworkName((String) result[2]); // artworkName
+		cartDTOs.add(cartDTO);
 	}
+
+	return cartDTOs;
+}
 	public void removeFromCart(String email, Long cartId) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent()) {
@@ -113,12 +133,11 @@ public class CartService {
 		}
 	}
 
-	public int calculateTotalPrice(String username) {
-		User user = userRepository.findByUsername(username);
-
+	public int calculateTotalPrice(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		//User user = userRepository.findByUsername(username);
 		int totalPrice = 0;
-
-		for (Cart cart : user.getCarts()) {
+		for (Cart cart : user.get().getCarts()) {
 			Artwork artwork = cart.getArtwork();
 			int artworkPrice = artwork.getPrice();
 			int quantity = cart.getQuantity();
@@ -126,7 +145,6 @@ public class CartService {
 			int cartTotalPrice = artworkPrice * quantity;
 			totalPrice += cartTotalPrice;
 		}
-
 		return totalPrice;
 	}
 
