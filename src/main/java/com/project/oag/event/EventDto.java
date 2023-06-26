@@ -1,6 +1,7 @@
 package com.project.oag.event;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class EventDto {  
         private String eventName;

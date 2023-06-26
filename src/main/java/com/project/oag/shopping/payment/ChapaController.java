@@ -12,17 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("/payment")
 public class ChapaController {
-    @Autowired
-    PaymentLogService paymentLogService;
-
-    @Autowired
-    PaymentLog paymentLog;
+    private final PaymentLogService paymentLogService;
+@Autowired
+    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog) {
+        this.paymentLogService = paymentLogService;
+        this.paymentLog = paymentLog;
+    }
+    private final PaymentLog paymentLog;
     @PostMapping("/initialize")
     public ResponseEntity<PaymentResponse> pay() throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -37,7 +38,7 @@ public class ChapaController {
                 .setFirstName(loggedInUser.getFirstname())
                 .setLastName(loggedInUser.getLastname())
                 .setEmail(loggedInUser.getEmail())
-                .setReturnUrl("http://localhost:8082/payment/verify/" + txRef) // send verification url: /verify/{txRef}
+                .setReturnUrl("http://localhost:8080/paymentSuccess/" + txRef) // send verification url: /verify/{txRef}
                 .setTxRef(txRef)
                 .setCustomization(customization);
         Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
@@ -53,8 +54,6 @@ public class ChapaController {
         paymentLog.setStatus(Status.INTIALIZED);
         paymentLog.setToken(txRef);
         paymentLogService.createPaymentLog(paymentLog);
-
-
         //paymentResponse.getCheckOutUrl();
         //paymentResponse.getTxRef();
         return ResponseEntity.ok(paymentResponse);

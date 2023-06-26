@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.user.User;
+import com.project.oag.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,19 +45,20 @@ public class ArtworkController {
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private ArtworkService artworkService;
+	@Autowired
+	private UserRepository userRepository;
 	public ArtworkController(ArtworkService artworkService) {
 		super();
 		this.artworkService = artworkService;
 	}
+
 	@PostMapping("/saveArtwork")
-	//@PreAuthorize("hasRole('ARTIST')")
+//@PreAuthorize("hasRole('ARTIST')")
 	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
 														   @RequestParam("price") int price, @RequestParam("size") String size,
 														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
-														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
+														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file, Authentication authentication) {
 		try {
-			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-			User loggedInUser = (User) authentication.getPrincipal();
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 			log.info("uploadDirectory:: " + uploadDirectory);
 			String fileName = file.getOriginalFilename();
@@ -63,8 +66,7 @@ public class ArtworkController {
 			log.info("FileName: " + file.getOriginalFilename());
 			if (fileName == null || fileName.contains("..")) {
 				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName,
-						HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
 			}
 			String[] names = artworkName.split(",");
 			String[] descriptions = artworkDescription.split(",");
@@ -95,7 +97,15 @@ public class ArtworkController {
 			artwork.setStatus("pending");
 			artwork.setArtworkDescription(descriptions[0]);
 			artwork.setCreateDate(createDate);
-			artwork.setArtist(loggedInUser);
+			String email = authentication.getName();
+			Optional<User> userOptional = userRepository.findByEmail(email);
+			if (userOptional.isPresent()) {
+				User user = userOptional.get();
+				artwork.setArtist(user);
+			} else {
+				return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+			}
+
 			artworkService.saveArtwork(artwork);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
 			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
@@ -106,7 +116,6 @@ public class ArtworkController {
 		}
 	}
 	 @GetMapping("/{id}")
-	 @PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
 
@@ -127,7 +136,6 @@ public class ArtworkController {
     return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
 	 @GetMapping
-	 //@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	 public ResponseEntity<List<Artwork>> getAllArtwork() {
 	     List<Artwork> artworkList = artworkService.getAllArtworks();
 
@@ -146,7 +154,6 @@ public class ArtworkController {
 		return new ResponseEntity<>(artworks, HttpStatus.OK);
 	}
 	@GetMapping("/priceRange")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> getArtworksByPriceRange(@RequestParam("minPrice") int minPrice,
 																 @RequestParam("maxPrice") int maxPrice) {
 		try {
@@ -217,13 +224,11 @@ public class ArtworkController {
 	        return new ResponseEntity<>(artworks, HttpStatus.OK);
 	    }
 	@GetMapping("/count-by-category")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<Map<String, Integer>> getCountByCategory() {
 		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
 		return ResponseEntity.ok(countByCategory);
 	}
 	@GetMapping("/search")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> searchArtwork(
 			@RequestParam("keyword") String keyword,
 			@RequestParam(value = "page", defaultValue = "0") int page,
@@ -244,7 +249,6 @@ public class ArtworkController {
 		return ResponseEntity.ok(autocompleteResults);
 	}
 	@GetMapping("/sort")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> getSortedArtworks(@RequestParam("sortOption") String sortOption) {
 		try {
 			List<Artwork> artworks = artworkService.getSortedArtworks(sortOption);

@@ -1,9 +1,12 @@
 package com.project.oag.shopping.payment;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 @Entity
+@Component
 public class PaymentLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

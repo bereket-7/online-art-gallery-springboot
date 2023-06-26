@@ -1,13 +1,9 @@
 package com.project.oag.event;
 
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-
 import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,64 +11,42 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
 @Entity
 @Table(name="event")
 public class Event {
-	
-	@Id 
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
-	
 	@Column(nullable = true)
 	private String eventName;
-	
 	@Column(nullable = true)
 	private String eventDescription;
-	
 	@Column(nullable = true)
 	private LocalDate eventDate;
-	
 	@Column(name = "location",nullable = true)
 	private String location;
-	
 	@Column(name = "capacity",nullable = true)
 	private int capacity;
-	
 	@Column(name = "ticket_price",nullable = true,precision = 10)
 	private double ticketPrice;
-
 	@Lob
-    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
-    private byte[] image;
-	
+	@Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+	private byte[] image;
 	@Column(name = "status",nullable = true)
 	private String status;
-	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", nullable = false)
-    private Date createDate;
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	public Event() {
 		super();
 	}
-
-	public Event(String eventName, String eventDescription, LocalDate eventDate, String location, int capacity,
-			double ticketPrice, byte[] image, String status, Date createDate, User user) {
-		super();
+	public Event(Long id, String eventName,
+				 String eventDescription, LocalDate eventDate,
+				 String location, int capacity,
+				 double ticketPrice, byte[] image,
+				 String status, User user) {
+		this.id = id;
 		this.eventName = eventName;
 		this.eventDescription = eventDescription;
 		this.eventDate = eventDate;
@@ -81,11 +55,8 @@ public class Event {
 		this.ticketPrice = ticketPrice;
 		this.image = image;
 		this.status = status;
-		this.createDate = createDate;
 		this.user = user;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -95,57 +66,52 @@ public class Event {
 		this.id = id;
 	}
 
-	public Event(String filename, String string) {
-	}
 	public String getEventName() {
 		return eventName;
 	}
+
 	public void setEventName(String eventName) {
 		this.eventName = eventName;
 	}
+
 	public String getEventDescription() {
 		return eventDescription;
 	}
+
 	public void setEventDescription(String eventDescription) {
 		this.eventDescription = eventDescription;
 	}
+
 	public LocalDate getEventDate() {
 		return eventDate;
 	}
+
 	public void setEventDate(LocalDate eventDate) {
 		this.eventDate = eventDate;
 	}
+
 	public String getLocation() {
 		return location;
 	}
+
 	public void setLocation(String location) {
 		this.location = location;
 	}
+
 	public int getCapacity() {
 		return capacity;
 	}
+
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+
 	public double getTicketPrice() {
 		return ticketPrice;
 	}
+
 	public void setTicketPrice(double ticketPrice) {
 		this.ticketPrice = ticketPrice;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		return "Event [id=" + id + ", eventName=" + eventName + ", eventDescription=" + eventDescription
-				+ ", eventDate=" + eventDate + ", location=" + location + ", capacity=" + capacity + ", ticketPrice="
-				+ ticketPrice + ", image=" + Arrays.toString(image) + ", status=" + status + ", createDate="
-				+ createDate + "]";
 	}
 
 	public byte[] getImage() {
@@ -156,12 +122,19 @@ public class Event {
 		this.image = image;
 	}
 
-	public Date getCreateDate() {
-		return createDate;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setStatus(String status) {
+		this.status = status;
 	}
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

@@ -29,11 +29,10 @@ public class CartController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
-        String email = userDetails.getUsername(); // Use email instead of username
+        String email = userDetails.getUsername();
         cartService.addToCart(email, artworkId, quantity);
         return ResponseEntity.ok("Item added to cart successfully.");
     }
-
     @GetMapping
     public ResponseEntity<List<CartDTO>> getCarts(@AuthenticationPrincipal UserDetails userDetails) {
         String email = userDetails.getUsername();

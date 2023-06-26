@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,10 +32,10 @@ public class EventController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	 @PostMapping("/saveEvent")
+	@PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
-			@RequestParam("ticketPrice") double ticketPrice,@RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription,@RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate, Model model, HttpServletRequest request
-			,final @RequestParam("image") MultipartFile file) {
+													   @RequestParam("ticketPrice") double ticketPrice, @RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription, @RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate,
+													   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
 		try {
 			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 			log.info("uploadDirectory:: " + uploadDirectory);
@@ -42,13 +43,12 @@ public class EventController {
 			String filePath = Paths.get(uploadDirectory, fileName).toString();
 			log.info("FileName: " + file.getOriginalFilename());
 			if (fileName == null || fileName.contains("..")) {
-				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence \" + fileName");
+				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
 				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
 			}
 			String[] names = eventName.split(",");
 			String[] descriptions = eventDescription.split(",");
-			Date createDate = new Date();
-			log.info("eventName: " + names[0]+" "+filePath);
+			log.info("eventName: " + names[0] + " " + filePath);
 			log.info("eventDescription: " + descriptions[0]);
 			log.info("ticketPrice: " + ticketPrice);
 			try {
@@ -65,7 +65,7 @@ public class EventController {
 				e.printStackTrace();
 			}
 			byte[] imageData = file.getBytes();
-		Event event = new Event();
+			Event event = new Event();
 			event.setEventName(names[0]);
 			event.setImage(imageData);
 			event.setTicketPrice(ticketPrice);
@@ -74,7 +74,6 @@ public class EventController {
 			event.setStatus("pending");
 			event.setEventDate(eventDate);
 			event.setEventDescription(descriptions[0]);
-			event.setCreateDate(createDate);
 			eventService.saveEvent(event);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
 			return new ResponseEntity<>("Event Saved With File - " + fileName, HttpStatus.OK);
@@ -84,7 +83,7 @@ public class EventController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
 	     Optional<Event> event = eventService.getEventById(id);
@@ -150,9 +149,7 @@ public class EventController {
 				return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not in pending status");
 			}
 		}
-
 		@DeleteMapping("/{eventId}")
-		@PreAuthorize("hasRole('MANAGER')")
 		public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
 			boolean deleted = eventService.deleteEvent(eventId);
 			if (deleted) {
@@ -161,9 +158,7 @@ public class EventController {
 				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
 			}
 		}
-
 		@PutMapping("/{eventId}")
-		@PreAuthorize("hasRole('MANAGER')")
 		public ResponseEntity<String> updateEvent(
 				@PathVariable Long eventId,
 				@RequestBody EventDto eventUpdateDTO
