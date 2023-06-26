@@ -16,10 +16,9 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date")
     private LocalDateTime orderDate;
+    private String secretCode;
 
-    public String secretCode;
-
-    public Order(Long id, String firstname, String lastname, String email, String phone, String address, LocalDateTime orderDate) {
+    public Order(Long id, String firstname, String lastname, String email, String phone, String address, LocalDateTime orderDate, String secretCode) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -27,6 +26,7 @@ public class Order {
         this.phone = phone;
         this.address = address;
         this.orderDate = orderDate;
+        this.secretCode = secretCode;
     }
 
     public Order() {

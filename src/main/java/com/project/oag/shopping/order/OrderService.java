@@ -56,7 +56,6 @@ public class OrderService {
 				"Address: " + order.getAddress() + "\n" +
 				"Order Date: " + order.getOrderDate() + "\n" +
 				"Secret Code: " + order.getSecretCode());
-
 		javaMailSender.send(message);
 	}
 	private String generateSecretCode() {

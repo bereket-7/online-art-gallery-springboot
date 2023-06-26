@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class EventDto {  
         private String eventName;
         private String eventDescription;
-        private LocalDate eventDate;
+        private LocalDateTime eventDate;
         private String location;
 		private double ticketPrice;
 		private int capacity;
@@ -63,11 +63,11 @@ public class EventDto {
 		this.eventDescription = eventDescription;
 	}
 
-	public LocalDate getEventDate() {
+	public LocalDateTime getEventDate() {
 		return eventDate;
 	}
 
-	public void setEventDate(LocalDate eventDate) {
+	public void setEventDate(LocalDateTime eventDate) {
 		this.eventDate = eventDate;
 	}
 

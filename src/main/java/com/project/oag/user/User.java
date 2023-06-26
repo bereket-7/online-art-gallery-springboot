@@ -8,9 +8,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.artwork.Artwork;
 import com.project.oag.artwork.Rating;
-import com.project.oag.shopping.cart.Cart;
-import com.project.oag.shopping.order.Order;
 import com.project.oag.event.Event;
+import com.project.oag.shopping.cart.Cart;
 import com.project.oag.notification.Notification;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +21,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -82,7 +80,7 @@ public class User implements UserDetails{
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
-	@JsonIgnore
+   @JsonIgnore
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Event> events;
 

@@ -72,7 +72,8 @@ public class EventController {
 			event.setCapacity(capacity);
 			event.setLocation(location);
 			event.setStatus("pending");
-			event.setEventDate(eventDate);
+			event.setEventDate(event.getEventDate());
+			//event.setEventDate(eventDate);
 			event.setEventDescription(descriptions[0]);
 			eventService.saveEvent(event);
 			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));

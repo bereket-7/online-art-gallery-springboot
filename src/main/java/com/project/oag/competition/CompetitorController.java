@@ -72,7 +72,7 @@ public class CompetitorController {
 			@RequestParam("competitionId") Long competitionId,
 	        Model model,
 	        HttpServletRequest request,
-	        final @RequestParam("image") MultipartFile file) {
+	        final @RequestParam("image") MultipartFile file, Authentication authentication) {
 	    try {
 	        String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
 	        log.info("uploadDirectory:: " + uploadDirectory);

@@ -83,7 +83,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.aerogear</groupId>
 			<artifactId>aerogear-otp-java</artifactId>
@@ -98,31 +103,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.paypal.sdk</groupId>
-			<artifactId>rest-api-sdk</artifactId>
-			<version>1.4.2</version>	
-		</dependency>
-
-		<dependency>
 			<groupId>io.github.yaphet17</groupId>
 			<artifactId>Chapa</artifactId>
 			<version>1.2.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>net.bytebuddy</groupId>
-			<artifactId>byte-buddy</artifactId>
 		</dependency>
 		
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.stripe</groupId>
-		    <artifactId>stripe-java</artifactId>
-		    <version>20.77.0</version>
 		</dependency>
 
 	</dependencies>
