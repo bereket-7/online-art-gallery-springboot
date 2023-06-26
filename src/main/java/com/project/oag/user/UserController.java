@@ -62,6 +62,13 @@ public class UserController {
 		headers.setContentType(MediaType.IMAGE_JPEG);
 		return new ResponseEntity<>(photoBytes, headers, HttpStatus.OK);
 	}
+
+	@GetMapping("/search")
+	//@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam("username") String username) {
+		List<User> searchResults = userService.searchUsersByUsername(username);
+		return ResponseEntity.ok(searchResults);
+	}
 	@GetMapping("/all")
 	@PreAuthorize("hasRole('ADMIN')")
 	public List<User> getAllUsers() {

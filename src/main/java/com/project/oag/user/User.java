@@ -66,8 +66,6 @@ public class User implements UserDetails{
 	private boolean selectedForBid;
 	private String secret= Base32.random();
 	private boolean isUsing2FA = false;
-	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
-	private List<Order> orders;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Rating> ratings;
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -232,12 +230,6 @@ public class User implements UserDetails{
 	}
 	public void setUsing2FA(boolean isUsing2FA) {
 		this.isUsing2FA = isUsing2FA;
-	}
-	public List<Order> getOrders() {
-		return orders;
-	}
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
 	}
 	public List<Rating> getRatings() {
 		return ratings;

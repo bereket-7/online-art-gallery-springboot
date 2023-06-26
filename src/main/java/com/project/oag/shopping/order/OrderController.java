@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/order")
+@RequestMapping("api/orders")
 @CrossOrigin("http://localhost:8080/")
 public class OrderController {
 	 	@Autowired
@@ -15,12 +17,28 @@ public class OrderController {
 		public OrderController(OrderService orderService) {
 			this.orderService = orderService;
 		}
-		@PostMapping("/create")
-		public ResponseEntity<String> createOrder(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long cartId, @RequestParam String firstName, @RequestParam String lastName, @RequestParam String phone, @RequestParam String address) {
-			String email = userDetails.getUsername();
-			Order order = orderService.createOrder(email, cartId, firstName, lastName, phone, address);
-			return ResponseEntity.ok("Order created successfully.");
+
+
+	@PostMapping
+	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+		Order savedOrder = orderService.createOrder(order);
+		return ResponseEntity.ok(savedOrder);
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+		Order order = orderService.getOrderById(id);
+		if (order != null) {
+			return ResponseEntity.ok(order);
+		} else {
+			return ResponseEntity.notFound().build();
 		}
+	}
+	@GetMapping
+	public ResponseEntity<List<Order>> getAllOrders() {
+		List<Order> orders = orderService.getAllOrders();
+		return ResponseEntity.ok(orders);
+	}
 
 }
 

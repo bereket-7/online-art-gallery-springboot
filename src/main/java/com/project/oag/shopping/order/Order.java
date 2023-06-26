@@ -1,9 +1,6 @@
 package com.project.oag.shopping.order;
-
-import com.project.oag.shopping.cart.Cart;
-import com.project.oag.user.User;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -18,18 +15,11 @@ public class Order {
     private String address;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "order_date")
-    private Date orderDate;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-    @OneToOne
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    private LocalDateTime orderDate;
 
-    public Order() {
-    }
+    public String secretCode;
 
-    public Order(Long id, String firstname, String lastname, String email, String phone, String address, Date orderDate, User user, Cart cart) {
+    public Order(Long id, String firstname, String lastname, String email, String phone, String address, LocalDateTime orderDate) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -37,10 +27,10 @@ public class Order {
         this.phone = phone;
         this.address = address;
         this.orderDate = orderDate;
-        this.user = user;
-        this.cart = cart;
     }
 
+    public Order() {
+    }
     public Long getId() {
         return id;
     }
@@ -84,32 +74,19 @@ public class Order {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
-
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
-
-    public User getUser() {
-        return user;
+    public String getSecretCode() {
+        return secretCode;
     }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setSecretCode(String secretCode) {
+        this.secretCode = secretCode;
     }
 }

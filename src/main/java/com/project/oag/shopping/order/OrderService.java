@@ -1,7 +1,10 @@
 package com.project.oag.shopping.order;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.shopping.cart.Cart;
@@ -9,6 +12,8 @@ import com.project.oag.shopping.cart.CartRepository;
 import com.project.oag.shopping.cart.CartService;
 import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.user.User;
@@ -19,45 +24,44 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class OrderService {
-	private final UserRepository userRepository;
 	private final CartRepository cartRepository;
 	private final OrderRepository orderRepository;
-
-	public OrderService(UserRepository userRepository, CartRepository cartRepository, OrderRepository orderRepository) {
-		this.userRepository = userRepository;
+	private final JavaMailSender javaMailSender;
+	public OrderService(CartRepository cartRepository, OrderRepository orderRepository, JavaMailSender javaMailSender) {
 		this.cartRepository = cartRepository;
 		this.orderRepository = orderRepository;
+		this.javaMailSender = javaMailSender;
 	}
-
-	public Order createOrder(String email, Long cartId, String firstName, String lastName, String phone, String address) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		Optional<Cart> optionalCart = cartRepository.findById(cartId);
-
-		if (optionalUser.isPresent() && optionalCart.isPresent()) {
-			User user = optionalUser.get();
-			Cart cart = optionalCart.get();
-			// Create the order
-			Order order = new Order();
-			order.setUser(user);
-			order.setCart(cart);
-			order.setOrderDate(new Date());
-			order.setFirstname(firstName);
-			order.setLastname(lastName);
-			order.setEmail(email);
-			order.setPhone(phone);
-			order.setAddress(address);
-			userRepository.save(user);
-			return orderRepository.save(order);
-		} else {
-			throw new UserNotFoundException("Cart not found.");
-		}
+	public Order createOrder(Order order) {
+		order.setOrderDate(LocalDateTime.now());
+		Order savedOrder = orderRepository.save(order);
+		sendOrderConfirmationEmail(savedOrder);
+		return savedOrder;
 	}
+	public Order getOrderById(Long id) {
+		return orderRepository.findById(id).orElse(null);
+	}
+	public List<Order> getAllOrders() {
+		return orderRepository.findAll();
+	}
+	private void sendOrderConfirmationEmail(Order order) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(order.getEmail());
+		message.setSubject("Order Confirmation");
+		message.setText("Thank you for your order!\n\nOrder Details:\n\n" +
+				"First Name: " + order.getFirstname() + "\n" +
+				"Last Name: " + order.getLastname() + "\n" +
+				"Email: " + order.getEmail() + "\n" +
+				"Phone: " + order.getPhone() + "\n" +
+				"Address: " + order.getAddress() + "\n" +
+				"Order Date: " + order.getOrderDate() + "\n" +
+				"Secret Code: " + order.getSecretCode());
 
-	    public Order getOrder(Long orderId) throws OrderNotFoundException {
-	        Optional<Order> order = orderRepository.findById(orderId);
-	        if (order.isPresent()) {
-	            return order.get();
-	        }
-	        throw new OrderNotFoundException("Order not found");
-	    }
+		javaMailSender.send(message);
+	}
+	private String generateSecretCode() {
+		Random random = new Random();
+		int code = 100000 + random.nextInt(900000);
+		return String.valueOf(code);
+	}
 }

@@ -1,17 +1,13 @@
 package com.project.oag.security.service;
 
 import com.project.oag.artwork.ArtistDTO;
+import com.project.oag.artwork.ArtworkDto;
 import com.project.oag.email.EmailService;
-import com.project.oag.user.PasswordResetToken;
+import com.project.oag.user.*;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.user.ChangePasswordRequest;
-import com.project.oag.user.Role;
-import com.project.oag.user.User;
 import com.project.oag.registration.token.ConfirmationToken;
 import com.project.oag.registration.token.ConfirmationTokenService;
-import com.project.oag.user.PasswordResetTokenRepository;
-import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -91,6 +87,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
+    public List<User> searchUsersByUsername(String username) {
+        return userRepository.findByUsernameContainingIgnoreCase(username);
+    }
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email).orElse(null);
     }
@@ -137,6 +136,48 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return artistUserDTOs;
     }
+    public List<UserDto> getArtistsWithArtworks() {
+        List<Object[]> results = userRepository.findArtistsWithArtworks();
+
+        List<UserDto> artists = new ArrayList<>();
+        Map<Long, UserDto> artistMap = new HashMap<>();
+
+        for (Object[] result : results) {
+            Long userId = ((Number) result[0]).longValue();
+            Long artworkId = ((Number) result[4]).longValue();
+
+            UserDto artist = artistMap.get(userId);
+            if (artist == null) {
+                artist = new UserDto();
+                artist.setFirstname((String) result[1]);
+                artist.setLastname((String) result[2]);
+                artist.setEmail((String) result[3]);
+                artistMap.put(userId, artist);
+                artists.add(artist);
+            }
+
+            ArtworkDto artwork = new ArtworkDto();
+            artwork.setArtworkName((String) result[5]);
+            artwork.setArtworkDescription((String) result[6]);
+            artwork.setImage((byte[]) result[7]);
+            artwork.setPrice((int) result[8]);
+
+            //artist.getArtworks().add(artwork);
+        }
+
+        return artists;
+    }
+
+
+
+
+
+
+
+
+
+
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
