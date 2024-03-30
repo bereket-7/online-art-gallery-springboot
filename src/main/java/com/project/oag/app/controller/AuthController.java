@@ -1,4 +1,4 @@
-package com.project.oag.user;
+package com.project.oag.app.controller;
 import com.project.oag.security.dto.AuthenticationRequest;
 import com.project.oag.security.dto.AuthenticationResponse;
 import com.project.oag.security.utils.JwtTokenProvider;

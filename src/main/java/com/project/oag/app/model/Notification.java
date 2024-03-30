@@ -1,5 +1,4 @@
 package com.project.oag.app.model;
-import com.project.oag.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

@@ -5,7 +5,7 @@ import com.project.oag.app.service.PaymentResponse;
 import com.project.oag.app.service.CartService;
 import com.project.oag.app.model.PaymentLog;
 import com.project.oag.app.dto.Status;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
 import com.yaphet.chapa.model.InitializeResponseData;

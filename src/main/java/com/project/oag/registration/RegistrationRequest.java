@@ -1,6 +1,6 @@
 package com.project.oag.registration;
 
-import com.project.oag.user.Role;
+import com.project.oag.app.dto.Role;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

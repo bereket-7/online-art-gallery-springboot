@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.project.oag.app.repository.RatingRepository;
-import com.project.oag.user.User;
 import jakarta.persistence.*;
 @Entity
 @Table(name="Artwork")

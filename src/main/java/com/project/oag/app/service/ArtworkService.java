@@ -2,7 +2,7 @@ package com.project.oag.app.service;
 import com.project.oag.app.dto.ArtworkDto;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.repository.ArtworkRepository;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import org.springframework.data.domain.Pageable;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.user.UserRepository;
+import com.project.oag.app.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 @Service

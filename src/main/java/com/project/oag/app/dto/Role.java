@@ -1,4 +1,4 @@
-package com.project.oag.user;
+package com.project.oag.app.dto;
 
 public enum Role {
 	ADMIN,

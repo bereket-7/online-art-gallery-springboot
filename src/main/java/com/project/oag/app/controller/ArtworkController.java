@@ -11,8 +11,8 @@ import java.util.Optional;
 
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.service.ArtworkService;
-import com.project.oag.user.User;
-import com.project.oag.user.UserRepository;
+import com.project.oag.app.model.User;
+import com.project.oag.app.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

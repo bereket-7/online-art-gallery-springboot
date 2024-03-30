@@ -4,7 +4,7 @@ import com.project.oag.app.model.Notification;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.app.service.NotificationService;
 import com.project.oag.security.service.CustomUserDetailsService;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

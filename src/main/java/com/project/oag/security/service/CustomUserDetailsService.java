@@ -1,9 +1,11 @@
 package com.project.oag.security.service;
 
-import com.project.oag.app.dto.ArtistDTO;
-import com.project.oag.app.dto.ArtworkDto;
+import com.project.oag.app.dto.*;
+import com.project.oag.app.model.PasswordResetToken;
+import com.project.oag.app.model.User;
+import com.project.oag.app.repository.PasswordResetTokenRepository;
+import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.EmailService;
-import com.project.oag.user.*;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.registration.token.ConfirmationToken;

@@ -1,4 +1,6 @@
-package com.project.oag.user;
+package com.project.oag.app.dto;
+
+import com.project.oag.app.dto.Role;
 
 public class UserDto {
 	

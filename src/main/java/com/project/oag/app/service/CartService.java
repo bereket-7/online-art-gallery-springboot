@@ -9,16 +9,15 @@ import com.project.oag.app.dto.CartDTO;
 import com.project.oag.app.model.Cart;
 import com.project.oag.app.repository.CartRepository;
 import org.springframework.transaction.annotation.Transactional;
-import com.project.oag.app.service.ArtworkService;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
-import com.project.oag.user.UserRepository;
+import com.project.oag.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.oag.app.model.Artwork;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 
 
 @Service

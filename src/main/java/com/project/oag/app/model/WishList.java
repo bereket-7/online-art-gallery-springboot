@@ -2,8 +2,6 @@ package com.project.oag.app.model;
 
 import java.util.Date;
 
-import com.project.oag.app.model.Artwork;
-import com.project.oag.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

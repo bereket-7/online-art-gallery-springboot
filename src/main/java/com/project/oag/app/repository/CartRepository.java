@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.project.oag.app.model.Cart;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long>{

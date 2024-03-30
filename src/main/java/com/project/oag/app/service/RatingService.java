@@ -7,11 +7,11 @@ import com.project.oag.app.model.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.RatingAlreadyExistsException;
 import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.user.UserRepository;
+import com.project.oag.app.repository.UserRepository;
 
 @Service
 public class RatingService {

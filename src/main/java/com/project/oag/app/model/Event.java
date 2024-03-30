@@ -1,9 +1,7 @@
 package com.project.oag.app.model;
 
-import com.project.oag.user.User;
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity

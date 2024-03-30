@@ -1,15 +1,15 @@
-package com.project.oag.user;
+package com.project.oag.app.repository;
 
 import java.util.Date;
 import java.util.stream.Stream;
 
+import com.project.oag.app.model.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.user.PasswordResetToken;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 
 @Repository
 public interface PasswordResetTokenRepository  extends JpaRepository<PasswordResetToken, Long>{

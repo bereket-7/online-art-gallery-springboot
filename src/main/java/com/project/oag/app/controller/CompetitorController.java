@@ -17,7 +17,7 @@ import com.project.oag.app.model.Competitor;
 import com.project.oag.app.model.Vote;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.CompetitorNotFoundException;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

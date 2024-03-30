@@ -2,8 +2,8 @@ package com.project.oag.app.controller;
 
 import com.project.oag.app.model.Rating;
 import com.project.oag.app.service.RatingService;
-import com.project.oag.user.User;
-import com.project.oag.user.UserRepository;
+import com.project.oag.app.model.User;
+import com.project.oag.app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -1,8 +1,10 @@
-package com.project.oag.user;
+package com.project.oag.app.controller;
 
 import java.util.List;
 
 import com.project.oag.app.dto.ArtistDTO;
+import com.project.oag.app.dto.ChangePasswordRequest;
+import com.project.oag.app.model.User;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;

@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import com.project.oag.app.model.Artwork;
-import com.project.oag.user.User;
 import jakarta.persistence.*;
 
 @Entity

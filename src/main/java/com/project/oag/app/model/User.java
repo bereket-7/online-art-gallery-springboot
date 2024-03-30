@@ -1,4 +1,4 @@
-package com.project.oag.user;
+package com.project.oag.app.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,11 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.oag.app.model.Artwork;
-import com.project.oag.app.model.Rating;
-import com.project.oag.app.model.Event;
-import com.project.oag.app.model.Cart;
-import com.project.oag.app.model.Notification;
+import com.project.oag.app.dto.Role;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

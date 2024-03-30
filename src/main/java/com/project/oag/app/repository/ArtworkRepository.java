@@ -1,6 +1,6 @@
 package com.project.oag.app.repository;
 
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 

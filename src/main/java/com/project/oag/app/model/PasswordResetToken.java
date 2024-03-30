@@ -1,4 +1,4 @@
-package com.project.oag.user;
+package com.project.oag.app.model;
 
 import java.util.Calendar;
 import java.util.Date;

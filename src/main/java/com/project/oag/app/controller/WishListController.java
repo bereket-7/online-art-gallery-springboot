@@ -15,7 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 @RestController
 @RequestMapping("api/wishlist")
 @CrossOrigin("http://localhost:8080/")

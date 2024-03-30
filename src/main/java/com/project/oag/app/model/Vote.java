@@ -1,7 +1,6 @@
 package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.oag.user.User;
 import jakarta.persistence.*;
     @Entity
 	@Table(name = "vote")

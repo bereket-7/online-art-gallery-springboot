@@ -2,7 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.model.Notification;
 import com.project.oag.app.repository.NotificationRepository;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

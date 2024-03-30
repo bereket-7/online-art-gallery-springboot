@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import com.project.oag.user.User;
+import com.project.oag.app.model.User;
 
 @Getter
 @Setter
