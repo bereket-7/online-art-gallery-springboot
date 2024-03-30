@@ -1,9 +1,10 @@
-package com.project.oag.artwork;
+package com.project.oag.app.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import com.project.oag.app.repository.RatingRepository;
 import com.project.oag.shopping.cart.Cart;
 import com.project.oag.user.User;
 import jakarta.persistence.*;

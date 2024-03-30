@@ -1,4 +1,4 @@
-package com.project.oag.artwork;
+package com.project.oag.app.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.service.ArtworkService;
 import com.project.oag.user.User;
 import com.project.oag.user.UserRepository;
 import org.slf4j.Logger;

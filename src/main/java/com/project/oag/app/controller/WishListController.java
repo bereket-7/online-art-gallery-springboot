@@ -1,10 +1,13 @@
-package com.project.oag.artwork;
+package com.project.oag.app.controller;
 
 import java.util.Date;
 import java.util.List;
 
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.service.ArtworkService;
+import com.project.oag.app.model.WishList;
+import com.project.oag.app.service.WishListService;
 import com.project.oag.security.service.CustomUserDetailsService;
-import com.sun.security.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.project.oag.common.ApiResponse;
 import com.project.oag.user.User;
 @RestController
 @RequestMapping("api/wishlist")

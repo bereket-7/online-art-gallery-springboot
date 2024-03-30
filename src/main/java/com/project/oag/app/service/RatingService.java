@@ -1,5 +1,9 @@
-package com.project.oag.artwork;
+package com.project.oag.app.service;
 
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.repository.ArtworkRepository;
+import com.project.oag.app.repository.RatingRepository;
+import com.project.oag.app.model.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

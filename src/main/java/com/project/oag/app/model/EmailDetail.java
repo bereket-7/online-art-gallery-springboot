@@ -1,4 +1,4 @@
-package com.project.oag.email;
+package com.project.oag.app.model;
 
 public class EmailDetail {
     private String recipient;

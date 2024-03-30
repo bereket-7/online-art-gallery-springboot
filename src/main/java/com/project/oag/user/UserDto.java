@@ -1,10 +1,5 @@
 package com.project.oag.user;
 
-import com.project.oag.artwork.ArtworkDto;
-import com.project.oag.user.Role;
-
-import java.util.Collection;
-
 public class UserDto {
 	
     private String firstname;

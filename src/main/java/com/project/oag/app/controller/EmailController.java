@@ -1,5 +1,7 @@
-package com.project.oag.email;
+package com.project.oag.app.controller;
 
+import com.project.oag.app.model.EmailDetail;
+import com.project.oag.app.service.EmailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;

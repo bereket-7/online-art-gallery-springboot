@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
-import com.project.oag.artwork.ArtworkService;
+import com.project.oag.app.service.ArtworkService;
 import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
@@ -15,7 +14,7 @@ import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.artwork.Artwork;
+import com.project.oag.app.model.Artwork;
 import com.project.oag.user.User;
 
 

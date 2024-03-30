@@ -1,8 +1,8 @@
 package com.project.oag.security.service;
 
-import com.project.oag.artwork.ArtistDTO;
-import com.project.oag.artwork.ArtworkDto;
-import com.project.oag.email.EmailService;
+import com.project.oag.app.dto.ArtistDTO;
+import com.project.oag.app.dto.ArtworkDto;
+import com.project.oag.app.service.EmailService;
 import com.project.oag.user.*;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;

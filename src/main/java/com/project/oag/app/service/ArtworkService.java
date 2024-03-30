@@ -1,4 +1,7 @@
-package com.project.oag.artwork;
+package com.project.oag.app.service;
+import com.project.oag.app.dto.ArtworkDto;
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.user.User;
 import org.springframework.data.domain.Pageable;
 import java.util.HashMap;

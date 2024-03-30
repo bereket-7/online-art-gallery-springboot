@@ -1,14 +1,12 @@
-package com.project.oag.artwork;
+package com.project.oag.app.controller;
 
-import com.project.oag.security.service.CustomUserDetailsService;
+import com.project.oag.app.model.Rating;
+import com.project.oag.app.service.RatingService;
 import com.project.oag.user.User;
 import com.project.oag.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

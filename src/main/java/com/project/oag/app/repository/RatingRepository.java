@@ -1,6 +1,9 @@
-package com.project.oag.artwork;
+package com.project.oag.app.repository;
 
 import java.util.List;
+
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.model.Rating;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

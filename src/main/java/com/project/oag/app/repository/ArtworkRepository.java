@@ -1,4 +1,4 @@
-package com.project.oag.artwork;
+package com.project.oag.app.repository;
 
 import com.project.oag.user.User;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.artwork.Artwork;
+import com.project.oag.app.model.Artwork;
 
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
