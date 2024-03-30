@@ -1,16 +1,20 @@
-package com.project.oag.competition;
+package com.project.oag.app.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import com.project.oag.app.service.CompetitionService;
+import com.project.oag.app.service.CompetitorService;
+import com.project.oag.app.service.VoteService;
+import com.project.oag.app.model.Competition;
+import com.project.oag.app.model.Competitor;
+import com.project.oag.app.model.Vote;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.CompetitorNotFoundException;
 import com.project.oag.user.User;

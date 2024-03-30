@@ -1,4 +1,4 @@
-package com.project.oag.competition;
+package com.project.oag.app.service;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.repository.CompetitionRepository;
+import com.project.oag.app.model.Competition;
+import com.project.oag.app.model.Competitor;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CompetitionService {
 	@Autowired
-	CompetitionRepository competitionRepository;
+    CompetitionRepository competitionRepository;
 	public Competition getCompetitionById(Long competitionId) {
 		return competitionRepository.findById(competitionId)
 				.orElseThrow(() -> new CompetitionNotFoundException("Competition not found"));

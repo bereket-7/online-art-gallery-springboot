@@ -1,5 +1,8 @@
-package com.project.oag.competition;
+package com.project.oag.app.service;
 
+import com.project.oag.app.model.Competition;
+import com.project.oag.app.model.Competitor;
+import com.project.oag.app.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;

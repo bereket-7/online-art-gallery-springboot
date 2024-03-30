@@ -1,12 +1,14 @@
-package com.project.oag.competition;
+package com.project.oag.app.service;
 
 import java.util.*;
 
+import com.project.oag.app.repository.CompetitorRepository;
+import com.project.oag.app.repository.VoteRepository;
+import com.project.oag.app.model.Competition;
+import com.project.oag.app.model.Competitor;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class CompetitorService{

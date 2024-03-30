@@ -1,4 +1,4 @@
-package com.project.oag.competition;
+package com.project.oag.app.model;
 
 import java.time.LocalDateTime;
 import java.util.List;

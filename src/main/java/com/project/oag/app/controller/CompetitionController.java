@@ -1,8 +1,9 @@
-package com.project.oag.competition;
+package com.project.oag.app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.project.oag.app.service.CompetitionService;
+import com.project.oag.app.model.Competition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("http://localhost:8080/")
 public class CompetitionController {
 	@Autowired
-	CompetitionService competitionService;
+    CompetitionService competitionService;
 	@GetMapping("/all")
 	public List<Competition> getAllCompetitions() {
 		return competitionService.getAllCompetitions();

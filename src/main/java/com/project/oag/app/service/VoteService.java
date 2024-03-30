@@ -1,5 +1,7 @@
-package com.project.oag.competition;
+package com.project.oag.app.service;
 
+import com.project.oag.app.repository.VoteRepository;
+import com.project.oag.app.model.Vote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
