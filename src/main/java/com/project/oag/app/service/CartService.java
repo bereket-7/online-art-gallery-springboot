@@ -1,10 +1,13 @@
-package com.project.oag.shopping.cart;
+package com.project.oag.app.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.dto.CartDTO;
+import com.project.oag.app.model.Cart;
+import com.project.oag.app.repository.CartRepository;
 import org.springframework.transaction.annotation.Transactional;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.exceptions.ArtworkNotFoundException;

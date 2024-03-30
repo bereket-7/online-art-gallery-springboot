@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.project.oag.app.model.Order;
 import com.project.oag.app.repository.OrderRepository;
-import com.project.oag.shopping.cart.CartRepository;
+import com.project.oag.app.repository.CartRepository;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

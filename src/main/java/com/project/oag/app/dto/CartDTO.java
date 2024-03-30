@@ -1,4 +1,4 @@
-package com.project.oag.shopping.cart;
+package com.project.oag.app.dto;
 public class CartDTO {
     private Long id;
     private String artworkName;

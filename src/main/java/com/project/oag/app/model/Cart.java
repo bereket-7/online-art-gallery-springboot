@@ -1,4 +1,4 @@
-package com.project.oag.shopping.cart;
+package com.project.oag.app.model;
 
 import java.util.Date;
 import java.util.Optional;

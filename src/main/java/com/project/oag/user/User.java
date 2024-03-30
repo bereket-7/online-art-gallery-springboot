@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.Rating;
 import com.project.oag.app.model.Event;
-import com.project.oag.shopping.cart.Cart;
+import com.project.oag.app.model.Cart;
 import com.project.oag.app.model.Notification;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
