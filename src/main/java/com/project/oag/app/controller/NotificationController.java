@@ -1,6 +1,8 @@
-package com.project.oag.notification;
+package com.project.oag.app.controller;
 
+import com.project.oag.app.model.Notification;
 import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.app.service.NotificationService;
 import com.project.oag.security.service.CustomUserDetailsService;
 import com.project.oag.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notifications")
