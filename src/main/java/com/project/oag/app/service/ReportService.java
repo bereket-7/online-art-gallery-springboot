@@ -1,13 +1,13 @@
-package com.project.oag.report;
+package com.project.oag.app.service;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.report.Report;
-import com.project.oag.report.ReportRepository;
+import com.project.oag.app.model.Report;
 
 @Service
 public class ReportService {

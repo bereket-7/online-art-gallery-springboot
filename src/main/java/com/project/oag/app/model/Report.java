@@ -1,4 +1,4 @@
-package com.project.oag.report;
+package com.project.oag.app.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
