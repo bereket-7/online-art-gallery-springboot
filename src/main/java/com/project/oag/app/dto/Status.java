@@ -1,4 +1,4 @@
-package com.project.oag.shopping.payment;
+package com.project.oag.app.dto;
 
 public enum Status {
     VERIFIED,

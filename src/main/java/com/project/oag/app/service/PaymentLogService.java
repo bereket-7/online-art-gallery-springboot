@@ -1,6 +1,7 @@
-package com.project.oag.shopping.payment;
+package com.project.oag.app.service;
 
-import com.project.oag.report.Report;
+import com.project.oag.app.model.PaymentLog;
+import com.project.oag.app.repository.PaymentLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

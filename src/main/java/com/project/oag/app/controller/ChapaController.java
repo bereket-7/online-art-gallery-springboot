@@ -1,6 +1,10 @@
-package com.project.oag.shopping.payment;
+package com.project.oag.app.controller;
 
+import com.project.oag.app.service.PaymentLogService;
+import com.project.oag.app.service.PaymentResponse;
 import com.project.oag.shopping.cart.CartService;
+import com.project.oag.app.model.PaymentLog;
+import com.project.oag.app.dto.Status;
 import com.project.oag.user.User;
 import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
@@ -25,7 +29,7 @@ public class ChapaController {
 
 
 @Autowired
-    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog,CartService cartService) {
+    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog, CartService cartService) {
         this.paymentLogService = paymentLogService;
         this.paymentLog = paymentLog;
         this.cartService = cartService;

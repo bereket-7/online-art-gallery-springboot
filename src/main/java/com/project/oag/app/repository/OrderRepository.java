@@ -1,5 +1,6 @@
-package com.project.oag.shopping.order;
+package com.project.oag.app.repository;
 
+import com.project.oag.app.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

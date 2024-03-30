@@ -1,23 +1,15 @@
-package com.project.oag.shopping.order;
+package com.project.oag.app.service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
-import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.shopping.cart.Cart;
+import com.project.oag.app.model.Order;
+import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.shopping.cart.CartRepository;
-import com.project.oag.shopping.cart.CartService;
-import com.project.oag.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-
-import com.project.oag.user.User;
-import com.project.oag.exceptions.OrderNotFoundException;
 
 import jakarta.transaction.Transactional;
 

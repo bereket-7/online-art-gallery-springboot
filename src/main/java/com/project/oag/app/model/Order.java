@@ -1,4 +1,4 @@
-package com.project.oag.shopping.order;
+package com.project.oag.app.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

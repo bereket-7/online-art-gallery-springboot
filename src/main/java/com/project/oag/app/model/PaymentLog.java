@@ -1,5 +1,6 @@
-package com.project.oag.shopping.payment;
+package com.project.oag.app.model;
 
+import com.project.oag.app.dto.Status;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
