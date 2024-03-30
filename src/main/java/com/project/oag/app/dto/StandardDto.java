@@ -1,4 +1,4 @@
-package com.project.oag.standard;
+package com.project.oag.app.dto;
 
 public class StandardDto {
 	private String standardDescription;

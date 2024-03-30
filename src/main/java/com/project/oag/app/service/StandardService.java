@@ -1,8 +1,10 @@
-package com.project.oag.standard;
+package com.project.oag.app.service;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.model.Standard;
+import com.project.oag.app.repository.StandardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

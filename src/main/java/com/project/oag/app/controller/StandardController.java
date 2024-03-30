@@ -1,7 +1,9 @@
-package com.project.oag.standard;
+package com.project.oag.app.controller;
 
 import java.util.List;
 
+import com.project.oag.app.model.Standard;
+import com.project.oag.app.service.StandardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
