@@ -1,15 +1,16 @@
-package com.project.oag.event;
+package com.project.oag.app.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.model.Event;
+import com.project.oag.app.dto.EventDto;
+import com.project.oag.app.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

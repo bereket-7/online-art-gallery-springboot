@@ -1,9 +1,12 @@
-package com.project.oag.event;
+package com.project.oag.app.service;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.oag.app.model.Event;
+import com.project.oag.app.repository.EventRepository;
+import com.project.oag.app.dto.EventDto;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

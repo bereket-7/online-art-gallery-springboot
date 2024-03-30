@@ -8,7 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.Rating;
-import com.project.oag.event.Event;
+import com.project.oag.app.model.Event;
 import com.project.oag.shopping.cart.Cart;
 import com.project.oag.notification.Notification;
 import org.jboss.aerogear.security.otp.api.Base32;
