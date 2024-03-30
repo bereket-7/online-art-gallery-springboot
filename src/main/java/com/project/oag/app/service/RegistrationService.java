@@ -1,4 +1,4 @@
-package com.project.oag.registration;
+package com.project.oag.app.service;
 
 import java.time.LocalDateTime;
 
@@ -8,10 +8,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.oag.app.service.EmailSender;
 import com.project.oag.app.model.User;
-import com.project.oag.registration.token.ConfirmationToken;
-import com.project.oag.registration.token.ConfirmationTokenService;
+import com.project.oag.app.model.ConfirmationToken;
 
 @Service
 public class RegistrationService {

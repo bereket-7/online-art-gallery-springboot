@@ -1,5 +1,7 @@
-package com.project.oag.registration.token;
+package com.project.oag.app.service;
 
+import com.project.oag.app.repository.ConfirmationTokenRepository;
+import com.project.oag.app.model.ConfirmationToken;
 import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;

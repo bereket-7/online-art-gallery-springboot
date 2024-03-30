@@ -1,4 +1,4 @@
-package com.project.oag.registration.token;
+package com.project.oag.app.model;
 
 import lombok.Getter;
 import lombok.Setter;

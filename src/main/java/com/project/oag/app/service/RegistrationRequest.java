@@ -1,4 +1,4 @@
-package com.project.oag.registration;
+package com.project.oag.app.service;
 
 import com.project.oag.app.dto.Role;
 

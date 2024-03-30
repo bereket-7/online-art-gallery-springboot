@@ -1,5 +1,7 @@
-package com.project.oag.registration;
+package com.project.oag.app.controller;
 
+import com.project.oag.app.service.RegistrationRequest;
+import com.project.oag.app.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @RestController
