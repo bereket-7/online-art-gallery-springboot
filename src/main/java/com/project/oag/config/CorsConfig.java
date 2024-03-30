@@ -1,4 +1,4 @@
-package com.project.oag.configuration;
+package com.project.oag.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
