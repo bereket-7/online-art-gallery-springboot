@@ -1,22 +1,16 @@
 package com.project.oag.app.controller;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.project.oag.app.dto.ReportDto;
 import com.project.oag.app.model.Report;
 import com.project.oag.app.service.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.oag.common.GenericResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/report")
@@ -27,9 +21,9 @@ public class ReportController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('ART_CREATE_REPORT')")
-    public ResponseEntity<Report> createReport(@RequestBody Report report) {
-        return new ResponseEntity<>(reportService.createReport(report), HttpStatus.CREATED);
+    @PreAuthorize("hasAuthority('CUSTOMER_CREATE_REPORT')")
+    public ResponseEntity<GenericResponse> createReport(@RequestBody ReportDto reportDto) {
+        return reportService.createReport(reportDto);
     }
 
     @GetMapping("/{id}")
