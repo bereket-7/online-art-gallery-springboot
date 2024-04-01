@@ -27,7 +27,7 @@ public class ReportController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Report> getReportById(@PathVariable Long id) {
+    public ResponseEntity<GenericResponse> getReportById(@PathVariable Long id) {
         return reportService.getReportById(id);
     }
 

@@ -8,6 +8,7 @@ import com.project.oag.app.dto.ReportDto;
 import com.project.oag.app.repository.ReportRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
@@ -40,8 +41,14 @@ public class ReportService {
         }
     }
 
-    public Optional<Report> getReportById(final Long id) {
-        return this.reportRepository.findById(id);
+    public ResponseEntity<GenericResponse> getReportById(final Long id) {
+        try {
+            val response = reportRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Report record not found"));
+            return prepareResponse(HttpStatus.OK,"Successfully retrieved report",response);
+        } catch (Exception e) {
+            throw new GeneralException("Could not find report by id " + id);
+        }
     }
 
     public List<Report> getAllReports() {
