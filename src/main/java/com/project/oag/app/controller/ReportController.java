@@ -1,15 +1,11 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.ReportDto;
-import com.project.oag.app.model.Report;
 import com.project.oag.app.service.ReportService;
 import com.project.oag.common.GenericResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/report")
