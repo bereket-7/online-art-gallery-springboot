@@ -22,16 +22,19 @@ public class ReportController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN_FETCH_REPORT')")
     public ResponseEntity<GenericResponse> getReportById(@PathVariable Long id) {
         return reportService.getReportById(id);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN_DELETE_REPORT')")
     public ResponseEntity<GenericResponse> deleteReportById(@PathVariable Long id) {
         return reportService.deleteReportById(id);
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('ADMIN_FETCH_REPORT')")
     public ResponseEntity<GenericResponse> getAllReports() {
         return reportService.getAllReports();
     }

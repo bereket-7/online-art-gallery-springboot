@@ -1,52 +1,25 @@
 package com.project.oag.app.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.project.oag.app.dto.StandardType;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@Table(name = "STANDARDS", indexes = {
+		@Index(name = "idx_standard_standard_type", columnList = "standard_type")
+})
 public class Standard {
-	@Id  //primary key
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@Column(name = "standard_description", nullable = false)
+
+	@Column(name = "standard_description")
 	private String standardDescription;
 	
-	@Column(name = "standard_type", nullable = false)
-	private String standardType;
-	
-	public Standard() {
-		super();
-	}
-	public Standard(Long id, String standardDescription, String standardType) {
-		super();
-		this.id = id;
-		this.standardDescription = standardDescription;
-		this.standardType = standardType;
-	}
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getStandardDescription() {
-		return standardDescription;
-	}
-
-	public void setStandardDescription(String standardDescription) {
-		this.standardDescription = standardDescription;
-	}
-
-	public String getStandardType() {
-		return standardType;
-	}
-
-	public void setStandardType(String standardType) {
-		this.standardType = standardType;
-	}
-
+	@Enumerated(EnumType.STRING)
+	@Column(name = "standard_type")
+	private StandardType standardType;
 }
