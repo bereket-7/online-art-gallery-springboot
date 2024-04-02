@@ -36,7 +36,7 @@ public class ReportController {
     }
 
     @GetMapping("/all")
-    public List<Report> getAllReports() {
+    public ResponseEntity<GenericResponse> getAllReports() {
         return reportService.getAllReports();
     }
 

@@ -1,10 +1,7 @@
 package com.project.oag.app.service;
 
-import java.awt.geom.GeneralPath;
-import java.util.List;
-import java.util.Optional;
-
 import com.project.oag.app.dto.ReportDto;
+import com.project.oag.app.model.Report;
 import com.project.oag.app.repository.ReportRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
@@ -12,12 +9,11 @@ import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.oag.app.model.Report;
+import java.util.List;
 
 import static com.project.oag.utils.Utils.prepareResponse;
 
@@ -51,8 +47,13 @@ public class ReportService {
         }
     }
 
-    public List<Report> getAllReports() {
-        return this.reportRepository.findAll();
+    public ResponseEntity<GenericResponse> getAllReports() {
+        try {
+            val response = reportRepository.findAll();
+            return prepareResponse(HttpStatus.OK,"Successfully retrieved all reports",response);
+        } catch (Exception e) {
+            throw new GeneralException("Could not find all reports");
+        }
     }
 
     public ResponseEntity<GenericResponse> deleteReportById(final Long id) {
