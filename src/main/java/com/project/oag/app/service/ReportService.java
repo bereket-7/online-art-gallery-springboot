@@ -55,8 +55,15 @@ public class ReportService {
         return this.reportRepository.findAll();
     }
 
-    public void deleteReportById(final Long id) {
-        this.reportRepository.deleteById(id);
+    public ResponseEntity<GenericResponse> deleteReportById(final Long id) {
+        try {
+            val response = reportRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Report record not found"));
+            reportRepository.deleteById(id);
+            return prepareResponse(HttpStatus.OK,"Successfully deleted report",response);
+        } catch (Exception e) {
+            throw new GeneralException(" Failed to delete report " + id);
+        }
     }
 
 }

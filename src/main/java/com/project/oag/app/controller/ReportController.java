@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/report")
@@ -32,9 +31,8 @@ public class ReportController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReportById(@PathVariable Long id) {
-        reportService.deleteReportById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<GenericResponse> deleteReportById(@PathVariable Long id) {
+        return reportService.deleteReportById(id);
     }
 
     @GetMapping("/all")
