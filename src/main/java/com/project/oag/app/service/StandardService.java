@@ -5,26 +5,42 @@ import java.util.Optional;
 
 import com.project.oag.app.model.Standard;
 import com.project.oag.app.repository.StandardRepository;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import static com.project.oag.utils.Utils.prepareResponse;
+
 @Service
+@Slf4j
 public class StandardService {
+	private StandardRepository standardRepository;
 	public StandardService(StandardRepository standardRepository) {
 		this.standardRepository = standardRepository;
 	}
 
-	@Autowired
-	private StandardRepository standardRepository;
-
-
-	public List<Standard> getAllStandards() {
-		return standardRepository.findAll();
+	public ResponseEntity<GenericResponse> getAllStandards() {
+		try {
+			List<Standard> standards = standardRepository.findAll();
+			return prepareResponse(HttpStatus.OK, "Successfully fetched all Standards",standards);
+		} catch (Exception e) {
+			throw new GeneralException("Could not find all standards");
+		}
 	}
 
 
-	public Standard addStandard(Standard standard) {
-		return standardRepository.save(standard);
+	public ResponseEntity<GenericResponse> addStandard(Standard standard) {
+		try {
+			standardRepository.save(standard);
+			return prepareResponse(HttpStatus.OK, "Successfully added Standard",standard);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to add Standard");
+		}
 	}
 
 

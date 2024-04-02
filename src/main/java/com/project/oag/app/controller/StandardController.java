@@ -1,31 +1,29 @@
 package com.project.oag.app.controller;
 
-import java.util.List;
-
 import com.project.oag.app.model.Standard;
 import com.project.oag.app.service.StandardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.oag.common.GenericResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/standards")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/v1/standards")
 public class StandardController {
-	  @Autowired
-	   private StandardService standardService;
+	private StandardService standardService;
 	public StandardController(StandardService standardService) {
 		this.standardService = standardService;
 	}
 	  @GetMapping
-	  public List<Standard> getAllStandards() {
+	public ResponseEntity<GenericResponse> getAllStandards() {
 	        return standardService.getAllStandards();
-	    }
-	    @PostMapping("/add")
-		@PreAuthorize("hasRole('MANAGER')")
-	    public Standard addStandard(@RequestBody Standard standard) {
+	}
+	@PostMapping("/add")
+	@PreAuthorize("hasAuthority('ADMIN_ADD_STANDARD')")
+	public ResponseEntity<GenericResponse> addStandard(@RequestBody Standard standard) {
 	        return standardService.addStandard(standard);
 	    }
 	@PutMapping("/{id}")
