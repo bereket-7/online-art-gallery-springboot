@@ -4,6 +4,10 @@ import com.project.oag.app.dto.StandardType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -22,4 +26,12 @@ public class Standard {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "standard_type")
 	private StandardType standardType;
+
+	@CreationTimestamp
+	@Column(name = "CREATION_DATE")
+	private Timestamp creationDate;
+
+	@UpdateTimestamp
+	@Column(name = "LAST_UPDATE_DATE")
+	private Timestamp lastUpdateDate;
 }

@@ -1,7 +1,11 @@
 package com.project.oag.app.model;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -23,5 +27,12 @@ public class Report {
 
 	@Column(name = "reporter_email")
 	private String reporterEmail;
+
+	@Column(name = "IS_CHECKED")
+	private boolean isChecked;
+
+	@CreationTimestamp
+	@Column(name = "CREATION_DATE")
+	private Timestamp creationDate;
 
 }
