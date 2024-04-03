@@ -1,7 +1,6 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.CompetitionDto;
-import com.project.oag.app.model.Competition;
 import com.project.oag.app.service.CompetitionService;
 import com.project.oag.common.GenericResponse;
 import org.springframework.http.ResponseEntity;
@@ -28,18 +27,20 @@ public class CompetitionController {
 	@PostMapping("/add")
 	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<GenericResponse> addCompetition(@RequestBody CompetitionDto competition) { 																// request body with a method parameter.
-		competitionService.addCompetition(competition);
+		return competitionService.addCompetition(competition);
 	}
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('MANAGER')")
 	public ResponseEntity<GenericResponse> updateCompetition(@PathVariable Long id, @RequestBody CompetitionDto competition) { 															// parameter.
-		competitionService.updateCompetition(id, competition);
+		return competitionService.updateCompetition(id, competition);
 	}
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('MANAGER')")
-	public ResponseEntity<GenericResponse> deleteCompetition(@PathVariable Long id) { 													// database
-		competitionService.deleteCompetition(id);
+	public ResponseEntity<GenericResponse> deleteCompetition(@PathVariable Long id) {
+		return competitionService.deleteCompetition(id);
 	}
+
+
     @GetMapping("/most/recent")
 	@PreAuthorize("hasRole('MANAGER','ARTIST')")
     public ResponseEntity<GenericResponse> getMostRecentCompetition() {
