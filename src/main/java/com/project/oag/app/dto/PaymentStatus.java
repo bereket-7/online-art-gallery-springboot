@@ -1,6 +1,6 @@
 package com.project.oag.app.dto;
 
-public enum Status {
+public enum PaymentStatus {
     VERIFIED,
     INTIALIZED
 }
