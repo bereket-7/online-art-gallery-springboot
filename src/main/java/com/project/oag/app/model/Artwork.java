@@ -1,157 +1,85 @@
 package com.project.oag.app.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.oag.app.dto.ArtworkStatus;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-import com.project.oag.app.repository.RatingRepository;
-import jakarta.persistence.*;
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="Artwork")
 public class Artwork {
-	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false, unique = true)
-	private Long id;
-	 @Column(nullable=true)
-	private String artworkName;
-	 @Column(nullable=true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false, unique = true)
+    private Long id;
+
+    @Column(name = "ARTWORK_NAME")
+    private String artworkName;
+
+    @Column(name = "ARTWORK_DESCRIPTION")
     private String artworkDescription;
-    @Column(nullable=true)
+
+    @Column(name = "ARTWORK_CATEGORY")
     private String artworkCategory;
-	@Lob
-    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+
+    @Lob
+    @Column(name = "IMAGE")
     private byte[] image;
-	private int price;
-	@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "create_date", nullable = false)
-    private Date createDate;
-    @Column(nullable=true)
-	private String size;
-    @Column(nullable=true)
-	private String status;
+
+    @Column(name = "PRICE")
+    private int price;
+
+    @Column(name = "SIZE")
+    private String size;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private ArtworkStatus status;
+
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
+
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
-	@ManyToOne
-	@JoinColumn(name = "artist_id")
-	private User artist;
-	@OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
-	private List<Cart> carts = new ArrayList<>();
-	public Artwork(String artworkName, String artworkDescription, String artworkCategory, byte[] image, int price,
-			Date createDate, String size, String status, List<Rating> ratings) {
-		super();
-		this.artworkName = artworkName;
-		this.artworkDescription = artworkDescription;
-		this.artworkCategory = artworkCategory;
-		this.image = image;
-		this.price = price;
-		this.createDate = createDate;
-		this.size = size;
-		this.status = status;
-		this.ratings = ratings;
-	}
-	public void addToCarts(Cart cart) {
-		carts.add(cart);
-		cart.setArtwork(this);
-	}
-	public void removeFromCarts(Cart cart) {
-		carts.remove(cart);
-		cart.setArtwork(null);
-	}
-	public byte[] getImage() {
-		return image;
-	}
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Artwork() {
-		super();
-	}
-	public Double getAverageRating(RatingRepository ratingRepository) {
-	    return ratingRepository.findAverageRatingByArtworkId(id);
-	}
-	public Artwork(String filename, String string) {
-	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public String getArtworkName() {
-		return artworkName;
-	}
-	public void setArtworkName(String artworkName) {
-		this.artworkName = artworkName;
-	}
-	public String getArtworkDescription() {
-		return artworkDescription;
-	}
-	public void setArtworkDescription(String artworkDescription) {
-		this.artworkDescription = artworkDescription;
-	}
-	public String getArtworkCategory() {
-		return artworkCategory;
-	}
-	public void setArtworkCategory(String artworkCategory) {
-		this.artworkCategory = artworkCategory;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
-	public String getSize() {
-		return size;
-	}
-	public void setSize(String size) {
-		this.size = size;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
-	public User getArtist() {
-		return artist;
-	}
+    @ManyToOne
+    @JoinColumn(name = "ARTIST_ID")
+    @JsonIgnoreProperties({"artworks", "notifications", "carts", "ratings", "events"})
+    private User artist;
 
-	public void setArtist(User artist) {
-		this.artist = artist;
-	}
-	public List<Rating> getRatings() {
-		return ratings;
-	}
-	public void setRatings(List<Rating> ratings) {
-		this.ratings = ratings;
-	}
-	  public double getAverageRating() {
-	        if (ratings == null || ratings.isEmpty()) {
-	            return 0.0;
-	        }
-	        double sum = 0;
-	        for (Rating rating : ratings) {
-	            sum += rating.getRating();
-	        }
-	        return sum / ratings.size();
-	    }
+    @JsonIgnore
+    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
+    private List<Cart> carts = new ArrayList<>();
 
-	@Override
-	public String toString() {
-		return "Artwork [id=" + id + ", artworkName=" + artworkName + ", artworkDescription=" + artworkDescription
-				+ ", artworkCategory=" + artworkCategory + ", image=" + Arrays.toString(image) + ", price=" + price
-				+ ", createDate=" + createDate + ", size=" + size + ", status=" + status
-				+ ", ratings=" + ratings + "]";
-	}	
-
-	
+    public Artwork(String filename, String string) {
+    }
+      public double getAverageRating() {
+            if (ratings == null || ratings.isEmpty()) {
+                return 0.0;
+            }
+            double sum = 0;
+            for (Rating rating : ratings) {
+                sum += rating.getRating();
+            }
+            return sum / ratings.size();
+        }
 }
