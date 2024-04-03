@@ -38,5 +38,4 @@ public class ReportController {
     public ResponseEntity<GenericResponse> getAllReports() {
         return reportService.getAllReports();
     }
-
 }
