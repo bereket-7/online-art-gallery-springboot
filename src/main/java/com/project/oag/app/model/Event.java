@@ -1,125 +1,63 @@
 package com.project.oag.app.model;
 
-import jakarta.persistence.*;
-
-import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.oag.app.dto.EventStatus;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Timestamp;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name = "EVENT")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "ID", nullable = false, unique = true)
     private Long id;
 
+    @Column(name = "EVENT_NAME")
     private String eventName;
 
+    @Column(name = "EVENT_DESCRIPTION")
     private String eventDescription;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime eventDate;
+
+    @Column(name = "LOCATION")
     private String location;
+
+    @Column(name = "CAPACITY")
     private int capacity;
+
+    @Column(name = "TICKET_PRICE")
     private double ticketPrice;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "EVENT_DATE")
+    private LocalDate eventDate;
+
     @Lob
-    @Column(name = "Image", length = Integer.MAX_VALUE, nullable = true)
+    @Column(name = "IMAGE")
     private byte[] image;
-    private String status;
+
+    @Column(name = "STATUS")
+    @Enumerated(EnumType.STRING)
+    private EventStatus status;
+
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
+    @JsonIgnoreProperties({"artworks", "notifications", "carts", "ratings"})
     private User user;
 
-    public Event() {
-        super();
-    }
-    public Event(Long id, String eventName,
-                 String eventDescription, LocalDateTime eventDate,
-                 String location, int capacity,
-                 double ticketPrice, byte[] image,
-                 String status, User user) {
-        this.id = id;
-        this.eventName = eventName;
-        this.eventDescription = eventDescription;
-        this.eventDate = eventDate;
-        this.location = location;
-        this.capacity = capacity;
-        this.ticketPrice = ticketPrice;
-        this.image = image;
-        this.status = status;
-        this.user = user;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getEventName() {
-        return eventName;
-    }
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
-    }
-    public String getEventDescription() {
-        return eventDescription;
-    }
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
-    }
-
-    public LocalDateTime getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(LocalDateTime eventDate) {
-        this.eventDate = eventDate;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public double getTicketPrice() {
-        return ticketPrice;
-    }
-
-    public void setTicketPrice(double ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
 }
