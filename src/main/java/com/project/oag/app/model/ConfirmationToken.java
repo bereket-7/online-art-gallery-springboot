@@ -1,117 +1,45 @@
 package com.project.oag.app.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import com.project.oag.app.model.User;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-
+@Table(name="CONFIRMATION_TOKEN")
 public class ConfirmationToken {
 
-	  @SequenceGenerator(
-	            name = "confirmation_token_sequence",
-	            sequenceName = "confirmation_token_sequence",
-	            allocationSize = 1
-	    )
+	  @SequenceGenerator(name = "confirmation_token_sequence",
+	            sequenceName = "confirmation_token_sequence", allocationSize = 1)
 	    @Id
-	    @GeneratedValue(
-	            strategy = GenerationType.SEQUENCE,
-	            generator = "confirmation_token_sequence"
-	    )
+	    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "confirmation_token_sequence")
 	    private Long id;
 
 	    @Column(nullable = false)
 	    private String token;
 
-	    @Column(nullable = false)
-	    private LocalDateTime createdAt;
+		@CreationTimestamp
+		@Column(name = "CREATION_DATE")
+		private Timestamp creationDate;
 
-	    @Column(nullable = false)
-	    private LocalDateTime expiresAt;
+		@UpdateTimestamp
+		@Column(name = "LAST_UPDATE_DATE")
+		private Timestamp lastUpdateDate;
 
-	    private LocalDateTime confirmedAt;
+	    @Column(name = "CONFIRMED_AT")
+	    private Timestamp confirmedAt;
 	    
 	    @ManyToOne
-	    @JoinColumn(
-	            nullable = false,
-	            name = "user_id"
-	    )
+	    @JoinColumn(name = "USER_ID")
 	    private User user;
-	    
-	    public ConfirmationToken() {
-	        // Default constructor
-	    }
-	    public ConfirmationToken(String token,
-	                             LocalDateTime createdAt,
-	                             LocalDateTime expiresAt,
-	                             User user) {
-	        this.token = token;
-	        this.createdAt = createdAt;
-	        this.expiresAt = expiresAt;
-	        this.user = user;
-	    }
-
-
-		public Long getId() {
-			return id;
-		}
-
-
-		public void setId(Long id) {
-			this.id = id;
-		}
-
-
-		public String getToken() {
-			return token;
-		}
-
-
-		public void setToken(String token) {
-			this.token = token;
-		}
-
-
-		public LocalDateTime getCreatedAt() {
-			return createdAt;
-		}
-
-
-		public void setCreatedAt(LocalDateTime createdAt) {
-			this.createdAt = createdAt;
-		}
-
-
-		public LocalDateTime getExpiresAt() {
-			return expiresAt;
-		}
-
-
-		public void setExpiresAt(LocalDateTime expiresAt) {
-			this.expiresAt = expiresAt;
-		}
-
-
-		public LocalDateTime getConfirmedAt() {
-			return confirmedAt;
-		}
-
-
-		public void setConfirmedAt(LocalDateTime confirmedAt) {
-			this.confirmedAt = confirmedAt;
-		}
-
-
-		public User getUser() {
-			return user;
-		}
-
-
-		public void setUser(User user) {
-			this.user = user;
-		}
 }
