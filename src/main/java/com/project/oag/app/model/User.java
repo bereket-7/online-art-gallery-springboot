@@ -87,6 +87,14 @@ public class User implements UserDetails{
 	@Column(name = "ENABLED_2FA")
     private boolean enable2FA = false;
 
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
+
 	@JsonIgnoreProperties({"artwork", "user"})
     @OneToMany(mappedBy = "user")
     private List<Rating> ratings;
@@ -106,14 +114,6 @@ public class User implements UserDetails{
 	@JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Event> events;
-
-    @CreationTimestamp
-    @Column(name = "CREATION_DATE")
-    private Timestamp creationDate;
-
-    @UpdateTimestamp
-    @Column(name = "LAST_UPDATE_DATE")
-    private Timestamp lastUpdateDate;
 
     public void addCart(Cart cart) {
         carts.add(cart);

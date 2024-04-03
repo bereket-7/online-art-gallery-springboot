@@ -20,16 +20,17 @@ import java.sql.Timestamp;
 public class Rating {
 	 @Id
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 @Column(name = "ID")
 	 private Long id;
 
 	@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+	@JoinColumn(name = "USER_ID")
     private User user;
 
 	@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artwork_id")
+	@JoinColumn(name = "ARTWORK_ID")
     private Artwork artwork;
 
     @Column(name = "RATING_VALUE")
@@ -42,4 +43,5 @@ public class Rating {
 	@UpdateTimestamp
 	@Column(name = "LAST_UPDATE_DATE")
 	private Timestamp lastUpdateDate;
+
 }

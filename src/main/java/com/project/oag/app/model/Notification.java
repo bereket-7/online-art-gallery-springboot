@@ -1,65 +1,52 @@
 package com.project.oag.app.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "notifications")
+@Table(name = "NOTIFICATIONS")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
-    @Column(nullable = false)
+
+    @Column(name = "MESSAGE")
     private String message;
-    @Column(nullable = false)
-    private boolean read;
-    @Column(name = "target_email")
+
+    @Column(name = "CHECKED")
+    private boolean checked;
+
+    @Column(name = "TARGET_EMAIL")
     private String targetEmail;
+
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID")
     private User user;
-    private LocalDateTime createdDateTime;
+
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
     public void markAsRead() {
-        this.read = true;
-    }
-    public Long getId() {
-        return id;
+        this.checked = true;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public LocalDateTime getCreatedDateTime() {
-        return createdDateTime;
-    }
-
-    public void setCreatedDateTime(LocalDateTime createdDateTime) {
-        this.createdDateTime = createdDateTime;
-    }
 }
 
