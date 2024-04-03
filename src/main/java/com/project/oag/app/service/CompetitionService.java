@@ -100,22 +100,13 @@ public class CompetitionService {
 			throw new GeneralException(" Failed to delete competition " + id);
 		}
 	}
-
-    public Competition getMostRecentCompetition() {
-        Pageable pageable = PageRequest.of(0, 1, Sort.by("expiryDate").descending());
-        List<Competition> competitions = competitionRepository.findAll(pageable).getContent();
-        if (!competitions.isEmpty()) {
-            return competitions.get(0);
-        }
-        return null;
-    }
-	public Integer getNumberOfCompetitor(Long id) {
-        Optional<Competition> optionalCompetition = competitionRepository.findById(id);
-        if (optionalCompetition.isPresent()) {
-            return optionalCompetition.get().getNumberOfCompetitor();
-        } else {
-            return null;
-        }
+    public ResponseEntity<GenericResponse> getMostRecentCompetition() {
+		try {
+			List<Competition> competitions = competitionRepository.findAll();
+			return prepareResponse(HttpStatus.OK,"Most recent competitions",competitions);
+		} catch (Exception e) {
+			throw new GeneralException("failed to retrieve competition");
+		}
     }
 	public Competitor determineWinner(Long competitionId) {
 		Competition competition = competitionRepository.findById(competitionId).orElse(null);

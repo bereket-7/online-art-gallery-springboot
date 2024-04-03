@@ -28,8 +28,8 @@ public class ReportService {
     public ResponseEntity<GenericResponse> createReport(ReportDto reportDto) {
         try {
             val report = modelMapper.map(reportDto, Report.class);
-            reportRepository.save(report);
-            return prepareResponse(HttpStatus.OK,"Successfully created report",null);
+            val response = reportRepository.save(report);
+            return prepareResponse(HttpStatus.OK,"Successfully created report",response);
         } catch (Exception e) {
             throw new GeneralException("Failed to save report");
         }

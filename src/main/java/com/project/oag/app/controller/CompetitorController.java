@@ -44,8 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("api/competitors")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/v1/competitors")
 public class CompetitorController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
