@@ -2,7 +2,16 @@ package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-    @Entity
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+	@Getter
+	@Setter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Entity
 	@Table(name = "vote")
 	public class Vote {
 		@Id
@@ -12,55 +21,18 @@ import jakarta.persistence.*;
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name = "competitor_id", nullable = false)
 		@JsonIgnore
+		//@JsonIgnoreProperties({"notifications","artworks"})
 		private Competitor competitor;
 
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name = "competition_id")
+		//@JsonIgnoreProperties({"notifications","artworks"})
 		private Competition competition;
+
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name = "user_id", nullable = false)
 		private User user;
 
-		public Vote() {
-		}
-
-		public Vote(long id, Competitor competitor, User user) {
-			this.id = id;
-			this.competitor = competitor;
-			this.user = user;
-		}
-
-		public long getId() {
-			return id;
-		}
-
-		public void setId(long id) {
-			this.id = id;
-		}
-
-		public Competition getCompetition() {
-			return competition;
-		}
-
-		public void setCompetition(Competition competition) {
-			this.competition = competition;
-		}
-
-		public Competitor getCompetitor() {
-			return competitor;
-		}
-
-		public void setCompetitor(Competitor competitor) {
-			this.competitor = competitor;
-		}
-
-		public User getUser() {
-			return user;
-		}
-
-		public void setUser(User user) {
-			this.user = user;
-		}
 	}
 
 
