@@ -1,70 +1,45 @@
 package com.project.oag.app.model;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import java.sql.Timestamp;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "wishlist")
+@Table(name = "WISHLIST")
 public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
+	@Column(name = "ID")
+    private Long id;
+
+	@JsonIgnore
+    @OneToOne()
+
+    @JoinColumn(name = "USER_ID")
     private User user;
-    @Column(name = "created_date")
-    private Date createdDate;
-    @ManyToOne()
-    @JoinColumn(name = "artwork_id")
-    private Artwork artwork;
-    public WishList() {
-    }
-    
-    public WishList(User user, Artwork artwork) {
-        this.user = user;
-        this.artwork = artwork;
-        this.createdDate = new Date();
-    }
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	@JsonIgnoreProperties({"artist", "carts"})
+	@ManyToOne()
+	@JoinColumn(name = "ARTWORK_ID")
+	private Artwork artwork;
 
-	public User getUser() {
-		return user;
-	}
+	@CreationTimestamp
+	@Column(name = "CREATION_DATE")
+	private Timestamp creationDate;
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Artwork getArtwork() {
-		return artwork;
-	}
-
-	public void setArtwork(Artwork artwork) {
-		this.artwork = artwork;
-	}
-    
+	@UpdateTimestamp
+	@Column(name = "LAST_UPDATE_DATE")
+	private Timestamp lastUpdateDate;
 }

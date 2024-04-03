@@ -78,7 +78,7 @@ public class Artwork {
             }
             double sum = 0;
             for (Rating rating : ratings) {
-                sum += rating.getRating();
+                sum += rating.getRatingValue();
             }
             return sum / ratings.size();
         }
