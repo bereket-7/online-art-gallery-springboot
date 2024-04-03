@@ -18,6 +18,7 @@ import com.project.oag.app.model.Vote;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.CompetitorNotFoundException;
 import com.project.oag.app.model.User;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,8 +115,8 @@ public class CompetitorController {
 	        competitor.setImage(imageData);
 	        competitor.setEmail(email);
 	        competitor.setCategory(category);
-	        competitor.setArtDescription(descriptions[0]);
-			Competition competition = competitionService.getCompetitionById(competitionId);
+	        competitor.setArtworkDescription(descriptions[0]);
+			val competition = competitionService.getCompetitionById(competitionId);
 			competitor.setCompetition(competition);
 	        competitorService.saveCompetitor(competitor);
 	        log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
@@ -167,7 +168,7 @@ public class CompetitorController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You have already voted for this competition.");
 		}
 		Competitor competitor = competitorService.getCompetitorById(competitorId);
-		Competition competition = competitionService.getCompetitionById(competitionId);
+		val competition = competitionService.getCompetitionById(competitionId);
 		Vote vote = new Vote();
 		vote.setCompetitor(competitor);
 		vote.setUser(user);

@@ -13,7 +13,6 @@ public class CompetitionController {
     public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
     }
-
     @GetMapping("/all")
 	@PreAuthorize("hasAuthority('ADMIN_FETCH_COMPETITION')")
 	public ResponseEntity<GenericResponse> getAllCompetitions() {
@@ -25,24 +24,22 @@ public class CompetitionController {
 		return competitionService.getCompetitionById(id);
 	}
 	@PostMapping("/add")
-	@PreAuthorize("hasRole('MANAGER')")
+	@PreAuthorize("hasAuthority('ADMIN_ADD_COMPETITION')")
 	public ResponseEntity<GenericResponse> addCompetition(@RequestBody CompetitionDto competition) { 																// request body with a method parameter.
 		return competitionService.addCompetition(competition);
 	}
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('MANAGER')")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_COMPETITION')")
 	public ResponseEntity<GenericResponse> updateCompetition(@PathVariable Long id, @RequestBody CompetitionDto competition) { 															// parameter.
 		return competitionService.updateCompetition(id, competition);
 	}
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('MANAGER')")
+	@PreAuthorize("hasAuthority('ADMIN_DELETE_COMPETITION')")
 	public ResponseEntity<GenericResponse> deleteCompetition(@PathVariable Long id) {
 		return competitionService.deleteCompetition(id);
 	}
-
-
     @GetMapping("/most/recent")
-	@PreAuthorize("hasRole('MANAGER','ARTIST')")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_COMPETITION')")
     public ResponseEntity<GenericResponse> getMostRecentCompetition() {
 		return competitionService.getMostRecentCompetition();
 	}
