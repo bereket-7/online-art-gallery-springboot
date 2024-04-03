@@ -18,7 +18,7 @@ public class StandardController {
 	public StandardController(StandardService standardService) {
 		this.standardService = standardService;
 	}
-	  @GetMapping
+	@GetMapping
 	public ResponseEntity<GenericResponse> getAllStandards() {
 	        return standardService.getAllStandards();
 	}
@@ -32,11 +32,10 @@ public class StandardController {
 	public ResponseEntity<GenericResponse> updateStandard(@PathVariable Long id, @RequestBody StandardRequestDto updatedStandard) {
 		return standardService.updateStandard(id,updatedStandard);
 	}
-	    @DeleteMapping("/{id}")
-		@PreAuthorize("hasRole('MANAGER')")
-	    public ResponseEntity<?> deleteStandardById(@PathVariable Long id) {
-	        standardService.deleteStandardById(id);
-	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_STANDARD')")
+	public ResponseEntity<GenericResponse> deleteStandardById(@PathVariable Long id) {
+	        return standardService.deleteStandardById(id);
 	    }
 	@GetMapping("/search")
 	public ResponseEntity<List<Standard>> searchByStandardType(@RequestParam("type") String standardType) {

@@ -55,9 +55,14 @@ public class StandardService {
 		return optionalStandard.orElse(null);
 	}
 
-	public void deleteStandardById(final Long id) {
-	        this.standardRepository.deleteById(id);;
-	    }
+	public ResponseEntity<GenericResponse> deleteStandardById(final Long id) {
+		try {
+			standardRepository.deleteById(id);
+			return prepareResponse(HttpStatus.OK, "Successfully deleted Standard", null);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to delete");
+		}
+	}
 
 
 	public ResponseEntity<GenericResponse> updateStandard(Long id, StandardRequestDto updatedStandard) {
