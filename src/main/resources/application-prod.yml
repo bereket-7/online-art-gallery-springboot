@@ -1,0 +1,9 @@
+# DataSource Configurations
+spring:
+  datasource:
+    url: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+server:
+  port: 8088

@@ -1,0 +1,82 @@
+# DataSource Configurations
+server:
+  port: 8088
+
+spring:
+  shutdown: graceful
+  main:
+    banner-mode: off
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+    mvc:
+      pathmatch:
+        matching-strategy: ant_path_matcher
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${DB_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    jpa:
+      show-sql: true
+      generate-ddl: true
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  mail:
+    host: localhost
+    port: 2525
+    username: kelem.oag.app@gmail.com
+    password: 8915code
+    properties:
+      mail:
+        smtp:
+          ssl-trust: *
+          auth: true
+          starttls-enable: true
+          connection-timeout: 5000
+          timeout: 3000
+          write-timeout: 5000
+
+jwt-key:
+  secret: "77217A25432A462D4A614E645267556B58703273357638782F413F4428472B4B"
+  expireAfter: 120
+
+file-storage:
+  imageAllowedTypes: png, jpg, jpeg
+  docAllowedTypes: doc, docx, pdf
+  baseFolder: ${BASE_FOLDER}
+  image: images
+  doc: documents
+
+#actuator management
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics,httptrace
+      base-path: /app/
+
+stripe:
+  api-key: sk_test_51MpyNeSCT6H7SkxtglhlyTfmzSkFlwsq1aRv7HpKdlyFJQvoRJiuLRU1e5jpiKixemYIS9p8NWwyfnv9XXd1zS7P00nK5qjjJc
+  public-key: pk_test_51MpyNeSCT6H7SkxtbbT3MmDKl818tSvlprGLbun0icjBv8TmIiCuWM60rFS3rSsDvLfhIehprXac1YtvVAnAgOa400aidlCNFO
+security-init-config:
+  #  set initial: false, to skip initial user security configuration
+  initial: true
+  reset: false
+  roles: ROLE_ADMIN, ROLE_CUSTOMER, ROLE_ARTIST, ROLE_ORGANIZATION
+  userFlag: ADMIN_FLAG, USER_FLAG
+  permissions:
+    - ADMIN_ADD_STANDARD
+  mapping:
+    admin:
+      - ADMIN_ADD_STANDARD
+    customer:
+      - ADMIN_ADD_STANDARD
+    organization:
+      - ADMIN_ADD_STANDARD
+    notAssignable:
+      notAssignable:
+
