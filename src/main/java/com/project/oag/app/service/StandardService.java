@@ -1,9 +1,7 @@
 package com.project.oag.app.service;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.project.oag.app.dto.StandardRequestDto;
+import com.project.oag.app.dto.StandardType;
 import com.project.oag.app.model.Standard;
 import com.project.oag.app.repository.StandardRepository;
 import com.project.oag.common.GenericResponse;
@@ -12,11 +10,13 @@ import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
+import java.util.Optional;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.Utils.prepareResponse;
@@ -79,8 +79,13 @@ public class StandardService {
 			throw new GeneralException("Failed to save standard information");
 		}
 	}
-	public List<Standard> getStandardsByType(String standardType) {
-		return standardRepository.findByStandardType(standardType);
+	public ResponseEntity<GenericResponse> getStandardsByType(StandardType standardType) {
+		try {
+			val response = standardRepository.findByStandardType(standardType);
+			return prepareResponse(HttpStatus.OK, "Standards by type ", response);
+		} catch (Exception e) {
+			throw new GeneralException("failed to find standards by standard type " + standardType);
+		}
 	}
 	private Optional<Standard> getOptionalByID(Long id) {
 		return this.standardRepository.findById(id);
