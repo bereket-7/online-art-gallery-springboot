@@ -1,5 +1,6 @@
 package com.project.oag.app.controller;
 
+import com.project.oag.app.dto.StandardRequestDto;
 import com.project.oag.app.model.Standard;
 import com.project.oag.app.service.StandardService;
 import com.project.oag.common.GenericResponse;
@@ -23,20 +24,13 @@ public class StandardController {
 	}
 	@PostMapping("/add")
 	@PreAuthorize("hasAuthority('ADMIN_ADD_STANDARD')")
-	public ResponseEntity<GenericResponse> addStandard(@RequestBody Standard standard) {
-	        return standardService.addStandard(standard);
+	public ResponseEntity<GenericResponse> addStandard(@RequestBody StandardRequestDto standardDto) {
+	        return standardService.addStandard(standardDto);
 	    }
 	@PutMapping("/{id}")
-	@PreAuthorize("hasRole('MANAGER')")
-	public ResponseEntity<String> updateStandard(@PathVariable Long id, @RequestBody Standard updatedStandard) {
-		Standard standard = standardService.getStandardById(id);
-		if (standard == null) {
-			return ResponseEntity.notFound().build();
-		}
-		standard.setStandardDescription(updatedStandard.getStandardDescription());
-		standard.setStandardType(updatedStandard.getStandardType());
-		standardService.addStandard(standard);
-		return ResponseEntity.ok("Standard updated successfully");
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_STANDARD')")
+	public ResponseEntity<GenericResponse> updateStandard(@PathVariable Long id, @RequestBody StandardRequestDto updatedStandard) {
+		return standardService.updateStandard(id,updatedStandard);
 	}
 	    @DeleteMapping("/{id}")
 		@PreAuthorize("hasRole('MANAGER')")
