@@ -24,7 +24,7 @@ import java.util.List;
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "ID",unique = true)
     private Long id;
 
     @Column(name = "ARTWORK_NAME")

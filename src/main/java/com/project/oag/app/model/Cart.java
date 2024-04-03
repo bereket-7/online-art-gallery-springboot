@@ -1,83 +1,42 @@
 package com.project.oag.app.model;
 
-import java.util.Date;
-import java.util.Optional;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="cart")
+@Table(name="CART")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_date")
-    private Date createdDate;
+
+    @Column(name = "QUANTITY")
+    private int quantity;
 
     @JsonIgnore
     @ManyToOne()
-    @JoinColumn(name = "artwork_id")
+    @JoinColumn(name = "ARTWORK_ID")
     private Artwork artwork;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID")
     private User user;
-    private int quantity;
 
-    public Cart() {
-    }
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
 
-    public Cart(Artwork artwork, int quantity, User user){
-        this.user = user;
-        this.artwork = artwork;
-        this.quantity = quantity;
-        this.createdDate = new Date();
-    }
-
-    public Cart(Optional<Artwork> artwork, Integer quantity, User user) {
-	}
-
-	public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Artwork getArtwork() {
-        return artwork;
-    }
-
-    public void setArtwork(Artwork artwork) {
-        this.artwork = artwork;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 }
