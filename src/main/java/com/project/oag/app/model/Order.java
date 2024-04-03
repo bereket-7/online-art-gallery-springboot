@@ -1,93 +1,45 @@
 package com.project.oag.app.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.sql.Timestamp;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "orders")
+@Table(name = "ORDERS")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Long id;
+
+    @Column(name = "FIRST_NAME")
     private String firstname;
+
+    @Column(name = "LAST_NAME")
     private String lastname;
+
+    @Column(name = "EMAIL", unique = true)
     private String email;
+
+    @Column(name = "PHONE")
     private String phone;
+
+    @Column(name = "ADDRESS")
     private String address;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "order_date")
-    private LocalDateTime orderDate;
+
+    @CreationTimestamp
+    @Column(name = "ORDER_DATE")
+    private Timestamp orderDate;
+
+    @Column(name = "SECRET_CODE")
     private String secretCode;
-
-    public Order(Long id, String firstname, String lastname, String email, String phone, String address, LocalDateTime orderDate, String secretCode) {
-        this.id = id;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.orderDate = orderDate;
-        this.secretCode = secretCode;
-    }
-
-    public Order() {
-    }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-    public void setAddress(String address) {
-        this.address = address;
-    }
-    public LocalDateTime getOrderDate() {
-        return orderDate;
-    }
-    public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = orderDate;
-    }
-    public String getSecretCode() {
-        return secretCode;
-    }
-    public void setSecretCode(String secretCode) {
-        this.secretCode = secretCode;
-    }
 }
