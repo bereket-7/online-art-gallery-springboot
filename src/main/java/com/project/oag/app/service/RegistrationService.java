@@ -2,8 +2,6 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.UserRequestDto;
 import com.project.oag.app.model.ConfirmationToken;
-import com.project.oag.app.model.User;
-import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.security.service.CustomUserDetailsService;
@@ -22,21 +20,18 @@ import static com.project.oag.utils.Utils.prepareResponse;
 @Service
 @Slf4j
 public class RegistrationService {
-    private final UserRepository userRepository;
     private final CustomUserDetailsService userService;
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private final PasswordEncoder passwordEncoder;
 
-    public RegistrationService(CustomUserDetailsService userService, EmailValidator emailValidator, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, PasswordEncoder passwordEncoder,
-                               UserRepository userRepository) {
+    public RegistrationService(CustomUserDetailsService userService, EmailValidator emailValidator, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.emailValidator = emailValidator;
         this.confirmationTokenService = confirmationTokenService;
         this.emailSender = emailSender;
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
     }
 
     public ResponseEntity<GenericResponse> register(UserRequestDto userRequestDto) {
@@ -56,25 +51,25 @@ public class RegistrationService {
         }
     }
     @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
-                .getToken(token)
-                .orElseThrow(() -> new IllegalStateException("token not found"));
+    public ResponseEntity<GenericResponse> confirmToken(String token) {
+        try {
+            ConfirmationToken confirmationToken = confirmationTokenService
+                    .getToken(token)
+                    .orElseThrow(() -> new GeneralException("token not found"));
+            if (confirmationToken.getConfirmedAt() != null) {
+                throw new GeneralException("email already confirmed");
+            }
+            LocalDateTime expiredAt = confirmationToken.getExpiryDate();
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            if (expiredAt.isBefore(LocalDateTime.now())) {
+                throw new GeneralException("token expired");
+            }
+            confirmationTokenService.setConfirmedAt(token);
+            userService.enableUser(confirmationToken.getUser().getEmail());
+            return prepareResponse(HttpStatus.OK,"Thank you, you have confirmed your email successfully",null);
+        } catch (GeneralException e) {
+            throw new GeneralException("failed to confirmation registration");
         }
-
-        LocalDateTime expiredAt = confirmationToken.getExpiryDate();
-
-        if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
-        }
-
-        confirmationTokenService.setConfirmedAt(token);
-        userService.enableUser(
-                confirmationToken.getUser().getEmail());
-        return "Thank you, you have confirmed your email successfully";
     }
 
     private String buildEmail(String name, String link) {
