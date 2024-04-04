@@ -1,17 +1,24 @@
 package com.project.oag.security.service;
 
 import com.project.oag.app.dto.*;
+import com.project.oag.app.model.ConfirmationToken;
 import com.project.oag.app.model.PasswordResetToken;
 import com.project.oag.app.model.User;
 import com.project.oag.app.repository.PasswordResetTokenRepository;
 import com.project.oag.app.repository.UserRepository;
-import com.project.oag.app.service.EmailService;
-import com.project.oag.exceptions.IncorrectPasswordException;
-import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.app.model.ConfirmationToken;
 import com.project.oag.app.service.ConfirmationTokenService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.oag.app.service.EmailService;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.IncorrectPasswordException;
+import com.project.oag.exceptions.ResourceNotFoundException;
+import com.project.oag.exceptions.UserNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.val;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,42 +30,47 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import static com.project.oag.utils.Utils.prepareResponse;
+
 @Service
 @Configuration
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ConfirmationTokenService confirmationTokenService;
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private PasswordResetTokenRepository passwordResetTokenRepository;
-    public CustomUserDetailsService(UserRepository userRepository,
-                                    ConfirmationTokenService confirmationTokenService) {
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
+    private final ConfirmationTokenService confirmationTokenService;
+    private final EmailService emailService;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+
+    public CustomUserDetailsService(UserRepository userRepository, ModelMapper modelMapper, ConfirmationTokenService confirmationTokenService, EmailService emailService, PasswordResetTokenRepository passwordResetTokenRepository) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
         this.confirmationTokenService = confirmationTokenService;
+        this.emailService = emailService;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            return userRepository.findByEmail(email)
+            return userRepository.findByEmailIgnoreCase(email)
                     .orElseThrow(() -> new Exception("user Not found "));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-    public String signUpUser(User user) {
-        boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent();
-
-        if (userExists) {
-            throw new IllegalStateException("This Email already registered");
+    public ResponseEntity<GenericResponse> signUpUser(UserRequestDto userRequestDto) {
+        try {
+            userRepository.findByEmailIgnoreCase(userRequestDto.getEmail())
+                    .orElseThrow(() -> new GeneralException("This Email already registered"));
+            val savedUser = modelMapper.map(userRequestDto, User.class);
+            userRepository.save(savedUser);
+            String token = UUID.randomUUID().toString();
+            ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),savedUser);
+            confirmationTokenService.saveConfirmationToken(confirmationToken);
+            return prepareResponse(HttpStatus.OK,"User sign up successfully", token);
+        } catch (Exception e) {
+            throw new GeneralException("Failed to save user");
         }
-        userRepository.save(user);
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
     }
     public int enableUser(String email) {
         return userRepository.enableUser(email);
@@ -80,8 +92,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
-    public byte[] getProfilePhoto(String loggedInEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
+    public byte[] getProfilePhoto(HttpServletRequest request) {
+        String email = getLoggedInUserName(request);
+        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             return user.getImage();
@@ -138,19 +151,19 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return artistUserDTOs;
     }
-    public List<UserDto> getArtistsWithArtworks() {
+    public List<UserRequestDto> getArtistsWithArtworks() {
         List<Object[]> results = userRepository.findArtistsWithArtworks();
 
-        List<UserDto> artists = new ArrayList<>();
-        Map<Long, UserDto> artistMap = new HashMap<>();
+        List<UserRequestDto> artists = new ArrayList<>();
+        Map<Long, UserRequestDto> artistMap = new HashMap<>();
 
         for (Object[] result : results) {
             Long userId = ((Number) result[0]).longValue();
             Long artworkId = ((Number) result[4]).longValue();
 
-            UserDto artist = artistMap.get(userId);
+            UserRequestDto artist = artistMap.get(userId);
             if (artist == null) {
-                artist = new UserDto();
+                artist = new UserRequestDto();
                 artist.setFirstname((String) result[1]);
                 artist.setLastname((String) result[2]);
                 artist.setEmail((String) result[3]);
@@ -244,6 +257,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    private Long getUserId(HttpServletRequest request) {
+        return getUserByUsername(getLoggedInUserName(request)).getId();
+    }
+
+    private User getUserByUsername(String email) {
+        return userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
     }
 
 }
