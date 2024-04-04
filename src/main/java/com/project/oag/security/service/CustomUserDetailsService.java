@@ -253,7 +253,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new GeneralException("User not found"));
     }
 
     private Long getUserId(HttpServletRequest request) {

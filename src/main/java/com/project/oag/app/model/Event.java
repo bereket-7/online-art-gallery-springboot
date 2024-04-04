@@ -46,7 +46,7 @@ public class Event {
 
     @Lob
     @Column(name = "IMAGE")
-    private byte[] image;
+    private String image;
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
