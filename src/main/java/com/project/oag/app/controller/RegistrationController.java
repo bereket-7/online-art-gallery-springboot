@@ -1,12 +1,10 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.UserRequestDto;
-import com.project.oag.app.service.RegistrationRequest;
 import com.project.oag.app.service.RegistrationService;
 import com.project.oag.common.GenericResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "api/v1/user/registration")
