@@ -30,16 +30,18 @@ public class ConfirmationToken {
 
 		@CreationTimestamp
 		@Column(name = "CREATION_DATE")
-		private Timestamp creationDate;
+		private LocalDateTime creationDate;
 
-		@UpdateTimestamp
-		@Column(name = "LAST_UPDATE_DATE")
-		private Timestamp lastUpdateDate;
-
-	    @Column(name = "CONFIRMED_AT")
-	    private Timestamp confirmedAt;
+		@Column(name = "EXPIRY_DATE")
+		private LocalDateTime expiryDate;
 	    
 	    @ManyToOne
 	    @JoinColumn(name = "USER_ID")
 	    private User user;
+
+		@Column(name = "CONFIRMED_AT")
+	 	private Timestamp confirmedAt;
+
+	public ConfirmationToken(String token, LocalDateTime creationDate, LocalDateTime expiryDate, User user) {
+	}
 }
