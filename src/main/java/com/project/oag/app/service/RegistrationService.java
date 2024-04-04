@@ -1,80 +1,60 @@
 package com.project.oag.app.service;
 
-import java.time.LocalDateTime;
-
+import com.project.oag.app.dto.UserRequestDto;
+import com.project.oag.app.model.ConfirmationToken;
+import com.project.oag.app.model.User;
+import com.project.oag.app.repository.UserRepository;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.GeneralException;
 import com.project.oag.security.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.oag.app.model.User;
-import com.project.oag.app.model.ConfirmationToken;
+import java.time.LocalDateTime;
+
+import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
+@Slf4j
 public class RegistrationService {
-    @Autowired
-    private CustomUserDetailsService userService;
-    @Autowired
-    private EmailValidator emailValidator;
-    @Autowired
-    private ConfirmationTokenService confirmationTokenService;
-    @Autowired
-    private EmailSender emailSender;
+    private final UserRepository userRepository;
+    private final CustomUserDetailsService userService;
+    private final EmailValidator emailValidator;
+    private final ConfirmationTokenService confirmationTokenService;
+    private final EmailSender emailSender;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
-    public String register(RegistrationRequest request) {
-        boolean isValidEmail = emailValidator.test(request.getEmail());
-
-        if (!isValidEmail) {
-            throw new IllegalStateException("Email not valid.");
-        }
-
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        String token = userService.signUpUser(
-                new User(
-                        request.getFirstname(),
-                        request.getLastname(),
-                        request.getPhone(),
-                        request.getUsername(),
-                        request.getAge(),
-                        request.getSex(),
-                        request.getAddress(),
-                        request.getEmail(),
-                        encodedPassword,
-                        request.getRole()
-                )
-        );
-        String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(), buildEmail(request.getFirstname(), link));
-        return token;
+    public RegistrationService(CustomUserDetailsService userService, EmailValidator emailValidator, ConfirmationTokenService confirmationTokenService, EmailSender emailSender, PasswordEncoder passwordEncoder,
+                               UserRepository userRepository) {
+        this.userService = userService;
+        this.emailValidator = emailValidator;
+        this.confirmationTokenService = confirmationTokenService;
+        this.emailSender = emailSender;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
-//    public String register(RegistrationRequest request) {
-//        boolean isValidEmail = emailValidator.test(request.getEmail());
-//
-//        if (!isValidEmail) {
-//            throw new IllegalStateException("email not valid");
-//        }
-//        String token = userService.signUpUser(
-//        	    new User(request.getFirstname(),
-//        	        request.getLastname(),
-//        	        request.getPhone(),
-//        	        request.getUsername(),
-//        	        request.getAge(),
-//        	        request.getSex(),
-//        	        request.getAddress(),
-//        	        request.getEmail(),
-//        	        request.getPassword(),
-//        	        request.getRole()));
-//        String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
-//        emailSender.send(request.getEmail(),buildEmail(request.getFirstname(), link));
-//        return token;
-//    }
+    public ResponseEntity<GenericResponse> register(UserRequestDto userRequestDto) {
+        try {
+            boolean isValidEmail = emailValidator.test(userRequestDto.getEmail());
+            if (!isValidEmail) {
+                throw new IllegalStateException("Email not valid.");
+            }
+            String encodedPassword = passwordEncoder.encode(userRequestDto.getPassword());
+
+            val token = userService.signUpUser(userRequestDto);
+            String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
+            emailSender.send(userRequestDto.getEmail(), buildEmail(userRequestDto.getFirstname(), link));
+            return prepareResponse(HttpStatus.OK,"Successfully registered",token);
+        } catch (Exception e) {
+            throw new GeneralException("failed to register");
+        }
+    }
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenService
@@ -85,7 +65,7 @@ public class RegistrationService {
             throw new IllegalStateException("email already confirmed");
         }
 
-        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        LocalDateTime expiredAt = confirmationToken.getExpiryDate();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
