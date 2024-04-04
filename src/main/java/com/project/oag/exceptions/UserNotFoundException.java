@@ -1,25 +1,26 @@
 package com.project.oag.exceptions;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@EqualsAndHashCode(callSuper = true)
+@Setter
+@Getter
+@ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public class UserNotFoundException extends RuntimeException {
-	
-	 private static final long serialVersionUID = 5861310537366287163L;
+	private int status;
 
-	    public UserNotFoundException() {
-	        super();
-	    }
+	public UserNotFoundException(HttpStatus status, String message) {
+		super(message);
+		this.status = status.value();
+	}
 
-	    public UserNotFoundException(final String message, final Throwable cause) {
-	        super(message, cause);
-	    }
-
-	    public UserNotFoundException(final String message) {
-	        super(message);
-	    }
-
-	    public UserNotFoundException(final Throwable cause) {
-	        super(cause);
-	    }
-
-
+	public UserNotFoundException(String message) {
+		super(message);
+		this.status = HttpStatus.UNPROCESSABLE_ENTITY.value();
+	}
 }
 
