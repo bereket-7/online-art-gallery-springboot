@@ -89,42 +89,42 @@ public class  UserController {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 		}
 	}
-	@GetMapping("/total-customer-users")
+	@GetMapping("/total/customer/users")
 	@PreAuthorize("hasRole('ADMIN','MANAGER')")
 	public Long getTotalCustomerUsers() {
 		return userService.getTotalCustomerUsers();
 	}
-	@GetMapping("/total-artist-users")
+	@GetMapping("/total/artist/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public Long getTotalArtistUsers() {
 		return userService.getTotalArtistUsers();
 	}
-	@GetMapping("/total-manager-users")
+	@GetMapping("/total/manager/users")
 	@PreAuthorize("hasRole('ADMIN')")
 	public Long getTotalManagerUsers() {
 		return userService.getTotalManagerUsers();
 	}
-	@GetMapping("/artist-list")
+	@GetMapping("/artist/list")
 	public ResponseEntity<List<User>> getArtistUsers() {
 		List<User> artistUsers = userService.getArtistUsers();
 		return ResponseEntity.ok(artistUsers);
 	}
-	@GetMapping("/manager-list")
+	@GetMapping("/manager/list")
 	public ResponseEntity<List<User>> getManagerUsers() {
 		List<User> managerUsers = userService.getManagerUsers();
 		return ResponseEntity.ok(managerUsers);
 	}
-	@GetMapping("/customer-list")
+	@GetMapping("/customer/list")
 	public ResponseEntity<List<User>> getCustomerUsers() {
 		List<User> customerUsers = userService.getCustomerUsers();
 		return ResponseEntity.ok(customerUsers);
 	}
-	@GetMapping("/organization-list")
+	@GetMapping("/organization/list")
 	public ResponseEntity<List<User>> getOrganizationUsers() {
 		List<User> organizationUsersUsers = userService.getOrganizationUsers();
 		return ResponseEntity.ok(organizationUsersUsers);
 	}
-	@GetMapping("/artist-detail")
+	@GetMapping("/artist/detail")
 	@PreAuthorize("hasRole('MANAGER','ADMIN')")
 	public ResponseEntity<List<ArtistDTO>> getArtistDetail() {
 		List<ArtistDTO> artistUsers = userService.getArtistDetail();

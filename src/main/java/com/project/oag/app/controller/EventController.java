@@ -25,15 +25,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import jakarta.servlet.http.HttpServletRequest;
 @RestController
-@RequestMapping("api/events")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/v1/events")
 public class EventController {
-	 @Autowired
-	 private EventService eventService;
+	 private final EventService eventService;
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	@PostMapping("/saveEvent")
+
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    @PostMapping("/saveEvent")
 	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
 													   @RequestParam("ticketPrice") double ticketPrice, @RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription, @RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate,
 													   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
@@ -72,7 +75,7 @@ public class EventController {
 			event.setTicketPrice(ticketPrice);
 			event.setCapacity(capacity);
 			event.setLocation(location);
-			event.setStatus("pending");
+			event.setStatus();
 			event.setEventDate(event.getEventDate());
 			//event.setEventDate(eventDate);
 			event.setEventDescription(descriptions[0]);
