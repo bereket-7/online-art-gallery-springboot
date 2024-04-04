@@ -1,0 +1,19 @@
+services:
+  pgdb:
+    container_name: online-art-gallery-springboot
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - ${HOST_DB_PORT}:5432
+    expose:
+      - ${HOST_DB_PORT}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
+  pgadminVol:
