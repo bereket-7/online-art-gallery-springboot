@@ -3,13 +3,11 @@ package com.project.oag.app.controller;
 import com.project.oag.app.dto.ArtistDTO;
 import com.project.oag.app.dto.ChangePasswordRequest;
 import com.project.oag.app.model.User;
+import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,29 +27,20 @@ public class  UserController {
 	//private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     //private String path = "src/main/resources/static/img/user-images/";
 	private final CustomUserDetailsService userService;
-	private final MessageSource messages;
-
-    public UserController(CustomUserDetailsService userService, MessageSource messages) {
+    public UserController(CustomUserDetailsService userService) {
         this.userService = userService;
-        this.messages = messages;
+
     }
 
     @PostMapping("profile/upload")
 	@PreAuthorize("hasAuthority('USER_MODIFY_PROFILE')")
-	public ResponseEntity<String> uploadProfilePhoto(
-			@RequestParam("file") MultipartFile file,
-			HttpServletRequest request) {
-		userService.uploadProfilePhoto(request,file);
-		return ResponseEntity.ok("Profile photo uploaded successfully");
+	public ResponseEntity<GenericResponse> uploadProfilePhoto(HttpServletRequest request, @RequestParam("photoUrl") String photoUrl) {
+		return userService.uploadProfilePhoto(request,photoUrl);
 	}
 	@GetMapping("profile/photo")
 	@PreAuthorize("hasAuthority('USER_MODIFY_PROFILE')")
-	public ResponseEntity<byte[]> getProfilePhoto(Authentication authentication) {
-		String loggedInEmail = authentication.getName();
-		byte[] photoBytes = userService.getProfilePhoto(loggedInEmail);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.IMAGE_JPEG);
-		return new ResponseEntity<>(photoBytes, headers, HttpStatus.OK);
+	public ResponseEntity<GenericResponse> getProfilePhoto(HttpServletRequest request) {
+		return userService.getProfilePhoto(request);
 	}
 
 	@GetMapping("/search")

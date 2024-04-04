@@ -75,31 +75,28 @@ public class CustomUserDetailsService implements UserDetailsService {
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
-    public void uploadProfilePhoto(String loggedInEmail, MultipartFile file) {
-        Optional<User> optionalUser = userRepository.findByEmail(loggedInEmail);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-
+    public ResponseEntity<GenericResponse> uploadProfilePhoto(HttpServletRequest request,String photoUrl) {
+        String email = getLoggedInUserName(request);
+        User user = userRepository.findByEmailIgnoreCase(email)
+                .orElseThrow(() -> new UserNotFoundException("User " + email + " not found"));
             try {
-                user.setImage(file.getBytes());
+                user.setImage(photoUrl);
                 userRepository.save(user);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException("Failed to upload profile photo");
+                return prepareResponse(HttpStatus.OK,"User profile photo updated successfully", user);
             }
-        } else {
-            throw new RuntimeException("User not found");
+            catch (Exception e) {
+                throw new GeneralException("Failed to upload profile photo");
         }
     }
-
-    public byte[] getProfilePhoto(HttpServletRequest request) {
+    public ResponseEntity<GenericResponse> getProfilePhoto(HttpServletRequest request) {
         String email = getLoggedInUserName(request);
-        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            return user.getImage();
-        } else {
-            throw new RuntimeException("User not found");
+        try {
+            User user = userRepository.findByEmailIgnoreCase(email)
+                    .orElseThrow(() -> new UserNotFoundException("User " + email + " not found"));
+          val profilePhoto = user.getImage();
+            return prepareResponse(HttpStatus.OK,"User profile photo retrieved successfully", profilePhoto);
+        } catch (Exception e) {
+            throw new GeneralException("Failed to fetch profile photo");
         }
     }
     public List<User> searchUsersByUsername(String username) {
