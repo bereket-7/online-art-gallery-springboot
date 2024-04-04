@@ -1,0 +1,11 @@
+services:
+  online-art-gallery-springboot:
+    build: ./
+    container_name: online-art-gallery-springboot
+    ports:
+      - localhost:8080
+
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
