@@ -1,16 +1,14 @@
 package com.project.oag.app.controller;
 
-import java.util.List;
-
 import com.project.oag.app.dto.ArtistDTO;
 import com.project.oag.app.dto.ChangePasswordRequest;
 import com.project.oag.app.model.User;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,33 +19,33 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/users")
-@CrossOrigin("http://localhost:8080/")
-public class UserController {
-	 private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    private String path = "src/main/resources/static/img/user-images/";
-	@Autowired
-	private CustomUserDetailsService userService;
-	   @Autowired
-	    private MessageSource messages;
-	   public UserController(CustomUserDetailsService userService) {
-		super();
-		this.userService = userService;
-	}
-	@PostMapping("profile/upload")
+@RequestMapping("api/v1/users")
+public class  UserController {
+	//private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    //private String path = "src/main/resources/static/img/user-images/";
+	private final CustomUserDetailsService userService;
+	private final MessageSource messages;
+
+    public UserController(CustomUserDetailsService userService, MessageSource messages) {
+        this.userService = userService;
+        this.messages = messages;
+    }
+
+    @PostMapping("profile/upload")
+	@PreAuthorize("hasAuthority('USER_MODIFY_PROFILE')")
 	public ResponseEntity<String> uploadProfilePhoto(
 			@RequestParam("file") MultipartFile file,
-			Authentication authentication
-	) {
-		String loggedInEmail = authentication.getName();
-		userService.uploadProfilePhoto(loggedInEmail, file);
+			HttpServletRequest request) {
+		userService.uploadProfilePhoto(request,file);
 		return ResponseEntity.ok("Profile photo uploaded successfully");
 	}
 	@GetMapping("profile/photo")
+	@PreAuthorize("hasAuthority('USER_MODIFY_PROFILE')")
 	public ResponseEntity<byte[]> getProfilePhoto(Authentication authentication) {
 		String loggedInEmail = authentication.getName();
 		byte[] photoBytes = userService.getProfilePhoto(loggedInEmail);
@@ -63,13 +61,13 @@ public class UserController {
 		return ResponseEntity.ok(searchResults);
 	}
 	@GetMapping("/all")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_USER')")
 	public List<User> getAllUsers() {
 	        return userService.getAllUsers();
 	    }
 
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_USER')")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
 			userService.deleteUser(id);
