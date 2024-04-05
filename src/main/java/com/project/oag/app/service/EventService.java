@@ -3,7 +3,9 @@ package com.project.oag.app.service;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.project.oag.app.dto.EventStatus;
 import com.project.oag.app.model.Event;
 import com.project.oag.app.repository.EventRepository;
 import com.project.oag.app.dto.EventDto;
@@ -55,7 +57,7 @@ public class  EventService {
 			throw new GeneralException("Failed to get event ");
 		}
 	}
-	public boolean acceptEvent(Long id) {
+	public ResponseEntity<GenericResponse> acceptEvent(Long id) {
 		Optional<Event> optionalEvent = eventRepository.findById(id);
 		if (optionalEvent.isPresent()) {
 			Event event = optionalEvent.get();
@@ -79,14 +81,15 @@ public class  EventService {
 		}
 		return false;
 	}
-	public List<Event> getPendingEvents() {
-		return eventRepository.findByStatus("pending");
-	}
-	public List<Event> getAcceptedEvents() {
-		return eventRepository.findByStatus("accepted");
-	}
-	public List<Event> getRejectedEvents() {
-		return eventRepository.findByStatus("rejected");
+	public ResponseEntity<GenericResponse> getEventsByEventStatus(EventStatus status) {
+		try {
+			val response = eventRepository.findByStatus(status);
+			List<EventDto> events = response.stream().map((element) -> modelMapper.map(element, EventDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved events",events);
+		} catch (Exception e) {
+			throw new GeneralException(" failed to get events by status " );
+		}
 	}
 	public boolean deleteEvent(Long eventId) {
 		Optional<Event> optionalEvent = eventRepository.findById(eventId);

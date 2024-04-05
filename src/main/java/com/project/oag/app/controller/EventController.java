@@ -1,30 +1,17 @@
 package com.project.oag.app.controller;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
-import com.project.oag.app.model.Event;
 import com.project.oag.app.dto.EventDto;
+import com.project.oag.app.dto.EventStatus;
 import com.project.oag.app.service.EventService;
 import com.project.oag.common.GenericResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
 @RestController
 @RequestMapping("api/v1/events")
 public class EventController {
@@ -50,20 +37,13 @@ public class EventController {
 	 public ResponseEntity<GenericResponse> getAllEvent() {
 	     return eventService.getAllEvents();
 	 }
-	 
 	 @GetMapping("/pending")
 	 @PreAuthorize("hasRole('MANAGER')")
-	 public List<Event> getPendingEvents() {
-		return eventService.getPendingEvents();
+	 public ResponseEntity<GenericResponse> getPendingEventsByStatus(@RequestParam(required = false) EventStatus status) {
+		return eventService.getEventsByEventStatus(status);
 	}
-	    @GetMapping("/accepted")
-	    public List<Event> getAcceptedEvents() {
-	        return eventService.getAcceptedEvents();
-	    }
-	    @GetMapping("/rejected")
-	    public List<Event> getRejectedEvents() {
-	        return eventService.getRejectedEvents();
-	    }
+
+
 	    @PutMapping("/{id}/accept")
 		@PreAuthorize("hasRole('MANAGER')")
 	    public ResponseEntity<String> acceptEvent(@PathVariable Long id) {
