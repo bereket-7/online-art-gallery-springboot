@@ -1,14 +1,9 @@
 package com.project.oag.app.service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.dto.EventStatus;
 import com.project.oag.app.model.Event;
 import com.project.oag.app.repository.EventRepository;
-import com.project.oag.app.dto.EventDto;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
@@ -18,8 +13,15 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
@@ -91,29 +93,28 @@ public class  EventService {
 			throw new GeneralException(" failed to get events by status " );
 		}
 	}
-	public boolean deleteEvent(Long eventId) {
-		Optional<Event> optionalEvent = eventRepository.findById(eventId);
-		if (optionalEvent.isPresent()) {
-			eventRepository.deleteById(eventId);
-			return true;
-		}
-		return false;
-	}
 
-	public String updateEvent(Long eventId, EventDto eventUpdateDTO) {
-		Optional<Event> optionalEvent = eventRepository.findById(eventId);
-		if (optionalEvent.isPresent()) {
-			Event event = optionalEvent.get();
-			event.setEventName(eventUpdateDTO.getEventName());
-			event.setEventDescription(eventUpdateDTO.getEventDescription());
-			event.setTicketPrice(eventUpdateDTO.getTicketPrice());
-			event.setCapacity(eventUpdateDTO.getCapacity());
-			event.setLocation(eventUpdateDTO.getLocation());
-			event.setEventDate(eventUpdateDTO.getEventDate());
-			eventRepository.save(event);
-			return "Event updated successfully";
+	public ResponseEntity<GenericResponse> updateEvent(Long id, EventDto eventDto) {
+		if (ObjectUtils.isEmpty(id))
+			throw new GeneralException("Event Id needs to have a value");
+		val event = eventRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Event record not found"));
+		try {
+			modelMapper.map(eventDto, event);
+			val response = eventRepository.save(event);
+			log.info(LOG_PREFIX, "Saved Event information", "");
+			return prepareResponse(HttpStatus.OK, "Saved Event ", response);
+		}catch (Exception e){
+			throw new GeneralException("Failed to save Event information");
 		}
-		return "Event not found";
+	}
+	public ResponseEntity<GenericResponse> deleteEvent(final Long id) {
+		try {
+			eventRepository.deleteById(id);
+			return prepareResponse(HttpStatus.OK, "Successfully deleted Event", null);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to delete ");
+		}
 	}
 
 	public void changeEventImage(Long eventId, MultipartFile imageFile) throws IOException {

@@ -64,26 +64,13 @@ public class EventController {
 				return ResponseEntity.badRequest().body("Event with ID " + id + " was not found or is not in pending status");
 			}
 		}
-		@DeleteMapping("/{eventId}")
-		public ResponseEntity<String> deleteEvent(@PathVariable Long eventId) {
-			boolean deleted = eventService.deleteEvent(eventId);
-			if (deleted) {
-				return new ResponseEntity<>("Event deleted successfully", HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>("Event not found", HttpStatus.NOT_FOUND);
-			}
+		@DeleteMapping("/{id}")
+		public ResponseEntity<GenericResponse> deleteEvent(@PathVariable Long id) {
+			return eventService.deleteEvent(id);
 		}
 		@PutMapping("/{eventId}")
-		public ResponseEntity<String> updateEvent(
-				@PathVariable Long eventId,
-				@RequestBody EventDto eventUpdateDTO
-		) {
-			String result = eventService.updateEvent(eventId, eventUpdateDTO);
-			if (result.equals("Event not found")) {
-				return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
-			} else {
-				return new ResponseEntity<>(result, HttpStatus.OK);
-			}
+		public ResponseEntity<GenericResponse> updateEvent(@PathVariable Long id, @RequestBody EventDto eventDto) {
+			return eventService.updateEvent(id,eventDto);
 		}
 
 		@PostMapping("/{eventId}/image")

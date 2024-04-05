@@ -87,8 +87,5 @@ public class StandardService {
 			throw new GeneralException("failed to find standards by standard type " + standardType);
 		}
 	}
-	private Optional<Standard> getOptionalByID(Long id) {
-		return this.standardRepository.findById(id);
-	}
 
 }
