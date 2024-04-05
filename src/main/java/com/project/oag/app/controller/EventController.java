@@ -11,6 +11,7 @@ import java.util.Optional;
 import com.project.oag.app.model.Event;
 import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.service.EventService;
+import com.project.oag.common.GenericResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,102 +31,31 @@ public class EventController {
 	 private final EventService eventService;
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
-	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
-    @PostMapping("/saveEvent")
-	public @ResponseBody ResponseEntity<?> createEvent(@RequestParam("eventName") String eventName,
-													   @RequestParam("ticketPrice") double ticketPrice, @RequestParam("capacity") int capacity, @RequestParam("eventDescription") String eventDescription, @RequestParam("location") String location,@RequestParam("eventDate") LocalDate eventDate,
-													   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file) {
-		try {
-			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-			log.info("uploadDirectory:: " + uploadDirectory);
-			String fileName = file.getOriginalFilename();
-			String filePath = Paths.get(uploadDirectory, fileName).toString();
-			log.info("FileName: " + file.getOriginalFilename());
-			if (fileName == null || fileName.contains("..")) {
-				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-			}
-			String[] names = eventName.split(",");
-			String[] descriptions = eventDescription.split(",");
-			log.info("eventName: " + names[0] + " " + filePath);
-			log.info("eventDescription: " + descriptions[0]);
-			log.info("ticketPrice: " + ticketPrice);
-			try {
-				File dir = new File(uploadDirectory);
-				if (!dir.exists()) {
-					log.info("Folder Created");
-					dir.mkdirs();
-				}
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-				stream.write(file.getBytes());
-				stream.close();
-			} catch (Exception e) {
-				log.info("in catch");
-				e.printStackTrace();
-			}
-			byte[] imageData = file.getBytes();
-			Event event = new Event();
-			event.setEventName(names[0]);
-			event.setImage(imageData);
-			event.setTicketPrice(ticketPrice);
-			event.setCapacity(capacity);
-			event.setLocation(location);
-			event.setStatus();
-			event.setEventDate(event.getEventDate());
-			//event.setEventDate(eventDate);
-			event.setEventDescription(descriptions[0]);
-			eventService.saveEvent(event);
-			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-			return new ResponseEntity<>("Event Saved With File - " + fileName, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("Exception: " + e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+    @PostMapping("/create")
+	public @ResponseBody ResponseEntity<GenericResponse> createEvent(@RequestBody EventDto eventDto) {
+		return eventService.createEvent(eventDto);
 	}
 
 	 @GetMapping("/{id}")
-	 public ResponseEntity<Event> getEvent(@PathVariable Long id, Model model) {
-	     Optional<Event> event = eventService.getEventById(id);
-	     if (event == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-    return new ResponseEntity<>(event.get(), HttpStatus.OK);
-	 }
-
-	 @GetMapping("/{id}/image")
-	 public ResponseEntity<byte[]> getEventImage(@PathVariable Long id, Model model) {
-	     Optional<Event> event = eventService.getEventById(id);
-	     if (event == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-	     byte[] imageBytes = event.get().getImage();
-	 
-	     HttpHeaders headers = new HttpHeaders();
-   		headers.setContentType(MediaType.IMAGE_PNG);
-    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-	 }
+	 public ResponseEntity<GenericResponse> getEvent(@PathVariable Long id) {
+	     return eventService.getEventById(id);
+	}
 
 	 @GetMapping
-	 public ResponseEntity<List<Event>> getAllEvent() {
-	     List<Event> eventList = eventService.getAllEvents();
-
-	     if (eventList == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-    return new ResponseEntity<>(eventList, HttpStatus.OK);
+	 public ResponseEntity<GenericResponse> getAllEvent() {
+	     return eventService.getAllEvents();
 	 }
 	 
-	   @GetMapping("/pending")
-	   @PreAuthorize("hasRole('MANAGER')")
-	    public List<Event> getPendingEvents() {
-	        return eventService.getPendingEvents();
-	    }
+	 @GetMapping("/pending")
+	 @PreAuthorize("hasRole('MANAGER')")
+	 public List<Event> getPendingEvents() {
+		return eventService.getPendingEvents();
+	}
 	    @GetMapping("/accepted")
 	    public List<Event> getAcceptedEvents() {
 	        return eventService.getAcceptedEvents();

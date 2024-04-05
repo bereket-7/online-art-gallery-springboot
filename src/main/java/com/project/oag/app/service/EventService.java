@@ -7,20 +7,38 @@ import java.util.Optional;
 import com.project.oag.app.model.Event;
 import com.project.oag.app.repository.EventRepository;
 import com.project.oag.app.dto.EventDto;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.GeneralException;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.project.oag.utils.Utils.prepareResponse;
+
 @Service
+@Slf4j
 public class  EventService {
 	private final EventRepository eventRepository;
-	public EventService(EventRepository eventRepository) {
+	private final ModelMapper modelMapper;
+	public EventService(EventRepository eventRepository, ModelMapper modelMapper) {
 		this.eventRepository = eventRepository;
+        this.modelMapper = modelMapper;
+    }
+	public ResponseEntity<GenericResponse> createEvent(EventDto eventDto) {
+		try {
+			val user = modelMapper.map(eventDto, Event.class);
+			val response = eventRepository.save(user);
+			return prepareResponse(HttpStatus.OK,"Event created successfully",response);
+		} catch (Exception e) {
+			throw new GeneralException(" Failed to save event");
+		}
 	}
-	public void saveEvent(Event event) {
-		eventRepository.save(event);
-	}
-	public List<Event> getAllEvents() {
-		return eventRepository.findAll();
+	public ResponseEntity<GenericResponse> getAllEvents() {
+		eventRepository.findAll();
 	}
 	public Optional<Event> getEventById(Long id) {
 		return eventRepository.findById(id);

@@ -2,6 +2,7 @@ package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.dto.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -42,11 +43,11 @@ public class Event {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "EVENT_DATE")
-    private LocalDate eventDate;
+    private LocalDateTime eventDate;
 
     @Lob
     @Column(name = "IMAGE")
-    private String image;
+    private String imageUrl;
 
     @Column(name = "STATUS")
     @Enumerated(EnumType.STRING)
