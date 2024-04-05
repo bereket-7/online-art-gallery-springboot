@@ -14,11 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
@@ -59,29 +56,16 @@ public class  EventService {
 			throw new GeneralException("Failed to get event ");
 		}
 	}
-	public ResponseEntity<GenericResponse> acceptEvent(Long id) {
-		Optional<Event> optionalEvent = eventRepository.findById(id);
-		if (optionalEvent.isPresent()) {
-			Event event = optionalEvent.get();
-			if (event.getStatus().equals("pending")) {
-				event.setStatus("accepted");
+	public ResponseEntity<GenericResponse> changeEventStatus(Long id, EventStatus status) {
+		try {
+			val event = eventRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Event record not found"));
+				event.setStatus(status);
 				eventRepository.save(event);
-				return true;
-			}
+				return prepareResponse(HttpStatus.OK,"Event Status Successfully Updated",event);
+		} catch (Exception e) {
+			throw new GeneralException("failed to update event status");
 		}
-		return false;
-	}
-	public boolean rejectEvent(Long id) {
-		Optional<Event> optionalEvent = eventRepository.findById(id);
-		if (optionalEvent.isPresent()) {
-			Event event = optionalEvent.get();
-			if (event.getStatus().equals("pending")) {
-				event.setStatus("rejected");
-				eventRepository.save(event);
-				return true;
-			}
-		}
-		return false;
 	}
 	public ResponseEntity<GenericResponse> getEventsByEventStatus(EventStatus status) {
 		try {
@@ -114,16 +98,6 @@ public class  EventService {
 			return prepareResponse(HttpStatus.OK, "Successfully deleted Event", null);
 		} catch (Exception e) {
 			throw new GeneralException("Failed to delete ");
-		}
-	}
-
-	public void changeEventImage(Long eventId, MultipartFile imageFile) throws IOException {
-		Optional<Event> optionalEvent = eventRepository.findById(eventId);
-		if (optionalEvent.isPresent()) {
-			Event event = optionalEvent.get();
-			byte[] imageData = imageFile.getBytes();
-			event.setImage(imageData);
-			eventRepository.save(event);
 		}
 	}
 
