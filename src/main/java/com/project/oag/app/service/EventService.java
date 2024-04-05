@@ -9,6 +9,7 @@ import com.project.oag.app.repository.EventRepository;
 import com.project.oag.app.dto.EventDto;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
@@ -38,10 +39,21 @@ public class  EventService {
 		}
 	}
 	public ResponseEntity<GenericResponse> getAllEvents() {
-		eventRepository.findAll();
+		try {
+			val response = eventRepository.findAll();
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved all events",response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get events");
+		}
 	}
-	public Optional<Event> getEventById(Long id) {
-		return eventRepository.findById(id);
+	public ResponseEntity<GenericResponse> getEventById(Long id) {
+		try {
+			val response = eventRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Event record not found"));
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved event",response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get event ");
+		}
 	}
 	public boolean acceptEvent(Long id) {
 		Optional<Event> optionalEvent = eventRepository.findById(id);
