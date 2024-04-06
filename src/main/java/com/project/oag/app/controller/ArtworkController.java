@@ -10,16 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -27,9 +24,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("api/artwork")
 public class ArtworkController {
-	 @Value("${uploadDir}")
-	 private String uploadFolder;
-	 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private final ArtworkService artworkService;
 	private final UserRepository userRepository;
 	public ArtworkController(ArtworkService artworkService, UserRepository userRepository) {
@@ -42,70 +36,6 @@ public class ArtworkController {
 	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) {
 		return artworkService.saveArtwork(request,artworkRequestDto);
 	}
-
-//	@PostMapping("/saveArtwork")
-////@PreAuthorize("hasRole('ARTIST')")
-//	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
-//														   @RequestParam("price") int price, @RequestParam("size") String size,
-//														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
-//														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file, Authentication authentication) {
-//		try {
-//			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-//			log.info("uploadDirectory:: " + uploadDirectory);
-//			String fileName = file.getOriginalFilename();
-//			String filePath = Paths.get(uploadDirectory, fileName).toString();
-//			log.info("FileName: " + file.getOriginalFilename());
-//			if (fileName == null || fileName.contains("..")) {
-//				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-//				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-//			}
-//			String[] names = artworkName.split(",");
-//			String[] descriptions = artworkDescription.split(",");
-//			Date createDate = new Date();
-//			log.info("artworkName: " + names[0] + " " + filePath);
-//			log.info("artworkDescription: " + descriptions[0]);
-//			log.info("Price: " + price);
-//			try {
-//				File dir = new File(uploadDirectory);
-//				if (!dir.exists()) {
-//					log.info("Folder Created");
-//					dir.mkdirs();
-//				}
-//				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-//				stream.write(file.getBytes());
-//				stream.close();
-//			} catch (Exception e) {
-//				log.info("in catch");
-//				e.printStackTrace();
-//			}
-//			byte[] imageData = file.getBytes();
-//			Artwork artwork = new Artwork();
-//			artwork.setArtworkName(names[0]);
-//			artwork.setImage(imageData);
-//			artwork.setPrice(price);
-//			artwork.setSize(size);
-//			artwork.setArtworkCategory(artworkCategory);
-//			artwork.setStatus("pending");
-//			artwork.setArtworkDescription(descriptions[0]);
-//			artwork.setCreateDate(createDate);
-//			String email = authentication.getName();
-//			Optional<User> userOptional = userRepository.findByEmail(email);
-//			if (userOptional.isPresent()) {
-//				User user = userOptional.get();
-//				artwork.setArtist(user);
-//			} else {
-//				return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-//			}
-//
-//			artworkService.saveArtwork(artwork);
-//			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-//			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			log.info("Exception: " + e);
-//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//		}
-//	}
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
@@ -114,17 +44,6 @@ public class ArtworkController {
 	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 	     }
     return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
-	 }
-	 @GetMapping("/{id}/image")
-	 public ResponseEntity<byte[]> getArtworkImage(@PathVariable Long id, Model model) {
-	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
-	     if (artwork == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-	     byte[] imageBytes = artwork.get().getImage();
-	     HttpHeaders headers = new HttpHeaders();
-   		headers.setContentType(MediaType.IMAGE_PNG);
-    return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
 	 }
 	 @GetMapping
 	 public ResponseEntity<List<Artwork>> getAllArtwork() {
@@ -156,9 +75,9 @@ public class ArtworkController {
 		}
 	}
 	@DeleteMapping("/{id}")
-	@PreAuthorize("hasRole('MANAGER','ARTIST')")
-	   public void deleteArtwork(@PathVariable Long id) { 
-		   artworkService.deleteArtwork(id); 
+	@PreAuthorize("hasAuthority('ADMIN_DELETE_ARTWORK')")
+	public ResponseEntity<GenericResponse> deleteArtwork(@PathVariable Long id) {
+		   return artworkService.deleteArtwork(id);
 	   }
 	@GetMapping("/pending")
 	@PreAuthorize("hasRole('MANAGER')")

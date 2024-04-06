@@ -13,5 +13,4 @@ public class ArtworkRequestDto {
 	private int price;
 	private String size;
 	List<MultipartFile> imageFiles;
-
 }

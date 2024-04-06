@@ -70,8 +70,13 @@ public class  ArtworkService{
 		}
 	}
 
-	public void deleteArtwork(Long id) {
-		artworkRepository.deleteById(id);
+	public ResponseEntity<GenericResponse> deleteArtwork(final Long id) {
+		try {
+			artworkRepository.deleteById(id);
+			return prepareResponse(HttpStatus.OK, "Artwork Successfully deleted", null);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to delete artwork");
+		}
 	}
 
 	public List<Artwork> getArtworkByCategory(String artworkCategory) {
