@@ -34,7 +34,7 @@ public class EventController {
 	 }
 	 @GetMapping("/status")
 	 @PreAuthorize("hasAuthority('ADMIN_FETCH_EVENT')")
-	 public ResponseEntity<GenericResponse> getPendingEventsByStatus(@RequestParam(required = false) EventStatus status) {
+	 public ResponseEntity<GenericResponse> getEventsByStatus(@RequestParam(required = false) EventStatus status) {
 		return eventService.getEventsByEventStatus(status);
 	}
 	@PatchMapping("/change/status/{id}")

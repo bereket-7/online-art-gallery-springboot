@@ -130,7 +130,7 @@ public class  ArtworkService{
 					.collect(Collectors.toList());
 			return prepareResponse(HttpStatus.OK,"Successfully retrieved events",artworks);
 		} catch (Exception e) {
-			throw new GeneralException(" failed to get events by status " );
+			throw new GeneralException(" failed to get artworks by status " );
 		}
 	}
 	public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
@@ -144,9 +144,15 @@ public class  ArtworkService{
 			throw new GeneralException("Failed to retrieve artworks");
 		}
 	}
-
-	public List<Artwork> getArtworkByCategory(String artworkCategory) {
-		return artworkRepository.findByArtworkCategory(artworkCategory);
+	public ResponseEntity<GenericResponse> getArtworkByArtworkCategory(String artworkCategory) {
+		try {
+			val response = artworkRepository.findByArtworkCategory(artworkCategory);
+			List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved",artworks);
+		} catch (Exception e) {
+			throw new GeneralException(" failed to get artworks by status " );
+		}
 	}
 
 	public List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice) {

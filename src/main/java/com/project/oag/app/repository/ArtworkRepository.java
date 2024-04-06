@@ -14,13 +14,16 @@ import com.project.oag.app.model.Artwork;
 
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
+	@Query("select a from Artwork a where a.artworkCategory = ?1")
 	List<Artwork> findByArtworkCategory(String artworkCategory);
-	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
-	List<Artwork> findByStatus(ArtworkStatus status);
 
 	@Query("select a from Artwork a where a.artistId = ?1")
 	List<Artwork> findByArtistId(Long artistId);
 
+	@Query("select a from Artwork a where a.status = ?1")
+	List<Artwork> findByStatus(ArtworkStatus status);
+
+	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
 	List<Artwork> findAllByOrderByCreateDateDesc();
 	@Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
 	List<Object[]> countByCategory();

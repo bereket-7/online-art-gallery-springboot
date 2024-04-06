@@ -3,15 +3,12 @@ package com.project.oag.app.controller;
 import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.Artwork;
-import com.project.oag.app.model.User;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,14 +43,10 @@ public class ArtworkController {
 		return artworkService.updateArtwork(id,artworkRequestDto);
 	}
 
-	@GetMapping("/category/{category}")
-	//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
-	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable("category") String artworkCategory) {
-		List<Artwork> artworks = artworkService.getArtworkByCategory(artworkCategory);
-		if (artworks == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(artworks, HttpStatus.OK);
+	@GetMapping("/category")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getArtworksByCategory(@RequestParam(required = false) String artworkCategory) {
+		return artworkService.getArtworkByArtworkCategory(artworkCategory);
 	}
 	@GetMapping("/priceRange")
 	public ResponseEntity<List<Artwork>> getArtworksByPriceRange(@RequestParam("minPrice") int minPrice,
@@ -74,7 +67,7 @@ public class ArtworkController {
 
 	@GetMapping("/status")
 	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-	public ResponseEntity<GenericResponse> getPendingEventsByStatus(@RequestParam(required = false) ArtworkStatus status) {
+	public ResponseEntity<GenericResponse> getArtworksByStatus(@RequestParam(required = false) ArtworkStatus status) {
 		return artworkService.getArtworkByArtworkStatus(status);
 	}
 
