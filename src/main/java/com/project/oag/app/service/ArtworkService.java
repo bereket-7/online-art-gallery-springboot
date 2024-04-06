@@ -8,6 +8,7 @@ import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -19,16 +20,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.project.oag.common.AppConstants.LOG_PREFIX;
+import static com.project.oag.utils.ImageUtils.saveImagesAndGetUrls;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
-import static com.project.oag.utils.ImageUtils.*;
 
 @Service
 @Slf4j
@@ -42,13 +44,6 @@ public class  ArtworkService{
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
     }
-	public List<Artwork> getAllArtworks() {
-		return artworkRepository.findAll();
-	}
-
-	public Optional<Artwork> getArtworkById(Long id) {
-		return artworkRepository.findById(id);
-	}
 
 	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request,ArtworkRequestDto artworkRequestDto) {
 		Long userId = getUserId(request);
@@ -70,12 +65,56 @@ public class  ArtworkService{
 		}
 	}
 
+	public ResponseEntity<GenericResponse> getAllArtworks() {
+		try {
+			val response = artworkRepository.findAll();
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved all artworks",response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get artworks");
+		}
+	}
+	public ResponseEntity<GenericResponse> getArtworkById(Long id) {
+		try {
+			val response = artworkRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("artwork record not found"));
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved artwork",response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get artwork ");
+		}
+	}
+
+	public ResponseEntity<GenericResponse> updateArtwork(Long id, ArtworkRequestDto artworkRequestDto) {
+		if (ObjectUtils.isEmpty(id))
+			throw new GeneralException("artwork Id needs to have a value");
+		val artwork = artworkRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Artwork record not found"));
+		try {
+			modelMapper.map(artworkRequestDto, artwork);
+			val response = artworkRepository.save(artwork);
+			log.info(LOG_PREFIX, "Saved artwork information", "");
+			return prepareResponse(HttpStatus.OK, "Saved artwork ", response);
+		}catch (Exception e){
+			throw new GeneralException("Failed to save artwork information");
+		}
+	}
 	public ResponseEntity<GenericResponse> deleteArtwork(final Long id) {
 		try {
 			artworkRepository.deleteById(id);
 			return prepareResponse(HttpStatus.OK, "Artwork Successfully deleted", null);
 		} catch (Exception e) {
 			throw new GeneralException("Failed to delete artwork");
+		}
+	}
+
+	public ResponseEntity<GenericResponse> changeArtworkStatus(Long id, ArtworkStatus status) {
+		try {
+			val artwork = artworkRepository.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Artwork record not found"));
+			artwork.setStatus(status);
+			artworkRepository.save(artwork);
+			return prepareResponse(HttpStatus.OK,"Artwork Status Successfully Updated",artwork);
+		} catch (Exception e) {
+			throw new GeneralException("failed to update artwork status");
 		}
 	}
 
@@ -176,4 +215,5 @@ public class  ArtworkService{
 		return userRepository.findByEmailIgnoreCase(email)
 				.orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
 	}
+
 }

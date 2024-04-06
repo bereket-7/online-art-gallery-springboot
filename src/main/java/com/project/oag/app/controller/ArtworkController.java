@@ -1,26 +1,22 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.ArtworkRequestDto;
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.User;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 @RestController
 @RequestMapping("api/artwork")
 public class ArtworkController {
@@ -33,27 +29,21 @@ public class ArtworkController {
     }
 
 	@PostMapping("/upload")
+	@PreAuthorize("hasAuthority('USER_ADD_ARTWORK')")
 	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) {
 		return artworkService.saveArtwork(request,artworkRequestDto);
 	}
-	 @GetMapping("/{id}")
-	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
-	     Optional<Artwork> artwork = artworkService.getArtworkById(id);
+	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getArtworkById(@PathVariable Long id) {
+		return artworkService.getArtworkById(id);
+	}
 
-	     if (artwork == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-    return new ResponseEntity<>(artwork.get(), HttpStatus.OK);
-	 }
-	 @GetMapping
-	 public ResponseEntity<List<Artwork>> getAllArtwork() {
-	     List<Artwork> artworkList = artworkService.getAllArtworks();
-
-	     if (artworkList == null) {
-			 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		 }
-    return new ResponseEntity<>(artworkList, HttpStatus.OK);
-	 }
+	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getAllArtworks() {
+		return artworkService.getAllArtworks();
+	}
 	@GetMapping("/category/{category}")
 	//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable("category") String artworkCategory) {
@@ -127,6 +117,13 @@ public class ArtworkController {
 	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending status");
 	        }
 	    }
+	@PatchMapping("/change/status/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
+	public ResponseEntity<GenericResponse> changeStatus(@PathVariable Long id, @RequestParam(required = false) ArtworkStatus status) {
+		return artworkService.changeArtworkStatus(id,status);
+	}
+
+
 	    @GetMapping("/recent")
 		//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	    public ResponseEntity<List<Artwork>> getRecentArtworks() {
