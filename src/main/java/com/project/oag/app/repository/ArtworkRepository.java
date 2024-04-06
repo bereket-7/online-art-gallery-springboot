@@ -3,6 +3,8 @@ package com.project.oag.app.repository;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.User;
 import org.springframework.data.domain.Pageable;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,7 +26,10 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	List<Artwork> findByStatus(ArtworkStatus status);
 
 	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
-	List<Artwork> findAllByOrderByCreateDateDesc();
+
+	@Query("select a from Artwork a order by a.creationDate DESC")
+	List<Artwork> findRecentArtworks();
+
 	@Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
 	List<Object[]> countByCategory();
 	@Query("SELECT a FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +

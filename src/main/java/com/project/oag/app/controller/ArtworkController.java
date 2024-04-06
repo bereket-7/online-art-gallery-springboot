@@ -77,13 +77,11 @@ public class ArtworkController {
 		return artworkService.changeArtworkStatus(id,status);
 	}
 
-
-	    @GetMapping("/recent")
-		//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
-	    public ResponseEntity<List<Artwork>> getRecentArtworks() {
-	        List<Artwork> artworks = artworkService.getRecentArtworks();
-	        return new ResponseEntity<>(artworks, HttpStatus.OK);
-	    }
+	@GetMapping("/recent")
+	@PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getRecentArtworks() {
+		return artworkService.getRecentArtworks();
+	}
 	@GetMapping("/count-by-category")
 	public ResponseEntity<Map<String, Integer>> getCountByCategory() {
 		Map<String, Integer> countByCategory = artworkService.getCountByCategory();

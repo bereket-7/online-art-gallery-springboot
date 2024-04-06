@@ -159,11 +159,16 @@ public class  ArtworkService{
 		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
 	}
 
-
-    public List<Artwork> getRecentArtworks() {
-        return artworkRepository.findAllByOrderByCreateDateDesc();
-    }
-
+	public ResponseEntity<GenericResponse> getRecentArtworks() {
+		try {
+			val response = artworkRepository.findRecentArtworks();
+			List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved all artworks",artworks);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get artworks");
+		}
+	}
 	public ArtworkRequestDto getDtoFromArtwork(Artwork artwork) {
 	    ArtworkRequestDto artworkRequestDto = new ArtworkRequestDto(artwork);
         return artworkRequestDto;
