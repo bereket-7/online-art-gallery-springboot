@@ -71,7 +71,9 @@ public class  ArtworkService{
 	public ResponseEntity<GenericResponse> getAllArtworks() {
 		try {
 			val response = artworkRepository.findAll();
-			return prepareResponse(HttpStatus.OK,"Successfully retrieved all artworks",response);
+			List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved all artworks",artworks);
 		} catch (Exception e) {
 			throw new GeneralException("Failed to get artworks");
 		}
@@ -131,6 +133,17 @@ public class  ArtworkService{
 			throw new GeneralException(" failed to get events by status " );
 		}
 	}
+	public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
+		Long userId = getUserId(request);
+		try {
+			val response = artworkRepository.findByArtistId(userId);
+			List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved all artworks",artworks);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to retrieve artworks");
+		}
+	}
 
 	public List<Artwork> getArtworkByCategory(String artworkCategory) {
 		return artworkRepository.findByArtworkCategory(artworkCategory);
@@ -140,41 +153,7 @@ public class  ArtworkService{
 		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
 	}
 
-	public List<Artwork> getPendingArtworks() {
-        return artworkRepository.findByStatus("pending");
-    }
-	public List<Artwork> getAcceptedArtworks() {
-		 return artworkRepository.findByStatus("accepted");
-	}
-	public List<Artwork> getRejectedArtworks() {
-		 return artworkRepository.findByStatus("rejected");
-	}
-    @Transactional
-    public boolean acceptArtwork(Long id) {
-        Optional<Artwork> artworkOptional = artworkRepository.findById(id);
-        if (artworkOptional.isPresent()) {
-            Artwork artwork = artworkOptional.get();
-            if (artwork.getStatus().equals("pending")) {
-                artwork.setStatus("accepted");
-                artworkRepository.save(artwork);
-                return true;
-            }
-        }
-        return false;
-    }
-    @Transactional
-	public boolean rejectArtwork(Long id) {
-    	 Optional<Artwork> artworkOptional = artworkRepository.findById(id);
-         if (artworkOptional.isPresent()) {
-             Artwork artwork = artworkOptional.get();
-             if (artwork.getStatus().equals("pending")) {
-                 artwork.setStatus("rejected");
-                 artworkRepository.save(artwork);
-                 return true;
-             }
-         }
-         return false;
-	}
+
     public List<Artwork> getRecentArtworks() {
         return artworkRepository.findAllByOrderByCreateDateDesc();
     }

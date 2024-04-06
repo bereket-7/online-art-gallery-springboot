@@ -126,11 +126,9 @@ public class ArtworkController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	@GetMapping("/my-artworks")
-	public ResponseEntity<List<Artwork>> getLoggedArtistArtworks() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User loggedArtist = (User) authentication.getPrincipal();
-		List<Artwork> artistArtworks = artworkService.getArtworksForLoggedArtist(loggedArtist);
-		return ResponseEntity.ok(artistArtworks);
+	@GetMapping("/me")
+	@PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
+		return artworkService.getLoggedArtistArtworks(request);
 	}
 }
