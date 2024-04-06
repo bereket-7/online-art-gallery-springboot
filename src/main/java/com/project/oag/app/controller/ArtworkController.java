@@ -1,121 +1,111 @@
 package com.project.oag.app.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.model.Artwork;
-import com.project.oag.app.service.ArtworkService;
 import com.project.oag.app.model.User;
 import com.project.oag.app.repository.UserRepository;
+import com.project.oag.app.service.ArtworkService;
+import com.project.oag.common.GenericResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 @RestController
-@RequestMapping("api/artworks")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/artwork")
 public class ArtworkController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	private ArtworkService artworkService;
-	@Autowired
-	private UserRepository userRepository;
-	public ArtworkController(ArtworkService artworkService) {
+	private final ArtworkService artworkService;
+	private final UserRepository userRepository;
+	public ArtworkController(ArtworkService artworkService, UserRepository userRepository) {
 		super();
 		this.artworkService = artworkService;
+        this.userRepository = userRepository;
+    }
+
+	@PostMapping("/upload")
+	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) {
+		return artworkService.saveArtwork(request,artworkRequestDto);
 	}
 
-	@PostMapping("/saveArtwork")
-//@PreAuthorize("hasRole('ARTIST')")
-	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
-														   @RequestParam("price") int price, @RequestParam("size") String size,
-														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
-														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file, Authentication authentication) {
-		try {
-			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-			log.info("uploadDirectory:: " + uploadDirectory);
-			String fileName = file.getOriginalFilename();
-			String filePath = Paths.get(uploadDirectory, fileName).toString();
-			log.info("FileName: " + file.getOriginalFilename());
-			if (fileName == null || fileName.contains("..")) {
-				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
-			}
-			String[] names = artworkName.split(",");
-			String[] descriptions = artworkDescription.split(",");
-			Date createDate = new Date();
-			log.info("artworkName: " + names[0] + " " + filePath);
-			log.info("artworkDescription: " + descriptions[0]);
-			log.info("Price: " + price);
-			try {
-				File dir = new File(uploadDirectory);
-				if (!dir.exists()) {
-					log.info("Folder Created");
-					dir.mkdirs();
-				}
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-				stream.write(file.getBytes());
-				stream.close();
-			} catch (Exception e) {
-				log.info("in catch");
-				e.printStackTrace();
-			}
-			byte[] imageData = file.getBytes();
-			Artwork artwork = new Artwork();
-			artwork.setArtworkName(names[0]);
-			artwork.setImage(imageData);
-			artwork.setPrice(price);
-			artwork.setSize(size);
-			artwork.setArtworkCategory(artworkCategory);
-			artwork.setStatus("pending");
-			artwork.setArtworkDescription(descriptions[0]);
-			artwork.setCreateDate(createDate);
-			String email = authentication.getName();
-			Optional<User> userOptional = userRepository.findByEmail(email);
-			if (userOptional.isPresent()) {
-				User user = userOptional.get();
-				artwork.setArtist(user);
-			} else {
-				return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-			}
-
-			artworkService.saveArtwork(artwork);
-			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			log.info("Exception: " + e);
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
+//	@PostMapping("/saveArtwork")
+////@PreAuthorize("hasRole('ARTIST')")
+//	public @ResponseBody ResponseEntity<?> registerArtwork(@RequestParam("artworkName") String artworkName,
+//														   @RequestParam("price") int price, @RequestParam("size") String size,
+//														   @RequestParam("artworkDescription") String artworkDescription, @RequestParam("artworkCategory") String artworkCategory,
+//														   Model model, HttpServletRequest request, final @RequestParam("image") MultipartFile file, Authentication authentication) {
+//		try {
+//			String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
+//			log.info("uploadDirectory:: " + uploadDirectory);
+//			String fileName = file.getOriginalFilename();
+//			String filePath = Paths.get(uploadDirectory, fileName).toString();
+//			log.info("FileName: " + file.getOriginalFilename());
+//			if (fileName == null || fileName.contains("..")) {
+//				model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
+//				return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName, HttpStatus.BAD_REQUEST);
+//			}
+//			String[] names = artworkName.split(",");
+//			String[] descriptions = artworkDescription.split(",");
+//			Date createDate = new Date();
+//			log.info("artworkName: " + names[0] + " " + filePath);
+//			log.info("artworkDescription: " + descriptions[0]);
+//			log.info("Price: " + price);
+//			try {
+//				File dir = new File(uploadDirectory);
+//				if (!dir.exists()) {
+//					log.info("Folder Created");
+//					dir.mkdirs();
+//				}
+//				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
+//				stream.write(file.getBytes());
+//				stream.close();
+//			} catch (Exception e) {
+//				log.info("in catch");
+//				e.printStackTrace();
+//			}
+//			byte[] imageData = file.getBytes();
+//			Artwork artwork = new Artwork();
+//			artwork.setArtworkName(names[0]);
+//			artwork.setImage(imageData);
+//			artwork.setPrice(price);
+//			artwork.setSize(size);
+//			artwork.setArtworkCategory(artworkCategory);
+//			artwork.setStatus("pending");
+//			artwork.setArtworkDescription(descriptions[0]);
+//			artwork.setCreateDate(createDate);
+//			String email = authentication.getName();
+//			Optional<User> userOptional = userRepository.findByEmail(email);
+//			if (userOptional.isPresent()) {
+//				User user = userOptional.get();
+//				artwork.setArtist(user);
+//			} else {
+//				return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+//			}
+//
+//			artworkService.saveArtwork(artwork);
+//			log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
+//			return new ResponseEntity<>("Artwork Saved With File - " + fileName, HttpStatus.OK);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			log.info("Exception: " + e);
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+//	}
 	 @GetMapping("/{id}")
 	 public ResponseEntity<Artwork> getArtwork(@PathVariable Long id, Model model) {
 	     Optional<Artwork> artwork = artworkService.getArtworkById(id);

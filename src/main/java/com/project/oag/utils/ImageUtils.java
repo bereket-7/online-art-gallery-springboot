@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ImageUtils {
-    private List<String> saveImagesAndGetUrls(List<MultipartFile> files) throws IOException {
+    public static List<String> saveImagesAndGetUrls(List<MultipartFile> files) {
         List<String> imageUrls = new ArrayList<>();
 
         for (MultipartFile file : files) {

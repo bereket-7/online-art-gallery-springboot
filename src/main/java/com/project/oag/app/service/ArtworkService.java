@@ -1,35 +1,47 @@
 package com.project.oag.app.service;
-import com.project.oag.app.dto.ArtworkDto;
+
+import com.project.oag.app.dto.ArtworkRequestDto;
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.Artwork;
-import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.model.User;
+import com.project.oag.app.repository.ArtworkRepository;
+import com.project.oag.app.repository.UserRepository;
+import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.UserNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
+import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import static com.project.oag.utils.Utils.prepareResponse;
+import static com.project.oag.utils.ImageUtils.*;
 
-import com.project.oag.app.repository.UserRepository;
-
-import jakarta.transaction.Transactional;
 @Service
-@Transactional
+@Slf4j
 public class  ArtworkService{
-	@Autowired
-	private ArtworkRepository artworkRepository;
+	private final ArtworkRepository artworkRepository;
+	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 
-	public ArtworkService(ArtworkRepository artworkRepository) {
+	public ArtworkService(ArtworkRepository artworkRepository, UserRepository userRepository, ModelMapper modelMapper) {
 		this.artworkRepository = artworkRepository;
-	}
-
-	@Autowired
-	private UserRepository userRepository;
-
-
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
 	public List<Artwork> getAllArtworks() {
 		return artworkRepository.findAll();
 	}
@@ -38,8 +50,24 @@ public class  ArtworkService{
 		return artworkRepository.findById(id);
 	}
 
-	public void saveArtwork(Artwork artwork) {
-		artworkRepository.save(artwork);	
+	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request,ArtworkRequestDto artworkRequestDto) {
+		Long userId = getUserId(request);
+		List<String> imageUrls = saveImagesAndGetUrls(artworkRequestDto.getImageFiles());
+		try {
+			Artwork artwork = new Artwork();
+			artwork.setArtworkName(artworkRequestDto.getArtworkName());
+			artwork.setArtworkCategory(artworkRequestDto.getArtworkCategory());
+			artwork.setArtworkDescription(artworkRequestDto.getArtworkDescription());
+			artwork.setStatus(ArtworkStatus.PENDING);
+			artwork.setPrice(artworkRequestDto.getPrice());
+			artwork.setSize(artworkRequestDto.getSize());
+			artwork.setArtistId(userId);
+			artwork.setImageUrls(imageUrls);
+			val response = artworkRepository.save(artwork);
+			return prepareResponse(HttpStatus.OK,"success",response);
+		} catch (Exception e) {
+			throw new GeneralException("Error saving artwork");
+		}
 	}
 
 	public void deleteArtwork(Long id) {
@@ -93,9 +121,9 @@ public class  ArtworkService{
         return artworkRepository.findAllByOrderByCreateDateDesc();
     }
 
-	public ArtworkDto getDtoFromArtwork(Artwork artwork) {
-	    ArtworkDto artworkDto = new ArtworkDto(artwork);
-        return artworkDto;
+	public ArtworkRequestDto getDtoFromArtwork(Artwork artwork) {
+	    ArtworkRequestDto artworkRequestDto = new ArtworkRequestDto(artwork);
+        return artworkRequestDto;
 	}
 	public Map<String, Integer> getCountByCategory() {
 		List<Object[]> countByCategory = artworkRepository.countByCategory();
@@ -134,4 +162,13 @@ public class  ArtworkService{
 		}
 	}
 
+
+	private Long getUserId(HttpServletRequest request) {
+		return getUserByUsername(getLoggedInUserName(request)).getId();
+	}
+
+	private User getUserByUsername(String email) {
+		return userRepository.findByEmailIgnoreCase(email)
+				.orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
+	}
 }

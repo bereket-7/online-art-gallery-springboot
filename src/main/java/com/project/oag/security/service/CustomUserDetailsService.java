@@ -11,7 +11,6 @@ import com.project.oag.app.service.EmailService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.IncorrectPasswordException;
-import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
@@ -24,9 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -168,7 +165,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 artists.add(artist);
             }
 
-            ArtworkDto artwork = new ArtworkDto();
+            ArtworkRequestDto artwork = new ArtworkRequestDto();
             artwork.setArtworkName((String) result[5]);
             artwork.setArtworkDescription((String) result[6]);
             artwork.setImage((byte[]) result[7]);

@@ -36,9 +36,9 @@ public class Artwork {
     @Column(name = "ARTWORK_CATEGORY")
     private String artworkCategory;
 
-    @Lob
+    @ElementCollection
     @Column(name = "IMAGE")
-    private byte[] image;
+    private List<String> imageUrls;
 
     @Column(name = "PRICE")
     private int price;
@@ -63,8 +63,7 @@ public class Artwork {
 
     @ManyToOne
     @JoinColumn(name = "ARTIST_ID")
-    @JsonIgnoreProperties({"artworks", "notifications", "carts", "ratings", "events"})
-    private User artist;
+    private Long artistId;
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
