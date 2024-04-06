@@ -82,10 +82,9 @@ public class ArtworkController {
 	public ResponseEntity<GenericResponse> getRecentArtworks() {
 		return artworkService.getRecentArtworks();
 	}
-	@GetMapping("/count-by-category")
-	public ResponseEntity<Map<String, Integer>> getCountByCategory() {
-		Map<String, Integer> countByCategory = artworkService.getCountByCategory();
-		return ResponseEntity.ok(countByCategory);
+	@GetMapping("/category/count")
+	public ResponseEntity<GenericResponse> getCountByCategory() {
+		return artworkService.getCountByCategory();
 	}
 	@GetMapping("/search")
 	public ResponseEntity<List<Artwork>> searchArtwork(

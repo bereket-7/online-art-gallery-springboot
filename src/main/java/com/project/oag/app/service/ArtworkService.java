@@ -169,22 +169,19 @@ public class  ArtworkService{
 			throw new GeneralException("Failed to get artworks");
 		}
 	}
+
+	public ResponseEntity<GenericResponse> getCountByCategory() {
+			try {
+				List<Object[]> response = artworkRepository.countByCategory();
+				return prepareResponse(HttpStatus.OK,"Successfully retrieved",response);
+			}
+		catch (Exception e) {
+			throw new GeneralException("failed to retrieve category count");
+		}
+	}
 	public ArtworkRequestDto getDtoFromArtwork(Artwork artwork) {
 	    ArtworkRequestDto artworkRequestDto = new ArtworkRequestDto(artwork);
         return artworkRequestDto;
-	}
-	public Map<String, Integer> getCountByCategory() {
-		List<Object[]> countByCategory = artworkRepository.countByCategory();
-		Map<String, Integer> result = new HashMap<>();
-		for (Object[] obj : countByCategory) {
-			String category = (String) obj[0];
-			Integer count = ((Number) obj[1]).intValue();
-			result.put(category, count);
-		}
-		return result;
-	}
-	public List<Artwork> getArtworksForLoggedArtist(User artist) {
-		return artworkRepository.findByArtist(artist);
 	}
 
 	public List<Artwork> searchArtwork(String keyword, int page, int size) {

@@ -25,13 +25,12 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	@Query("select a from Artwork a where a.status = ?1")
 	List<Artwork> findByStatus(ArtworkStatus status);
 
-	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
-
 	@Query("select a from Artwork a order by a.creationDate DESC")
 	List<Artwork> findRecentArtworks();
 
 	@Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
 	List<Object[]> countByCategory();
+
 	@Query("SELECT a FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
 			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
 	List<Artwork> searchArtwork(@Param("keyword") String keyword, Pageable pageable);
