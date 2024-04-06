@@ -68,55 +68,14 @@ public class ArtworkController {
 	@PreAuthorize("hasAuthority('ADMIN_DELETE_ARTWORK')")
 	public ResponseEntity<GenericResponse> deleteArtwork(@PathVariable Long id) {
 		   return artworkService.deleteArtwork(id);
-	   }
-	@GetMapping("/pending")
-	@PreAuthorize("hasRole('MANAGER')")
-	public ResponseEntity<List<Artwork>> getPendingArtworks() {
-		List<Artwork> pendingArtworkList = artworkService.getPendingArtworks();
+	}
 
-		if (pendingArtworkList == null || pendingArtworkList.isEmpty()) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(pendingArtworkList, HttpStatus.OK);
+	@GetMapping("/status")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getPendingEventsByStatus(@RequestParam(required = false) ArtworkStatus status) {
+		return artworkService.getArtworkByArtworkStatus(status);
 	}
-	@GetMapping("/accepted")
-	public ResponseEntity<List<Artwork>> getAcceptedArtworks() {
-		List<Artwork> acceptedArtworkList = artworkService.getAcceptedArtworks();
 
-		if (acceptedArtworkList == null || acceptedArtworkList.isEmpty()) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(acceptedArtworkList, HttpStatus.OK);
-	}
-	@GetMapping("/rejected")
-	@PreAuthorize("hasRole('MANAGER')")
-	public ResponseEntity<List<Artwork>> getRejectedArtworks()  {
-		List<Artwork> rejectedArtworkList = artworkService.getRejectedArtworks();
-		if (rejectedArtworkList == null || rejectedArtworkList.isEmpty()) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>(rejectedArtworkList, HttpStatus.OK);
-	}
-	    @PutMapping("/{id}/accept")
-		@PreAuthorize("hasRole('MANAGER')")
-	    public ResponseEntity<String> acceptArtwork(@PathVariable Long id) {
-	        boolean accepted = artworkService.acceptArtwork(id);
-	        if (accepted) {
-	            return ResponseEntity.ok("Artwork with ID " + id + " has been accepted");
-	        } else {
-	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending list");
-	        }
-	    }
-	    @PutMapping("/{id}/reject")
-		@PreAuthorize("hasRole('MANAGER')")
-	    public ResponseEntity<String> rejectArtwork(@PathVariable Long id) {
-	        boolean rejected = artworkService.rejectArtwork(id);
-	        if (rejected) {
-	            return ResponseEntity.ok("Artwork with ID " + id + " has been Rejected due to the reason it does not satisfy company standard");
-	        } else {
-	            return ResponseEntity.badRequest().body("Artwork with ID " + id + " was not found or is not in pending status");
-	        }
-	    }
 	@PatchMapping("/change/status/{id}")
 	@PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
 	public ResponseEntity<GenericResponse> changeStatus(@PathVariable Long id, @RequestParam(required = false) ArtworkStatus status) {

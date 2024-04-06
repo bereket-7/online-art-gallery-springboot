@@ -1,5 +1,6 @@
 package com.project.oag.app.repository;
 
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.User;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
@@ -15,7 +16,7 @@ import com.project.oag.app.model.Artwork;
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	 List<Artwork> findByArtworkCategory(String artworkCategory);
 	List<Artwork> findByPriceBetween(int minPrice, int maxPrice);
-	 List<Artwork> findByStatus(String status);
+	List<Artwork> findByStatus(ArtworkStatus status);
 	  List<Artwork> findAllByOrderByCreateDateDesc();
 	@Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
 	List<Object[]> countByCategory();

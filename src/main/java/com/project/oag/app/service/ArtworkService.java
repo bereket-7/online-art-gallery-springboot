@@ -1,7 +1,9 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtworkRequestDto;
+import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
+import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.User;
 import com.project.oag.app.repository.ArtworkRepository;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.ImageUtils.saveImagesAndGetUrls;
@@ -115,6 +118,17 @@ public class  ArtworkService{
 			return prepareResponse(HttpStatus.OK,"Artwork Status Successfully Updated",artwork);
 		} catch (Exception e) {
 			throw new GeneralException("failed to update artwork status");
+		}
+	}
+
+	public ResponseEntity<GenericResponse> getArtworkByArtworkStatus(ArtworkStatus status) {
+		try {
+			val response = artworkRepository.findByStatus(status);
+			List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK,"Successfully retrieved events",artworks);
+		} catch (Exception e) {
+			throw new GeneralException(" failed to get events by status " );
 		}
 	}
 
