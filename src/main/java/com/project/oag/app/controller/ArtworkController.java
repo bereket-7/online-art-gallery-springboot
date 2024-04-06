@@ -4,7 +4,6 @@ import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.User;
-import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,20 +17,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("api/artwork")
+@RequestMapping("api/v1/artwork")
 public class ArtworkController {
 	private final ArtworkService artworkService;
-	private final UserRepository userRepository;
-	public ArtworkController(ArtworkService artworkService, UserRepository userRepository) {
-		super();
-		this.artworkService = artworkService;
-        this.userRepository = userRepository;
+    public ArtworkController(ArtworkService artworkService) {
+        this.artworkService = artworkService;
     }
 
-	@PostMapping("/upload")
+    @PostMapping("/upload")
 	@PreAuthorize("hasAuthority('USER_ADD_ARTWORK')")
 	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) {
 		return artworkService.saveArtwork(request,artworkRequestDto);
+	}
+	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> getAllArtworks() {
+		return artworkService.getAllArtworks();
 	}
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
@@ -39,11 +40,12 @@ public class ArtworkController {
 		return artworkService.getArtworkById(id);
 	}
 
-	@GetMapping
-	@PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-	public ResponseEntity<GenericResponse> getAllArtworks() {
-		return artworkService.getAllArtworks();
+	@PatchMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
+	public ResponseEntity<GenericResponse> updateArtwork(@PathVariable Long id, @RequestBody ArtworkRequestDto artworkRequestDto) {
+		return artworkService.updateArtwork(id,artworkRequestDto);
 	}
+
 	@GetMapping("/category/{category}")
 	//@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
 	public ResponseEntity<List<Artwork>> searchByCategory(@PathVariable("category") String artworkCategory) {
