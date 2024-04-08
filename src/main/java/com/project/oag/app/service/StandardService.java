@@ -49,12 +49,6 @@ public class StandardService {
 		}
 	}
 
-
-	public Standard getStandardById(Long id) {
-		Optional<Standard> optionalStandard = standardRepository.findById(id);
-		return optionalStandard.orElse(null);
-	}
-
 	public ResponseEntity<GenericResponse> deleteStandardById(final Long id) {
 		try {
 			standardRepository.deleteById(id);

@@ -34,7 +34,7 @@ public class Rating {
     private Artwork artwork;
 
     @Column(name = "RATING_VALUE")
-    private int ratingValue;
+    private double ratingValue;
 
 	@CreationTimestamp
 	@Column(name = "CREATION_DATE")
