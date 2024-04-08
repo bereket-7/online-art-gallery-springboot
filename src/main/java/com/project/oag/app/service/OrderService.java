@@ -2,7 +2,6 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.model.Order;
-import com.project.oag.app.model.Standard;
 import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
@@ -21,7 +20,6 @@ import java.util.Random;
 import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
-@Transactional
 public class OrderService {
 	private final ModelMapper modelMapper;
 	private final OrderRepository orderRepository;
@@ -49,9 +47,6 @@ public class OrderService {
 		} catch (Exception e) {
 			throw new GeneralException("Could not find all orders");
 		}
-	}
-	public Order getOrderById(Long id) {
-		return orderRepository.findById(id).orElse(null);
 	}
 
 	private void sendOrderConfirmationEmail(Order order) {
