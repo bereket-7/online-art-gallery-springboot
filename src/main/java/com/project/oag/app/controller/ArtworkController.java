@@ -6,12 +6,19 @@ import com.project.oag.app.model.Artwork;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import static com.project.oag.common.AppConstants.DEFAULT_PAGE_NUMBER;
+import static com.project.oag.common.AppConstants.DEFAULT_PAGE_SIZE;
+
 import java.util.Map;
 @RestController
 @RequestMapping("api/v1/artwork")
@@ -87,34 +94,17 @@ public class ArtworkController {
 		return artworkService.getCountByCategory();
 	}
 	@GetMapping("/search")
-	public ResponseEntity<List<Artwork>> searchArtwork(
-			@RequestParam("keyword") String keyword,
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value = "size", defaultValue = "10") int size
-	) {
-		try {
-			List<Artwork> searchResults = artworkService.searchArtwork("%" + keyword + "%", page, size);
-			return ResponseEntity.ok(searchResults);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-	@GetMapping("/autocomplete")
-	@PreAuthorize("hasRole('MANAGER','ARTIST','CUSTOMER')")
-	public ResponseEntity<List<String>> autocomplete(@RequestParam("keyword") String keyword) {
-		List<String> autocompleteResults = artworkService.getAutocompleteResults(keyword);
-		return ResponseEntity.ok(autocompleteResults);
-	}
-	@GetMapping("/sort")
-	public ResponseEntity<List<Artwork>> getSortedArtworks(@RequestParam("sortOption") String sortOption) {
-		try {
-			List<Artwork> artworks = artworkService.getSortedArtworks(sortOption);
-			return new ResponseEntity<>(artworks, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+	@PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
+	public ResponseEntity<GenericResponse> searchArtwork(
+			@RequestParam(required = false) String artworkCategory,
+			@RequestParam(required = false) String artworkName,
+			@RequestParam(required = false) BigDecimal price,
+			@RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) LocalDateTime fromDate,
+            @RequestParam(required = false) LocalDateTime toDate,
+			@RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int page,
+			@RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE, required = false) int size) {
+		return artworkService.searchArtwork(artworkCategory, artworkName, price,sortBy,fromDate,toDate, PageRequest.of(page, size) );
 	}
 	@GetMapping("/me")
 	@PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")

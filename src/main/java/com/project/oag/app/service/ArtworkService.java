@@ -4,6 +4,7 @@ import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.dto.EventDto;
+import com.project.oag.app.helper.ArtworkFilterSpecification;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.User;
 import com.project.oag.app.repository.ArtworkRepository;
@@ -17,13 +18,18 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +160,6 @@ public class  ArtworkService{
 			throw new GeneralException(" failed to get artworks by status " );
 		}
 	}
-
 	public List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice) {
 		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
 	}
@@ -169,7 +174,6 @@ public class  ArtworkService{
 			throw new GeneralException("Failed to get artworks");
 		}
 	}
-
 	public ResponseEntity<GenericResponse> getCountByCategory() {
 			try {
 				List<Object[]> response = artworkRepository.countByCategory();
@@ -179,34 +183,21 @@ public class  ArtworkService{
 			throw new GeneralException("failed to retrieve category count");
 		}
 	}
-	public ArtworkRequestDto getDtoFromArtwork(Artwork artwork) {
-	    ArtworkRequestDto artworkRequestDto = new ArtworkRequestDto(artwork);
-        return artworkRequestDto;
-	}
+	public ResponseEntity<GenericResponse> searchArtwork(String artworkCategory, String artworkName, BigDecimal price, String sortBy,
+														 LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable) {
+		Specification<Artwork> spec = ArtworkFilterSpecification.searchArtworks(artworkCategory,artworkName,price, sortBy, fromDate, toDate);
 
-	public List<Artwork> searchArtwork(String keyword, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return artworkRepository.searchArtwork(keyword, pageable);
-	}
-	public List<String> getAutocompleteResults(String keyword) {
-		return artworkRepository.getAutocompleteResults(keyword);
-	}
-
-	public List<Artwork> getSortedArtworks(String sortOption) {
-		switch (sortOption) {
-			case "rating":
-				return artworkRepository.findAllByOrderByAverageRatingDesc();
-			case "priceLowToHigh":
-				return artworkRepository.findAllByOrderByPriceAsc();
-			case "priceHighToLow":
-				return artworkRepository.findAllByOrderByPriceDesc();
-			case "latest":
-				return artworkRepository.findAllByOrderByCreateDateDesc();
-			default:
-				throw new IllegalArgumentException("Invalid sort option: " + sortOption);
+		try {
+			Page<Artwork> artworks = artworkRepository.findAll(spec, pageable);
+			List<ArtworkResponseDto> artworkResponseDto = artworks.getContent().stream()
+					.map(artwork -> modelMapper.map(artwork, ArtworkResponseDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK, "Available artworks ", artworkResponseDto);
+		} catch (Exception e) {
+			log.error("Unable to search artworks", e);
+			throw new GeneralException("Unable to search artworks");
 		}
 	}
-
 
 	private Long getUserId(HttpServletRequest request) {
 		return getUserByUsername(getLoggedInUserName(request)).getId();
