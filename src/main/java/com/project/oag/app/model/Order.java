@@ -33,13 +33,14 @@ public class Order {
     @Column(name = "PHONE")
     private String phone;
 
-    @Column(name = "ADDRESS")
-    private String address;
-
     @CreationTimestamp
     @Column(name = "ORDER_DATE")
     private Timestamp orderDate;
 
     @Column(name = "SECRET_CODE")
     private String secretCode;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private OrderAddress address;
 }
