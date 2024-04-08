@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class Artwork {
     private List<String> imageUrls;
 
     @Column(name = "PRICE")
-    private int price;
+    private BigDecimal price;
 
     @Column(name = "SIZE")
     private String size;
