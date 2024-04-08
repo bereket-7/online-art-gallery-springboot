@@ -104,8 +104,12 @@ public class User implements UserDetails{
     private List<Cart> carts = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "artist")
+    @OneToMany(mappedBy = "artistId")
     private List<Artwork> artworks;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "artistId")
+    private List<Competitor> competitors;
 
 	@JsonIgnore
     @OneToMany(mappedBy = "user")
@@ -114,6 +118,7 @@ public class User implements UserDetails{
 	@JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Event> events;
+
 
     public void addCart(Cart cart) {
         carts.add(cart);

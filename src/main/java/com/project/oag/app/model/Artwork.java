@@ -68,7 +68,7 @@ public class Artwork {
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
-    private List<Cart> carts = new ArrayList<>();
+    private List<Cart> carts;
 
     public Artwork(String filename, String string) {
     }

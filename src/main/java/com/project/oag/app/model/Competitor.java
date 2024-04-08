@@ -1,6 +1,7 @@
 package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,23 +19,15 @@ import java.util.List;
 public class Competitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long ID;
+    @Column(name = "ID")
+    private Long Id;
 
-    @Column(name = "FIRST_NAME")
-    private String firstName;
+    @ManyToOne
+    @JoinColumn(name = "ARTIST_ID")
+    private Long artistId;
 
-    @Column(name = "LAST_NAME")
-    private String lastName;
-
-    @Column(name = "EMAIL")
-    private String email;
-
-    @Column(name = "PHONE")
-    private String phone;
-
-    @Lob
     @Column(name = "IMAGE")
-    private byte[] image;
+    private String imageUrl;
 
     @Column(name = "ARTWORK_DESCRIPTION")
     private String artworkDescription;
@@ -50,21 +43,14 @@ public class Competitor {
     @JsonIgnore
     private Competition competition;
 
-    @OneToMany(mappedBy = "competitor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "competitorId")
     private List<Vote> votes;
 
-    //@JsonIgnoreProperties({"notifications","artworks"})
+    @JsonIgnoreProperties({"notifications","artworks"})
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "USER_ID")
     private User user;
-    public void addVote(Vote vote) {
-        votes.add(vote);
-        vote.setCompetitor(this);
-    }
-    public void removeVote(Vote vote) {
-        votes.remove(vote);
-        vote.setCompetitor(null);
-    }
+
     public void incrementVoteCount() {
         vote++;
     }

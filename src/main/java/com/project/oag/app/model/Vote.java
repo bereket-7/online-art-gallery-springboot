@@ -1,6 +1,7 @@
 package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,22 +17,23 @@ import lombok.Setter;
 	public class Vote {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private long id;
+		@Column(name = "ID")
+		private Long id;
 
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "competitor_id", nullable = false)
+		@JoinColumn(name = "COMPETITOR_ID")
 		@JsonIgnore
-		//@JsonIgnoreProperties({"notifications","artworks"})
-		private Competitor competitor;
+		@JsonIgnoreProperties({"user","competition"})
+		private Long competitorId;
 
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "competition_id")
-		//@JsonIgnoreProperties({"notifications","artworks"})
-		private Competition competition;
+		@JoinColumn(name = "COMPETITION_ID")
+		@JsonIgnoreProperties({"competitor"})
+		private Long competitionId;
 
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name = "user_id", nullable = false)
-		private User user;
+		@JoinColumn(name = "USER_ID")
+		private Long userId;
 
 	}
 

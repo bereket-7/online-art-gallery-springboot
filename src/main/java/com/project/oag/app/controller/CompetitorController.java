@@ -1,27 +1,18 @@
 package com.project.oag.app.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.project.oag.app.model.Competition;
+import com.project.oag.app.model.Competitor;
+import com.project.oag.app.model.User;
+import com.project.oag.app.model.Vote;
 import com.project.oag.app.service.CompetitionService;
 import com.project.oag.app.service.CompetitorService;
 import com.project.oag.app.service.VoteService;
-import com.project.oag.app.model.Competition;
-import com.project.oag.app.model.Competitor;
-import com.project.oag.app.model.Vote;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.CompetitorNotFoundException;
-import com.project.oag.app.model.User;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,40 +21,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletRequest;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 @RestController
 @RequestMapping("api/v1/competitors")
 public class CompetitorController {
 	 @Value("${uploadDir}")
 	 private String uploadFolder;
 	 private final Logger log = LoggerFactory.getLogger(this.getClass());
-	@Autowired
-	private CompetitorService competitorService;
+	 private final CompetitorService competitorService;
+	private final CompetitionService competitionService;
+	private final VoteService voteService;
 
-	@Autowired
-	private VoteService voteService;
-
-	public CompetitorController(CompetitorService competitorService, CompetitionService competitionService) {
+	public CompetitorController(CompetitorService competitorService, VoteService voteService, CompetitionService competitionService) {
 		this.competitorService = competitorService;
-		this.competitionService = competitionService;
+        this.voteService = voteService;
+        this.competitionService = competitionService;
 	}
-
-	@Autowired
-	private CompetitionService competitionService;
-
 	@PostMapping("/register")
 	@PreAuthorize("hasRole('ARTIST')")
 	public @ResponseBody ResponseEntity<?> registerCompetitor(

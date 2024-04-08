@@ -11,38 +11,35 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="competition")
+@Table(name="COMPETITION")
 public class Competition {
 	@Id  
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
 	private Long id;
 
-	@Column(name = "title")
+	@Column(name = "TITLE")
 	private String competitionTitle;
 
-	@Column(name = "competition_description")
+	@Column(name = "COMPETITION_DESCRIPTION")
     private String competitionDescription;
 
-	@Column(name = "competitor_number")
+	@Column(name = "COMPETITOR_NUMBER")
 	private int numberOfCompetitor;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "competition")
     private List<Competitor> competitor;
 
-	@Column(name = "expiry_date")
+	@Column(name = "EXPIRY_DATE")
 	private LocalDateTime expiryDate;
 
-	@Column(name = "end_time")
+	@Column(name = "END_TIME")
 	private LocalDateTime endTime;
 
-	@OneToOne
-	@JoinColumn(name = "winner_id")
-	private Competitor winner;
-
-	@Column(name = "is_winner_announced")
+	@Column(name = "IS_WINNER_ANNOUNCED")
 	private boolean isWinnerAnnounced;
 
-	@Column(name = "is_voting_closed")
+	@Column(name = "IS_VOTING_CLOSED")
 	private boolean isVotingClosed;
 }
