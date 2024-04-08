@@ -2,6 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.model.Order;
+import com.project.oag.app.model.Standard;
 import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
@@ -41,12 +42,18 @@ public class OrderService {
 			throw new GeneralException("failed to create order");
 		}
 	}
+	public ResponseEntity<GenericResponse> getAllOrders() {
+		try {
+			List<Order> orders = orderRepository.findAll();
+			return prepareResponse(HttpStatus.OK, "Available orders",orders);
+		} catch (Exception e) {
+			throw new GeneralException("Could not find all orders");
+		}
+	}
 	public Order getOrderById(Long id) {
 		return orderRepository.findById(id).orElse(null);
 	}
-	public List<Order> getAllOrders() {
-		return orderRepository.findAll();
-	}
+
 	private void sendOrderConfirmationEmail(Order order) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setTo(order.getEmail());

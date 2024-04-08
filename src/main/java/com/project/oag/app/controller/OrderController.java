@@ -7,8 +7,6 @@ import com.project.oag.common.GenericResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("api/v1/orders")
 public class OrderController {
@@ -32,9 +30,8 @@ public class OrderController {
 		}
 	}
 	@GetMapping
-	public ResponseEntity<List<Order>> getAllOrders() {
-		List<Order> orders = orderService.getAllOrders();
-		return ResponseEntity.ok(orders);
+	public ResponseEntity<GenericResponse> getAllOrders() {
+		return orderService.getAllOrders();
 	}
 
 }
