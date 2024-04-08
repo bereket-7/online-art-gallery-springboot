@@ -21,13 +21,13 @@ public class OrderController {
 		return orderService.createOrder(orderRequestDto);
 	}
 
-	@GetMapping
+	@GetMapping("/admin")
 	@PreAuthorize("hasAuthority('ADMIN_FETCH_ORDERS')")
 	public ResponseEntity<GenericResponse> getAllOrders() {
 		return orderService.getAllOrders();
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/admin/{id}")
 	@PreAuthorize("hasAuthority('ADMIN_DELETE_ORDER')")
     public ResponseEntity<GenericResponse> deleteOrder(@PathVariable Long id) {
         return orderService.deleteOrdersById(id);
