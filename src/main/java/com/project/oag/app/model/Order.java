@@ -1,5 +1,7 @@
 package com.project.oag.app.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,7 +42,8 @@ public class Order {
     @Column(name = "SECRET_CODE")
     private String secretCode;
 
+    @JsonIgnoreProperties({"id"})
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "ADDRESS_ID")
     private OrderAddress address;
 }

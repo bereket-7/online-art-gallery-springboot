@@ -1,28 +1,25 @@
 package com.project.oag.app.controller;
 
+import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.model.Order;
 import com.project.oag.app.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.oag.common.GenericResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("api/orders")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/v1/orders")
 public class OrderController {
-	 	@Autowired
-	    private OrderService orderService;
-		public OrderController(OrderService orderService) {
-			this.orderService = orderService;
-		}
+	private final OrderService orderService;
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
-
-	@PostMapping
-	public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-		Order savedOrder = orderService.createOrder(order);
-		return ResponseEntity.ok(savedOrder);
+    @PostMapping
+	public ResponseEntity<GenericResponse> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
+		return orderService.createOrder(orderRequestDto);
 	}
 
 	@GetMapping("/{id}")
