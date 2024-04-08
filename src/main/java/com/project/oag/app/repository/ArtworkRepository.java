@@ -1,19 +1,13 @@
 package com.project.oag.app.repository;
 
 import com.project.oag.app.dto.ArtworkStatus;
-import com.project.oag.app.model.User;
-import org.springframework.data.domain.Pageable;
-
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.project.oag.app.model.Artwork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.app.model.Artwork;
+import java.util.List;
 
 @Repository
 public interface ArtworkRepository  extends JpaRepository<Artwork, Long>, JpaSpecificationExecutor<Artwork> {
@@ -32,13 +26,4 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>, JpaSpe
 	@Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
 	List<Object[]> countByCategory();
 
-	@Query("SELECT a FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
-			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
-	List<Artwork> searchArtwork(@Param("keyword") String keyword, Pageable pageable);
-
-	@Query("SELECT a FROM Artwork a JOIN a.ratings r GROUP BY a.id ORDER BY AVG(r.rating) DESC")
-	List<Artwork> findAllByOrderByAverageRatingDesc();
-	List<Artwork> findAllByOrderByPriceAsc();
-	List<Artwork> findAllByOrderByPriceDesc();
-    List<Artwork> findByArtist(User artist);
 }
