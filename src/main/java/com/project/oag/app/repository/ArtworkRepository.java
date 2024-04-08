@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.project.oag.app.model.Artwork;
 
 @Repository
-public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
+public interface ArtworkRepository  extends JpaRepository<Artwork, Long>, JpaSpecificationExecutor<Artwork> {
 	@Query("select a from Artwork a where a.artworkCategory = ?1")
 	List<Artwork> findByArtworkCategory(String artworkCategory);
 
@@ -34,9 +35,6 @@ public interface ArtworkRepository  extends JpaRepository<Artwork, Long>{
 	@Query("SELECT a FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
 			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
 	List<Artwork> searchArtwork(@Param("keyword") String keyword, Pageable pageable);
-	@Query("SELECT a.artworkCategory FROM Artwork a WHERE a.artworkCategory LIKE %:keyword% " +
-			"OR a.artworkName LIKE %:keyword% OR a.price LIKE %:keyword%")
-	List<String> getAutocompleteResults(@Param("keyword") String keyword);
 
 	@Query("SELECT a FROM Artwork a JOIN a.ratings r GROUP BY a.id ORDER BY AVG(r.rating) DESC")
 	List<Artwork> findAllByOrderByAverageRatingDesc();
