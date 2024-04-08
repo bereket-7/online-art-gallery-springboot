@@ -4,6 +4,7 @@ import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.service.OrderService;
 import com.project.oag.common.GenericResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,14 +16,22 @@ public class OrderController {
     }
 
     @PostMapping
+	@PreAuthorize("hasAuthority('USER_ADD_ORDER')")
 	public ResponseEntity<GenericResponse> createOrder(@RequestBody OrderRequestDto orderRequestDto) {
 		return orderService.createOrder(orderRequestDto);
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_ORDERS')")
 	public ResponseEntity<GenericResponse> getAllOrders() {
 		return orderService.getAllOrders();
 	}
+
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_DELETE_ORDER')")
+    public ResponseEntity<GenericResponse> deleteOrder(@PathVariable Long id) {
+        return orderService.deleteOrdersById(id);
+    }
 
 }
 

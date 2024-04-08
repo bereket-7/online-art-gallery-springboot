@@ -48,6 +48,14 @@ public class OrderService {
 			throw new GeneralException("Could not find all orders");
 		}
 	}
+	public ResponseEntity<GenericResponse> deleteOrdersById(final Long id) {
+		try {
+			orderRepository.deleteById(id);
+			return prepareResponse(HttpStatus.OK, "order successfully deleted", null);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to delete order");
+		}
+	}
 
 	private void sendOrderConfirmationEmail(Order order) {
 		SimpleMailMessage message = new SimpleMailMessage();
