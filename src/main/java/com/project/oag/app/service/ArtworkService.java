@@ -3,7 +3,6 @@ package com.project.oag.app.service;
 import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
-import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.helper.ArtworkFilterSpecification;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.User;
@@ -14,26 +13,20 @@ import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
@@ -160,9 +153,6 @@ public class  ArtworkService{
 			throw new GeneralException(" failed to get artworks by status " );
 		}
 	}
-	public List<Artwork> getArtworksByPriceRange(int minPrice, int maxPrice) {
-		return artworkRepository.findByPriceBetween(minPrice, maxPrice);
-	}
 
 	public ResponseEntity<GenericResponse> getRecentArtworks() {
 		try {
@@ -183,9 +173,9 @@ public class  ArtworkService{
 			throw new GeneralException("failed to retrieve category count");
 		}
 	}
-	public ResponseEntity<GenericResponse> searchArtwork(String artworkCategory, String artworkName, BigDecimal price, String sortBy,
+	public ResponseEntity<GenericResponse> searchArtwork(String artworkCategory, String artworkName, BigDecimal minPrice,BigDecimal maxPrice, String sortBy,
 														 LocalDateTime fromDate, LocalDateTime toDate, Pageable pageable) {
-		Specification<Artwork> spec = ArtworkFilterSpecification.searchArtworks(artworkCategory,artworkName,price, sortBy, fromDate, toDate);
+		Specification<Artwork> spec = ArtworkFilterSpecification.searchArtworks(artworkCategory,artworkName,minPrice,maxPrice,sortBy, fromDate, toDate);
 
 		try {
 			Page<Artwork> artworks = artworkRepository.findAll(spec, pageable);

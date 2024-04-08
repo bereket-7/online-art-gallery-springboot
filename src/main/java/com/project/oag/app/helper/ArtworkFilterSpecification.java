@@ -12,7 +12,8 @@ import java.util.List;
 public class ArtworkFilterSpecification {
     public static Specification<Artwork> searchArtworks(String artworkCategory,
                                                         String artworkName,
-                                                        BigDecimal price,
+                                                        BigDecimal minPrice,
+                                                        BigDecimal maxPrice,
                                                         String sortBy,
                                                         LocalDateTime fromDate,
                                                         LocalDateTime toDate) {
@@ -25,8 +26,15 @@ public class ArtworkFilterSpecification {
             if (artworkName != null && !artworkName.isEmpty()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("artworkName")), "%" + artworkName.toLowerCase() + "%"));
             }
-            if (price != null) {
-                predicates.add(criteriaBuilder.equal(root.get("price"), price));
+
+            if (minPrice != null || maxPrice != null) {
+                if (minPrice!= null && maxPrice != null) {
+                    predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
+                } else if (minPrice != null) {
+                    predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
+                } else {
+                    predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice));
+                }
             }
 
             if (fromDate != null || toDate != null) {
