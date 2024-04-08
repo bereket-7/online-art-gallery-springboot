@@ -6,10 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import io.jsonwebtoken.lang.Assert;
 import io.micrometer.common.util.StringUtils;
 import lombok.val;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 public class RequestUtils {
@@ -95,5 +99,19 @@ public class RequestUtils {
             }
         }
         return getRemoteAddress(request);
+    }
+
+    public static Pageable getPageable(List<String> sortType, int pageNumber, int pageSize) {
+        return PageRequest.of(pageNumber, pageSize, Sort.by(prepareSortExpression(sortType)));
+    }
+    public static Sort.Order[] prepareSortExpression(List<String> sortType) {
+        return sortType.stream()
+                .map(s -> {
+                    String[] split = s.split(SORT_BY_REGEX);
+                    String fieldName = split[0];
+                    String direction = split.length > 1 ? split[1] : ASC;
+                    return new Sort.Order(Sort.Direction.fromString(direction), fieldName);
+                })
+                .toArray(Sort.Order[]::new);
     }
 }
