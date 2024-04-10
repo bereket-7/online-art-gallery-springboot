@@ -1,7 +1,6 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.CompetitorRequestDto;
-import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
 import com.project.oag.app.model.User;
@@ -17,23 +16,13 @@ import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Paths;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("api/v1/competitors")
@@ -72,11 +61,11 @@ public class CompetitorController {
 	public ResponseEntity<GenericResponse> deleteCompetitor(@PathVariable Long id) {
 		return competitorService.deleteCompetitor(id);
 	}
-	 @PutMapping("/update/{id}")
-	 @PreAuthorize("hasRole('MANAGER')")
-	    public Competitor updateCompetitor(@PathVariable Long id, @RequestBody Competitor competitor) throws Exception {
-	        return competitorService.updateCompetitor(id, competitor);
-	 }
+	@PatchMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_MODIFY_EVENT')")
+	public ResponseEntity<GenericResponse> updateCompetitor(@PathVariable Long id, @RequestBody CompetitorRequestDto competitorRequestDto) {
+		return competitorService.updateCompetitor(id, competitorRequestDto);
+	}
 	@PostMapping("/vote")
 	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<String> voteForCompetitor(

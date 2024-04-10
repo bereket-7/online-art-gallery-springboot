@@ -2,6 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.CompetitorRequestDto;
+import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
 import com.project.oag.app.model.Event;
@@ -12,20 +13,24 @@ import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
+@Slf4j
 public class CompetitorService{
 	private final CompetitorRepository competitorRepository;
 	private final VoteRepository voteRepository;
@@ -62,6 +67,20 @@ public class CompetitorService{
 			return prepareResponse(HttpStatus.OK, "Successfully deleted", null);
 		} catch (Exception e) {
 			throw new GeneralException("Failed to delete competitor");
+		}
+	}
+	public ResponseEntity<GenericResponse> updateCompetitor(Long id, CompetitorRequestDto competitorRequestDto) {
+		if (ObjectUtils.isEmpty(id))
+			throw new GeneralException("Competitor Id needs to have a value");
+		val competitor = competitorRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Competitor record not found"));
+		try {
+			modelMapper.map(competitorRequestDto, competitor);
+			val response = competitorRepository.save(competitor);
+			log.info(LOG_PREFIX, "Saved Competitor information", "");
+			return prepareResponse(HttpStatus.OK, "Competitor Updated successfully ", response);
+		}catch (Exception e){
+			throw new GeneralException("Failed to update competitor");
 		}
 	}
 
