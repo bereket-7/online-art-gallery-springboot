@@ -43,30 +43,16 @@ public class CompetitorService{
 			throw new GeneralException(" Failed to save competitor");
 		}
 	}
-	public void saveCompetitor(Competitor competitor) {
-		competitorRepository.save(competitor);
+	public ResponseEntity<GenericResponse> getAllCompetitors() {
+		try {
+			val response = competitorRepository.findAll();
+			return prepareResponse(HttpStatus.OK,"Available competitors",response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to get competitors");
+		}
 	}
-	public List<Competitor> getAllCompetitors() {
-		return competitorRepository.findAll();
-	}
-	public Competitor getCompetitorById(Long competitorId) {
-		return competitorRepository.findById(competitorId)
-				.orElseThrow(() -> new CompetitionNotFoundException("Competitor not found"));
-	}
-	public void deleteCompetitor(Long id) {
-		competitorRepository.deleteById(id);
-	}
-    public Competitor updateCompetitor(Long id, Competitor competitorUpdate) throws Exception {
-        return competitorRepository.findById(id).map(competitor -> {
-                    competitor.setFirstName(competitorUpdate.getFirstName());
-                    competitor.setLastName(competitorUpdate.getLastName());
-                    competitor.setPhone(competitorUpdate.getPhone());
-                    competitor.setArtDescription(competitorUpdate.getArtDescription());
-                    competitor.setImage(competitorUpdate.getImage());
-                    competitor.setCategory(competitorUpdate.getCategory());
-                    return competitorRepository.save(competitor);
-                }).orElseThrow(() -> new Exception("Competitor with this id not found"));
-    }
+
+
 	public Competitor determineWinnerByVoteCount(Competition competition) {
 		List<Competitor> competitors = competition.getCompetitor();
 		if (competitors.isEmpty()) {

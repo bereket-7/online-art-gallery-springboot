@@ -52,17 +52,15 @@ public class CompetitorController {
 	}
 	@PostMapping("/register")
 	@PreAuthorize("hasAuthority('USER_ADD_COMPETITOR')")
-	public @ResponseBody ResponseEntity<GenericResponse> createEvent(HttpServletRequest request,@RequestBody CompetitorRequestDto competitorRequestDto) {
+	public @ResponseBody ResponseEntity<GenericResponse> registerCompetitor(HttpServletRequest request,@RequestBody CompetitorRequestDto competitorRequestDto) {
 		return competitorService.registerCompetitor(request,competitorRequestDto);
 	}
-	 @GetMapping
-	 public ResponseEntity<List<Competitor>> getAllCompetitor() {
-	     List<Competitor> competitorList = competitorService.getAllCompetitors();
-	     if (competitorList == null) {
-	         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-	     }
-     return new ResponseEntity<>(competitorList, HttpStatus.OK);
-	 }
+
+	@GetMapping
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_COMPETITOR')")
+	public ResponseEntity<GenericResponse> getAllCompetitor() {
+		return competitorService.getAllCompetitors();
+	}
 	@DeleteMapping("/delete/{id}")
 	@PreAuthorize("hasRole('MANAGER')")
 	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
