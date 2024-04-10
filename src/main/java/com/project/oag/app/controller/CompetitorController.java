@@ -61,10 +61,16 @@ public class CompetitorController {
 	public ResponseEntity<GenericResponse> getAllCompetitor() {
 		return competitorService.getAllCompetitors();
 	}
-	@DeleteMapping("/delete/{id}")
-	@PreAuthorize("hasRole('MANAGER')")
-	public void deleteCompetitor(@PathVariable Long id) { // call service method to delete existing competiton from the													// database
-		competitorService.deleteCompetitor(id);
+
+	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_FETCH_COMPETITOR')")
+	public ResponseEntity<GenericResponse> getCompetitor(@PathVariable Long id) {
+		return competitorService.getCompetitorById(id);
+	}
+	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ADMIN_DELETE_COMPETITOR')")
+	public ResponseEntity<GenericResponse> deleteCompetitor(@PathVariable Long id) {
+		return competitorService.deleteCompetitor(id);
 	}
 	 @PutMapping("/update/{id}")
 	 @PreAuthorize("hasRole('MANAGER')")
