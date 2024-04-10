@@ -1,5 +1,7 @@
 package com.project.oag.app.controller;
 
+import com.project.oag.app.dto.CompetitorRequestDto;
+import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
 import com.project.oag.app.model.User;
@@ -7,6 +9,7 @@ import com.project.oag.app.model.Vote;
 import com.project.oag.app.service.CompetitionService;
 import com.project.oag.app.service.CompetitorService;
 import com.project.oag.app.service.VoteService;
+import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.CompetitorNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,80 +51,10 @@ public class CompetitorController {
         this.competitionService = competitionService;
 	}
 	@PostMapping("/register")
-	@PreAuthorize("hasRole('ARTIST')")
-	public @ResponseBody ResponseEntity<?> registerCompetitor(
-	        @RequestParam("firstName") String firstName,
-	        @RequestParam("lastName") String lastName,
-	        @RequestParam("artDescription") String artDescription,
-	        @RequestParam("phone") String phone,
-	        @RequestParam("email") String email,
-	        @RequestParam("category") String category,
-			@RequestParam("competitionId") Long competitionId,
-	        Model model,
-	        HttpServletRequest request,
-	        final @RequestParam("image") MultipartFile file, Authentication authentication) {
-	    try {
-	        String uploadDirectory = request.getServletContext().getRealPath(uploadFolder);
-	        log.info("uploadDirectory:: " + uploadDirectory);
-	        String fileName = file.getOriginalFilename();
-	        String filePath = Paths.get(uploadDirectory, fileName).toString();
-	        log.info("FileName: " + file.getOriginalFilename());
-	        if (fileName == null || fileName.contains("..")) {
-	            model.addAttribute("invalid", "Sorry! Filename contains invalid path sequence " + fileName);
-	            return new ResponseEntity<>("Sorry! Filename contains invalid path sequence " + fileName,
-	                    HttpStatus.BAD_REQUEST);
-	        }
-	        String[] firstname = firstName.split(",");
-	        String[] lastname = lastName.split(",");
-	        String[] descriptions = artDescription.split(",");
-	        Date createDate = new Date();
-	        log.info("firstName: " + firstname[0] + " " + filePath);
-	        log.info("lastName: " + lastname[0] + " " + filePath);
-	        log.info("artDescription: " + descriptions[0]);
-	        try {
-	            File dir = new File(uploadDirectory);
-	            if (!dir.exists()) {
-	                log.info("Folder Created");
-	                dir.mkdirs();
-	            }
-	            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(new File(filePath)));
-	            stream.write(file.getBytes());
-	            stream.close();
-	        } catch (Exception e) {
-	            log.info("in catch");
-	            e.printStackTrace();
-	        }
-	        byte[] imageData = file.getBytes();
-	        Competitor competitor = new Competitor();
-	        competitor.setFirstName(firstname[0]);
-	        competitor.setLastName(lastname[0]);
-	        competitor.setImage(imageData);
-	        competitor.setEmail(email);
-	        competitor.setCategory(category);
-	        competitor.setArtworkDescription(descriptions[0]);
-			val competition = competitionService.getCompetitionById(competitionId);
-			competitor.setCompetition(competition);
-	        competitorService.saveCompetitor(competitor);
-	        log.info("HttpStatus===" + new ResponseEntity<>(HttpStatus.OK));
-	        return new ResponseEntity<>("Competitor Saved With File - " + fileName, HttpStatus.OK);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        log.info("Exception: " + e);
-	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	    }
+	@PreAuthorize("hasAuthority('USER_ADD_COMPETITOR')")
+	public @ResponseBody ResponseEntity<GenericResponse> createEvent(HttpServletRequest request,@RequestBody CompetitorRequestDto competitorRequestDto) {
+		return competitorService.registerCompetitor(request,competitorRequestDto);
 	}
-	 @GetMapping("/{id}/image")
-	 public ResponseEntity<byte[]> getCompetitorImage(@PathVariable Long id, Model model) {
-		 Competitor competitor = competitorService.getCompetitorById(id);
-		 if (competitor == null) {
-			 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		 }
-		 byte[] imageBytes = competitor.getImage();
-
-		 HttpHeaders headers = new HttpHeaders();
-		 headers.setContentType(MediaType.IMAGE_PNG);
-		 return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
-	 }
 	 @GetMapping
 	 public ResponseEntity<List<Competitor>> getAllCompetitor() {
 	     List<Competitor> competitorList = competitorService.getAllCompetitors();

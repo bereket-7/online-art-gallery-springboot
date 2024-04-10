@@ -28,7 +28,7 @@ public class Competition {
 	private int numberOfCompetitor;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "competition")
+	@OneToMany(mappedBy = "competitionId")
     private List<Competitor> competitor;
 
 	@Column(name = "EXPIRY_DATE")

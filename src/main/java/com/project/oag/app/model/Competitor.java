@@ -22,10 +22,6 @@ public class Competitor {
     @Column(name = "ID")
     private Long Id;
 
-    @ManyToOne
-    @JoinColumn(name = "ARTIST_ID")
-    private Long artistId;
-
     @Column(name = "IMAGE")
     private String imageUrl;
 
@@ -41,15 +37,15 @@ public class Competitor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPETITION_ID")
     @JsonIgnore
-    private Competition competition;
+    private Long competitionId;
 
     @OneToMany(mappedBy = "competitorId")
     private List<Vote> votes;
 
     @JsonIgnoreProperties({"notifications","artworks"})
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+    @JoinColumn(name = "ARTIST_ID")
+    private Long artistId;
 
     public void incrementVoteCount() {
         vote++;
