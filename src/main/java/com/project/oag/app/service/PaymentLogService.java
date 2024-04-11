@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PaymentLogService {
-    @Autowired
-    private PaymentLogRepository paymentLogRepository;
+
+    private final PaymentLogRepository paymentLogRepository;
 
     public PaymentLogService(PaymentLogRepository paymentLogRepository) {
         this.paymentLogRepository = paymentLogRepository;

@@ -1,5 +1,6 @@
 package com.project.oag.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class ImageUtils {
+    @Value("${baseURL}")
+    private static String baseUrl;
     public static List<String> saveImagesAndGetUrls(List<MultipartFile> files) {
+
         List<String> imageUrls = new ArrayList<>();
 
         for (MultipartFile file : files) {
@@ -26,7 +30,9 @@ public class ImageUtils {
             Path imagePath = Paths.get(uploadDir + File.separator + uniqueFileName);
             Files.copy(file.getInputStream(), imagePath);
 
-            String imageUrl = "http://localhost:8088/" + "/images" + uniqueFileName;
+
+
+            String imageUrl = baseUrl + "/images" + uniqueFileName;
             imageUrls.add(imageUrl);
         }
         return imageUrls;

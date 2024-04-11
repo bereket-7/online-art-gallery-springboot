@@ -124,13 +124,6 @@ public class User implements UserDetails{
         carts.add(cart);
         cart.setUserId(this.id);
     }
-    public void removeCart(Cart cart) {
-        carts.remove(cart);
-        cart.setId(this.id);
-    }
-    public void clearCarts() {
-        carts.clear();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

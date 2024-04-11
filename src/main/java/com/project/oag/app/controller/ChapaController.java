@@ -6,6 +6,7 @@ import com.project.oag.app.model.User;
 import com.project.oag.app.service.CartService;
 import com.project.oag.app.service.PaymentLogService;
 import com.project.oag.app.service.PaymentResponse;
+import com.project.oag.common.GenericResponse;
 import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
 import com.yaphet.chapa.model.InitializeResponseData;
@@ -34,7 +35,7 @@ public class ChapaController {
     private final PaymentLog paymentLog;
 
     @PostMapping("/initialize")
-    public ResponseEntity<PaymentResponse> pay() throws Throwable {
+    public ResponseEntity<GenericResponse> pay() throws Throwable {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedInUser = (User) authentication.getPrincipal();
         int totalPrice = cartService.calculateTotalPrice(loggedInUser.getUsername());

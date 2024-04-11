@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +51,7 @@ public class  ArtworkService{
 	public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request,ArtworkRequestDto artworkRequestDto) {
 		Long userId = getUserId(request);
 		List<String> imageUrls = saveImagesAndGetUrls(artworkRequestDto.getImageFiles());
+
 		try {
 			Artwork artwork = new Artwork();
 			artwork.setArtworkName(artworkRequestDto.getArtworkName());
