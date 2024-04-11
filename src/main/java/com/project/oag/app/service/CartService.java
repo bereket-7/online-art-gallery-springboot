@@ -1,85 +1,57 @@
 package com.project.oag.app.service;
 
+import com.project.oag.app.dto.CartDTO;
+import com.project.oag.app.model.Artwork;
+import com.project.oag.app.model.Cart;
+import com.project.oag.app.model.User;
+import com.project.oag.app.repository.ArtworkRepository;
+import com.project.oag.app.repository.CartRepository;
+import com.project.oag.app.repository.UserRepository;
+import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
+import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.security.service.CustomUserDetailsService;
+import lombok.val;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.oag.app.dto.CartDTO;
-import com.project.oag.app.model.Cart;
-import com.project.oag.app.repository.CartRepository;
-import org.springframework.transaction.annotation.Transactional;
-import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.security.service.CustomUserDetailsService;
-import com.project.oag.app.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.project.oag.app.model.Artwork;
-import com.project.oag.app.model.User;
-
-
 @Service
-@Transactional
 public class CartService {
-	@Autowired
-	private CartRepository cartRepository;
-	@Autowired
-	private CustomUserDetailsService userService;
-	@Autowired
-	UserRepository userRepository;
-	@Autowired
-	private ArtworkService artworkService;
-	public CartService(CartRepository cartRepository) {
-		super();
-		this.cartRepository = cartRepository;
-	}
-	public void addToCart(String email, Long artworkId, int quantity) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
+
+	private final CartRepository cartRepository;
+	private final ArtworkRepository artworkRepository;
+	private final CustomUserDetailsService userService;
+	private final UserRepository userRepository;
+	private final ArtworkService artworkService;
+
+    public CartService(CartRepository cartRepository, ArtworkRepository artworkRepository, CustomUserDetailsService userService, UserRepository userRepository, ArtworkService artworkService) {
+        this.cartRepository = cartRepository;
+        this.artworkRepository = artworkRepository;
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.artworkService = artworkService;
+    }
+
+    public void addToCart(String email, Long artworkId, int quantity) {
+		val optionalUser = userRepository.findByEmailIgnoreCase(email);
 		if (optionalUser.isPresent()) {
 			User user = optionalUser.get();
-			Optional<Artwork> optionalArtwork = artworkService.getArtworkById(artworkId);
-			if (optionalArtwork.isEmpty()) {
-				throw new ArtworkNotFoundException("Artwork not found.");
-			}
-			Artwork artwork = optionalArtwork.get();
+			val artwork = artworkRepository.findById(artworkId)
+					.orElseThrow(() -> new ResourceNotFoundException("Artwork not found."));
 
 			Cart cart = new Cart();
 			cart.setArtwork(artwork);
 			cart.setQuantity(quantity);
-
 			user.addCart(cart);
 			userRepository.save(user);
 		} else {
-			throw new UserNotFoundException("User not found.");
+			throw new GeneralException("User not found.");
 		}
 	}
-
-//	@Transactional(readOnly = true)
-//	public List<Cart> getCartsByEmail(String email) {
-//		Optional<User> optionalUser = userRepository.findByEmail(email);
-//		if (optionalUser.isPresent()) {
-//			User user = optionalUser.get();
-//			List<Cart> carts = user.getCarts();
-//			carts.forEach(cart -> {
-//				cart.getArtwork().getArtworkName();
-//			});
-//			return carts;
-//		} else {
-//			throw new UserNotFoundException("User not found.");
-//		}
-//	}
-
-//	@Transactional(readOnly = true)
-//	public List<Cart> getCartsByEmail(String email) {
-//		Optional<User> optionalUser = userRepository.findByEmail(email);
-//		if (optionalUser.isPresent()) {
-//			User user = optionalUser.get();
-//			return user.getCarts();
-//		} else {
-//			throw new UserNotFoundException("User not found.");
-//		}
-//	}
 public List<CartDTO> getCartsByEmail(String email) {
 	List<Object[]> results = cartRepository.getCartsWithEmailAndArtworkName(email);
 
