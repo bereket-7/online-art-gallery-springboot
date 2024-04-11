@@ -36,10 +36,8 @@ public class CartController {
        return cartService.getCarts(request);
     }
     @DeleteMapping("/remove/{cartId}")
-    public ResponseEntity<String> removeFromCart(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long cartId) {
-        String username = userDetails.getUsername();
-        cartService.removeFromCart(username, cartId);
-        return ResponseEntity.ok("Item removed from cart successfully.");
+    public ResponseEntity<GenericResponse> removeFromCart(HttpServletRequest request, @PathVariable Long cartId) {
+       return cartService.removeFromCart(request, cartId);
     }
 
     @PutMapping("/update/{cartId}")

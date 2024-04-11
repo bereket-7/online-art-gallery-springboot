@@ -78,22 +78,13 @@ public class CartService {
 			throw new GeneralException("Failed to retrieve cart");
 		}
 	}
-	public void removeFromCart(String email, Long cartId) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isPresent()) {
-			User user = optionalUser.get();
-
-		Optional<Cart> optionalCart = user.getCarts().stream()
-				.filter(cart -> cart.getId().equals(cartId))
-				.findFirst();
-
-		if (optionalCart.isPresent()) {
-			Cart cart = optionalCart.get();
-			user.removeCart(cart);
-			userRepository.save(user);
-		}
-		}else {
-			throw new UserNotFoundException("User not found.");
+	public ResponseEntity<GenericResponse> removeFromCart(HttpServletRequest request, Long cartId) {
+		try {
+			Long userId = getUserId(request);
+			cartRepository.deleteByUserIdAndId(userId, cartId);
+			return prepareResponse(HttpStatus.OK, "Successfully removed from cart", null);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to remove cart item");
 		}
 	}
 
