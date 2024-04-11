@@ -1,17 +1,20 @@
 package com.project.oag.app.repository;
 
-import java.util.List;
-
 import com.project.oag.app.model.Competitor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CompetitorRepository extends JpaRepository<Competitor,Long> {
 	@Query("select c from Competitor c where c.artistId = ?1")
 	List<Competitor> findByArtistId(Long artistId);
 
-	List<Competitor> findTop10ByOrderByVoteDesc();
+	@Query("SELECT c FROM Competitor c WHERE c.competitionId = ?1 ORDER BY c.voteCount DESC")
+	List<Competitor> findTop10ByCompetitionIdOrderByVoteCountDesc(Long competitionId, Pageable pageable);
+
 
 }

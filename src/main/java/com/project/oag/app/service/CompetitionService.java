@@ -34,9 +34,9 @@ public class CompetitionService {
     public ResponseEntity<GenericResponse> getCompetitionById(Long competitionId) {
 		try {
 			val response = competitionRepository.findById(competitionId)
-					.orElseThrow(() -> new CompetitionNotFoundException("Competition not found"));
+					.orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
 			return prepareResponse(HttpStatus.OK, "Successfully retrieved competition", response);
-		} catch (CompetitionNotFoundException e) {
+		} catch (Exception e) {
 			throw new GeneralException(" Could not find competition");
 		}
 	}

@@ -2,7 +2,6 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.CompetitorRequestDto;
-import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
 import com.project.oag.app.model.User;
 import com.project.oag.app.model.Vote;
@@ -18,12 +17,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -127,15 +125,16 @@ public class CompetitorService{
 		}
 	}
 
-	public Competitor determineWinnerByVoteCount(Competition competition) {
-		List<Competitor> competitors = competition.getCompetitor();
-		if (competitors.isEmpty()) {
-			return null;
-		}
-		Competitor winner = Collections.max(competitors, Comparator.comparingInt(Competitor::getVote));
-		return winner;
+	public ResponseEntity<GenericResponse> getWinner(Long competitionId) {
+		try {
+            competitionRepository.findById(competitionId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
+            List<Competitor> response = competitorRepository.findTop10ByCompetitionIdOrderByVoteCountDesc(competitionId, PageRequest.of(0, 10));
+            return prepareResponse(HttpStatus.OK, "Top 10 winners in this competition", response);
+        } catch (ResourceNotFoundException e) {
+            throw new GeneralException("Failed to get winner");
+        }
 	}
-
 	private Long getUserId(HttpServletRequest request) {
 		return getUserByUsername(getLoggedInUserName(request)).getId();
 	}
