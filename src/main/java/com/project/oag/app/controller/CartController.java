@@ -1,6 +1,5 @@
 package com.project.oag.app.controller;
 
-import com.project.oag.app.dto.CartDto;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.app.service.CartService;
 import com.project.oag.common.GenericResponse;
@@ -10,8 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/cart")
@@ -35,28 +32,24 @@ public class CartController {
     public ResponseEntity<GenericResponse> getCartsByEmail(HttpServletRequest request) {
        return cartService.getCarts(request);
     }
-    @DeleteMapping("/remove/{cartId}")
+    @DeleteMapping("/{cartId}")
+    @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
     public ResponseEntity<GenericResponse> removeFromCart(HttpServletRequest request, @PathVariable Long cartId) {
        return cartService.removeFromCart(request, cartId);
     }
 
-    @PutMapping("/update/{cartId}")
-    public ResponseEntity<String> updateCartQuantity(@AuthenticationPrincipal UserDetails userDetails, @PathVariable Long cartId, @RequestParam int quantity) {
-        String username = userDetails.getUsername();
-        cartService.updateCartQuantity(username, cartId, quantity);
-        return ResponseEntity.ok("Cart quantity updated successfully.");
-    }
+
     @GetMapping("/totalPrice")
+    @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
     public ResponseEntity<Integer> calculateTotalPrice(@AuthenticationPrincipal UserDetails userDetails) {
         String username = userDetails.getUsername();
         int totalPrice = cartService.calculateTotalPrice(username);
         return ResponseEntity.ok(totalPrice);
     }
     @DeleteMapping("/clear")
-    public ResponseEntity<String> clearCart(@AuthenticationPrincipal UserDetails userDetails) {
-        String username = userDetails.getUsername();
-        cartService.clearCart(username);
-        return ResponseEntity.ok("Cart cleared successfully.");
+    @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
+    public ResponseEntity<GenericResponse> clearCart(HttpServletRequest request) {
+        return cartService.clearCart(request);
     }
 }
 

@@ -19,8 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,24 +86,6 @@ public class CartService {
 		}
 	}
 
-	public void updateCartQuantity(String email, Long cartId, int quantity) {
-		Optional<User> optionalUser = userRepository.findByEmail(email);
-		if (optionalUser.isPresent()) {
-			User user = optionalUser.get();
-			Optional<Cart> optionalCart = user.getCarts().stream()
-					.filter(cart -> cart.getId().equals(cartId))
-					.findFirst();
-
-			if (optionalCart.isPresent()) {
-				Cart cart = optionalCart.get();
-				cart.setQuantity(quantity);
-				userRepository.save(user);
-			}
-		} else {
-			throw new UserNotFoundException("User not found.");
-		}
-	}
-
 	public int calculateTotalPrice(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
 		//User user = userRepository.findByUsername(username);
@@ -121,10 +101,14 @@ public class CartService {
 		return totalPrice;
 	}
 
-	public void clearCart(String username) {
-		User user = userRepository.findByUsername(username);
-		user.clearCarts();
-		userRepository.save(user);
+	public ResponseEntity<GenericResponse> clearCart(HttpServletRequest request) {
+		Long userId = getUserId(request);
+		try {
+			cartRepository.deleteByUserId(userId);
+			return prepareResponse(HttpStatus.OK, "Successfully cleared cart", null);
+		} catch (Exception e) {
+			throw new GeneralException("Error deleting cart");
+		}
 	}
 	private Long getUserId(HttpServletRequest request) {
 		return getUserByUsername(getLoggedInUserName(request)).getId();
