@@ -32,7 +32,7 @@ public class Competitor {
     private String category;
 
     @Column(name = "VOTE")
-    private int vote;
+    private int voteCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPETITION_ID")
@@ -46,8 +46,4 @@ public class Competitor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ARTIST_ID")
     private Long artistId;
-
-    public void incrementVoteCount() {
-        vote++;
-    }
 }

@@ -5,15 +5,11 @@ import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
 import com.project.oag.app.repository.CompetitionRepository;
 import com.project.oag.common.GenericResponse;
-import com.project.oag.exceptions.CompetitionNotFoundException;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 import static com.project.oag.utils.Utils.prepareResponse;
 
