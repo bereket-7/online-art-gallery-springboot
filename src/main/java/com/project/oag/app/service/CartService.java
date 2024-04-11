@@ -86,21 +86,6 @@ public class CartService {
 		}
 	}
 
-	public int calculateTotalPrice(String email) {
-		Optional<User> user = userRepository.findByEmail(email);
-		//User user = userRepository.findByUsername(username);
-		int totalPrice = 0;
-		for (Cart cart : user.get().getCarts()) {
-			Artwork artwork = cart.getArtwork();
-			int artworkPrice = artwork.getPrice();
-			int quantity = cart.getQuantity();
-
-			int cartTotalPrice = artworkPrice * quantity;
-			totalPrice += cartTotalPrice;
-		}
-		return totalPrice;
-	}
-
 	public ResponseEntity<GenericResponse> clearCart(HttpServletRequest request) {
 		Long userId = getUserId(request);
 		try {

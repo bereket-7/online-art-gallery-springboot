@@ -6,8 +6,6 @@ import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,20 +35,12 @@ public class CartController {
     public ResponseEntity<GenericResponse> removeFromCart(HttpServletRequest request, @PathVariable Long cartId) {
        return cartService.removeFromCart(request, cartId);
     }
-
-
-    @GetMapping("/totalPrice")
-    @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
-    public ResponseEntity<Integer> calculateTotalPrice(@AuthenticationPrincipal UserDetails userDetails) {
-        String username = userDetails.getUsername();
-        int totalPrice = cartService.calculateTotalPrice(username);
-        return ResponseEntity.ok(totalPrice);
-    }
     @DeleteMapping("/clear")
     @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
     public ResponseEntity<GenericResponse> clearCart(HttpServletRequest request) {
         return cartService.clearCart(request);
     }
+
 }
 
 
