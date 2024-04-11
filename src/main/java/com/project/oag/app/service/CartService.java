@@ -1,6 +1,6 @@
 package com.project.oag.app.service;
 
-import com.project.oag.app.dto.CartDTO;
+import com.project.oag.app.dto.CartDto;
 import com.project.oag.app.model.Artwork;
 import com.project.oag.app.model.Cart;
 import com.project.oag.app.model.User;
@@ -14,6 +14,7 @@ import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
@@ -34,13 +36,15 @@ public class CartService {
 	private final CustomUserDetailsService userService;
 	private final UserRepository userRepository;
 	private final ArtworkService artworkService;
+	private final ModelMapper modelMapper;
 
-    public CartService(CartRepository cartRepository, ArtworkRepository artworkRepository, CustomUserDetailsService userService, UserRepository userRepository, ArtworkService artworkService) {
+    public CartService(CartRepository cartRepository, ArtworkRepository artworkRepository, CustomUserDetailsService userService, UserRepository userRepository, ArtworkService artworkService, ModelMapper modelMapper) {
         this.cartRepository = cartRepository;
         this.artworkRepository = artworkRepository;
         this.userService = userService;
         this.userRepository = userRepository;
         this.artworkService = artworkService;
+        this.modelMapper = modelMapper;
     }
 
     public ResponseEntity<GenericResponse> addToCart(HttpServletRequest request, Long artworkId, int quantity) {
@@ -62,22 +66,18 @@ public class CartService {
 			throw new GeneralException("failed to add artwork to cart");
 		}
 	}
-public List<CartDTO> getCartsByEmail(String email) {
-	List<Object[]> results = cartRepository.getCartsWithEmailAndArtworkName(email);
-
-	List<CartDTO> cartDTOs = new ArrayList<>();
-
-	for (Object[] result : results) {
-		System.out.println(Arrays.stream(result).toList());
-		CartDTO cartDTO = new CartDTO();
-		cartDTO.setId((Long) result[0]); // cart ID
-		cartDTO.setQuantity((int) result[1]); // quantity
-		cartDTO.setArtworkName((String) result[2]); // artworkName
-		cartDTOs.add(cartDTO);
+	public ResponseEntity<GenericResponse> getCarts(HttpServletRequest request) {
+		Long userId = getUserId(request);
+		try {
+			List<Cart> results= cartRepository.findByUserId(userId);
+			List<CartDto> response = results.stream().map((element) ->
+					modelMapper.map(element, CartDto.class))
+					.collect(Collectors.toList());
+			return prepareResponse(HttpStatus.OK, "Successfully retrieved carts", response);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to retrieve cart");
+		}
 	}
-
-	return cartDTOs;
-}
 	public void removeFromCart(String email, Long cartId) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent()) {

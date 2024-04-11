@@ -122,11 +122,11 @@ public class User implements UserDetails{
 
     public void addCart(Cart cart) {
         carts.add(cart);
-        cart.setUser(this);
+        cart.setUserId(this.id);
     }
     public void removeCart(Cart cart) {
         carts.remove(cart);
-        cart.setUser(null);
+        cart.setId(this.id);
     }
     public void clearCarts() {
         carts.clear();

@@ -13,8 +13,6 @@ import com.project.oag.app.model.User;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long>{
 
-	List<Cart> findAllByUserOrderByCreatedDateDesc(User user);
-
     List<Cart> deleteByUser(User user);
 
         @Query(value = "SELECT c.id, c.quantity, a.artwork_name " +
@@ -24,5 +22,9 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
                 "WHERE u.email = :email",
                 nativeQuery = true)
         List<Object[]> getCartsWithEmailAndArtworkName(@Param("email") String email);
+
+    @Query("select c from Cart c where c.userId = ?1")
+    List<Cart> findByUserId(Long userId);
+
 
 }

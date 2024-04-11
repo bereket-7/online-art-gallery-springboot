@@ -1,6 +1,7 @@
 package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,7 @@ public class Cart {
     @Column(name = "QUANTITY")
     private int quantity;
 
-    @JsonIgnore
+    @JsonIgnoreProperties({"ratings"})
     @ManyToOne()
     @JoinColumn(name = "ARTWORK_ID")
     private Artwork artwork;
@@ -33,7 +34,7 @@ public class Cart {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private User user;
+    private Long userId;
 
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
