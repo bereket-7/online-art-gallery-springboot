@@ -57,22 +57,12 @@ public class CompetitorController {
 		return competitorService.updateCompetitor(request, competitorRequestDto);
 	}
 	@PostMapping("/vote")
-	@PreAuthorize("hasRole('CUSTOMER')")
+	@PreAuthorize("hasAuthority('USER_MODIFY_COMPETITOR')")
 	public ResponseEntity<GenericResponse> voteForCompetitor(
 			@RequestParam("competitionId") Long competitionId,
 			@RequestParam("competitorId") Long competitorId,
 			HttpServletRequest request) {
-		if (voteService.hasUserVotedForCompetition(user.getId(), competitionId)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("You have already voted for this competition.");
-		}
-		Competitor competitor = competitorService.getCompetitorById(competitorId);
-		val competition = competitionService.getCompetitionById(competitionId);
-		Vote vote = new Vote();
-		vote.setCompetitor(competitor);
-		vote.setUser(user);
-		voteService.saveVote(vote);
-		competitor.incrementVoteCount();
-		return ResponseEntity.ok("Thank you for voting!");
+		return competitorService.voteForCompetitor(competitionId,competitorId,request);
 	}
 	@GetMapping("/competition/{competitionId}/winner")
 	@PreAuthorize("hasRole('CUSTOMER','MANAGER')")

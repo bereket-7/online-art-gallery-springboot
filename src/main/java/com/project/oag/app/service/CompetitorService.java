@@ -107,7 +107,7 @@ public class CompetitorService{
 															 HttpServletRequest request){
 		Long userId = getUserId(request);
 		try {
-			val response = competitionRepository.findById(competitionId)
+			competitionRepository.findById(competitionId)
 					.orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
 
 			if ((voteService.isUserVotedForCompetition(userId, competitionId))) {
@@ -121,7 +121,7 @@ public class CompetitorService{
 				competitor.setVoteCount(currentVote++);
 				competitorRepository.save(competitor);
 			}
-			return prepareResponse(HttpStatus.OK, "Successfully voted for this competitor", null);
+			return prepareResponse(HttpStatus.OK, "Thanks for voting", null);
 		} catch (ResourceNotFoundException e) {
 			throw new GeneralException("failed to vote for this competitor");
 		}
