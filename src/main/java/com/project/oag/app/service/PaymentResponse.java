@@ -1,22 +1,11 @@
 package com.project.oag.app.service;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PaymentResponse {
     private String checkOutUrl;
     private String txRef;
-
-    public String getCheckOutUrl() {
-        return checkOutUrl;
-    }
-
-    public void setCheckOutUrl(String checkOutUrl) {
-        this.checkOutUrl = checkOutUrl;
-    }
-
-    public String getTxRef() {
-        return txRef;
-    }
-
-    public void setTxRef(String txRef) {
-        this.txRef = txRef;
-    }
 }
