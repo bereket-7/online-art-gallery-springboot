@@ -9,7 +9,6 @@ import com.project.oag.app.dto.CartDTO;
 import com.project.oag.app.model.Cart;
 import com.project.oag.app.repository.CartRepository;
 import org.springframework.transaction.annotation.Transactional;
-import com.project.oag.exceptions.ArtworkNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
 import com.project.oag.app.repository.UserRepository;
