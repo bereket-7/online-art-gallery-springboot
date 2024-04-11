@@ -3,38 +3,32 @@ package com.project.oag.app.controller;
 import com.project.oag.app.dto.CartDTO;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.app.service.CartService;
+import com.project.oag.common.GenericResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("api/cart")
-@CrossOrigin("http://localhost:8080/")
+@RequestMapping("api/v1/cart")
 public class CartController {
-    @Autowired
-    private CartService cartService;
-    @Autowired
-    private ArtworkService artworkService;
+    private final CartService cartService;
+    private final ArtworkService artworkService;
 
-//    @PostMapping("/add")
-//    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestParam Long artworkId, @RequestParam int quantity) {
-//        String email = userDetails.getUsername();
-//        cartService.addToCart(email, artworkId, quantity);
-//        return ResponseEntity.ok("Item added to cart successfully.");
-//    }
+    public CartController(CartService cartService, ArtworkService artworkService) {
+        this.cartService = cartService;
+        this.artworkService = artworkService;
+    }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addToCart(@AuthenticationPrincipal UserDetails userDetails, @RequestBody Map<String, Object> request) {
-        String email = userDetails.getUsername();
-        Long artworkId = Long.parseLong(request.get("artworkId").toString());
-        int quantity = Integer.parseInt(request.get("quantity").toString());
-        cartService.addToCart(email, artworkId, quantity);
-        return ResponseEntity.ok("Item added to cart successfully.");
+    @PreAuthorize("hasAuthority('USER_MODIFY_CART')")
+    public ResponseEntity<GenericResponse> addToCart(HttpServletRequest request, Long artworkId, int quantity) {
+        return cartService.addToCart(request,artworkId, quantity);
     }
 
 //    @GetMapping

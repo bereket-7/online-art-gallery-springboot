@@ -7,17 +7,24 @@ import com.project.oag.app.model.User;
 import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.CartRepository;
 import com.project.oag.app.repository.UserRepository;
+import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import com.project.oag.security.service.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
 public class CartService {
@@ -36,10 +43,11 @@ public class CartService {
         this.artworkService = artworkService;
     }
 
-    public void addToCart(String email, Long artworkId, int quantity) {
-		val optionalUser = userRepository.findByEmailIgnoreCase(email);
-		if (optionalUser.isPresent()) {
-			User user = optionalUser.get();
+    public ResponseEntity<GenericResponse> addToCart(HttpServletRequest request, Long artworkId, int quantity) {
+		Long userId = getUserId(request);
+		try {
+			val user = userRepository.findById(userId)
+					.orElseThrow(() -> new ResourceNotFoundException("User not found."));
 			val artwork = artworkRepository.findById(artworkId)
 					.orElseThrow(() -> new ResourceNotFoundException("Artwork not found."));
 
@@ -47,9 +55,11 @@ public class CartService {
 			cart.setArtwork(artwork);
 			cart.setQuantity(quantity);
 			user.addCart(cart);
+			cartRepository.save(cart);
 			userRepository.save(user);
-		} else {
-			throw new GeneralException("User not found.");
+			return prepareResponse(HttpStatus.OK, "Artwork added to cart successfully", cart);
+		} catch (Exception e) {
+			throw new GeneralException("failed to add artwork to cart");
 		}
 	}
 public List<CartDTO> getCartsByEmail(String email) {
@@ -124,5 +134,13 @@ public List<CartDTO> getCartsByEmail(String email) {
 		User user = userRepository.findByUsername(username);
 		user.clearCarts();
 		userRepository.save(user);
+	}
+	private Long getUserId(HttpServletRequest request) {
+		return getUserByUsername(getLoggedInUserName(request)).getId();
+	}
+
+	private User getUserByUsername(String email) {
+		return userRepository.findByEmailIgnoreCase(email)
+				.orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
 	}
 }
