@@ -20,7 +20,7 @@ public class Competitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Long Id;
+    private Long id;
 
     @Column(name = "IMAGE")
     private String imageUrl;
