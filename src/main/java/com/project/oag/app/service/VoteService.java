@@ -5,6 +5,7 @@ import com.project.oag.app.repository.VoteRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,14 @@ public class VoteService {
     public VoteService(VoteRepository voteRepository) {
         this.voteRepository = voteRepository;
     }
-    public boolean hasUserVotedForCompetition(Long userId, Long competitionId) {
-        return voteRepository.existsByUserIdAndCompetitionId(userId, competitionId);
+
+    public boolean isUserVotedForCompetition(Long userId, Long competitionId){
+        try {
+            return voteRepository.findByUserIdAndCompetitionId(userId,competitionId);
+        } catch (GeneralException e) {
+            throw new GeneralException("Fail to find vote for this competition");
+        }
+
     }
     public ResponseEntity<GenericResponse> saveVote(Vote vote) {
         try {
