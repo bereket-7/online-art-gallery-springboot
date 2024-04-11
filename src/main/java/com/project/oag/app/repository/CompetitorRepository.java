@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface CompetitorRepository extends JpaRepository<Competitor,Long> {
 	@Query("select c from Competitor c where c.artistId = ?1")
-	List<Competitor> findByArtistId(Long artistId);
+	Competitor findByArtistId(Long artistId);
 
 	@Query("SELECT c FROM Competitor c WHERE c.competitionId = ?1 ORDER BY c.voteCount DESC")
 	List<Competitor> findTop10ByCompetitionIdOrderByVoteCountDesc(Long competitionId, Pageable pageable);

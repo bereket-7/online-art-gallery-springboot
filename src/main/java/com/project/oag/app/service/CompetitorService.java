@@ -85,7 +85,7 @@ public class CompetitorService{
 			val response = competitorRepository.save(competitor);
 			log.info(LOG_PREFIX, "Saved Competitor information", "");
 			return prepareResponse(HttpStatus.OK, "Competitor Updated successfully ", response);
-		}catch (Exception e){
+		} catch (Exception e){
 			throw new GeneralException("Failed to update competitor");
 		}
 	}
