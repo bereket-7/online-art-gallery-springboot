@@ -103,18 +103,6 @@ public class CompetitionService {
 			throw new GeneralException("failed to retrieve competition");
 		}
     }
-	public Competitor determineWinner(Long competitionId) {
-		Competition competition = competitionRepository.findById(competitionId).orElse(null);
-		if (competition == null || competition.isWinnerAnnounced()) {
-			return null;
-		}
-		List<Competitor> competitors = competition.getCompetitor();
-		if (competitors.isEmpty()) {
-			return null;
-		}
-		Competitor winner = Collections.max(competitors, Comparator.comparingInt(Competitor::getVote));
-		return winner;
-	}
 }
 
 
