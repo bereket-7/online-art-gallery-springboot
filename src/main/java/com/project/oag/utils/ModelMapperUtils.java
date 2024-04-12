@@ -1,8 +1,7 @@
 package com.project.oag.utils;
 
-import org.springframework.stereotype.Component;
-
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;

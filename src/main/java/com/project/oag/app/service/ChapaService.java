@@ -32,6 +32,7 @@ public class ChapaService {
     private final CartService cartService;
     private final PaymentLogService paymentLogService;
     private final UserRepository userRepository;
+
     public ChapaService(CartService cartService, PaymentLogService paymentLogService, UserRepository userRepository) {
         this.cartService = cartService;
         this.paymentLogService = paymentLogService;
@@ -74,11 +75,12 @@ public class ChapaService {
             paymentLog.setPaymentStatus(PaymentStatus.INTIALIZED);
             paymentLog.setToken(txRef);
             paymentLogService.createPaymentLog(paymentLog);
-            return prepareResponse(HttpStatus.OK,"PaymentLog",paymentLog);
+            return prepareResponse(HttpStatus.OK, "PaymentLog", paymentLog);
         } catch (Throwable e) {
             throw new GeneralException("Failed to create payment");
         }
     }
+
     public ResponseEntity<GenericResponse> verify(String txRef) throws Throwable {
         try {
             Chapa chapa = new Chapa(secretKey);
@@ -86,9 +88,9 @@ public class ChapaService {
             if (verify.getStatusCode() == 200) {
                 paymentLogService.findByToken(txRef);
             }
-                PaymentLog paymentLog = new PaymentLog();
-                paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
-                return prepareResponse(HttpStatus.OK, "", paymentLog);
+            PaymentLog paymentLog = new PaymentLog();
+            paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
+            return prepareResponse(HttpStatus.OK, "", paymentLog);
 
         } catch (Throwable e) {
             throw new GeneralException("failed to verify payment");

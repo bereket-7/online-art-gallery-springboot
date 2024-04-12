@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 /**
  * This is a custom exception which is thrown when no event number is passed in
  * HTTP URL query parameter

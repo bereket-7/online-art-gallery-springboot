@@ -14,5 +14,5 @@ public class EmailDetail {
     private String message;
     private String subject;
     private String attachment;
-	private String sender;
+    private String sender;
 }

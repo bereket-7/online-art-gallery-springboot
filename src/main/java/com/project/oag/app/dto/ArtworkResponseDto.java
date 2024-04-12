@@ -4,6 +4,7 @@ import com.project.oag.app.model.Rating;
 import lombok.Data;
 
 import java.util.List;
+
 @Data
 public class ArtworkResponseDto {
     private String artworkName;

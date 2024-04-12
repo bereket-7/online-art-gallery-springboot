@@ -2,7 +2,6 @@ package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.dto.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

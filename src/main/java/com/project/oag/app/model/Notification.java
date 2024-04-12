@@ -44,6 +44,7 @@ public class Notification {
     @UpdateTimestamp
     @Column(name = "LAST_UPDATE_DATE")
     private Timestamp lastUpdateDate;
+
     public void markAsRead() {
         this.checked = true;
     }

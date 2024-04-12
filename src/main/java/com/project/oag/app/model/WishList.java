@@ -21,24 +21,24 @@ import java.sql.Timestamp;
 public class WishList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
+    @Column(name = "ID")
     private Long id;
 
-	@JsonIgnore
+    @JsonIgnore
     @OneToOne()
     @JoinColumn(name = "USER_ID")
     private Long userId;
 
-	@JsonIgnoreProperties({"artist", "carts","status"})
-	@ManyToOne()
-	@JoinColumn(name = "ARTWORK_ID")
-	private Long artworkId;
+    @JsonIgnoreProperties({"artist", "carts", "status"})
+    @ManyToOne()
+    @JoinColumn(name = "ARTWORK_ID")
+    private Long artworkId;
 
-	@CreationTimestamp
-	@Column(name = "CREATION_DATE")
-	private Timestamp creationDate;
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
 
-	@UpdateTimestamp
-	@Column(name = "LAST_UPDATE_DATE")
-	private Timestamp lastUpdateDate;
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
 }

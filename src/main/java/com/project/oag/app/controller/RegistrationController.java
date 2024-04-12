@@ -5,10 +5,12 @@ import com.project.oag.app.service.RegistrationService;
 import com.project.oag.common.GenericResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping(path = "api/v1/user/registration")
 public class RegistrationController {
-	private final RegistrationService registrationService;
+    private final RegistrationService registrationService;
+
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
@@ -17,6 +19,7 @@ public class RegistrationController {
     public ResponseEntity<GenericResponse> register(@RequestBody UserRequestDto userRequestDto) {
         return registrationService.register(userRequestDto);
     }
+
     @GetMapping("/confirm")
     public ResponseEntity<GenericResponse> confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);

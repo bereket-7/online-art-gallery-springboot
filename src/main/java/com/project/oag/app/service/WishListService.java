@@ -25,13 +25,14 @@ public class WishListService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final WishListRepository wishListRepository;
+
     public WishListService(UserRepository userRepository, ModelMapper modelMapper, WishListRepository wishListRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.wishListRepository = wishListRepository;
     }
 
-    public ResponseEntity<GenericResponse> saveWishlist(HttpServletRequest request,Long artworkId) {
+    public ResponseEntity<GenericResponse> saveWishlist(HttpServletRequest request, Long artworkId) {
 
         try {
             Long userId = getUserId(request);
@@ -39,15 +40,16 @@ public class WishListService {
             wishlist.setUserId(userId);
             wishlist.setArtworkId(artworkId);
             val response = wishListRepository.save(wishlist);
-            return prepareResponse(HttpStatus.OK,"successfully add to wishlist",response);
+            return prepareResponse(HttpStatus.OK, "successfully add to wishlist", response);
         } catch (Exception e) {
             throw new GeneralException("failed to save wishlist");
         }
     }
-    public ResponseEntity<GenericResponse> deleteWishlist(HttpServletRequest request,Long id) {
+
+    public ResponseEntity<GenericResponse> deleteWishlist(HttpServletRequest request, Long id) {
         Long userId = getUserId(request);
         try {
-            wishListRepository.deleteByIdAndUserId(id,userId);
+            wishListRepository.deleteByIdAndUserId(id, userId);
             return prepareResponse(HttpStatus.OK, "Successfully deleted wishlist", null);
         } catch (Exception e) {
             throw new GeneralException("failed to delete wishlist");

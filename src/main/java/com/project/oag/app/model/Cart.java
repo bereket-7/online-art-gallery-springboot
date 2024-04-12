@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="CART")
+@Table(name = "CART")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

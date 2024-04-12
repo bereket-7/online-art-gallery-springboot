@@ -16,20 +16,20 @@ import java.util.UUID;
 public class ImageUtils {
     @Value("${baseURL}")
     private static String baseUrl;
-    public static List<String> saveImagesAndGetUrls(List<MultipartFile> files) {
+
+    public static List<String> saveImagesAndGetUrls(List<MultipartFile> files) throws IOException {
 
         List<String> imageUrls = new ArrayList<>();
 
         for (MultipartFile file : files) {
 
             String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            String uniqueFileName = UUID.randomUUID().toString() + "_" + fileName;
+            String uniqueFileName = UUID.randomUUID() + "_" + fileName;
 
             String uploadDir = "/resources/Images";
 
             Path imagePath = Paths.get(uploadDir + File.separator + uniqueFileName);
             Files.copy(file.getInputStream(), imagePath);
-
 
 
             String imageUrl = baseUrl + "/images" + uniqueFileName;

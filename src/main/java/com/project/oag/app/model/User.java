@@ -24,7 +24,7 @@ import java.util.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "USERS")
-public class User implements UserDetails{
+public class User implements UserDetails {
     @SequenceGenerator(
             name = "user_sequence",
             sequenceName = "user_sequence",
@@ -32,7 +32,7 @@ public class User implements UserDetails{
     )
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_sequence")
-	@Column(name = "ID")
+    @Column(name = "ID")
     private Long id;
 
     @Column(name = "FIRSTNAME")
@@ -78,13 +78,13 @@ public class User implements UserDetails{
     @Column(name = "PHOTO")
     private String image; //avatar
 
-	@Column(name = "SELECTED_FOR_BID")
+    @Column(name = "SELECTED_FOR_BID")
     private boolean selectedForBid;
 
-	@Column(name = "SECRET")
-    private String secret= Base32.random();
+    @Column(name = "SECRET")
+    private String secret = Base32.random();
 
-	@Column(name = "ENABLED_2FA")
+    @Column(name = "ENABLED_2FA")
     private boolean enable2FA = false;
 
     @CreationTimestamp
@@ -95,11 +95,11 @@ public class User implements UserDetails{
     @Column(name = "LAST_UPDATE_DATE")
     private Timestamp lastUpdateDate;
 
-	@JsonIgnoreProperties({"artwork", "user"})
+    @JsonIgnoreProperties({"artwork", "user"})
     @OneToMany(mappedBy = "user")
     private List<Rating> ratings;
 
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "userId")
     private List<Cart> carts = new ArrayList<>();
 
@@ -115,11 +115,11 @@ public class User implements UserDetails{
     @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
     private List<PaymentLog> paymentLogs;
 
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Notification> notifications;
 
-	@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Event> events;
 
@@ -135,26 +135,32 @@ public class User implements UserDetails{
                 new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
+
     @Override
     public String getPassword() {
         return password;
     }
+
     @Override
     public String getUsername() {
         return email;
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return !locked;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return enabled;

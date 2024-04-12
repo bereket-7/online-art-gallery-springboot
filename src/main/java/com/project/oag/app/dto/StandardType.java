@@ -1,6 +1,7 @@
 package com.project.oag.app.dto;
+
 public enum StandardType {
-   CUSTOMER,
+    CUSTOMER,
     ARTIST,
     ARTWORK,
     ORGANIZATION

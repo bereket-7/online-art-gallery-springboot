@@ -45,11 +45,12 @@ public class RegistrationService {
             val token = userService.signUpUser(userRequestDto);
             String link = "http://localhost:8082/api/v1/registration/confirm?token=" + token;
             emailSender.send(userRequestDto.getEmail(), buildEmail(userRequestDto.getFirstname(), link));
-            return prepareResponse(HttpStatus.OK,"Successfully registered",token);
+            return prepareResponse(HttpStatus.OK, "Successfully registered", token);
         } catch (Exception e) {
             throw new GeneralException("failed to register");
         }
     }
+
     @Transactional
     public ResponseEntity<GenericResponse> confirmToken(String token) {
         try {
@@ -66,7 +67,7 @@ public class RegistrationService {
             }
             confirmationTokenService.setConfirmedAt(token);
             userService.enableUser(confirmationToken.getUser().getEmail());
-            return prepareResponse(HttpStatus.OK,"Thank you, you have confirmed your email successfully",null);
+            return prepareResponse(HttpStatus.OK, "Thank you, you have confirmed your email successfully", null);
         } catch (GeneralException e) {
             throw new GeneralException("failed to confirmation registration");
         }

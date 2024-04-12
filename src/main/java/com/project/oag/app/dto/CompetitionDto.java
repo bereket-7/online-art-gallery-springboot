@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 
 @Data
 public class CompetitionDto {
-	private String competitionTitle;
+    private String competitionTitle;
 
-	private String competitionDescription;
+    private String competitionDescription;
 
-	private int numberOfCompetitor;
+    private int numberOfCompetitor;
 
-	private LocalDateTime expiryDate;
+    private LocalDateTime expiryDate;
 
-	private LocalDateTime endTime;
+    private LocalDateTime endTime;
 }

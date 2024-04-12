@@ -11,35 +11,35 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name="COMPETITION")
+@Table(name = "COMPETITION")
 public class Competition {
-	@Id  
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID")
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-	@Column(name = "TITLE")
-	private String competitionTitle;
+    @Column(name = "TITLE")
+    private String competitionTitle;
 
-	@Column(name = "COMPETITION_DESCRIPTION")
+    @Column(name = "COMPETITION_DESCRIPTION")
     private String competitionDescription;
 
-	@Column(name = "COMPETITOR_NUMBER")
-	private int numberOfCompetitor;
+    @Column(name = "COMPETITOR_NUMBER")
+    private int numberOfCompetitor;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "competitionId")
+    @JsonIgnore
+    @OneToMany(mappedBy = "competitionId")
     private List<Competitor> competitor;
 
-	@Column(name = "EXPIRY_DATE")
-	private LocalDateTime expiryDate;
+    @Column(name = "EXPIRY_DATE")
+    private LocalDateTime expiryDate;
 
-	@Column(name = "END_TIME")
-	private LocalDateTime endTime;
+    @Column(name = "END_TIME")
+    private LocalDateTime endTime;
 
-	@Column(name = "IS_WINNER_ANNOUNCED")
-	private boolean isWinnerAnnounced;
+    @Column(name = "IS_WINNER_ANNOUNCED")
+    private boolean isWinnerAnnounced;
 
-	@Column(name = "IS_VOTING_CLOSED")
-	private boolean isVotingClosed;
+    @Column(name = "IS_VOTING_CLOSED")
+    private boolean isVotingClosed;
 }

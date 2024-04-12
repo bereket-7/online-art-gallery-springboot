@@ -4,6 +4,7 @@ import com.project.oag.app.model.Artwork;
 import lombok.Data;
 
 import java.util.List;
+
 @Data
 public class ArtistDTO {
     private Long id;

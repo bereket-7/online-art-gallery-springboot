@@ -28,7 +28,7 @@ public class ArtworkFilterSpecification {
             }
 
             if (minPrice != null || maxPrice != null) {
-                if (minPrice!= null && maxPrice != null) {
+                if (minPrice != null && maxPrice != null) {
                     predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
                 } else if (minPrice != null) {
                     predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice));
@@ -50,11 +50,9 @@ public class ArtworkFilterSpecification {
             if (sortBy != null && !sortBy.isEmpty()) {
                 if (sortBy.equals("creationDate")) {
                     query.orderBy(criteriaBuilder.desc(root.get("creationDate")));
-                }
-                else if (sortBy.equals("ratings")) {
-                    query.orderBy( criteriaBuilder.asc(root.get("ratings")));
-                }
-                else {
+                } else if (sortBy.equals("ratings")) {
+                    query.orderBy(criteriaBuilder.asc(root.get("ratings")));
+                } else {
                     query.orderBy(criteriaBuilder.desc(root.get(sortBy)), criteriaBuilder.desc(root.get("price")));
                 }
             }

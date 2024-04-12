@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Getter
 @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
 public class UserNotFoundException extends RuntimeException {
-	private int status;
+    private int status;
 
-	public UserNotFoundException(HttpStatus status, String message) {
-		super(message);
-		this.status = status.value();
-	}
+    public UserNotFoundException(HttpStatus status, String message) {
+        super(message);
+        this.status = status.value();
+    }
 
-	public UserNotFoundException(String message) {
-		super(message);
-		this.status = HttpStatus.UNPROCESSABLE_ENTITY.value();
-	}
+    public UserNotFoundException(String message) {
+        super(message);
+        this.status = HttpStatus.UNPROCESSABLE_ENTITY.value();
+    }
 }
 

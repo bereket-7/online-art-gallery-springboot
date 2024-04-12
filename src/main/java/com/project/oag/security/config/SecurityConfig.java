@@ -1,16 +1,11 @@
 package com.project.oag.security.config;
+
 import com.project.oag.security.filter.JwtTokenFilter;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -19,21 +14,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @EnableWebSecurity
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
     private final JwtTokenFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
+
     public SecurityConfig(JwtTokenFilter jwtAuthenticationFilter,
                           UserDetailsService userDetailsService) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.userDetailsService = userDetailsService;
     }
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -41,14 +38,12 @@ public class SecurityConfig {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
+
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -81,10 +76,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/recent").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/standards").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/accepted").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/artworks/saveArtwork").permitAll()
-                .requestMatchers(HttpMethod.POST,"/rating/artworks/{artworkId}/rate").permitAll()
-                .requestMatchers(HttpMethod.GET,"/rating/artworks/{artworkId}/average-rating").permitAll()
-                .requestMatchers(HttpMethod.POST,"/email/sendEmail").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/artworks/saveArtwork").permitAll()
+                .requestMatchers(HttpMethod.POST, "/rating/artworks/{artworkId}/rate").permitAll()
+                .requestMatchers(HttpMethod.GET, "/rating/artworks/{artworkId}/average-rating").permitAll()
+                .requestMatchers(HttpMethod.POST, "/email/sendEmail").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

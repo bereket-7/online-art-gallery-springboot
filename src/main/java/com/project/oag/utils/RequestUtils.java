@@ -1,10 +1,9 @@
 package com.project.oag.utils;
 
 import com.project.oag.exceptions.UserNotFoundException;
-import jakarta.servlet.http.HttpServletRequest;
-
 import io.jsonwebtoken.lang.Assert;
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 public class RequestUtils {
+    public static final String SORT_BY_REGEX = "\\.";
+    public static final String ASC = "asc";
     private static final String[] IP_HEADER_CANDIDATES = {
             "X-Forwarded-For",
             "Proxy-Client-IP",
@@ -31,8 +32,7 @@ public class RequestUtils {
             "REMOTE_ADDR",
             "X-Real-IP"
     };
-    public static final String SORT_BY_REGEX = "\\.";
-    public static final String ASC = "asc";
+
     private static HttpServletRequest getHttpServletRequest() {
         val requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes == null) {
@@ -54,6 +54,7 @@ public class RequestUtils {
         Assert.isTrue(ip.chars().filter($ -> $ == '.').count() == 3, "Illegal IP: " + ip);
         return ip;
     }
+
     public static String getIPFromRequest(HttpServletRequest request) {
         if (request == null) {
             request = getHttpServletRequest();
@@ -67,6 +68,7 @@ public class RequestUtils {
         }
         return getRemoteAddress(request);
     }
+
     public static String getLoggedInUserName(HttpServletRequest request) {
         String username;
         try {
@@ -76,9 +78,11 @@ public class RequestUtils {
         }
         return username;
     }
+
     private static boolean isValidIp(String ip) {
         return StringUtils.isNotEmpty(ip) && !"unknown".equalsIgnoreCase(ip);
     }
+
     public static String getRemoteAddress(HttpServletRequest request) {
         return request.getRemoteAddr();
     }
@@ -104,6 +108,7 @@ public class RequestUtils {
     public static Pageable getPageable(List<String> sortType, int pageNumber, int pageSize) {
         return PageRequest.of(pageNumber, pageSize, Sort.by(prepareSortExpression(sortType)));
     }
+
     public static Sort.Order[] prepareSortExpression(List<String> sortType) {
         return sortType.stream()
                 .map(s -> {

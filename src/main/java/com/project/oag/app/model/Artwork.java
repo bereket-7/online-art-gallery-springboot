@@ -1,7 +1,6 @@
 package com.project.oag.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.oag.app.dto.ArtworkStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -21,11 +19,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="Artwork")
+@Table(name = "Artwork")
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID",unique = true)
+    @Column(name = "ID", unique = true)
     private Long id;
 
     @Column(name = "ARTWORK_NAME")
@@ -72,14 +70,15 @@ public class Artwork {
 
     public Artwork(String filename, String string) {
     }
-      public double getAverageRating() {
-            if (ratings == null || ratings.isEmpty()) {
-                return 0.0;
-            }
-            double sum = 0;
-            for (Rating rating : ratings) {
-                sum += rating.getRatingValue();
-            }
-            return sum / ratings.size();
+
+    public double getAverageRating() {
+        if (ratings == null || ratings.isEmpty()) {
+            return 0.0;
         }
+        double sum = 0;
+        for (Rating rating : ratings) {
+            sum += rating.getRatingValue();
+        }
+        return sum / ratings.size();
+    }
 }

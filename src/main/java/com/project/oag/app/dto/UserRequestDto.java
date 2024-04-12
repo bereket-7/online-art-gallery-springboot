@@ -15,5 +15,5 @@ public class UserRequestDto {
     private Integer age;
     private String username;
     private String password;
-	private Role role;
+    private Role role;
 }

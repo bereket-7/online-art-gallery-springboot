@@ -20,6 +20,7 @@ import static com.project.oag.utils.Utils.prepareResponse;
 public class ReportService {
     private final ReportRepository reportRepository;
     private final ModelMapper modelMapper;
+
     public ReportService(ReportRepository reportRepository, ModelMapper modelMapper) {
         this.reportRepository = reportRepository;
         this.modelMapper = modelMapper;
@@ -29,7 +30,7 @@ public class ReportService {
         try {
             val report = modelMapper.map(reportDto, Report.class);
             val response = reportRepository.save(report);
-            return prepareResponse(HttpStatus.OK,"Successfully created report",response);
+            return prepareResponse(HttpStatus.OK, "Successfully created report", response);
         } catch (Exception e) {
             throw new GeneralException("Failed to save report");
         }
@@ -39,7 +40,7 @@ public class ReportService {
         try {
             val response = reportRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Report record not found"));
-            return prepareResponse(HttpStatus.OK,"Successfully retrieved report",response);
+            return prepareResponse(HttpStatus.OK, "Successfully retrieved report", response);
         } catch (Exception e) {
             throw new GeneralException("Could not find report by id " + id);
         }
@@ -48,7 +49,7 @@ public class ReportService {
     public ResponseEntity<GenericResponse> getAllReports() {
         try {
             val response = reportRepository.findAll();
-            return prepareResponse(HttpStatus.OK,"Successfully retrieved all reports",response);
+            return prepareResponse(HttpStatus.OK, "Successfully retrieved all reports", response);
         } catch (Exception e) {
             throw new GeneralException("Could not find all reports");
         }
@@ -59,7 +60,7 @@ public class ReportService {
             val response = reportRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Report record not found"));
             reportRepository.deleteById(id);
-            return prepareResponse(HttpStatus.OK,"Successfully deleted report",response);
+            return prepareResponse(HttpStatus.OK, "Successfully deleted report", response);
         } catch (Exception e) {
             throw new GeneralException(" Failed to delete report " + id);
         }

@@ -46,6 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.emailService = emailService;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
@@ -55,6 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new RuntimeException(e);
         }
     }
+
     public ResponseEntity<GenericResponse> signUpUser(UserRequestDto userRequestDto) {
         try {
             userRepository.findByEmailIgnoreCase(userRequestDto.getEmail())
@@ -62,58 +64,67 @@ public class CustomUserDetailsService implements UserDetailsService {
             val savedUser = modelMapper.map(userRequestDto, User.class);
             userRepository.save(savedUser);
             String token = UUID.randomUUID().toString();
-            ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15),savedUser);
+            ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), savedUser);
             confirmationTokenService.saveConfirmationToken(confirmationToken);
-            return prepareResponse(HttpStatus.OK,"User sign up successfully", token);
+            return prepareResponse(HttpStatus.OK, "User sign up successfully", token);
         } catch (Exception e) {
             throw new GeneralException("Failed to save user");
         }
     }
+
     public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
-    public ResponseEntity<GenericResponse> uploadProfilePhoto(HttpServletRequest request,String photoUrl) {
+
+    public ResponseEntity<GenericResponse> uploadProfilePhoto(HttpServletRequest request, String photoUrl) {
         String email = getLoggedInUserName(request);
         User user = userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UserNotFoundException("User " + email + " not found"));
-            try {
-                user.setImage(photoUrl);
-                userRepository.save(user);
-                return prepareResponse(HttpStatus.OK,"User profile photo updated successfully", user);
-            }
-            catch (Exception e) {
-                throw new GeneralException("Failed to upload profile photo");
+        try {
+            user.setImage(photoUrl);
+            userRepository.save(user);
+            return prepareResponse(HttpStatus.OK, "User profile photo updated successfully", user);
+        } catch (Exception e) {
+            throw new GeneralException("Failed to upload profile photo");
         }
     }
+
     public ResponseEntity<GenericResponse> getProfilePhoto(HttpServletRequest request) {
         String email = getLoggedInUserName(request);
         try {
             User user = userRepository.findByEmailIgnoreCase(email)
                     .orElseThrow(() -> new UserNotFoundException("User " + email + " not found"));
-          val profilePhoto = user.getImage();
-            return prepareResponse(HttpStatus.OK,"User profile photo retrieved successfully", profilePhoto);
+            val profilePhoto = user.getImage();
+            return prepareResponse(HttpStatus.OK, "User profile photo retrieved successfully", profilePhoto);
         } catch (Exception e) {
             throw new GeneralException("Failed to fetch profile photo");
         }
     }
+
     public List<User> searchUsersByUsername(String username) {
         return userRepository.findByUsernameContainingIgnoreCase(username);
     }
+
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElse(null);
+        return userRepository.findByEmailIgnoreCase(email).orElse(null);
     }
+
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
+
     public Long getTotalCustomerUsers() {
         return userRepository.countTotalUsersByRole(Role.CUSTOMER);
     }
+
     public Long getTotalArtistUsers() {
         return userRepository.countTotalUsersByRole(Role.ARTIST);
     }
+
     public Long getTotalManagerUsers() {
         return userRepository.countTotalUsersByRole(Role.MANAGER);
     }
+
     public Optional<User> getUserByID(final long id) {
         return userRepository.findById(id);
     }
@@ -121,15 +132,19 @@ public class CustomUserDetailsService implements UserDetailsService {
     public List<User> getArtistUsers() {
         return userRepository.findByRole(Role.ARTIST);
     }
+
     public List<User> getManagerUsers() {
         return userRepository.findByRole(Role.MANAGER);
     }
+
     public List<User> getCustomerUsers() {
         return userRepository.findByRole(Role.CUSTOMER);
     }
+
     public List<User> getOrganizationUsers() {
         return userRepository.findByRole(Role.ORGANIZATION);
     }
+
     public List<ArtistDTO> getArtistDetail() {
         List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
         List<ArtistDTO> artistUserDTOs = new ArrayList<>();
@@ -145,6 +160,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return artistUserDTOs;
     }
+
     public List<UserRequestDto> getArtistsWithArtworks() {
         List<Object[]> results = userRepository.findArtistsWithArtworks();
 
@@ -178,18 +194,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
-
-
-
-
-
-
-
-
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -230,6 +238,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return resetCode.toString();
     }
+
     public void changePassword(String email, ChangePasswordRequest request) {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {

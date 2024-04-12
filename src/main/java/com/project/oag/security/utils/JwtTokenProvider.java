@@ -1,19 +1,16 @@
 package com.project.oag.security.utils;
+
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.security.Key;
-import java.util.Collection;
 import java.util.Date;
+
 @Component
 @Slf4j
 public class JwtTokenProvider {
@@ -30,6 +27,7 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS512, secrete)
                 .compact();
     }
+
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -37,6 +35,7 @@ public class JwtTokenProvider {
         }
         return null;
     }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secrete).parseClaimsJws(token);
@@ -54,6 +53,7 @@ public class JwtTokenProvider {
         }
         return false;
     }
+
     public String getUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(secrete)

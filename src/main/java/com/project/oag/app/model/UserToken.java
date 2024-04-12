@@ -3,6 +3,7 @@ package com.project.oag.app.model;
 import com.project.oag.app.dto.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
+
 @Entity
 @Setter
 @Getter

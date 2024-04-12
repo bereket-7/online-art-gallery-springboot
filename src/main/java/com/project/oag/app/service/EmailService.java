@@ -16,11 +16,12 @@ import java.io.File;
 
 @Service
 @AllArgsConstructor
-public class EmailService implements EmailSender{
+public class EmailService implements EmailSender {
     private final static Logger LOGGER = LoggerFactory
             .getLogger(EmailService.class);
     @Autowired
     private JavaMailSender mailSender;
+
     @Override
     @Async
     public void send(String to, String email) {
@@ -38,6 +39,7 @@ public class EmailService implements EmailSender{
             throw new IllegalStateException("failed to send email");
         }
     }
+
     @Override
     public void sendEmail(EmailDetail emailDetail) {
         try {
@@ -58,6 +60,7 @@ public class EmailService implements EmailSender{
             e.printStackTrace();
         }
     }
+
     public void sendEmail(String email, String subject, String emailContent) {
         try {
             MimeMessage message = mailSender.createMimeMessage();

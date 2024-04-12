@@ -18,30 +18,30 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "RATING")
 public class Rating {
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 @Column(name = "ID")
-	 private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private Long id;
 
-	@JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user;
 
-	@JsonIgnore
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ARTWORK_ID")
+    @JoinColumn(name = "ARTWORK_ID")
     private Artwork artwork;
 
     @Column(name = "RATING_VALUE")
     private double ratingValue;
 
-	@CreationTimestamp
-	@Column(name = "CREATION_DATE")
-	private Timestamp creationDate;
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
 
-	@UpdateTimestamp
-	@Column(name = "LAST_UPDATE_DATE")
-	private Timestamp lastUpdateDate;
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
 
 }

@@ -1,13 +1,6 @@
 package com.project.oag.app.model;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -94,21 +90,14 @@ public class PasswordResetToken {
             return false;
         }
         if (getUser() == null) {
-            if (other.getUser() != null) {
-                return false;
-            }
-        } else if (!getUser().equals(other.getUser())) {
-            return false;
-        }
-        return true;
+            return other.getUser() == null;
+        } else return getUser().equals(other.getUser());
     }
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder();
-        builder.append("Token [String=").append(token).append("]").append("[Expires").append(expiryDate).append("]");
-        return builder.toString();
+        return "Token [String=" + token + "]" + "[Expires" + expiryDate + "]";
     }
-    
+
 }
 

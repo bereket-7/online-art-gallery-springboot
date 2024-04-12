@@ -17,25 +17,25 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Table(name = "STANDARDS", indexes = {
-		@Index(name = "idx_standard_standard_type", columnList = "standard_type")
+        @Index(name = "idx_standard_standard_type", columnList = "standard_type")
 })
 public class Standard {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "standard_description")
-	private String standardDescription;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(name = "standard_type")
-	private StandardType standardType;
+    @Column(name = "standard_description")
+    private String standardDescription;
 
-	@CreationTimestamp
-	@Column(name = "CREATION_DATE")
-	private Timestamp creationDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "standard_type")
+    private StandardType standardType;
 
-	@UpdateTimestamp
-	@Column(name = "LAST_UPDATE_DATE")
-	private Timestamp lastUpdateDate;
+    @CreationTimestamp
+    @Column(name = "CREATION_DATE")
+    private Timestamp creationDate;
+
+    @UpdateTimestamp
+    @Column(name = "LAST_UPDATE_DATE")
+    private Timestamp lastUpdateDate;
 }

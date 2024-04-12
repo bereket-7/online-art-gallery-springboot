@@ -6,24 +6,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto {  
-        private String eventName;
+public class EventDto {
+    private String eventName;
 
-        private String eventDescription;
+    private String eventDescription;
 
-        private String location;
+    private String location;
 
-		private double ticketPrice;
+    private double ticketPrice;
 
-		private int capacity;
+    private int capacity;
 
-        private EventStatus status;
+    private EventStatus status;
 
-        private String imageUrl;
+    private String imageUrl;
 
-        private LocalDateTime eventDate;
+    private LocalDateTime eventDate;
 }

@@ -1,6 +1,6 @@
 package com.project.oag.security.filter;
-import com.project.oag.security.utils.JwtTokenProvider;
 
+import com.project.oag.security.utils.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,16 +27,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        // Get the JWT token from the Authorization header
         String token = jwtTokenProvider.resolveToken(request);
 
-        // Check if the token is valid
         if (token != null && jwtTokenProvider.validateToken(token)) {
 
-            // Get the user details from the token
             UserDetails userDetails = userDetailsService.loadUserByUsername(
                     jwtTokenProvider.getUsername(token));
-            // Create an authentication object and set it in the security context
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

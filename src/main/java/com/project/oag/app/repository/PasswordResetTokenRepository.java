@@ -1,29 +1,28 @@
 package com.project.oag.app.repository;
 
-import java.util.Date;
-import java.util.stream.Stream;
-
 import com.project.oag.app.model.PasswordResetToken;
+import com.project.oag.app.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.project.oag.app.model.User;
+import java.util.Date;
+import java.util.stream.Stream;
 
 @Repository
-public interface PasswordResetTokenRepository  extends JpaRepository<PasswordResetToken, Long>{
-	
-	 	PasswordResetToken findByToken(String token);
+public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
 
-	    PasswordResetToken findByUser(User user);
+    PasswordResetToken findByToken(String token);
 
-	    Stream<PasswordResetToken> findAllByExpiryDateLessThan(Date now);
+    PasswordResetToken findByUser(User user);
 
-	    void deleteByExpiryDateLessThan(Date now);
+    Stream<PasswordResetToken> findAllByExpiryDateLessThan(Date now);
 
-	    @Modifying
-	    @Query("delete from PasswordResetToken t where t.expiryDate <= ?1")
-	    void deleteAllExpiredSince(Date now);
-	}
+    void deleteByExpiryDateLessThan(Date now);
+
+    @Modifying
+    @Query("delete from PasswordResetToken t where t.expiryDate <= ?1")
+    void deleteAllExpiredSince(Date now);
+}
 

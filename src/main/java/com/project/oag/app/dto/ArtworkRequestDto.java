@@ -8,10 +8,10 @@ import java.util.List;
 
 @Data
 public class ArtworkRequestDto {
-	private String artworkName;
-	private String artworkDescription;
-	private String artworkCategory;
-	private BigDecimal price;
-	private String size;
-	List<MultipartFile> imageFiles;
+    List<MultipartFile> imageFiles;
+    private String artworkName;
+    private String artworkDescription;
+    private String artworkCategory;
+    private BigDecimal price;
+    private String size;
 }

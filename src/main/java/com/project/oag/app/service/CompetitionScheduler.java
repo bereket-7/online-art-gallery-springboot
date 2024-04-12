@@ -2,15 +2,17 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.model.Competition;
 import com.project.oag.app.model.Competitor;
-import com.project.oag.app.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
+
 @Component
 public class CompetitionScheduler {
     @Autowired
     private CompetitionService competitionService;
+
     @Scheduled(fixedRate = 60000)
     public void checkCompetitionEndTime() {
         List<Competition> expiredCompetitions = competitionService.getExpiredCompetitions();
