@@ -1,5 +1,6 @@
 package com.project.oag.app.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,6 +28,9 @@ public interface CartRepository extends JpaRepository<Cart, Long>{
     @Modifying
     @Query("delete from Cart c where c.userId = ?1")
     int deleteByUserId(Long userId);
+
+    @Query("SELECT SUM(c.quantity * a.price) FROM Cart c INNER JOIN c.artwork a WHERE c.userId = :userId")
+    BigDecimal calculateTotalPriceByUserId(@Param("userId") Long userId);
 
 
 }

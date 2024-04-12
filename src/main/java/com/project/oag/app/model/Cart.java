@@ -27,7 +27,7 @@ public class Cart {
     private int quantity;
 
     @JsonIgnoreProperties({"ratings"})
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ARTWORK_ID")
     private Artwork artwork;
 

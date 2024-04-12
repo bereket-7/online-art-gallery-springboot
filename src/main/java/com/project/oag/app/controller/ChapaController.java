@@ -4,6 +4,7 @@ import com.project.oag.app.dto.PaymentStatus;
 import com.project.oag.app.model.PaymentLog;
 import com.project.oag.app.model.User;
 import com.project.oag.app.service.CartService;
+import com.project.oag.app.service.ChapaService;
 import com.project.oag.app.service.PaymentLogService;
 import com.project.oag.app.service.PaymentResponse;
 import com.project.oag.common.GenericResponse;
@@ -13,6 +14,7 @@ import com.yaphet.chapa.model.InitializeResponseData;
 import com.yaphet.chapa.model.PostData;
 import com.yaphet.chapa.model.VerifyResponseData;
 import com.yaphet.chapa.utility.Util;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,53 +27,20 @@ import java.time.LocalDateTime;
 @RequestMapping("api/v1/payment")
 public class ChapaController {
     private final PaymentLogService paymentLogService;
+    private final PaymentLog paymentLog;
     private final CartService cartService;
+    private final ChapaService chapaService;
 
-    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog, CartService cartService) {
+    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog, CartService cartService, ChapaService chapaService) {
         this.paymentLogService = paymentLogService;
         this.paymentLog = paymentLog;
         this.cartService = cartService;
+        this.chapaService = chapaService;
     }
-    private final PaymentLog paymentLog;
 
     @PostMapping("/initialize")
-    public ResponseEntity<GenericResponse> pay() throws Throwable {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedInUser = (User) authentication.getPrincipal();
-        int totalPrice = cartService.calculateTotalPrice(loggedInUser.getUsername());
-
-        Customization customization = new Customization()
-                .setDescription("Payment for Kelem OAG")
-                .setTitle("Kelem OAG");
-        String txRef = Util.generateToken();
-        PostData postData = new PostData()
-                .setAmount(BigDecimal.valueOf(totalPrice))
-                //.setAmount(new BigDecimal("10000"))
-                .setCurrency("ETB")
-                .setFirstName(loggedInUser.getFirstname())
-                .setLastName(loggedInUser.getLastname())
-                .setEmail(loggedInUser.getEmail())
-                .setReturnUrl("http://localhost:8080/paymentSuccess/" + txRef) // send verification url: /verify/{txRef}
-                .setTxRef(txRef)
-                .setCustomization(customization);
-
-        Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
-        InitializeResponseData response = chapa.initialize(postData);
-        String checkOutUrl = response.getData().getCheckOutUrl();
-
-        PaymentResponse paymentResponse = new PaymentResponse();
-        paymentResponse.setCheckOutUrl(checkOutUrl);
-        paymentResponse.setTxRef(txRef);
-
-        PaymentLog paymentLog = new PaymentLog();
-        paymentLog.setAmount(BigDecimal.valueOf(totalPrice));
-        paymentLog.setEmail(loggedInUser.getEmail());
-        paymentLog.setCreateDate(LocalDateTime.now());
-        paymentLog.setPaymentStatus(PaymentStatus.INTIALIZED);
-        paymentLog.setToken(txRef);
-        paymentLogService.createPaymentLog(paymentLog);
-
-        return ResponseEntity.ok(paymentResponse);
+    public ResponseEntity<GenericResponse> pay(HttpServletRequest request) throws Throwable {
+        return chapaService.pay(request);
     }
     @GetMapping("/verify/{txRef}")
     public ResponseEntity<Void> verify(@PathVariable("txRef") String txRef) throws Throwable {

@@ -22,11 +22,12 @@ public class PaymentLog {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "EMAIL")
-    private String email;
-
     @Column(name = "TOKEN")
     private String token;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
+    private Long userId;
 
     @Column(name = "AMOUNT")
     private BigDecimal amount;

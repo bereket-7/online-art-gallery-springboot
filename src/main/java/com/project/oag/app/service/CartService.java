@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +94,15 @@ public class CartService {
 			return prepareResponse(HttpStatus.OK, "Successfully cleared cart", null);
 		} catch (Exception e) {
 			throw new GeneralException("Error deleting cart");
+		}
+	}
+
+	public BigDecimal calculateTotalPrice(HttpServletRequest request) {
+		try {
+			Long userId = getUserId(request);
+            return cartRepository.calculateTotalPriceByUserId(userId);
+		} catch (Exception e) {
+			throw new GeneralException("Failed to calculate total price");
 		}
 	}
 	private Long getUserId(HttpServletRequest request) {

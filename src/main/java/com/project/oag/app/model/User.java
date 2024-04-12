@@ -100,7 +100,7 @@ public class User implements UserDetails{
     private List<Rating> ratings;
 
 	@JsonIgnore
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userId")
     private List<Cart> carts = new ArrayList<>();
 
     @JsonIgnore
@@ -110,6 +110,10 @@ public class User implements UserDetails{
     @JsonIgnore
     @OneToMany(mappedBy = "artistId")
     private List<Competitor> competitors;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private List<PaymentLog> paymentLogs;
 
 	@JsonIgnore
     @OneToMany(mappedBy = "user")
