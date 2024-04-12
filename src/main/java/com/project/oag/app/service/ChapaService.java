@@ -12,6 +12,7 @@ import com.yaphet.chapa.Chapa;
 import com.yaphet.chapa.model.Customization;
 import com.yaphet.chapa.model.InitializeResponseData;
 import com.yaphet.chapa.model.PostData;
+import com.yaphet.chapa.model.VerifyResponseData;
 import com.yaphet.chapa.utility.Util;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -76,6 +77,21 @@ public class ChapaService {
             return prepareResponse(HttpStatus.OK,"PaymentLog",paymentLog);
         } catch (Throwable e) {
             throw new GeneralException("Failed to create payment");
+        }
+    }
+    public ResponseEntity<GenericResponse> verify(String txRef) throws Throwable {
+        try {
+            Chapa chapa = new Chapa(secretKey);
+            VerifyResponseData verify = chapa.verify(txRef);
+            if (verify.getStatusCode() == 200) {
+                paymentLogService.findByToken(txRef);
+            }
+                PaymentLog paymentLog = new PaymentLog();
+                paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
+                return prepareResponse(HttpStatus.OK, "", paymentLog);
+
+        } catch (Throwable e) {
+            throw new GeneralException("failed to verify payment");
         }
     }
 

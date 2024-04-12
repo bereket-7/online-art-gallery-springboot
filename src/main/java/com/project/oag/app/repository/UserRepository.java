@@ -33,5 +33,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
     List<User> findByRole(Role role);
-    User findByUsername(String username);
+
 }

@@ -43,14 +43,7 @@ public class ChapaController {
         return chapaService.pay(request);
     }
     @GetMapping("/verify/{txRef}")
-    public ResponseEntity<Void> verify(@PathVariable("txRef") String txRef) throws Throwable {
-        Chapa chapa = new Chapa("CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0");
-        VerifyResponseData verify = chapa.verify(txRef);
-        if(verify.getStatusCode() == 200) {
-            paymentLogService.findByToken(txRef);
-            paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<GenericResponse> verify(@PathVariable("txRef") String txRef) throws Throwable {
+        return chapaService.verify(txRef);
     }
 }
