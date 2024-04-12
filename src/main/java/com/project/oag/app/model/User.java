@@ -100,19 +100,19 @@ public class User implements UserDetails {
     private List<Rating> ratings;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(mappedBy = "artistId")
+    @OneToMany(mappedBy = "artist")
     private List<Artwork> artworks;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "artistId")
+    @OneToMany(mappedBy = "artist")
     private List<Competitor> competitors;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PaymentLog> paymentLogs;
 
     @JsonIgnore
@@ -126,7 +126,7 @@ public class User implements UserDetails {
 
     public void addCart(Cart cart) {
         carts.add(cart);
-        cart.setUserId(this.id);
+        //cart.setUserId(this.id);
     }
 
     @Override

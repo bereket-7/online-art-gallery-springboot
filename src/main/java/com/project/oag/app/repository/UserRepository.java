@@ -16,13 +16,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
 
-    @Query(value = "SELECT u.id, u.firstname, u.lastname, u.email, a.id AS artwork_id, a.artworkName, a.artworkDescription, a.image, a.price " +
-            "FROM users u " +
-            "JOIN Artwork a ON u.id = a.artist_id " +
-            "WHERE u.role = 'ARTIST'",
-            nativeQuery = true)
-    List<Object[]> findArtistsWithArtworks();
-
     List<User> findByUsernameContainingIgnoreCase(String username);
 
     Long countTotalUsersByRole(Role role);

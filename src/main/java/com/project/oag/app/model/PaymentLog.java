@@ -28,7 +28,7 @@ public class PaymentLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private Long userId;
+    private User user;
 
     @Column(name = "AMOUNT")
     private BigDecimal amount;

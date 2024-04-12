@@ -30,7 +30,7 @@ spring:
     properties:
       mail:
         smtp:
-          ssl-trust: *
+          ssl-trust: true
           auth: true
           starttls-enable: true
           connection-timeout: 5000

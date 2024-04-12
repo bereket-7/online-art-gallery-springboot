@@ -32,4 +32,9 @@ public class OrderAddress {
 
     @Column(name = "POSTAL_CODE")
     private String postalCode;
+
+    @OneToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
+
 }
