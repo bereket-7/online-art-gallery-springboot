@@ -71,7 +71,7 @@ public class ChapaService {
 
             PaymentLog paymentLog = new PaymentLog();
             paymentLog.setAmount(totalPrice);
-            paymentLog.setUserId(userId);
+           // paymentLog.setUserId(userId);
             paymentLog.setPaymentStatus(PaymentStatus.INTIALIZED);
             paymentLog.setToken(txRef);
             paymentLogService.createPaymentLog(paymentLog);

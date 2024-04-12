@@ -24,16 +24,16 @@ public class Vote {
     @JoinColumn(name = "COMPETITOR_ID")
     @JsonIgnore
     @JsonIgnoreProperties({"user", "competition"})
-    private Long competitorId;
+    private Competitor competitor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPETITION_ID")
     @JsonIgnoreProperties({"competitor"})
-    private Long competitionId;
+    private Competition competition;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private Long userId;
+    private User user;
 
 }
 

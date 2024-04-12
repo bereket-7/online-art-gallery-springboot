@@ -60,7 +60,7 @@ public class ArtworkService {
             artwork.setStatus(ArtworkStatus.PENDING);
             artwork.setPrice(artworkRequestDto.getPrice());
             artwork.setSize(artworkRequestDto.getSize());
-            artwork.setArtistId(userId);
+            //artwork.setArtistId(userId);
             artwork.setImageUrls(imageUrls);
             val response = artworkRepository.save(artwork);
             return prepareResponse(HttpStatus.OK, "success", response);

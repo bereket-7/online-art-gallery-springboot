@@ -37,8 +37,8 @@ public class WishListService {
         try {
             Long userId = getUserId(request);
             WishList wishlist = new WishList();
-            wishlist.setUserId(userId);
-            wishlist.setArtworkId(artworkId);
+            //wishlist.setUserId(userId);
+           // wishlist.setArtworkId(artworkId);
             val response = wishListRepository.save(wishlist);
             return prepareResponse(HttpStatus.OK, "successfully add to wishlist", response);
         } catch (Exception e) {

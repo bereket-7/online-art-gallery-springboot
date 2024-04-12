@@ -62,7 +62,7 @@ public class Artwork {
 
     @ManyToOne
     @JoinColumn(name = "ARTIST_ID")
-    private Long artistId;
+    private User artist;
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)

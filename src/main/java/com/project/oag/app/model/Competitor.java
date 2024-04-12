@@ -37,13 +37,13 @@ public class Competitor {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMPETITION_ID")
     @JsonIgnore
-    private Long competitionId;
+    private Competition competition;
 
-    @OneToMany(mappedBy = "competitorId")
+    @OneToMany(mappedBy = "competitor")
     private List<Vote> votes;
 
     @JsonIgnoreProperties({"notifications", "artworks"})
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ARTIST_ID")
-    private Long artistId;
+    private User artist;
 }

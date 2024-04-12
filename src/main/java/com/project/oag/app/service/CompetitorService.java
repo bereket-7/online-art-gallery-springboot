@@ -52,7 +52,7 @@ public class CompetitorService {
         Long userId = getUserId(request);
         try {
             val competitor = modelMapper.map(competitorRequestDto, Competitor.class);
-            competitor.setArtistId(userId);
+            //competitor.setArtistId(userId);
             val response = competitorRepository.save(competitor);
             return prepareResponse(HttpStatus.OK, "Registered successfully", response);
         } catch (Exception e) {
@@ -113,9 +113,9 @@ public class CompetitorService {
 
             if ((voteService.isUserVotedForCompetition(userId, competitionId))) {
                 Vote vote = new Vote();
-                vote.setCompetitorId(competitorId);
-                vote.setUserId(userId);
-                vote.setCompetitionId(competitionId);
+                //vote.setCompetitorId(competitorId);
+                //vote.setUserId(userId);
+                //vote.setCompetitionId(competitionId);
                 voteService.saveVote(vote);
                 Competitor competitor = new Competitor();
                 int currentVote = competitor.getVoteCount();

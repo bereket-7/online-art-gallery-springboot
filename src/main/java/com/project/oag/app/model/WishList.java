@@ -27,12 +27,12 @@ public class WishList {
     @JsonIgnore
     @OneToOne()
     @JoinColumn(name = "USER_ID")
-    private Long userId;
+    private User user;
 
     @JsonIgnoreProperties({"artist", "carts", "status"})
     @ManyToOne()
     @JoinColumn(name = "ARTWORK_ID")
-    private Long artworkId;
+    private Artwork artwork;
 
     @CreationTimestamp
     @Column(name = "CREATION_DATE")

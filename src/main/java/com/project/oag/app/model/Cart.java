@@ -34,7 +34,7 @@ public class Cart {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private Long userId;
+    private User user;
 
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
