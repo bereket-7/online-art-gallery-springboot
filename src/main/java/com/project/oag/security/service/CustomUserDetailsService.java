@@ -1,6 +1,9 @@
 package com.project.oag.security.service;
 
-import com.project.oag.app.dto.*;
+import com.project.oag.app.dto.ArtistDTO;
+import com.project.oag.app.dto.ChangePasswordRequest;
+import com.project.oag.app.dto.Role;
+import com.project.oag.app.dto.UserRequestDto;
 import com.project.oag.app.model.ConfirmationToken;
 import com.project.oag.app.model.PasswordResetToken;
 import com.project.oag.app.model.User;
@@ -109,10 +112,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return userRepository.findByEmailIgnoreCase(email).orElse(null);
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
     public Long getTotalCustomerUsers() {
         return userRepository.countTotalUsersByRole(Role.CUSTOMER);
     }
@@ -123,10 +122,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public Long getTotalManagerUsers() {
         return userRepository.countTotalUsersByRole(Role.MANAGER);
-    }
-
-    public Optional<User> getUserByID(final long id) {
-        return userRepository.findById(id);
     }
 
     public List<User> getArtistUsers() {
@@ -161,39 +156,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         return artistUserDTOs;
     }
 
-    public List<UserRequestDto> getArtistsWithArtworks() {
-        List<Object[]> results = userRepository.findArtistsWithArtworks();
-
-        List<UserRequestDto> artists = new ArrayList<>();
-        Map<Long, UserRequestDto> artistMap = new HashMap<>();
-
-        for (Object[] result : results) {
-            Long userId = ((Number) result[0]).longValue();
-            Long artworkId = ((Number) result[4]).longValue();
-
-            UserRequestDto artist = artistMap.get(userId);
-            if (artist == null) {
-                artist = new UserRequestDto();
-                artist.setFirstname((String) result[1]);
-                artist.setLastname((String) result[2]);
-                artist.setEmail((String) result[3]);
-                artistMap.put(userId, artist);
-                artists.add(artist);
-            }
-
-            ArtworkRequestDto artwork = new ArtworkRequestDto();
-            artwork.setArtworkName((String) result[5]);
-            artwork.setArtworkDescription((String) result[6]);
-            artwork.setImage((byte[]) result[7]);
-            artwork.setPrice((int) result[8]);
-
-            //artist.getArtworks().add(artwork);
-        }
-
-        return artists;
-    }
-
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -203,7 +165,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void initiatePasswordReset(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmailIgnoreCase(email);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException("User with email " + email + " not found.");
         }
@@ -240,7 +202,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void changePassword(String email, ChangePasswordRequest request) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("User not found.");
         }
@@ -255,11 +217,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     private boolean passwordMatches(String storedPassword, String inputPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(inputPassword, storedPassword);
-    }
-
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new GeneralException("User not found"));
     }
 
     private Long getUserId(HttpServletRequest request) {
