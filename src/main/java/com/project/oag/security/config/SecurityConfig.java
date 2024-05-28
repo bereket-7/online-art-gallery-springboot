@@ -59,7 +59,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.POST, "/api/v1/registration/register").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/payment/verify/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/password/reset").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/users/password/request").permitAll()
@@ -74,7 +74,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/artworks/search").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/autocomplete").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/recent").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/standards").permitAll()
+                .requestMatchers(HttpMethod.GET, "api/v1/standards").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artworks/accepted").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/artworks/saveArtwork").permitAll()
                 .requestMatchers(HttpMethod.POST, "/rating/artworks/{artworkId}/rate").permitAll()

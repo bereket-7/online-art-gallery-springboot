@@ -15,8 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://localhost:8080/")
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private AuthenticationManager authenticationManager;
     private JwtTokenProvider jwtTokenProvider;
@@ -33,18 +32,6 @@ public class AuthController {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    //    @PostMapping("/login")
-//    public ResponseEntity<?> authenticateUser(
-//            @RequestBody AuthenticationRequest authenticationRequest) {
-//        Authentication authentication = authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-//                        authenticationRequest.getPassword())
-//        );
-//
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        String jwt = jwtTokenProvider.createToken(authentication);
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-//    }
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody AuthenticationRequest authenticationRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -63,21 +50,6 @@ public class AuthController {
         return ResponseEntity.ok(new AuthenticationResponse(jwt, role));
     }
 
-    //    @PostMapping("/organization/login")
-//    public ResponseEntity<?> authenticateOrganization(@RequestBody AuthenticationRequest authenticationRequest) {
-//        try {
-//            Authentication authentication = authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(),
-//                            authenticationRequest.getPassword())
-//            );
-//
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//            String jwt = jwtTokenProvider.createToken(authentication);
-//            return ResponseEntity.ok(new AuthenticationResponse(jwt));
-//        } catch (AuthenticationException e) {
-//            throw new BadCredentialsException("Invalid username or password");
-//        }
-//    }
     @GetMapping("/logout")
     public ResponseEntity<?> logoutUser() {
         SecurityContextHolder.clearContext();
