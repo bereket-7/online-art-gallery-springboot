@@ -14,20 +14,20 @@ import java.util.List;
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
-    @Query("select c from Cart c where c.userId = ?1")
+    @Query("select c from Cart c where c.user.id = ?1")
     List<Cart> findByUserId(Long userId);
 
     @Transactional
     @Modifying
-    @Query("delete from Cart c where c.userId = ?1 and c.id = ?2")
+    @Query("delete from Cart c where c.user.id = ?1 and c.id = ?2")
     int deleteByUserIdAndId(Long userId, Long id);
 
     @Transactional
     @Modifying
-    @Query("delete from Cart c where c.userId = ?1")
+    @Query("delete from Cart c where c.user.id = ?1")
     int deleteByUserId(Long userId);
 
-    @Query("SELECT SUM(c.quantity * a.price) FROM Cart c INNER JOIN c.artwork a WHERE c.userId = :userId")
+    @Query("SELECT SUM(c.quantity * a.price) FROM Cart c INNER JOIN c.artwork a WHERE c.user.id = :userId")
     BigDecimal calculateTotalPriceByUserId(@Param("userId") Long userId);
 
 

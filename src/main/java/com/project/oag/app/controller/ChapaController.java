@@ -1,9 +1,6 @@
 package com.project.oag.app.controller;
 
-import com.project.oag.app.model.PaymentLog;
-import com.project.oag.app.service.CartService;
 import com.project.oag.app.service.ChapaService;
-import com.project.oag.app.service.PaymentLogService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +9,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/payment")
 public class ChapaController {
-    private final PaymentLogService paymentLogService;
-    private final PaymentLog paymentLog;
-    private final CartService cartService;
     private final ChapaService chapaService;
 
-    public ChapaController(PaymentLogService paymentLogService, PaymentLog paymentLog, CartService cartService, ChapaService chapaService) {
-        this.paymentLogService = paymentLogService;
-        this.paymentLog = paymentLog;
-        this.cartService = cartService;
+    public ChapaController(ChapaService chapaService) {
         this.chapaService = chapaService;
     }
 
