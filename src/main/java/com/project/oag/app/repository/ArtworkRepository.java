@@ -14,7 +14,7 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Long>, JpaSpec
     @Query("select a from Artwork a where a.artworkCategory = ?1")
     List<Artwork> findByArtworkCategory(String artworkCategory);
 
-    @Query("select a from Artwork a where a.artistId = ?1")
+    @Query("select a from Artwork a where a.artist.id = ?1")
     List<Artwork> findByArtistId(Long artistId);
 
     @Query("select a from Artwork a where a.status = ?1")

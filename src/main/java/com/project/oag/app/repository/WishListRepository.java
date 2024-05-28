@@ -13,10 +13,10 @@ import java.util.List;
 public interface WishListRepository extends JpaRepository<WishList, Long> {
     @Transactional
     @Modifying
-    @Query("delete from WishList w where w.id = ?1 and w.userId = ?2")
+    @Query("delete from WishList w where w.id = ?1 and w.user.id = ?2")
     int deleteByIdAndUserId(Long id, Long userId);
 
-    @Query("select w from WishList w where w.userId = ?1")
+    @Query("select w from WishList w where w.user.id = ?1")
     List<WishList> findByUserId(Long userId);
 
 }

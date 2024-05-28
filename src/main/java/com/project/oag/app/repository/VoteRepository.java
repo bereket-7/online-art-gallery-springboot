@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Long> {
-    @Query("select v from Vote v where v.userId = ?1 and v.competitionId = ?2")
+    @Query("select v from Vote v where v.user.id = ?1 and v.competition.id = ?2")
     boolean findByUserIdAndCompetitionId(Long userId, Long competitionId);
 }
