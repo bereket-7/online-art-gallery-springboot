@@ -1,7 +1,7 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.UserRequestDto;
-import com.project.oag.app.model.ConfirmationToken;
+import com.project.oag.app.entity.ConfirmationToken;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.security.service.CustomUserDetailsService;

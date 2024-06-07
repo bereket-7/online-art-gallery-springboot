@@ -1,7 +1,7 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ReportDto;
-import com.project.oag.app.model.Report;
+import com.project.oag.app.entity.Report;
 import com.project.oag.app.repository.ReportRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
