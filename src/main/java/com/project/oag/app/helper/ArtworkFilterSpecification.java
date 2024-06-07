@@ -1,6 +1,6 @@
 package com.project.oag.app.helper;
 
-import com.project.oag.app.model.Artwork;
+import com.project.oag.app.entity.Artwork;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

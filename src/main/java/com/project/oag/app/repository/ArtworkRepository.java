@@ -1,7 +1,7 @@
 package com.project.oag.app.repository;
 
 import com.project.oag.app.dto.ArtworkStatus;
-import com.project.oag.app.model.Artwork;
+import com.project.oag.app.entity.Artwork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
