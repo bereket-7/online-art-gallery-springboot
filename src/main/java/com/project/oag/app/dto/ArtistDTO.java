@@ -1,6 +1,6 @@
 package com.project.oag.app.dto;
 
-import com.project.oag.app.model.Artwork;
+import com.project.oag.app.entity.Artwork;
 import lombok.Data;
 
 import java.util.List;
