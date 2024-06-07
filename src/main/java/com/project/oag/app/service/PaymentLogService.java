@@ -1,6 +1,6 @@
 package com.project.oag.app.service;
 
-import com.project.oag.app.model.PaymentLog;
+import com.project.oag.app.entity.PaymentLog;
 import com.project.oag.app.repository.PaymentLogRepository;
 import org.springframework.stereotype.Service;
 
