@@ -2,9 +2,9 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.CompetitorRequestDto;
-import com.project.oag.app.model.Competitor;
-import com.project.oag.app.model.User;
-import com.project.oag.app.model.Vote;
+import com.project.oag.app.entity.Competitor;
+import com.project.oag.app.entity.User;
+import com.project.oag.app.entity.Vote;
 import com.project.oag.app.repository.CompetitionRepository;
 import com.project.oag.app.repository.CompetitorRepository;
 import com.project.oag.app.repository.UserRepository;

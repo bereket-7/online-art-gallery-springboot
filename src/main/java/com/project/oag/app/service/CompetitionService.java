@@ -1,7 +1,7 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.CompetitionDto;
-import com.project.oag.app.model.Competition;
+import com.project.oag.app.entity.Competition;
 import com.project.oag.app.repository.CompetitionRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
