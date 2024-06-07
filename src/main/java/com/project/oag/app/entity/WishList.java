@@ -1,4 +1,4 @@
-package com.project.oag.app.model;
+package com.project.oag.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

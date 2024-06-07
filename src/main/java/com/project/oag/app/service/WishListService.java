@@ -1,7 +1,7 @@
 package com.project.oag.app.service;
 
-import com.project.oag.app.model.User;
-import com.project.oag.app.model.WishList;
+import com.project.oag.app.entity.User;
+import com.project.oag.app.entity.WishList;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.repository.WishListRepository;
 import com.project.oag.common.GenericResponse;

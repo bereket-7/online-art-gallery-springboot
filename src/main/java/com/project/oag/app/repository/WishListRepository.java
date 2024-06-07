@@ -1,6 +1,6 @@
 package com.project.oag.app.repository;
 
-import com.project.oag.app.model.WishList;
+import com.project.oag.app.entity.WishList;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
