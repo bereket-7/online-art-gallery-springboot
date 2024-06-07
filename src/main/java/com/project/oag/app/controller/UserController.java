@@ -2,7 +2,7 @@ package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.ArtistDTO;
 import com.project.oag.app.dto.ChangePasswordRequest;
-import com.project.oag.app.model.User;
+import com.project.oag.app.entity.User;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
@@ -20,8 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
-    //private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    //private String path = "src/main/resources/static/img/user-images/";
     private final CustomUserDetailsService userService;
 
     public UserController(CustomUserDetailsService userService) {

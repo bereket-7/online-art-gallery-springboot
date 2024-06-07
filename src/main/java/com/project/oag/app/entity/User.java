@@ -1,7 +1,8 @@
-package com.project.oag.app.model;
+package com.project.oag.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.oag.app.dto.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,10 +37,10 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(name = "FIRSTNAME")
-    private String firstname;
+    private String firstName;
 
     @Column(name = "LASTNAME")
-    private String lastname;
+    private String lastName;
 
     @Column(name = "EMAIL", unique = true)
     private String email;
@@ -84,8 +85,30 @@ public class User implements UserDetails {
     @Column(name = "SECRET")
     private String secret = Base32.random();
 
+    @Column(name = "ACCOUNT_VERIFIED", nullable = false)
+    private boolean verified = false;
+    @Column(name = "IS_DELETED", nullable = false, columnDefinition = "boolean default false")
+    private boolean deleted = false;
     @Column(name = "ENABLED_2FA")
     private boolean enable2FA = false;
+
+    @Column(name = "RESET_PASSWORD_TOKEN")
+    private String resetPasswordToken;
+    @Column(name = "LOGIN_ATTEMPTED_NUMBER", nullable = false, length = 3)
+    private int loginAttemptedNumber = 0;
+    @Column(name = "BLOCKED_UNTIL")
+    private Timestamp blockedUntil;
+    @Column(name = "TOKEN_CREATION_TIME")
+    private Timestamp tokenCreationTime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ROLE_ID")
+    @JsonManagedReference
+    private UserRole userRole;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<UserToken> userToken;
 
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
