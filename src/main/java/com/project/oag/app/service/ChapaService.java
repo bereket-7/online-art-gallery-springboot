@@ -1,8 +1,8 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.PaymentStatus;
-import com.project.oag.app.model.PaymentLog;
-import com.project.oag.app.model.User;
+import com.project.oag.app.entity.PaymentLog;
+import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
@@ -54,8 +54,8 @@ public class ChapaService {
             PostData postData = new PostData()
                     .setAmount(totalPrice)
                     .setCurrency("ETB")
-                    .setFirstName(users.get().getFirstname())
-                    .setLastName(users.get().getLastname())
+                    .setFirstName(users.get().getFirstName())
+                    .setLastName(users.get().getLastName())
                     .setEmail(users.get().getEmail())
                     .setReturnUrl("http://localhost:8080/paymentSuccess/" + txRef)
                     .setTxRef(txRef)
