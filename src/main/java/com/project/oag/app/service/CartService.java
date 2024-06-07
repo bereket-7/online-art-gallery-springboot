@@ -1,8 +1,8 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.CartDto;
-import com.project.oag.app.model.Cart;
-import com.project.oag.app.model.User;
+import com.project.oag.app.entity.Cart;
+import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.CartRepository;
 import com.project.oag.app.repository.UserRepository;
