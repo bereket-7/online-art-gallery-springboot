@@ -2,7 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.StandardRequestDto;
 import com.project.oag.app.dto.StandardType;
-import com.project.oag.app.model.Standard;
+import com.project.oag.app.entity.Standard;
 import com.project.oag.app.repository.StandardRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
