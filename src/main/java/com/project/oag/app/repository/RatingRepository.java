@@ -1,8 +1,8 @@
 package com.project.oag.app.repository;
 
-import com.project.oag.app.model.Artwork;
-import com.project.oag.app.model.Rating;
-import com.project.oag.app.model.User;
+import com.project.oag.app.entity.Artwork;
+import com.project.oag.app.entity.Rating;
+import com.project.oag.app.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
