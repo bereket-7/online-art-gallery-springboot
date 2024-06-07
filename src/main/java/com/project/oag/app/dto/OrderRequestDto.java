@@ -1,6 +1,6 @@
 package com.project.oag.app.dto;
 
-import com.project.oag.app.model.OrderAddress;
+import com.project.oag.app.entity.OrderAddress;
 import lombok.Data;
 
 @Data

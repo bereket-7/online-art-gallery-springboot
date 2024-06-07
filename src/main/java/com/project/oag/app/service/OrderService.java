@@ -1,7 +1,7 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.OrderRequestDto;
-import com.project.oag.app.model.Order;
+import com.project.oag.app.entity.Order;
 import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;

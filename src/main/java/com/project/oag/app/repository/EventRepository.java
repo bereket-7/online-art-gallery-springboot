@@ -1,7 +1,7 @@
 package com.project.oag.app.repository;
 
 import com.project.oag.app.dto.EventStatus;
-import com.project.oag.app.model.Event;
+import com.project.oag.app.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

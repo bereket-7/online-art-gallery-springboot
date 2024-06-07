@@ -2,7 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.dto.EventDto;
 import com.project.oag.app.dto.EventStatus;
-import com.project.oag.app.model.Event;
+import com.project.oag.app.entity.Event;
 import com.project.oag.app.repository.EventRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
