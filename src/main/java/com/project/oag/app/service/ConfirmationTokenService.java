@@ -1,6 +1,6 @@
 package com.project.oag.app.service;
 
-import com.project.oag.app.model.ConfirmationToken;
+import com.project.oag.app.entity.ConfirmationToken;
 import com.project.oag.app.repository.ConfirmationTokenRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
