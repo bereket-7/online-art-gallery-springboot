@@ -1,4 +1,4 @@
-package com.project.oag.app.model;
+package com.project.oag.app.entity;
 
 import com.project.oag.app.dto.TokenType;
 import jakarta.persistence.*;

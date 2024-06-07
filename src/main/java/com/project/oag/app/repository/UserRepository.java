@@ -1,7 +1,7 @@
 package com.project.oag.app.repository;
 
 import com.project.oag.app.dto.Role;
-import com.project.oag.app.model.User;
+import com.project.oag.app.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

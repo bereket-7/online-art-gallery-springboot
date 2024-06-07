@@ -1,6 +1,6 @@
 package com.project.oag.app.service;
 
-import com.project.oag.app.model.Vote;
+import com.project.oag.app.entity.Vote;
 import com.project.oag.app.repository.VoteRepository;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
