@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,5 +18,7 @@ public record RolePermissionConfig(boolean initial,
                                    Set<String> notAssignable,
                                    Map<String, Set<String>> mapping,
                                    @NestedConfigurationProperty
-                                   Map<String, ConfiguredUser> users) {
+                                   Map<String, ConfiguredUser> users,
+                                   @NestedConfigurationProperty
+                                   HashMap<String, LockoutRule> lockoutPolicy) {
 }
