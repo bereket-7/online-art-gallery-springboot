@@ -1,4 +1,4 @@
-package com.project.oag.app.dto;
+package com.project.oag.app.dto.auth;
 
 public enum TokenType {
     BEARER,
