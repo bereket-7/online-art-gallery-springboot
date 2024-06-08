@@ -87,6 +87,23 @@ public class RequestUtils {
         return request.getRemoteAddr();
     }
 
+    public static Pageable getPageable(List<String> sortType, int pageNumber, int pageSize) {
+        return PageRequest.of(pageNumber, pageSize, Sort.by(prepareSortExpression(sortType)));
+    }
+
+    public static Sort.Order[] prepareSortExpression(List<String> sortType) {
+        return sortType.stream()
+                .map(s -> {
+                    String[] split = s.split(SORT_BY_REGEX);
+                    String fieldName = split[0];
+                    String direction = split.length > 1 ? split[1] : ASC;
+                    return new Sort.Order(Sort.Direction.fromString(direction), fieldName);
+                })
+                .toArray(Sort.Order[]::new);
+    }
+    public static String getRemoteAddr(HttpServletRequest request) {
+        return request.getRemoteAddr();
+    }
     public static String getIpAddressFromHeader(HttpServletRequest request) {
         if (request == null) {
             request = getHttpServletRequest();
@@ -102,21 +119,6 @@ public class RequestUtils {
                 return headerValue;
             }
         }
-        return getRemoteAddress(request);
-    }
-
-    public static Pageable getPageable(List<String> sortType, int pageNumber, int pageSize) {
-        return PageRequest.of(pageNumber, pageSize, Sort.by(prepareSortExpression(sortType)));
-    }
-
-    public static Sort.Order[] prepareSortExpression(List<String> sortType) {
-        return sortType.stream()
-                .map(s -> {
-                    String[] split = s.split(SORT_BY_REGEX);
-                    String fieldName = split[0];
-                    String direction = split.length > 1 ? split[1] : ASC;
-                    return new Sort.Order(Sort.Direction.fromString(direction), fieldName);
-                })
-                .toArray(Sort.Order[]::new);
+        return getRemoteAddr(request);
     }
 }
