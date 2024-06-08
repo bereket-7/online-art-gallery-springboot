@@ -1,18 +1,13 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.ArtistDTO;
-import com.project.oag.app.dto.ChangePasswordRequest;
 import com.project.oag.app.entity.User;
 import com.project.oag.common.GenericResponse;
-import com.project.oag.exceptions.IncorrectPasswordException;
-import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.security.service.CustomUserDetailsService;
+import com.project.oag.app.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,32 +55,6 @@ public class UserController {
             return ResponseEntity.ok("User deleted successfully");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
-        }
-    }
-
-    // Reset password
-    @PostMapping("password/request")
-    public ResponseEntity<String> requestPasswordReset(@RequestParam("email") String email) {
-        userService.initiatePasswordReset(email);
-        return ResponseEntity.ok("Password reset email sent check your email.");
-    }
-
-    @PostMapping("password/reset")
-    public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestParam("newPassword") String newPassword) {
-        userService.resetPassword(token, newPassword);
-        return ResponseEntity.ok("Password reset successfully.");
-    }
-
-    @PostMapping("/password/change")
-    public ResponseEntity<String> changePassword(@AuthenticationPrincipal UserDetails userDetails, @RequestBody ChangePasswordRequest request) {
-        try {
-            String email = userDetails.getUsername();
-            userService.changePassword(email, request);
-            return ResponseEntity.ok("Password changed successfully.");
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IncorrectPasswordException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
