@@ -1,6 +1,6 @@
 package com.project.oag.app.entity;
 
-import com.project.oag.app.dto.TokenType;
+import com.project.oag.app.dto.auth.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
