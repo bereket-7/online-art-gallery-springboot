@@ -147,8 +147,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         for (User user : artistUsers) {
             ArtistDTO artistUserDTO = new ArtistDTO();
             artistUserDTO.setId(user.getId());
-            artistUserDTO.setFirstname(user.getFirstname());
-            artistUserDTO.setLastname(user.getLastname());
+            artistUserDTO.setFirstname(user.getFirstName());
+            artistUserDTO.setLastname(user.getLastName());
             artistUserDTO.setUsername(user.getUsername());
             artistUserDTO.setArtworks(user.getArtworks());
             artistUserDTOs.add(artistUserDTO);
