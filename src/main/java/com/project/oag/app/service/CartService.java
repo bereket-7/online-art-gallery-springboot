@@ -10,7 +10,6 @@ import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
-import com.project.oag.security.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.modelmapper.ModelMapper;

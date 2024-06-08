@@ -1,4 +1,4 @@
-package com.project.oag.security.service;
+package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtistDTO;
 import com.project.oag.app.dto.ChangePasswordRequest;
@@ -10,7 +10,6 @@ import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.PasswordResetTokenRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.ConfirmationTokenService;
-import com.project.oag.app.service.EmailService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.IncorrectPasswordException;
@@ -35,49 +34,19 @@ import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
 @Configuration
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final ConfirmationTokenService confirmationTokenService;
-    private final EmailService emailService;
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository, ModelMapper modelMapper, ConfirmationTokenService confirmationTokenService, EmailService emailService, PasswordResetTokenRepository passwordResetTokenRepository) {
+    public CustomUserDetailsService(UserRepository userRepository, ModelMapper modelMapper, ConfirmationTokenService confirmationTokenService, PasswordResetTokenRepository passwordResetTokenRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.confirmationTokenService = confirmationTokenService;
-        this.emailService = emailService;
         this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        try {
-            return userRepository.findByEmailIgnoreCase(email)
-                    .orElseThrow(() -> new Exception("user Not found "));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public ResponseEntity<GenericResponse> signUpUser(UserRequestDto userRequestDto) {
-        try {
-            userRepository.findByEmailIgnoreCase(userRequestDto.getEmail())
-                    .orElseThrow(() -> new GeneralException("This Email already registered"));
-            val savedUser = modelMapper.map(userRequestDto, User.class);
-            userRepository.save(savedUser);
-            String token = UUID.randomUUID().toString();
-            ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now(), LocalDateTime.now().plusMinutes(15), savedUser);
-            confirmationTokenService.saveConfirmationToken(confirmationToken);
-            return prepareResponse(HttpStatus.OK, "User sign up successfully", token);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to save user");
-        }
-    }
-
-    public int enableUser(String email) {
-        return userRepository.enableUser(email);
-    }
 
     public ResponseEntity<GenericResponse> uploadProfilePhoto(HttpServletRequest request, String photoUrl) {
         String email = getLoggedInUserName(request);
@@ -107,11 +76,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     public List<User> searchUsersByUsername(String username) {
         return userRepository.findByUsernameContainingIgnoreCase(username);
     }
-
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmailIgnoreCase(email).orElse(null);
-    }
-
     public Long getTotalCustomerUsers() {
         return userRepository.countTotalUsersByRole(Role.CUSTOMER);
     }
@@ -164,60 +128,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         userRepository.deleteById(id);
     }
 
-    public void initiatePasswordReset(String email) {
-        Optional<User> userOptional = userRepository.findByEmailIgnoreCase(email);
-        if (userOptional.isEmpty()) {
-            throw new UserNotFoundException("User with email " + email + " not found.");
-        }
-        User user = userOptional.get();
-        String resetToken = generateResetToken();
-        PasswordResetToken passwordResetToken = new PasswordResetToken(resetToken, user);
-        passwordResetTokenRepository.save(passwordResetToken);
-        String resetLink = "http://localhost:8082/api/users/password/reset?token=" + resetToken;
-        String emailContent = "Please click the following link to reset your password: <a href=\"" + resetLink + "\">Reset Password</a>";
-        emailService.sendEmail(user.getEmail(), "Password Reset", emailContent);
-    }
-
-    public void resetPassword(String token, String newPassword) {
-        PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByToken(token);
-        if (passwordResetToken == null || passwordResetToken.isExpired()) {
-            throw new UserNotFoundException("Invalid or expired reset token.");
-        }
-        User user = passwordResetToken.getUser();
-        user.setPassword(newPassword);
-        userRepository.save(user);
-        passwordResetTokenRepository.delete(passwordResetToken);
-    }
-
-    private String generateResetToken() {
-        StringBuilder resetCode = new StringBuilder();
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        int codeLength = 8;
-        Random random = new Random();
-        for (int i = 0; i < codeLength; i++) {
-            int index = random.nextInt(characters.length());
-            resetCode.append(characters.charAt(index));
-        }
-        return resetCode.toString();
-    }
-
-    public void changePassword(String email, ChangePasswordRequest request) {
-        Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
-        if (optionalUser.isEmpty()) {
-            throw new UserNotFoundException("User not found.");
-        }
-        User user = optionalUser.get();
-        if (!passwordMatches(user.getPassword(), request.getOldPassword())) {
-            throw new IncorrectPasswordException("Incorrect old password.");
-        }
-        user.setPassword(request.getNewPassword());
-        userRepository.save(user);
-    }
-
-    private boolean passwordMatches(String storedPassword, String inputPassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(inputPassword, storedPassword);
-    }
 
     private Long getUserId(HttpServletRequest request) {
         return getUserByUsername(getLoggedInUserName(request)).getId();
