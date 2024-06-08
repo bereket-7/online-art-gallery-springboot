@@ -2,7 +2,7 @@ package com.project.oag.app.controller;
 
 import com.project.oag.app.service.WishListService;
 import com.project.oag.common.GenericResponse;
-import com.project.oag.security.service.CustomUserDetailsService;
+import com.project.oag.app.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
