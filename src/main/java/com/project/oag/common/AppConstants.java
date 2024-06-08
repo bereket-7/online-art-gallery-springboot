@@ -13,6 +13,12 @@ public class AppConstants {
     public static final String CACHE_NAME_USER_INFO = "user_info";
     public static final String HEADER_AUTHORIZATION = "Authorization";
     public static final String REGISTER_ACTION = "register";
+    public static final String BEARER = "Bearer ";
+    public static final String IS_ADMIN = "isAdmin";
+
+    public static final String USER_ID = "userId";
+    public static final String URL_PATTERN = "^(https?|ftp):\\/\\/(www\\.)?([a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+)(:[0-9]+)?(\\/[^\\s]*)?$";
+    public static final String URL_PATH_PATTERN = "^\\/[^\\s?#]+(?:\\?[^\\s#]*)?(?:#[^\\s]*)?$";
     public static final int START_YEAR = 2021;
     public static final int END_YEAR = 3099;
 
