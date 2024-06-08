@@ -1,14 +1,17 @@
 package com.project.oag.config;
 
+import com.project.oag.app.entity.AccountLockoutRule;
 import com.project.oag.app.entity.RolePermission;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserRole;
+import com.project.oag.app.repository.AccountLockoutRepository;
 import com.project.oag.app.repository.PermissionRepository;
 import com.project.oag.app.repository.RoleRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.AppConstants;
 import com.project.oag.config.cache.CacheManagerService;
 import com.project.oag.config.security.ConfiguredUser;
+import com.project.oag.config.security.LockoutRule;
 import com.project.oag.config.security.RolePermissionConfig;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -19,7 +22,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 @Component
 @Slf4j
@@ -32,13 +34,15 @@ public class StartupDataInitialization {
     private final PermissionRepository permissionRepository;
     private final RolePermissionConfig rolePermissionConfig;
     private final CacheManagerService cacheManagerService;
+    private final AccountLockoutRepository accountLockoutRepository;
     private final ModelMapper modelMapper;
-    public StartupDataInitialization(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, RolePermissionConfig rolePermissionConfig, CacheManagerService cacheManagerService, ModelMapper modelMapper) {
+    public StartupDataInitialization(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, RolePermissionConfig rolePermissionConfig, CacheManagerService cacheManagerService, AccountLockoutRepository accountLockoutRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
         this.rolePermissionConfig = rolePermissionConfig;
         this.cacheManagerService = cacheManagerService;
+        this.accountLockoutRepository = accountLockoutRepository;
         this.modelMapper = modelMapper;
     }
     public static String generateRandomPhoneNumber() {
@@ -57,6 +61,7 @@ public class StartupDataInitialization {
      * @param args
      * @throws Exception
      */
+
     public void run(String... args) throws Exception {
         if (!rolePermissionConfig.initial()) {
             log.info(AppConstants.LOG_PREFIX, "Skipped initial user, role and permission configuration", "");
@@ -72,6 +77,31 @@ public class StartupDataInitialization {
 
         saveConfiguredUsers();
 
+        saveConfiguredLockoutPolicy();
+    }
+    private void saveConfiguredLockoutPolicy() {
+        try {
+            accountLockoutRepository.saveAll(
+                    prepareRules(rolePermissionConfig.lockoutPolicy())
+            );
+            log.error(AppConstants.LOG_PREFIX, "Successfully saved configured lockout policy to database {}");
+        } catch (Exception e) {
+            log.error(AppConstants.LOG_PREFIX, "Error encountered while saving configured lockout policy to database {}", e.getMessage());
+        }
+    }
+    private List<AccountLockoutRule> prepareRules(final HashMap<String, LockoutRule> lockoutPolicy) {
+        val currentSavedLockoutRule = accountLockoutRepository.findAll()
+                .parallelStream().map(AccountLockoutRule::getFailureCount)
+                .collect(Collectors.toSet());
+        return lockoutPolicy.values().parallelStream()
+                .filter(l -> !currentSavedLockoutRule.contains(l.failureCount()))
+                .map(lockoutRule -> {
+                    val rule = new AccountLockoutRule();
+                    rule.setBlockTime(lockoutRule.blockTime());
+                    rule.setFailureCount(lockoutRule.failureCount());
+                    return rule;
+                })
+                .toList();
     }
 
     private void saveConfiguredUsers() {
