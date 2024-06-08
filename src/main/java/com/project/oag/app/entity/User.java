@@ -10,7 +10,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.jboss.aerogear.security.otp.api.Base32;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,27 +21,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.sql.Timestamp;
 import java.util.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "USERS")
-public class User implements UserDetails {
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
+@Setter
+@Getter
+@Table(name = "USERS", indexes = {
+        @Index(name = "u_email_index", columnList = "EMAIL"),
+        @Index(name = "u_phone_index", columnList = "PHONE"),
+        @Index(name = "u_first_name_index", columnList = "FIRST_NAME"),
+        @Index(name = "u_uuid_index", columnList = "UUID"),
+        @Index(name = "u_deleted_index", columnList = "IS_DELETED"),
+        @Index(name = "u_verified_index", columnList = "ACCOUNT_VERIFIED"),
+})
+@Where(clause = "is_deleted = false")
+@SQLDelete(sql = "UPDATE USERS SET is_deleted = true WHERE USER_ID = ?")
+public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "user_sequence")
-    @Column(name = "ID")
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", length = 20)
+    private long id;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "FIRST_NAME")
     private String firstName;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "LAST_NAME")
     private String lastName;
 
     @Column(name = "EMAIL", unique = true)
@@ -150,42 +154,5 @@ public class User implements UserDetails {
     public void addCart(Cart cart) {
         carts.add(cart);
         //cart.setUserId(this.id);
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority =
-                new SimpleGrantedAuthority(role.name());
-        return Collections.singletonList(authority);
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return enabled;
     }
 }
