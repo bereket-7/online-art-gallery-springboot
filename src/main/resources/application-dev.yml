@@ -15,9 +15,11 @@ spring:
     url: jdbc:postgresql://${POSTGRES_HOST}:${DB_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
-    jpa:
+  jpa:
+    hibernate:
+      ddl-auto: update
       show-sql: true
-      generate-ddl: true
+
   servlet:
     multipart:
       max-file-size: 5MB
@@ -36,10 +38,94 @@ spring:
           connection-timeout: 5000
           timeout: 3000
           write-timeout: 5000
+#mailer-config:
+#  protocol: smtp
+#  host: "mi3-tr4.supercp.com"
+#  port: 465
+#  username: "info@geezsms.com"
+#  password: "abc@aquilaict101@geez/"
+#  smtpAuth: true
+#  smtpStarttlsEnable: false
+#  sslEnable: true
+
+
+mailer-config:
+  protocol: smtp
+  host: "localhost"
+  port: 2525
+  username: ""  # MailDev doesn't require authentication
+  password: ""  # MailDev doesn't require authentication
+  smtpAuth: false
+  smtpStarttlsEnable: false
+  sslEnable: false
+
+email-config:
+  from: "kelem@oag.com"
+  verifyEmailSubject: "Confirm your identity for your account"
+  verifyEmailContent: "Dear {0}, Thank you for creating an account on {1} portal. Please use the OTP code below and sign into your account to verify your email address and complete your registration. Your one time verification code(OTP) is {2}"
+  accountVerifiedSubject: "Your account has been verified"
+  accountVerifiedContent: "Congratulations!! You have successfully completed your registration."
+  passwordForgotSubject: "Forgot password confirmation"
+  passwordForgotContent: "Dear {0}, Forgot password process has been initiated,  Please use the OTP code below to change your password. Your one time verification code(OTP) is {1}"
+  resetSuccessSubject: "Password reset successful"
+  resetSuccessContent: "Dear {0}, Your password has been changed."
+  emailChangeInitiate: "Dear {0}, Your change email request OTP is {1}, please use this to finalise your process."
+  phoneChangeInitiate: "Dear {0}, Your change phone request OTP is {1}, please use this to finalise your process."
+  appName: "Kelem OAG"
+
+otp-config:
+  #  in minutes
+  expireAfter: 5
+  allowResendAfter: 2
+  length: 6
+  #  all: both number and symbols /
+  #  num: numbers only
+  type: all
+  retry: 3
+  salt: "$2a$10$uw/0p7xZ5PPJa6HrYfHkhu"
 
 jwt-key:
   secret: "77217A25432A462D4A614E645267556B58703273357638782F413F4428472B4B"
   expireAfter: 120
+
+security-skip-list:
+  skip:
+    auth:
+      - /api/v1/auth/**
+      - /api/v1/admin/auth/**
+      - /api/v1/otp/**
+    static-content:
+          #      - ${BASE_FOLDER}/**
+          - /upload/**
+    #    below only needed for dev env to enable swagger for testing during development
+    devOnly: /api/v1/tobedeleted/**, /v2/api-docs, /configuration/ui, /swagger-resources/**, /configuration/**,
+      /swagger-ui.html, /webjars/**, /swagger-ui.html/**, /swagger-ui/**, /v3/api-docs/**, /v2/api-docs
+
+cors:
+  allowedMethods:
+    - GET
+    - PUT
+    - POST
+    - PATCH
+    - OPTIONS
+    - HEAD
+    - DELETE
+  listOfOrigins:
+    - http://localhost:3000
+    - http://localhost:3001
+  exposedHeaders:
+    - Content-Disposition
+  allowedHeaders:
+    - Content-Type
+    - Authorization
+    - Content-Disposition
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+    org.hibernate.SQL: DEBUG
 
 file-storage:
   imageAllowedTypes: png, jpg, jpeg
@@ -47,6 +133,10 @@ file-storage:
   baseFolder: ${BASE_FOLDER}
   image: images
   doc: documents
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
 
 #actuator management
 management:
@@ -58,7 +148,7 @@ management:
       exposure:
         include: info,health,metrics,httptrace
       base-path: /app/
-
+#stripe payment settings
 stripe:
   api-key: sk_test_51MpyNeSCT6H7SkxtglhlyTfmzSkFlwsq1aRv7HpKdlyFJQvoRJiuLRU1e5jpiKixemYIS9p8NWwyfnv9XXd1zS7P00nK5qjjJc
   public-key: pk_test_51MpyNeSCT6H7SkxtbbT3MmDKl818tSvlprGLbun0icjBv8TmIiCuWM60rFS3rSsDvLfhIehprXac1YtvVAnAgOa400aidlCNFO
@@ -68,6 +158,21 @@ security-init-config:
   reset: false
   roles: ROLE_ADMIN, ROLE_CUSTOMER, ROLE_ARTIST, ROLE_ORGANIZATION
   userFlag: ADMIN_FLAG, USER_FLAG
+  users:
+    user-1:
+      firstName: "Admin"
+      lastName: "User"
+      email: "admin@gmail.com"
+      password: "admin"
+      role: ADMIN_FLAG, ROLE_ADMIN
+      verified: true
+    user-2:
+      firstName: "Customer"
+      lastName: "User"
+      email: "customer@gmail.com"
+      password: "customer"
+      role: CUSTOMER_FLAG, ROLE_CUSTOMER
+      verified: true
   permissions:
     - ADMIN_ADD_STANDARD
   mapping:

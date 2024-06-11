@@ -17,6 +17,6 @@ public interface TokenRepository extends JpaRepository<UserToken, Long> {
 
     @Query("""
             select u from UserToken u
-            where u.token = ?1 and u.user.userId = ?2 and u.revoked = false and u.expired = false""")
+            where u.token = ?1 and u.user.id = ?2 and u.revoked = false and u.expired = false""")
     Optional<UserToken> findByTokenAndUserId(String token, long userId);
 }

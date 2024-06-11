@@ -97,15 +97,15 @@ public class UserService {
 
     @Transactional
     public ResponseEntity<GenericResponse> customerSignup(HttpServletRequest request, SignupRequestDto registerUserRequestDto) {
-        log.info(LOG_PREFIX, "Started merchant signup process for email:  ", registerUserRequestDto.getEmail());
+        log.info(LOG_PREFIX, "Started customer signup process for email:  ", registerUserRequestDto.getEmail());
         if (userRepository.existsByEmailIgnoreCase(registerUserRequestDto.getEmail())) {
             log.info(LOG_PREFIX, "Username/email already taken:  ", registerUserRequestDto.getEmail());
             return prepareResponse(HttpStatus.CONFLICT, "Username/Email already taken", emptyList());
         }
         registerUserRequestDto.setPassword(passwordEncoder.encode(registerUserRequestDto.getPassword()));
         val userModel = modelMapper.map(registerUserRequestDto, User.class);
-        val merchantRole = roleRepository.findByRoleNameIgnoreCase(ROLE_CUSTOMER).orElseThrow(() -> new ResourceNotFoundException("Unable to find merchant role for merchant signup process"));
-        userModel.setUserRole(merchantRole);
+        val customerRole = roleRepository.findByRoleNameIgnoreCase(ROLE_CUSTOMER).orElseThrow(() -> new ResourceNotFoundException("Unable to find customer role for customer signup process"));
+        userModel.setUserRole(customerRole);
         return saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
     }
     public ResponseEntity<GenericResponse> authenticateUserCredentials(HttpServletRequest request, HttpServletResponse response, final AuthRequestDto authRequestDto, final UserType userType) throws ServletException, IOException {
@@ -199,11 +199,6 @@ public class UserService {
         return tokenService.generateUserToken(getUserByUsername(verifyOtpRequestDTO.getUsername()));
     }
     public ResponseEntity<GenericResponse> verifySignupOtp(HttpServletRequest request, final VerifyOtpRequestDTO verifyOtpRequestDTO) {
-        val accountToActivate = getUserByUsername(verifyOtpRequestDTO.getUsername());
-        return verifyUserAccount(verifyOtpRequestDTO, accountToActivate);
-    }
-
-    public ResponseEntity<GenericResponse> verifyRegisterOtp(final VerifyOtpRequestDTO verifyOtpRequestDTO) {
         val accountToActivate = getUserByUsername(verifyOtpRequestDTO.getUsername());
         return verifyUserAccount(verifyOtpRequestDTO, accountToActivate);
     }

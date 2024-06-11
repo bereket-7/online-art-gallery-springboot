@@ -15,15 +15,13 @@ import java.util.Set;
 @Cacheable
 @Table(name = "USER_ROLE", indexes = {
         @Index(name = "u_r_role_name_index", columnList = "ROLE_NAME"),
-        @Index(name = "u_r_issuer_user_id_index", columnList = "ISSUER_USER_ID"),
-},
-        uniqueConstraints = @UniqueConstraint(columnNames = {"ROLE_NAME", "ISSUER_COMPANY_ID"})
+        @Index(name = "u_r_issuer_user_id_index", columnList = "ISSUER_USER_ID")}
 )
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ROLE_ID", nullable = false)
-    private long roleId;
+    @Column(name = "ROLE_ID")
+    private Long roleId;
 
     @Column(name = "ROLE_NAME", nullable = false)
     private String roleName;

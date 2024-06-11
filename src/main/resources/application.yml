@@ -7,7 +7,7 @@ spring:
       show-sql: true
     properties:
       hibernate:
-          dialect: org.hibernate.dialect.PostgreSQLDialect
+           dialect: org.hibernate.dialect.PostgreSQLDialect
 
   security:
     user:
@@ -19,15 +19,8 @@ spring:
 server:
   port: 8088
 
-uploadDir:
-  /resources
-
 baseURL:
   localhost: "http://localhost:8088/"
+
 Chapa:
   secretKey: "CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0"
-
-
-stripe:
-  api-key: sk_test_51MpyNeSCT6H7SkxtglhlyTfmzSkFlwsq1aRv7HpKdlyFJQvoRJiuLRU1e5jpiKixemYIS9p8NWwyfnv9XXd1zS7P00nK5qjjJc
-  public-key: pk_test_51MpyNeSCT6H7SkxtbbT3MmDKl818tSvlprGLbun0icjBv8TmIiCuWM60rFS3rSsDvLfhIehprXac1YtvVAnAgOa400aidlCNFO
