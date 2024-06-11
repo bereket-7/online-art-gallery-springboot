@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class StartupDataInitialization {
+public class StartupDataInitialization implements CommandLineRunner {
     public static final String ETH_PHONE_INITIALS = "+251 9";
     public static final Random RANDOM = new Random();
     public static final String ADMIN = "ADMIN";
@@ -61,7 +62,7 @@ public class StartupDataInitialization {
      * @param args
      * @throws Exception
      */
-
+    @Override
     public void run(String... args) throws Exception {
         if (!rolePermissionConfig.initial()) {
             log.info(AppConstants.LOG_PREFIX, "Skipped initial user, role and permission configuration", "");
