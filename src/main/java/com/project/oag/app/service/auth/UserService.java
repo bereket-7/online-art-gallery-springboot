@@ -202,6 +202,11 @@ public class UserService {
         val accountToActivate = getUserByUsername(verifyOtpRequestDTO.getUsername());
         return verifyUserAccount(verifyOtpRequestDTO, accountToActivate);
     }
+    public ResponseEntity<GenericResponse> verifyRegisterOtp(HttpServletRequest request, final VerifyOtpRequestDTO verifyOtpRequestDTO) {
+        val accountToActivate = getUserByUsername(verifyOtpRequestDTO.getUsername());
+        getUserByUsername(getLoggedInUserName(request));
+        return verifyUserAccount(verifyOtpRequestDTO, accountToActivate);
+    }
     private ResponseEntity<GenericResponse> verifyUserAccount(VerifyOtpRequestDTO verifyOtpRequestDTO, UserDto accountToActivate) {
         if (verifyOtpRequestDTO.isResendOtp()) {
             if (otpService.canResendOtp(accountToActivate.getId())) {
@@ -243,4 +248,5 @@ public class UserService {
     private UserDto getUserByUsername(String email) {
         return userRepository.findByEmailIgnoreCase(email).map((element) -> modelMapper.map(element, UserDto.class)).orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
     }
+
 }
