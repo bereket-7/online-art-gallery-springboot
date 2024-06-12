@@ -18,7 +18,7 @@ import static com.project.oag.common.AppConstants.DEFAULT_PAGE_NUMBER;
 import static com.project.oag.common.AppConstants.DEFAULT_PAGE_SIZE;
 
 @RestController
-@RequestMapping("api/v1/artwork")
+@RequestMapping("api/v1/user/artwork")
 public class ArtworkController {
     private final ArtworkService artworkService;
 
@@ -100,7 +100,7 @@ public class ArtworkController {
         return artworkService.searchArtwork(artworkCategory, artworkName, minPrice, maxPrice, sortBy, fromDate, toDate, PageRequest.of(page, size));
     }
 
-    @GetMapping("/me")
+    @GetMapping("/myArtwork")
     @PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
     public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
         return artworkService.getLoggedArtistArtworks(request);

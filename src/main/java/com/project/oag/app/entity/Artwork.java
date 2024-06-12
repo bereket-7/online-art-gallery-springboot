@@ -19,7 +19,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Artwork")
+@Table(name = "Artwork", indexes = {
+        @Index(name = "idx_artwork_artwork_category", columnList = "ARTWORK_CATEGORY, STATUS")
+})
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -69,16 +71,5 @@ public class Artwork {
     private List<Cart> carts;
 
     public Artwork(String filename, String string) {
-    }
-
-    public double getAverageRating() {
-        if (ratings == null || ratings.isEmpty()) {
-            return 0.0;
-        }
-        double sum = 0;
-        for (Rating rating : ratings) {
-            sum += rating.getRatingValue();
-        }
-        return sum / ratings.size();
     }
 }
