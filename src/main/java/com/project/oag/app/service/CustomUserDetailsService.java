@@ -1,18 +1,12 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtistDTO;
-import com.project.oag.app.dto.ChangePasswordRequest;
-import com.project.oag.app.dto.Role;
-import com.project.oag.app.dto.UserRequestDto;
-import com.project.oag.app.entity.ConfirmationToken;
-import com.project.oag.app.entity.PasswordResetToken;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.PasswordResetTokenRepository;
+import com.project.oag.app.repository.UserInfoByRole;
 import com.project.oag.app.repository.UserRepository;
-import com.project.oag.app.service.ConfirmationTokenService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
-import com.project.oag.exceptions.IncorrectPasswordException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
@@ -20,15 +14,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.project.oag.utils.RequestUtils.getIpAddressFromHeader;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
 
@@ -72,57 +63,32 @@ public class CustomUserDetailsService {
             throw new GeneralException("Failed to fetch profile photo");
         }
     }
-
     public List<User> searchUsersByUsername(String username) {
         return userRepository.findByUsernameContainingIgnoreCase(username);
     }
-    public Long getTotalCustomerUsers() {
-        return userRepository.countTotalUsersByRole(Role.CUSTOMER);
+    public Long getTotalArtistUsers(String roleName) {
+        return userRepository.countUserByUserRole(roleName);
+    }
+    public List<UserInfoByRole> getArtistUsers(String roleName) {
+        return userRepository.findUserByRoleName(roleName);
     }
 
-    public Long getTotalArtistUsers() {
-        return userRepository.countTotalUsersByRole(Role.ARTIST);
-    }
 
-    public Long getTotalManagerUsers() {
-        return userRepository.countTotalUsersByRole(Role.MANAGER);
-    }
-
-    public List<User> getArtistUsers() {
-        return userRepository.findByRole(Role.ARTIST);
-    }
-
-    public List<User> getManagerUsers() {
-        return userRepository.findByRole(Role.MANAGER);
-    }
-
-    public List<User> getCustomerUsers() {
-        return userRepository.findByRole(Role.CUSTOMER);
-    }
-
-    public List<User> getOrganizationUsers() {
-        return userRepository.findByRole(Role.ORGANIZATION);
-    }
-
-    public List<ArtistDTO> getArtistDetail() {
-        List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
-        List<ArtistDTO> artistUserDTOs = new ArrayList<>();
-
-        for (User user : artistUsers) {
-            ArtistDTO artistUserDTO = new ArtistDTO();
-            artistUserDTO.setId(user.getId());
-            artistUserDTO.setFirstname(user.getFirstName());
-            artistUserDTO.setLastname(user.getLastName());
-            artistUserDTO.setUsername(user.getUsername());
-            artistUserDTO.setArtworks(user.getArtworks());
-            artistUserDTOs.add(artistUserDTO);
-        }
-        return artistUserDTOs;
-    }
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+//    public List<ArtistDTO> getArtistDetail() {
+//        List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
+//        List<ArtistDTO> artistUserDTOs = new ArrayList<>();
+//
+//        for (User user : artistUsers) {
+//            ArtistDTO artistUserDTO = new ArtistDTO();
+//            artistUserDTO.setId(user.getId());
+//            artistUserDTO.setFirstname(user.getFirstName());
+//            artistUserDTO.setLastname(user.getLastName());
+//            artistUserDTO.setUsername(user.getUsername());
+//            artistUserDTO.setArtworks(user.getArtworks());
+//            artistUserDTOs.add(artistUserDTO);
+//        }
+//        return artistUserDTOs;
+//    }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

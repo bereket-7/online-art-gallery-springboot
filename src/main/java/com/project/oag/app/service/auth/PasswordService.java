@@ -97,7 +97,7 @@ public class PasswordService {
                 return prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, FAILED_TO_SEND, emptyList());
             }
         }
-
+  
 
         public ResponseEntity<GenericResponse> resetPassword(PasswordResetRequest passwordResetRequest) {
             validateResetPasswordRequest(passwordResetRequest);

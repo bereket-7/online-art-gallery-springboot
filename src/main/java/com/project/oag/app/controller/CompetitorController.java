@@ -63,7 +63,7 @@ public class CompetitorController {
     }
 
     @GetMapping("/winner/{competitionId}")
-    @PreAuthorize("hasRole('CUSTOMER','MANAGER')")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER','ROLE_ADMIN')")
     public ResponseEntity<GenericResponse> getCompetitionWinner(@PathVariable Long competitionId) {
         return competitorService.getWinner(competitionId);
     }
