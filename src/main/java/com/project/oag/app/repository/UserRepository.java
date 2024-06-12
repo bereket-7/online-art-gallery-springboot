@@ -1,6 +1,5 @@
 package com.project.oag.app.repository;
 
-import com.project.oag.app.dto.Role;
 import com.project.oag.app.entity.User;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,7 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmailIgnoreCase(String email);
     List<User> findByUsernameContainingIgnoreCase(String username);
 
-    Long countTotalUsersByRole(Role role);
+    @Query("select count(u) from User u where upper(u.userRole.roleName) = upper(?1)")
+    long countUserByUserRole(String roleName);
 
     @Override
     void delete(User user);
@@ -33,7 +33,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
 
-    List<User> findByRole(Role role);
+    @Query("select u from User u " +
+            "where upper(u.userRole.roleName) = upper(?1) " +
+            "order by u.creationDate DESC")
+    List<UserInfoByRole> findUserByRoleName(String roleName);
+
+
     @Transactional
     @Modifying
     @Query("update User u set u.password = ?1 where upper(u.email) = upper(?2)")
