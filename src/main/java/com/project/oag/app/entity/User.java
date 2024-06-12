@@ -3,20 +3,14 @@ package com.project.oag.app.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.project.oag.app.dto.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.jboss.aerogear.security.otp.api.Base32;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -76,15 +70,11 @@ public class User {
     @Column(name = "ENABLED")
     private Boolean enabled = false;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ROLE")
-    private Role role;
-
     @Column(name = "PHOTO")
     private String image; //avatar
 
     @Column(name = "SELECTED_FOR_BID")
-    private boolean selectedForBid;
+    private Boolean selectedForBid;
 
     @Column(name = "SECRET")
     private String secret = Base32.random();
