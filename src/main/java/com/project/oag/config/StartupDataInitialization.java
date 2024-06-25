@@ -4,7 +4,6 @@ import com.project.oag.app.entity.AccountLockoutRule;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserRole;
 import com.project.oag.app.repository.AccountLockoutRepository;
-import com.project.oag.app.repository.PermissionRepository;
 import com.project.oag.app.repository.RoleRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.AppConstants;
@@ -31,15 +30,16 @@ public class StartupDataInitialization implements CommandLineRunner {
     public static final String ADMIN = "ADMIN";
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final PermissionRepository permissionRepository;
     private final RolePermissionConfig rolePermissionConfig;
     private final CacheManagerService cacheManagerService;
     private final AccountLockoutRepository accountLockoutRepository;
     private final ModelMapper modelMapper;
-    public StartupDataInitialization(UserRepository userRepository, RoleRepository roleRepository, PermissionRepository permissionRepository, RolePermissionConfig rolePermissionConfig, CacheManagerService cacheManagerService, AccountLockoutRepository accountLockoutRepository, ModelMapper modelMapper) {
+    public StartupDataInitialization(UserRepository userRepository,
+                                     RoleRepository roleRepository,
+                                     RolePermissionConfig rolePermissionConfig, CacheManagerService cacheManagerService, AccountLockoutRepository accountLockoutRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
-        this.permissionRepository = permissionRepository;
+
         this.rolePermissionConfig = rolePermissionConfig;
         this.cacheManagerService = cacheManagerService;
         this.accountLockoutRepository = accountLockoutRepository;
@@ -64,10 +64,10 @@ public class StartupDataInitialization implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (!rolePermissionConfig.initial()) {
-            log.info(AppConstants.LOG_PREFIX, "Skipped initial user, role and permission configuration", "");
+            log.info(AppConstants.LOG_PREFIX, "Skipped initial user and role configuration", "");
             return;
         }
-        log.info(AppConstants.LOG_PREFIX, "Started initial user, role and permission configuration ", ", Validating the configuration for init user, role and permission");
+        log.info(AppConstants.LOG_PREFIX, "Started initial user and role configuration ", ", Validating the configuration for init user and role");
 
         validateInitConfigurationValues(rolePermissionConfig);
 
@@ -183,22 +183,6 @@ public class StartupDataInitialization implements CommandLineRunner {
                 }).toList();
     }
     private void validateInitConfigurationValues(RolePermissionConfig rolePermissionConfig) {
-        var mappingRoles = new HashSet<>(rolePermissionConfig.mapping().keySet());
-
-        if (!rolePermissionConfig.roles().containsAll(mappingRoles)) {
-            log.warn(AppConstants.LOG_PREFIX, "Found roles configured with permission in roles-permission, " +
-                            "but not included in roles, those roles will be skipped! ",
-                    mappingRoles.removeAll(rolePermissionConfig.roles()));
-        }
-
-        var mappingPermission = rolePermissionConfig.mapping().values()
-                .parallelStream()
-                .flatMap(Collection::stream)
-                .collect(Collectors.toSet());
-        if (!rolePermissionConfig.permissions().containsAll(mappingPermission)) {
-            log.warn(AppConstants.LOG_PREFIX, "Found permission assigned to roles, but not configured, roles will not have those permission as they will be skip skipped! ",
-                    mappingPermission.removeAll(rolePermissionConfig.permissions()));
-        }
 
         var userConfiguredRoles = rolePermissionConfig.users().values()
                 .parallelStream()
@@ -214,7 +198,6 @@ public class StartupDataInitialization implements CommandLineRunner {
     }
 
     private List<UserRole> prepareUserRole(Set<String> roles, Set<String> currentSaveRoles) {
-        val savedPermission = permissionRepository.findAll();
         val userFlags = rolePermissionConfig.userFlag();
         return roles.parallelStream()
 //                .filter(r -> !currentSaveRoles.contains(r))
