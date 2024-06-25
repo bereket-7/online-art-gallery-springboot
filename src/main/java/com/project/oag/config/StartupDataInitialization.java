@@ -1,7 +1,6 @@
 package com.project.oag.config;
 
 import com.project.oag.app.entity.AccountLockoutRule;
-import com.project.oag.app.entity.RolePermission;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserRole;
 import com.project.oag.app.repository.AccountLockoutRepository;
@@ -72,8 +71,6 @@ public class StartupDataInitialization implements CommandLineRunner {
 
         validateInitConfigurationValues(rolePermissionConfig);
 
-        saveConfiguredPermissions();
-
         saveConfiguredRoles();
 
         saveConfiguredUsers();
@@ -129,35 +126,7 @@ public class StartupDataInitialization implements CommandLineRunner {
             log.error(AppConstants.LOG_PREFIX, "Error encountered while saving configured roles to database {}", e.getMessage());
         }
     }
-    private void saveConfiguredPermissions() {
-        try {
-            permissionRepository.saveAll(
-                    prepareRolePermission(rolePermissionConfig.permissions())
-            );
-            log.info(AppConstants.LOG_PREFIX, "Successfully inserted configured permissions to database. ");
-        } catch (Exception e) {
-            log.error(AppConstants.LOG_PREFIX, "Error encountered while saving configured permissions to database {}", e.getMessage());
-        }
-    }
 
-    private List<RolePermission> prepareRolePermission(Set<String> permissions) {
-        log.info("Fetching current permissions.");
-        val currentSavedPermissions = permissionRepository.findAll()
-                .parallelStream().map(RolePermission::getPermissionName)
-                .collect(Collectors.toSet());
-        log.info("Removing permissions that are already saved.");
-        currentSavedPermissions.forEach(permissions::remove);
-        return permissions.parallelStream()
-                .filter(per -> !currentSavedPermissions.contains(per))
-                .map(p -> {
-                    var permission = new RolePermission();
-                    permission.setPermissionName(p);
-                    permission.setAssignable(!rolePermissionConfig.notAssignable()
-                            .contains(p));
-                    permission.setAdmin(p.contains(ADMIN));
-                    return permission;
-                }).toList();
-    }
 
     /**
      * Prepare users and assign roles from configured property
@@ -258,12 +227,6 @@ public class StartupDataInitialization implements CommandLineRunner {
                      */
                     if (ObjectUtils.isNotEmpty(userRole)) {
                         userRole.setAdmin(isAdmin(r));
-                        userRole.setRolePermissions(
-                                savedPermission.parallelStream()
-                                        .filter(p -> rolePermissionConfig.mapping()
-                                                .get(getKey(r))
-                                                .contains(p.getPermissionName()))
-                                        .collect(Collectors.toSet()));
                         return userRole;
                     }
                     /**
@@ -272,12 +235,6 @@ public class StartupDataInitialization implements CommandLineRunner {
                     role.setRoleName(r);
                     role.setAdmin(isAdmin(r));
                     role.setIssuerUserId(null);
-                    role.setRolePermissions(
-                            savedPermission.parallelStream()
-                                    .filter(p -> rolePermissionConfig.mapping()
-                                            .get(getKey(r))
-                                            .contains(p.getPermissionName()))
-                                    .collect(Collectors.toSet()));
                     return role;
                 }).toList();
     }
