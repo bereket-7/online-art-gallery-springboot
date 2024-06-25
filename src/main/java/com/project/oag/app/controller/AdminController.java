@@ -3,7 +3,6 @@ package com.project.oag.app.controller;
 import com.project.oag.app.dto.VerifyOtpRequestDTO;
 import com.project.oag.app.dto.auth.RegisterUserRequestDto;
 import com.project.oag.app.service.auth.PasswordService;
-import com.project.oag.app.service.auth.PermissionManagementService;
 import com.project.oag.app.service.auth.RoleManagementService;
 import com.project.oag.app.service.auth.UserService;
 import com.project.oag.common.GenericResponse;
@@ -22,13 +21,13 @@ public class AdminController {
     private final UserService userService;
     private final PasswordService passwordService;
     private final RoleManagementService roleManagementService;
-    private final PermissionManagementService permissionManagementService;
 
-    public AdminController(UserService userService, PasswordService passwordService, RoleManagementService roleManagementService, PermissionManagementService permissionManagementService) {
+    public AdminController(UserService userService,
+                           PasswordService passwordService,
+                           RoleManagementService roleManagementService) {
         this.userService = userService;
         this.passwordService = passwordService;
         this.roleManagementService = roleManagementService;
-        this.permissionManagementService = permissionManagementService;
     }
     @PostMapping("/register")
     @PreAuthorize("hasAuthority('ADMIN_ADD_USER')")

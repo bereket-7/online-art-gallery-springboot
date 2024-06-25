@@ -38,15 +38,6 @@ spring:
           connection-timeout: 5000
           timeout: 3000
           write-timeout: 5000
-#mailer-config:
-#  protocol: smtp
-#  host: "mi3-tr4.supercp.com"
-#  port: 465
-#  username: "info@geezsms.com"
-#  password: "abc@aquilaict101@geez/"
-#  smtpAuth: true
-#  smtpStarttlsEnable: false
-#  sslEnable: true
 
 
 mailer-config:
@@ -86,7 +77,7 @@ otp-config:
 
 jwt-key:
   secret: "77217A25432A462D4A614E645267556B58703273357638782F413F4428472B4B"
-  expireAfter: 120
+  expireAfter: 720
 
 security-skip-list:
   skip:
@@ -156,8 +147,12 @@ security-init-config:
   #  set initial: false, to skip initial user security configuration
   initial: true
   reset: false
-  roles: ROLE_ADMIN, ROLE_CUSTOMER, ROLE_ARTIST, ROLE_ORGANIZATION
-  userFlag: ADMIN_FLAG, USER_FLAG
+  roles:
+    - ROLE_ADMIN
+    - ROLE_CUSTOMER
+  userFlag:
+    - ADMIN_FLAG
+    - CUSTOMER_FLAG
   users:
     user-1:
       firstName: "Admin"
@@ -173,15 +168,20 @@ security-init-config:
       password: "customer"
       role: CUSTOMER_FLAG, ROLE_CUSTOMER
       verified: true
-  permissions:
-    - ADMIN_ADD_STANDARD
-  mapping:
-    admin:
-      - ADMIN_ADD_STANDARD
-    customer:
-      - ADMIN_ADD_STANDARD
-    organization:
-      - ADMIN_ADD_STANDARD
-    notAssignable:
-      notAssignable:
+  lockoutPolicy:
+    rule-1:
+      failureCount: 3
+      blockTime: 5
+    rule-2:
+      failureCount: 5
+      blockTime: 15
+    rule-3:
+      failureCount: 10
+      blockTime: 60
+    rule-4:
+      failureCount: 12
+      blockTime: 120
+    rule-5:
+      failureCount: 15
+      blockTime: 1440 #One Day in minutes
 
