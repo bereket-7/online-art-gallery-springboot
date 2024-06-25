@@ -14,9 +14,6 @@ public record RolePermissionConfig(boolean initial,
                                    boolean reset,
                                    Set<String> roles,
                                    Set<String> userFlag,
-                                   Set<String> permissions,
-                                   Set<String> notAssignable,
-                                   Map<String, Set<String>> mapping,
                                    @NestedConfigurationProperty
                                    Map<String, ConfiguredUser> users,
                                    @NestedConfigurationProperty
