@@ -30,15 +30,16 @@ public class AdminController {
         this.roleManagementService = roleManagementService;
     }
     @PostMapping("/register")
-    @PreAuthorize("hasAuthority('ADMIN_ADD_USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> addUser(HttpServletRequest request, @Valid @RequestBody RegisterUserRequestDto user) {
         return userService.registerUser(request, user);
     }
 
     @PostMapping("/register/verify")
-    @PreAuthorize("hasAuthority('ADMIN_MODIFY_USER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> userVerify(HttpServletRequest request, @RequestBody VerifyOtpRequestDTO verifyOtpRequestDTO) {
         return userService.verifyRegisterOtp(request, verifyOtpRequestDTO);
     }
+
 
 }
