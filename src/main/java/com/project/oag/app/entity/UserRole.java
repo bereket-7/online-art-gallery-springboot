@@ -32,13 +32,6 @@ public class UserRole {
     @Column(name = "ISSUER_USER_ID")
     private Long issuerUserId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "ROLE_PERMISSIONS_MAPPING",
-            joinColumns = @JoinColumn(name = "ROLE_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID"))
-    private Set<RolePermission> rolePermissions;
-
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;

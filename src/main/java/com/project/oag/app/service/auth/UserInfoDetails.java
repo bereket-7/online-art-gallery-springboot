@@ -1,6 +1,5 @@
 package com.project.oag.app.service.auth;
 
-import com.project.oag.app.entity.RolePermission;
 import com.project.oag.app.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,10 +23,7 @@ public class UserInfoDetails implements UserDetails {
     public UserInfoDetails(User user) {
         username = user.getEmail();
         password = user.getPassword();
-        authorityList.addAll(user.getUserRole().getRolePermissions().stream()
-                .map(RolePermission::getPermissionName)
-                .map(SimpleGrantedAuthority::new)
-                .toList());
+        authorityList.addAll((Collection<? extends GrantedAuthority>) user.getUserRole());
     }
 
     @Override
