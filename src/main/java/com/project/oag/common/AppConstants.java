@@ -26,6 +26,8 @@ public class AppConstants {
     public static final String IS_ADMIN = "isAdmin";
 
     public static final String USER_ID = "userId";
+    public static final String LAST_UPDATE_DATE_DESC = "lastUpdateDate.desc";
+    public static final String LAST_UPDATE_DATE_NATIVE_DESC = "last_update_date.desc";
     public static final String URL_PATTERN = "^(https?|ftp):\\/\\/(www\\.)?([a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+)(:[0-9]+)?(\\/[^\\s]*)?$";
     public static final String URL_PATH_PATTERN = "^\\/[^\\s?#]+(?:\\?[^\\s#]*)?(?:#[^\\s]*)?$";
     public static final String EXCEPTION_ON_PREPARING_SMTP_PROPS = "Exception while preparing SMTP properties";
