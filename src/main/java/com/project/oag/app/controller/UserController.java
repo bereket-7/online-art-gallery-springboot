@@ -34,13 +34,6 @@ public class UserController {
         return userService.getProfilePhoto(request);
     }
 
-    @GetMapping("/search")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam("username") String username) {
-        List<User> searchResults = userService.searchUsersByUsername(username);
-        return ResponseEntity.ok(searchResults);
-    }
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN_MODIFY_USER')")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {

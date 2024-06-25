@@ -10,10 +10,7 @@ import com.project.oag.common.GenericResponse;
 import com.project.oag.common.service.NotificationService;
 import com.project.oag.common.service.UserHelperService;
 import com.project.oag.config.properties.EmailConfig;
-import com.project.oag.exceptions.ResourceNotFoundException;
-import com.project.oag.exceptions.UnexpectedRoleException;
-import com.project.oag.exceptions.UserAuthorizationException;
-import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.exceptions.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,12 +30,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.project.oag.app.validation.RequestValidation.validateRegisterUserRequest;
 import static com.project.oag.common.AppConstants.*;
 import static com.project.oag.utils.NotificationUtils.generateBodyForEmail;
+import static com.project.oag.utils.PageableUtils.preparePageInfo;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import static com.project.oag.utils.SQLUtils.getLikeString;
+import static com.project.oag.utils.TimeUtils.getFromDate;
+import static com.project.oag.utils.TimeUtils.getToDate;
 import static com.project.oag.utils.Utils.prepareResponse;
+import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 import static java.util.Collections.emptyList;
 
 @Service
@@ -81,7 +86,7 @@ public class UserService {
         request.setAttribute(REQUEST_UNIQUE_ID, java.util.UUID.randomUUID());
     }
     @Transactional
-    public ResponseEntity<GenericResponse> registerUser(HttpServletRequest request, RegisterUserRequestDto registerUserRequestDto) {
+    public ResponseEntity<GenericResponse> registerUser(RegisterUserRequestDto registerUserRequestDto) {
         validateRegisterUserRequest(registerUserRequestDto);
         log.info(LOG_PREFIX, "Started signup process for email:  ", registerUserRequestDto.getEmail());
         if (userRepository.existsByEmailIgnoreCase(registerUserRequestDto.getEmail())) {
@@ -233,16 +238,27 @@ public class UserService {
         return sendOtp(OtpRequestDto.builder().userId(user.getId()).name(getFullName(user)).otpType(OtpCodeTypeDto.ALL).notificationType(notificationType).address(verifyOtpRequestDTO.getUsername()).notificationChannel(ObjectUtils.isNotEmpty(verifyOtpRequestDTO.getMedium()) ? verifyOtpRequestDTO.getMedium() : NotificationChannel.EMAIL).build());
     }
 
-//    public ResponseEntity<GenericResponsePageable> fetchUsersAll(HttpServletRequest request, UserSearchRequestDto requestDto, Pageable pageable) {
-//        try {
-//            val spec = prepareFetchAllUsersSpec(requestDto);
-//            val result = userRepository.findAll(spec, pageable);
-//            return prepareResponseWithPageable(HttpStatus.OK, "Fetched users", prepareResultContent(result), preparePageInfo(result));
-//        } catch (Exception e) {
-//            log.error(LOG_PREFIX, "Failed while users  ", e);
-//            throw new GeneralException("Failed while fetch " + e.getLocalizedMessage());
-//        }
-//    }
+    public ResponseEntity<GenericResponsePageable> fetchUsersAll(UserSearchRequestDto requestDto, Pageable pageable) {
+        Timestamp fromDate = getFromDate(requestDto.getFromDate());
+        Timestamp toDate = getToDate(requestDto.getToDate());
+        try {
+            val result = userRepository.findUsers(
+                    fromDate,
+                    toDate,
+                    getLikeString(requestDto.getEmail()),
+                    getLikeString(requestDto.getFirstName()),
+                    getLikeString(requestDto.getLastName()),
+                    getLikeString(requestDto.getPhone()),
+                    getLikeString(requestDto.getUuid()),
+                    pageable
+            );
+            return prepareResponseWithPageable(HttpStatus.OK, "Fetched users",result.getContent(),
+                    preparePageInfo(result));
+        } catch (Exception e) {
+            log.error(LOG_PREFIX, "Failed while users  ", e);
+            throw new GeneralException("Failed while fetch ");
+        }
+    }
 
 
     private UserDto getUserByUsername(String email) {

@@ -1,5 +1,7 @@
 package com.project.oag.app.controller;
 
+import com.project.oag.app.dto.GenericResponsePageable;
+import com.project.oag.app.dto.UserSearchRequestDto;
 import com.project.oag.app.dto.VerifyOtpRequestDTO;
 import com.project.oag.app.dto.auth.RegisterUserRequestDto;
 import com.project.oag.app.service.auth.PasswordService;
@@ -8,12 +10,17 @@ import com.project.oag.app.service.auth.UserService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.val;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static com.project.oag.common.AppConstants.*;
+import static com.project.oag.utils.RequestUtils.getPageable;
 
 @RestController
 @RequestMapping("/api/v1/admin")
@@ -30,16 +37,32 @@ public class AdminController {
         this.roleManagementService = roleManagementService;
     }
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<GenericResponse> addUser(HttpServletRequest request, @Valid @RequestBody RegisterUserRequestDto user) {
-        return userService.registerUser(request, user);
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponse> addUser(@Valid @RequestBody RegisterUserRequestDto user) {
+        return userService.registerUser(user);
     }
 
     @PostMapping("/register/verify")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> userVerify(HttpServletRequest request, @RequestBody VerifyOtpRequestDTO verifyOtpRequestDTO) {
         return userService.verifyRegisterOtp(request, verifyOtpRequestDTO);
     }
 
+    @GetMapping("/users/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponsePageable> fetchAllUsers(@RequestParam(name = "uuid", required = false) String uuid,
+                                                                 @RequestParam(name = "firstName", required = false) String firstName,
+                                                                 @RequestParam(name = "lastName", required = false) String lastName,
+                                                                 @RequestParam(name = "email", required = false) String email,
+                                                                 @RequestParam(name = "phone", required = false) String phone,
+                                                                 @RequestParam(name = "fromDate", required = false) LocalDateTime fromDate,
+                                                                 @RequestParam(name = "toDate", required = false) LocalDateTime toDate,
+                                                                 @RequestParam(value = "sortType", defaultValue = LAST_UPDATE_DATE_DESC, required = false) List<String> sortType,
+                                                                 @RequestParam(value = "pageNumber", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+                                                                 @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize) {
+        Pageable pageable = getPageable(sortType, pageNumber, pageSize);
+        val requestDto = new UserSearchRequestDto(uuid, firstName, lastName, email, phone, fromDate, toDate);
+        return userService.fetchUsersAll(requestDto, pageable);
+    }
 
 }
