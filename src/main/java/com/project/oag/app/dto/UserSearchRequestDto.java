@@ -1,10 +1,14 @@
 package com.project.oag.app.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Data
+@Getter
+@Setter
 public class UserSearchRequestDto {
     private String uuid;
     private String firstName;

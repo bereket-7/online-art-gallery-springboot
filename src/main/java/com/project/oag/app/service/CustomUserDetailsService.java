@@ -63,9 +63,6 @@ public class CustomUserDetailsService {
             throw new GeneralException("Failed to fetch profile photo");
         }
     }
-    public List<User> searchUsersByUsername(String username) {
-        return userRepository.findByUsernameContainingIgnoreCase(username);
-    }
     public Long getTotalArtistUsers(String roleName) {
         return userRepository.countUserByUserRole(roleName);
     }
