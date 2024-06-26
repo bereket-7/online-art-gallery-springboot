@@ -37,21 +37,20 @@ public class AdminController {
         this.roleManagementService = roleManagementService;
     }
     @PostMapping("/register")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<GenericResponse> addUser(HttpServletRequest request, @Valid @RequestBody RegisterUserRequestDto user) {
-        return userService.registerUser(request, user);
+//    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponse> addUser(@Valid @RequestBody RegisterUserRequestDto user) {
+        return userService.registerUser(user);
     }
 
     @PostMapping("/register/verify")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> userVerify(HttpServletRequest request, @RequestBody VerifyOtpRequestDTO verifyOtpRequestDTO) {
         return userService.verifyRegisterOtp(request, verifyOtpRequestDTO);
     }
 
     @GetMapping("/users/all")
-    @PreAuthorize("hasAuthority('ADMIN_FETCH_USERS')")
-    public ResponseEntity<GenericResponsePageable> fetchAllUsers(HttpServletRequest request,
-                                                                 @RequestParam(name = "uuid", required = false) String uuid,
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponsePageable> fetchAllUsers(@RequestParam(name = "uuid", required = false) String uuid,
                                                                  @RequestParam(name = "firstName", required = false) String firstName,
                                                                  @RequestParam(name = "lastName", required = false) String lastName,
                                                                  @RequestParam(name = "email", required = false) String email,
@@ -63,7 +62,7 @@ public class AdminController {
                                                                  @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize) {
         Pageable pageable = getPageable(sortType, pageNumber, pageSize);
         val requestDto = new UserSearchRequestDto(uuid, firstName, lastName, email, phone, fromDate, toDate);
-        return userService.fetchUsersAll(request, requestDto, pageable);
+        return userService.fetchUsersAll(requestDto, pageable);
     }
 
 }
