@@ -113,22 +113,34 @@ public class UserService {
         userModel.setUserRole(customerRole);
         return saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
     }
+
     public ResponseEntity<GenericResponse> authenticateUserCredentials(HttpServletRequest request, HttpServletResponse response, final AuthRequestDto authRequestDto, final UserType userType) throws ServletException, IOException {
-        if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdminLoginProcess(userType))) {
+        log.info("Authenticating user: {}", authRequestDto.username());
+
+        boolean isAdmin = isAdminLoginProcess(userType);
+        log.info("Is admin login process: {}", isAdmin);
+
+        if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdmin)) {
+            log.info("User not found or role mismatch: {}", authRequestDto.username());
             getUserByUsername(authRequestDto.username());
-            log.info("Login failed, Failed to Confirm user role as {}, aborting login process", userType.name());
-            throw new UnexpectedRoleException("Login failed, Failed to Confirm user as {}, aborting login process", userType.name());
+            log.info("Login failed, failed to confirm user role as {}, aborting login process", userType.name());
+            throw new UnexpectedRoleException("Login failed, failed to confirm user as {}, aborting login process", userType.name());
         }
+
         try {
+            log.info("Attempting authentication for user: {}", authRequestDto.username());
             boolean authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.username(), authRequestDto.password())).isAuthenticated();
             if (!authResult) {
-                throw new RuntimeException("Unable to login! Please check username and password.");
+                throw new GeneralException("Unable to login! Please check username and password.");
             }
 
             return loginVerification(request, authRequestDto);
         } catch (AuthenticationException e) {
-            log.info(LOG_PREFIX, "Login failed for user ", authRequestDto.username());
-            return prepareResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password! ", emptyList());
+            log.error("Login failed for user: {}", authRequestDto.username(), e);
+            return prepareResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password!", emptyList());
+        } catch (Exception e) {
+            log.error("Unexpected error during login for user: {}", authRequestDto.username(), e);
+            return prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred during login.", emptyList());
         }
     }
 
