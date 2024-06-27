@@ -5,7 +5,6 @@ import com.project.oag.app.dto.UserSearchRequestDto;
 import com.project.oag.app.dto.VerifyOtpRequestDTO;
 import com.project.oag.app.dto.auth.RegisterUserRequestDto;
 import com.project.oag.app.service.auth.PasswordService;
-import com.project.oag.app.service.auth.RoleManagementService;
 import com.project.oag.app.service.auth.UserService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +12,6 @@ import jakarta.validation.Valid;
 import lombok.val;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,14 +25,11 @@ import static com.project.oag.utils.RequestUtils.getPageable;
 public class AdminController {
     private final UserService userService;
     private final PasswordService passwordService;
-    private final RoleManagementService roleManagementService;
 
     public AdminController(UserService userService,
-                           PasswordService passwordService,
-                           RoleManagementService roleManagementService) {
+                           PasswordService passwordService) {
         this.userService = userService;
         this.passwordService = passwordService;
-        this.roleManagementService = roleManagementService;
     }
     @PostMapping("/register")
 //    @PreAuthorize("hasRole('ADMIN')")
@@ -49,7 +44,7 @@ public class AdminController {
     }
 
     @GetMapping("/users/all")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponsePageable> fetchAllUsers(@RequestParam(name = "uuid", required = false) String uuid,
                                                                  @RequestParam(name = "firstName", required = false) String firstName,
                                                                  @RequestParam(name = "lastName", required = false) String lastName,
