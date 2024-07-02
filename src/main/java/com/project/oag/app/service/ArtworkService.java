@@ -53,20 +53,24 @@ public class ArtworkService {
         List<String> imageUrls = saveImagesAndGetUrls(artworkRequestDto.getImageFiles());
 
         try {
-            Artwork artwork = new Artwork();
-            artwork.setArtworkName(artworkRequestDto.getArtworkName());
-            artwork.setArtworkCategory(artworkRequestDto.getArtworkCategory());
-            artwork.setArtworkDescription(artworkRequestDto.getArtworkDescription());
-            artwork.setStatus(ArtworkStatus.PENDING);
-            artwork.setPrice(artworkRequestDto.getPrice());
-            artwork.setSize(artworkRequestDto.getSize());
-            //artwork.setArtistId(userId);
-            artwork.setImageUrls(imageUrls);
+            Artwork artwork = getArtwork(artworkRequestDto, imageUrls);
             val response = artworkRepository.save(artwork);
             return prepareResponse(HttpStatus.OK, "success", response);
         } catch (Exception e) {
             throw new GeneralException("Error saving artwork");
         }
+    }
+
+    private static Artwork getArtwork(ArtworkRequestDto artworkRequestDto, List<String> imageUrls) {
+        Artwork artwork = new Artwork();
+        artwork.setArtworkName(artworkRequestDto.getArtworkName());
+        artwork.setArtworkCategory(artworkRequestDto.getArtworkCategory());
+        artwork.setArtworkDescription(artworkRequestDto.getArtworkDescription());
+        artwork.setStatus(ArtworkStatus.PENDING);
+        artwork.setPrice(artworkRequestDto.getPrice());
+        artwork.setSize(artworkRequestDto.getSize());
+        artwork.setImageUrls(imageUrls);
+        return artwork;
     }
 
     public ResponseEntity<GenericResponse> getAllArtworks() {

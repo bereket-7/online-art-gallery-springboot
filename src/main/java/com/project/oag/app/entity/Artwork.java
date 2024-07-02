@@ -1,5 +1,6 @@
 package com.project.oag.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.app.dto.ArtworkStatus;
 import jakarta.persistence.*;
@@ -62,9 +63,10 @@ public class Artwork {
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    @ManyToOne
-    @JoinColumn(name = "ARTIST_ID")
-    private User artist;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @JsonBackReference
+    private User user;
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)

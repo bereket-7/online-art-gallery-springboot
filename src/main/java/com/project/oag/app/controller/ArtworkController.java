@@ -26,8 +26,8 @@ public class ArtworkController {
         this.artworkService = artworkService;
     }
 
-    @PostMapping("/upload")
-    @PreAuthorize("hasAuthority('USER_ADD_ARTWORK')")
+    @PostMapping("/submit")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) throws IOException {
         return artworkService.saveArtwork(request, artworkRequestDto);
     }
