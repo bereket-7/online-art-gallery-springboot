@@ -86,6 +86,12 @@ security-skip-list:
       - /api/v1/admin/auth/**
       - /api/v1/otp/**
       - /api/v1/admin/**
+      - /swagger-ui.html
+      - /webjars/**
+      - /swagger-ui.html/**
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /v2/api-docs
     static-content:
           #      - ${BASE_FOLDER}/**
           - /upload/**

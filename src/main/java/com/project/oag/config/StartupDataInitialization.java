@@ -141,7 +141,6 @@ public class StartupDataInitialization implements CommandLineRunner {
                 .collect(Collectors.toSet());
         return users.values()
                 .parallelStream()
-//                .filter(u -> !currentSavedUsers.contains(u.email()))
                 .map(u -> {
 
                     User currentUser = userRepository.findByEmailIgnoreCase(u.email()).
@@ -186,7 +185,6 @@ public class StartupDataInitialization implements CommandLineRunner {
 
         var userConfiguredRoles = rolePermissionConfig.users().values()
                 .parallelStream()
-//                .flatMap(Collection::stream)
                 .map(ConfiguredUser::role)
                 .collect(Collectors.toSet());
 
