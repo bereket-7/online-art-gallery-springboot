@@ -1,13 +1,38 @@
-FROM maven:3.9.4
+# Stage 1: Build stage
+FROM eclipse-temurin:17-jdk as build
 
-#WORKDIR /core-ms
+# Argument for the JAR file
+ARG JAR_FILE=target/*.jar
 
-ARG POSTGRES_HOST
-ENV POSTGRES_HOST=localhost
+# Copy the JAR file into the build stage
+COPY ${JAR_FILE} oag.jar
 
-ARG DB_PORT
-ENV DB_PORT=5432
+# Copy Maven wrapper and dependencies
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
 
-COPY . .
-RUN mvn clean install
-CMD mvn spring-boot:run
+# Ensure Maven wrapper is executable
+RUN chmod +x mvnw
+
+# Build the application
+RUN ./mvnw package -DskipTests
+
+# Stage 2: Runtime stage
+FROM eclipse-temurin:17-jre
+
+# Expose port 8088
+EXPOSE 8088
+
+# Copy the JAR file from the build stage
+COPY --from=build /oag.jar /oag.jar
+
+# Set the entry point to run the JAR file
+ENTRYPOINT ["java", "-jar", "/oag.jar"]
+
+
+#FROM eclipse-temurin:17-jre
+##WORKDIR /oag
+#EXPOSE 8088
+##ADD target/online-art-gallery-springboot.jar online-art-gallery-springboot.jar
+#ENTRYPOINT ["java", "-jar", "/oag.jar"]

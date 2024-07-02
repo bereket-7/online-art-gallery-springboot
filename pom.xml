@@ -178,6 +178,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>oag</finalName>
 	</build>
 
 </project>
