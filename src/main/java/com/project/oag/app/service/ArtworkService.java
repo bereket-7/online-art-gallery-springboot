@@ -3,6 +3,7 @@ package com.project.oag.app.service;
 import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
+import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.helper.ArtworkFilterSpecification;
 import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.User;
@@ -32,8 +33,10 @@ import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.ImageUtils.saveImagesAndGetUrls;
+import static com.project.oag.utils.PageableUtils.preparePageInfo;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
+import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 
 @Service
 @Slf4j
@@ -159,12 +162,11 @@ public class ArtworkService {
         }
     }
 
-    public ResponseEntity<GenericResponse> getRecentArtworks() {
+    public ResponseEntity<GenericResponsePageable> getRecentArtworks(Pageable pageable) {
         try {
-            val response = artworkRepository.findRecentArtworks();
-            List<ArtworkResponseDto> artworks = response.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
-                    .collect(Collectors.toList());
-            return prepareResponse(HttpStatus.OK, "Successfully retrieved all artworks", artworks);
+            val response = artworkRepository.findRecentArtworks(pageable);
+            return prepareResponseWithPageable(HttpStatus.OK, "Successfully retrieved all artworks", response.getContent(),
+                    preparePageInfo(response));
         } catch (Exception e) {
             throw new GeneralException("Failed to get artworks");
         }

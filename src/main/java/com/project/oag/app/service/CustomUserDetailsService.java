@@ -67,8 +67,13 @@ public class CustomUserDetailsService {
             throw new GeneralException("Failed to fetch profile photo");
         }
     }
-    public Long getTotalArtistUsers(String roleName) {
-        return userRepository.countUserByUserRole(roleName);
+    public ResponseEntity<GenericResponse> getTotalArtistUsers(String roleName) {
+        try {
+            val response = userRepository.countUserByUserRole(roleName);
+            return prepareResponse(HttpStatus.OK, "Total number of artists", response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     public ResponseEntity<GenericResponsePageable> getUsersByRole(String roleName, Pageable pageable) {
         try {
