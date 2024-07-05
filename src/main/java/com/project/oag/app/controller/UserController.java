@@ -51,15 +51,4 @@ public class UserController {
         return userService.getTotalArtistUsers(roleName);
     }
 
-//    @GetMapping("/artist/list")
-//    public ResponseEntity<List<User>> getArtistUsers(@RequestParam(required = false) String roleName) {
-//        List<User> artistUsers = userService.getArtistUsers(roleName);
-//    }
-
-//    @GetMapping("/artist/detail")
-//    @PreAuthorize("hasRole('MANAGER','ADMIN')")
-//    public ResponseEntity<List<ArtistDTO>> getArtistDetail() {
-//        List<ArtistDTO> artistUsers = userService.getArtistDetail();
-//        return ResponseEntity.ok(artistUsers);
-//    }
 }
