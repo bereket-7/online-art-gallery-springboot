@@ -29,6 +29,46 @@
 #volumes:
 #  postgres:
 
+#
+#version: '3.8'
+#
+#services:
+#  online-art-gallery-springboot:
+#    build: ./
+#    container_name: online-art-gallery
+#    ports:
+#      - "8088:8088"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=dev
+#      - POSTGRES_PASSWORD=8915code
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_DB=oag
+#      - POSTGRES_HOST=localhost
+#      - DB_PORT=5432
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#
+#  pgdb:
+#    container_name: online-art-gallery-db
+#    image: postgres:15-alpine
+#    restart: always
+#    environment:
+#      - POSTGRES_PASSWORD=8915code
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_DB=oag
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - postgres:/var/lib/postgresql/data
+#
+#volumes:
+#  postgres:
+
+
+
+
+
+
 
 version: '3.8'
 
@@ -39,12 +79,13 @@ services:
     ports:
       - "8088:8088"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
       - POSTGRES_PASSWORD=8915code
       - POSTGRES_USER=postgres
       - POSTGRES_DB=oag
+      - SPRING_PROFILES_ACTIVE=dev
       - POSTGRES_HOST=localhost
       - DB_PORT=5432
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
