@@ -52,6 +52,9 @@ public class Artwork {
     @Column(name = "STATUS")
     private ArtworkStatus status;
 
+    @Column(name = "QUANTITY")
+    private Integer quantity;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
