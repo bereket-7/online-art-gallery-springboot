@@ -37,4 +37,6 @@ public class AppConstants {
     public static final int START_YEAR = 2021;
     public static final int END_YEAR = 3099;
     public static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    public static final String EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+
 }
