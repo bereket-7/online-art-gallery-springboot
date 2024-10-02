@@ -1,5 +1,7 @@
 package com.project.oag.common;
 
+import java.security.SecureRandom;
+
 public class AppConstants {
     public static final String EXCEPTION_ON_SENDING_EMAIL = "Exception while sending email.";
     public static final String TEXT_HTML = "text/html";
@@ -34,5 +36,5 @@ public class AppConstants {
     public static final String EXCEPTION_ON_FORMATTING_EMAIL = "Exception while formatting email message";
     public static final int START_YEAR = 2021;
     public static final int END_YEAR = 3099;
-
+    public static final SecureRandom SECURE_RANDOM = new SecureRandom();
 }
