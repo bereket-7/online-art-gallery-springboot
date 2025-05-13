@@ -1,9 +1,12 @@
 package com.project.oag.utils;
 
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.dto.StandardType;
+import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.Standard;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserRole;
+import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.RoleRepository;
 import com.project.oag.app.repository.StandardRepository;
 import com.project.oag.app.repository.UserRepository;
@@ -12,6 +15,7 @@ import lombok.val;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,20 +25,22 @@ public class DataSeederService {
     private final StandardRepository standardRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     private final RoleRepository userRoleRepository;
+    private final ArtworkRepository artworkRepository;
 
-    public DataSeederService(StandardRepository standardRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository userRoleRepository) {
+    public DataSeederService(StandardRepository standardRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository userRoleRepository, ArtworkRepository artworkRepository) {
         this.standardRepository = standardRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
+        this.artworkRepository = artworkRepository;
     }
 
     @PostConstruct
     public void seedData() {
         seedStandards();
         seedUsers();
+        seedArtworks();
     }
     private void seedStandards() {
         if (standardRepository.count() < 15) {
@@ -77,5 +83,38 @@ public class DataSeederService {
         val userRole = userRoleRepository.findByRoleNameIgnoreCase("ROLE_CUSTOMER").
                 orElse(null);
         return userRole;
+    }
+
+    private void seedArtworks() {
+        if (artworkRepository.count() < 30) {
+            List<Artwork> artworks = new ArrayList<>();
+            for (int i = 1; i <= 100; i++) {
+                Artwork artwork = new Artwork();
+                artwork.setArtworkName("Artwork Name " + i);
+                artwork.setArtworkDescription("Description for Artwork " + i);
+                artwork.setArtworkCategory(i % 2 == 0 ? "Painting" : "Sculpture");
+                artwork.setImageUrls(List.of("image" + i + "_1.jpg", "image" + i + "_2.jpg"));
+                artwork.setPrice(BigDecimal.valueOf(100 + (i * 10)));
+                artwork.setSize(i % 2 == 0 ? "Medium" : "Large");
+                artwork.setStatus(i % 2 == 0 ? ArtworkStatus.ACCEPTED : ArtworkStatus.PENDING);
+                artwork.setQuantity(10 + (i % 5));
+                artwork.setUser(getDefaultUser());
+                artworks.add(artwork);
+            }
+            artworkRepository.saveAll(artworks);
+        }
+    }
+
+    private User getDefaultUser() {
+        return userRepository.findByEmailIgnoreCase("defaultuser@example.com")
+                .orElseGet(() -> {
+                    User user = new User();
+                    user.setFirstName("Default");
+                    user.setLastName("User");
+                    user.setEmail("defaultuser@example.com");
+                    user.setPassword(passwordEncoder.encode("password"));
+                    user.setUserRole(getDefaultUserRole());
+                    return userRepository.save(user);
+                });
     }
 }
