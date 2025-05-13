@@ -45,6 +45,15 @@ public class SignupRequestDto {
     @JsonProperty("channel")
     private NotificationChannel channel;
 
+    @JsonProperty("sex")
+    private String sex;
+
+    @JsonProperty("age")
+    private Integer age;
+
+    @JsonProperty("photo")
+    private String photo;
+
     @AssertTrue(message = "Password and Confirm password fields should be the same")
     @JsonIgnore
     public boolean isPasswordMatch() {

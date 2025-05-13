@@ -117,8 +117,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "artist")
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Artwork> artworks;
 
     @JsonIgnore
@@ -140,6 +142,5 @@ public class User {
 
     public void addCart(Cart cart) {
         carts.add(cart);
-        //cart.setUserId(this.id);
     }
 }

@@ -1,6 +1,7 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtistDTO;
+import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.PasswordResetTokenRepository;
 import com.project.oag.app.repository.UserInfoByRole;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.project.oag.utils.PageableUtils.preparePageInfo;
 import static com.project.oag.utils.RequestUtils.getIpAddressFromHeader;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
+import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 
 @Service
 @Configuration
@@ -63,29 +67,22 @@ public class CustomUserDetailsService {
             throw new GeneralException("Failed to fetch profile photo");
         }
     }
-    public Long getTotalArtistUsers(String roleName) {
-        return userRepository.countUserByUserRole(roleName);
+    public ResponseEntity<GenericResponse> getTotalArtistUsers(String roleName) {
+        try {
+            val response = userRepository.countUserByUserRole(roleName);
+            return prepareResponse(HttpStatus.OK, "Total number of artists", response);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-    public List<UserInfoByRole> getArtistUsers(String roleName) {
-        return userRepository.findUserByRoleName(roleName);
+    public ResponseEntity<GenericResponsePageable> getUsersByRole(String roleName, Pageable pageable) {
+        try {
+            val response = userRepository.findUserByRoleName(roleName,pageable);
+            return prepareResponseWithPageable(HttpStatus.OK, "Fetched Users by this role {} " + roleName, response.getContent(),preparePageInfo(response));
+        } catch (Exception e) {
+            throw new GeneralException("Error while retrieving users by role");
+        }
     }
-
-
-//    public List<ArtistDTO> getArtistDetail() {
-//        List<User> artistUsers = userRepository.findByRole(Role.ARTIST);
-//        List<ArtistDTO> artistUserDTOs = new ArrayList<>();
-//
-//        for (User user : artistUsers) {
-//            ArtistDTO artistUserDTO = new ArtistDTO();
-//            artistUserDTO.setId(user.getId());
-//            artistUserDTO.setFirstname(user.getFirstName());
-//            artistUserDTO.setLastname(user.getLastName());
-//            artistUserDTO.setUsername(user.getUsername());
-//            artistUserDTO.setArtworks(user.getArtworks());
-//            artistUserDTOs.add(artistUserDTO);
-//        }
-//        return artistUserDTOs;
-//    }
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);

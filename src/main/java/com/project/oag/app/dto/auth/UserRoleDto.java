@@ -32,7 +32,4 @@ public class UserRoleDto implements Serializable {
     @Transient
     private List<UserDto> user;
 
-    @JsonProperty("rolePermission")
-    private Set<RolePermissionDto> rolePermissions;
-
 }

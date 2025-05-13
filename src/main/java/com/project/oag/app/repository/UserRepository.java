@@ -41,7 +41,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("select u from User u " +
             "where upper(u.userRole.roleName) = upper(?1) " +
             "order by u.creationDate DESC")
-    List<UserInfoByRole> findUserByRoleName(String roleName);
+    Page<UserInfoByRole> findUserByRoleName(String roleName,Pageable pageable);
 
 
     @Transactional

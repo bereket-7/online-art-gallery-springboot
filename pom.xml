@@ -150,6 +150,12 @@
 			<version>3.2.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.owasp.encoder</groupId>
+			<artifactId>encoder</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+
 		<!-- Generate metadata for configuration files       -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -178,6 +184,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>oag</finalName>
 	</build>
 
 </project>

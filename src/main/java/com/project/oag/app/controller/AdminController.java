@@ -4,8 +4,8 @@ import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.dto.UserSearchRequestDto;
 import com.project.oag.app.dto.VerifyOtpRequestDTO;
 import com.project.oag.app.dto.auth.RegisterUserRequestDto;
+import com.project.oag.app.service.CustomUserDetailsService;
 import com.project.oag.app.service.auth.PasswordService;
-import com.project.oag.app.service.auth.RoleManagementService;
 import com.project.oag.app.service.auth.UserService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,24 +26,24 @@ import static com.project.oag.utils.RequestUtils.getPageable;
 @RequestMapping("/api/v1/admin")
 public class AdminController {
     private final UserService userService;
-    private final PasswordService passwordService;
-    private final RoleManagementService roleManagementService;
 
-    public AdminController(UserService userService,
-                           PasswordService passwordService,
-                           RoleManagementService roleManagementService) {
+    private final CustomUserDetailsService customUserDetailsService;
+    private final PasswordService passwordService;
+
+    public AdminController(UserService userService, CustomUserDetailsService customUserDetailsService,
+                           PasswordService passwordService) {
         this.userService = userService;
+        this.customUserDetailsService = customUserDetailsService;
         this.passwordService = passwordService;
-        this.roleManagementService = roleManagementService;
     }
     @PostMapping("/register")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> addUser(@Valid @RequestBody RegisterUserRequestDto user) {
         return userService.registerUser(user);
     }
 
     @PostMapping("/register/verify")
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> userVerify(HttpServletRequest request, @RequestBody VerifyOtpRequestDTO verifyOtpRequestDTO) {
         return userService.verifyRegisterOtp(request, verifyOtpRequestDTO);
     }
@@ -63,6 +63,16 @@ public class AdminController {
         Pageable pageable = getPageable(sortType, pageNumber, pageSize);
         val requestDto = new UserSearchRequestDto(uuid, firstName, lastName, email, phone, fromDate, toDate);
         return userService.fetchUsersAll(requestDto, pageable);
+    }
+
+    @GetMapping("/users/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<GenericResponsePageable> fetchUserByRole(@RequestParam(name = "uuid", required = false) String roleName,
+                                                                 @RequestParam(value = "sortType", defaultValue = LAST_UPDATE_DATE_DESC, required = false) List<String> sortType,
+                                                                 @RequestParam(value = "pageNumber", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+                                                                 @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize) {
+        Pageable pageable = getPageable(sortType, pageNumber, pageSize);
+        return customUserDetailsService.getUsersByRole(roleName, pageable);
     }
 
 }
