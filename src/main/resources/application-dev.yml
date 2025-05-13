@@ -92,6 +92,7 @@ security-skip-list:
       - /swagger-ui/**
       - /v3/api-docs/**
       - /v2/api-docs
+      - /actuator/**
     static-content:
           #      - ${BASE_FOLDER}/**
           - /upload/**
