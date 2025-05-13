@@ -38,7 +38,8 @@ public class Artwork {
     private String artworkCategory;
 
     @ElementCollection
-    @Column(name = "IMAGE")
+    @CollectionTable(name = "artwork_images", joinColumns = @JoinColumn(name = "artwork_id"))
+    @Column(name = "image_url")
     private List<String> imageUrls;
 
     @Column(name = "PRICE")
@@ -62,14 +63,12 @@ public class Artwork {
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    @ManyToOne
-    @JoinColumn(name = "ARTIST_ID")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "ARTIST_ID", nullable = false)
     private User artist;
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Cart> carts;
 
-    public Artwork(String filename, String string) {
-    }
 }
