@@ -1,5 +1,7 @@
 package com.project.oag.common;
 
+import java.security.SecureRandom;
+
 public class AppConstants {
     public static final String EXCEPTION_ON_SENDING_EMAIL = "Exception while sending email.";
     public static final String TEXT_HTML = "text/html";
@@ -26,11 +28,15 @@ public class AppConstants {
     public static final String IS_ADMIN = "isAdmin";
 
     public static final String USER_ID = "userId";
+    public static final String LAST_UPDATE_DATE_DESC = "lastUpdateDate.desc";
+    public static final String LAST_UPDATE_DATE_NATIVE_DESC = "last_update_date.desc";
     public static final String URL_PATTERN = "^(https?|ftp):\\/\\/(www\\.)?([a-zA-Z0-9-]+(\\.[a-zA-Z]{2,})+)(:[0-9]+)?(\\/[^\\s]*)?$";
     public static final String URL_PATH_PATTERN = "^\\/[^\\s?#]+(?:\\?[^\\s#]*)?(?:#[^\\s]*)?$";
     public static final String EXCEPTION_ON_PREPARING_SMTP_PROPS = "Exception while preparing SMTP properties";
     public static final String EXCEPTION_ON_FORMATTING_EMAIL = "Exception while formatting email message";
     public static final int START_YEAR = 2021;
     public static final int END_YEAR = 3099;
+    public static final SecureRandom SECURE_RANDOM = new SecureRandom();
+    public static final String EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
 }

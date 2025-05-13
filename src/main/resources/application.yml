@@ -24,3 +24,17 @@ baseURL:
 
 Chapa:
   secretKey: "CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0"
+
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "health,info"  # Exposes only health and info endpoints
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

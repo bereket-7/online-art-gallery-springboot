@@ -10,10 +10,7 @@ import com.project.oag.common.GenericResponse;
 import com.project.oag.common.service.NotificationService;
 import com.project.oag.common.service.UserHelperService;
 import com.project.oag.config.properties.EmailConfig;
-import com.project.oag.exceptions.ResourceNotFoundException;
-import com.project.oag.exceptions.UnexpectedRoleException;
-import com.project.oag.exceptions.UserAuthorizationException;
-import com.project.oag.exceptions.UserNotFoundException;
+import com.project.oag.exceptions.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,12 +30,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.project.oag.app.validation.RequestValidation.validateRegisterUserRequest;
 import static com.project.oag.common.AppConstants.*;
 import static com.project.oag.utils.NotificationUtils.generateBodyForEmail;
+import static com.project.oag.utils.PageableUtils.preparePageInfo;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import static com.project.oag.utils.SQLUtils.getLikeString;
+import static com.project.oag.utils.TimeUtils.getFromDate;
+import static com.project.oag.utils.TimeUtils.getToDate;
 import static com.project.oag.utils.Utils.prepareResponse;
+import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 import static java.util.Collections.emptyList;
 
 @Service
@@ -81,7 +86,7 @@ public class UserService {
         request.setAttribute(REQUEST_UNIQUE_ID, java.util.UUID.randomUUID());
     }
     @Transactional
-    public ResponseEntity<GenericResponse> registerUser(HttpServletRequest request, RegisterUserRequestDto registerUserRequestDto) {
+    public ResponseEntity<GenericResponse> registerUser(RegisterUserRequestDto registerUserRequestDto) {
         validateRegisterUserRequest(registerUserRequestDto);
         log.info(LOG_PREFIX, "Started signup process for email:  ", registerUserRequestDto.getEmail());
         if (userRepository.existsByEmailIgnoreCase(registerUserRequestDto.getEmail())) {
@@ -108,22 +113,34 @@ public class UserService {
         userModel.setUserRole(customerRole);
         return saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
     }
+
     public ResponseEntity<GenericResponse> authenticateUserCredentials(HttpServletRequest request, HttpServletResponse response, final AuthRequestDto authRequestDto, final UserType userType) throws ServletException, IOException {
-        if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdminLoginProcess(userType))) {
+        log.info("Authenticating user: {}", authRequestDto.username());
+
+        boolean isAdmin = isAdminLoginProcess(userType);
+        log.info("Is admin login process: {}", isAdmin);
+
+        if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdmin)) {
+            log.info("User not found or role mismatch: {}", authRequestDto.username());
             getUserByUsername(authRequestDto.username());
-            log.info("Login failed, Failed to Confirm user role as {}, aborting login process", userType.name());
-            throw new UnexpectedRoleException("Login failed, Failed to Confirm user as {}, aborting login process", userType.name());
+            log.info("Login failed, failed to confirm user role as {}, aborting login process", userType.name());
+            throw new UnexpectedRoleException("Login failed, failed to confirm user as {}, aborting login process", userType.name());
         }
+
         try {
+            log.info("Attempting authentication for user: {}", authRequestDto.username());
             boolean authResult = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.username(), authRequestDto.password())).isAuthenticated();
             if (!authResult) {
-                throw new RuntimeException("Unable to login! Please check username and password.");
+                throw new GeneralException("Unable to login! Please check username and password.");
             }
 
             return loginVerification(request, authRequestDto);
         } catch (AuthenticationException e) {
-            log.info(LOG_PREFIX, "Login failed for user ", authRequestDto.username());
-            return prepareResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password! ", emptyList());
+            log.error("Login failed for user: {}", authRequestDto.username(), e);
+            return prepareResponse(HttpStatus.UNAUTHORIZED, "Incorrect username or password!", emptyList());
+        } catch (Exception e) {
+            log.error("Unexpected error during login for user: {}", authRequestDto.username(), e);
+            return prepareResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred during login.", emptyList());
         }
     }
 
@@ -233,16 +250,27 @@ public class UserService {
         return sendOtp(OtpRequestDto.builder().userId(user.getId()).name(getFullName(user)).otpType(OtpCodeTypeDto.ALL).notificationType(notificationType).address(verifyOtpRequestDTO.getUsername()).notificationChannel(ObjectUtils.isNotEmpty(verifyOtpRequestDTO.getMedium()) ? verifyOtpRequestDTO.getMedium() : NotificationChannel.EMAIL).build());
     }
 
-//    public ResponseEntity<GenericResponsePageable> fetchUsersAll(HttpServletRequest request, UserSearchRequestDto requestDto, Pageable pageable) {
-//        try {
-//            val spec = prepareFetchAllUsersSpec(requestDto);
-//            val result = userRepository.findAll(spec, pageable);
-//            return prepareResponseWithPageable(HttpStatus.OK, "Fetched users", prepareResultContent(result), preparePageInfo(result));
-//        } catch (Exception e) {
-//            log.error(LOG_PREFIX, "Failed while users  ", e);
-//            throw new GeneralException("Failed while fetch " + e.getLocalizedMessage());
-//        }
-//    }
+    public ResponseEntity<GenericResponsePageable> fetchUsersAll(UserSearchRequestDto requestDto, Pageable pageable) {
+        Timestamp fromDate = getFromDate(requestDto.getFromDate());
+        Timestamp toDate = getToDate(requestDto.getToDate());
+        try {
+            val result = userRepository.findUsers(
+                    fromDate,
+                    toDate,
+                    getLikeString(requestDto.getEmail()),
+                    getLikeString(requestDto.getFirstName()),
+                    getLikeString(requestDto.getLastName()),
+                    getLikeString(requestDto.getPhone()),
+                    getLikeString(requestDto.getUuid()),
+                    pageable
+            );
+            return prepareResponseWithPageable(HttpStatus.OK, "Fetched users",result.getContent(),
+                    preparePageInfo(result));
+        } catch (Exception e) {
+            log.error(LOG_PREFIX, "Failed while users  ", e);
+            throw new GeneralException("Failed while fetch ");
+        }
+    }
 
 
     private UserDto getUserByUsername(String email) {

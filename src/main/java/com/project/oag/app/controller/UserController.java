@@ -34,13 +34,6 @@ public class UserController {
         return userService.getProfilePhoto(request);
     }
 
-    @GetMapping("/search")
-    //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<User>> searchUsersByUsername(@RequestParam("username") String username) {
-        List<User> searchResults = userService.searchUsersByUsername(username);
-        return ResponseEntity.ok(searchResults);
-    }
-
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN_MODIFY_USER')")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
@@ -54,19 +47,8 @@ public class UserController {
 
     @GetMapping("/total/artist/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public Long getTotalNumberUser(@RequestParam String roleName) {
+    public ResponseEntity<GenericResponse> getTotalNumberUser(@RequestParam String roleName) {
         return userService.getTotalArtistUsers(roleName);
     }
 
-//    @GetMapping("/artist/list")
-//    public ResponseEntity<List<User>> getArtistUsers(@RequestParam(required = false) String roleName) {
-//        List<User> artistUsers = userService.getArtistUsers(roleName);
-//    }
-
-//    @GetMapping("/artist/detail")
-//    @PreAuthorize("hasRole('MANAGER','ADMIN')")
-//    public ResponseEntity<List<ArtistDTO>> getArtistDetail() {
-//        List<ArtistDTO> artistUsers = userService.getArtistDetail();
-//        return ResponseEntity.ok(artistUsers);
-//    }
 }

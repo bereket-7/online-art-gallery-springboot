@@ -43,6 +43,9 @@ public class User {
     @Column(name = "EMAIL", unique = true)
     private String email;
 
+    @Column(name = "PASSWORD")
+    private String password;
+
     @Column(name = "UUID", unique = true)
     private String uuid = UUID.randomUUID().toString();
 
@@ -57,12 +60,6 @@ public class User {
 
     @Column(name = "AGE")
     private Integer age;
-
-    @Column(name = "USERNAME", unique = true)
-    private String username;
-
-    @Column(name = "PASSWORD")
-    private String password;
 
     @Column(name = "LOCKED")
     private Boolean locked = false;
@@ -120,8 +117,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Cart> carts = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "artist")
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Artwork> artworks;
 
     @JsonIgnore
@@ -143,6 +142,5 @@ public class User {
 
     public void addCart(Cart cart) {
         carts.add(cart);
-        //cart.setUserId(this.id);
     }
 }

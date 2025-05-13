@@ -17,7 +17,7 @@ public class ReportController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasAuthority('CUSTOMER_CREATE_REPORT')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<GenericResponse> createReport(@RequestBody ReportDto reportDto) {
         return reportService.createReport(reportDto);
     }

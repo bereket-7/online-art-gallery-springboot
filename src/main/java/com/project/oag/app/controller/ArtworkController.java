@@ -2,10 +2,12 @@ package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkStatus;
+import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,71 +15,32 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
-import static com.project.oag.common.AppConstants.DEFAULT_PAGE_NUMBER;
-import static com.project.oag.common.AppConstants.DEFAULT_PAGE_SIZE;
+import static com.project.oag.common.AppConstants.*;
+import static com.project.oag.utils.RequestUtils.getPageable;
 
 @RestController
 @RequestMapping("api/v1/user/artwork")
 public class ArtworkController {
     private final ArtworkService artworkService;
-
     public ArtworkController(ArtworkService artworkService) {
         this.artworkService = artworkService;
     }
 
-    @PostMapping("/upload")
-    @PreAuthorize("hasAuthority('USER_ADD_ARTWORK')")
+    @PostMapping("/submit")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request, @RequestBody ArtworkRequestDto artworkRequestDto) throws IOException {
         return artworkService.saveArtwork(request, artworkRequestDto);
     }
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-    public ResponseEntity<GenericResponse> getAllArtworks() {
-        return artworkService.getAllArtworks();
-    }
-
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-    public ResponseEntity<GenericResponse> getArtworkById(@PathVariable Long id) {
-        return artworkService.getArtworkById(id);
-    }
-
-    @PatchMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
-    public ResponseEntity<GenericResponse> updateArtwork(@PathVariable Long id, @RequestBody ArtworkRequestDto artworkRequestDto) {
-        return artworkService.updateArtwork(id, artworkRequestDto);
-    }
-
-    @GetMapping("/category")
-    @PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-    public ResponseEntity<GenericResponse> getArtworksByCategory(@RequestParam(required = false) String artworkCategory) {
-        return artworkService.getArtworkByArtworkCategory(artworkCategory);
-    }
-
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN_DELETE_ARTWORK')")
-    public ResponseEntity<GenericResponse> deleteArtwork(@PathVariable Long id) {
-        return artworkService.deleteArtwork(id);
-    }
-
-    @GetMapping("/status")
-    @PreAuthorize("hasAuthority('ADMIN_FETCH_ARTWORK')")
-    public ResponseEntity<GenericResponse> getArtworksByStatus(@RequestParam(required = false) ArtworkStatus status) {
-        return artworkService.getArtworkByArtworkStatus(status);
-    }
-
-    @PatchMapping("/change/status/{id}")
-    @PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
-    public ResponseEntity<GenericResponse> changeStatus(@PathVariable Long id, @RequestParam(required = false) ArtworkStatus status) {
-        return artworkService.changeArtworkStatus(id, status);
-    }
-
     @GetMapping("/recent")
-    @PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
-    public ResponseEntity<GenericResponse> getRecentArtworks() {
-        return artworkService.getRecentArtworks();
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<GenericResponsePageable> getRecentArtworks(@RequestParam(value = "sortType", defaultValue = LAST_UPDATE_DATE_DESC, required = false) List<String> sortType,
+                                                                     @RequestParam(value = "pageNumber", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+                                                                     @RequestParam(value = "pageSize", defaultValue = DEFAULT_PAGE_SIZE, required = false) int pageSize) {
+        Pageable pageable = getPageable(sortType, pageNumber, pageSize);
+        return artworkService.getRecentArtworks(pageable);
     }
 
     @GetMapping("/category/count")
@@ -86,7 +49,7 @@ public class ArtworkController {
     }
 
     @GetMapping("/search")
-    @PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<GenericResponse> searchAndFilterArtwork(
             @RequestParam(required = false) String artworkCategory,
             @RequestParam(required = false) String artworkName,
@@ -101,7 +64,7 @@ public class ArtworkController {
     }
 
     @GetMapping("/myArtwork")
-    @PreAuthorize("hasAuthority('USER_FETCH_ARTWORK')")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
         return artworkService.getLoggedArtistArtworks(request);
     }

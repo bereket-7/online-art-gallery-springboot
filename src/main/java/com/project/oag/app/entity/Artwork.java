@@ -1,5 +1,6 @@
 package com.project.oag.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.oag.app.dto.ArtworkStatus;
 import jakarta.persistence.*;
@@ -38,8 +39,7 @@ public class Artwork {
     private String artworkCategory;
 
     @ElementCollection
-    @CollectionTable(name = "artwork_images", joinColumns = @JoinColumn(name = "artwork_id"))
-    @Column(name = "image_url")
+    @Column(name = "IMAGE")
     private List<String> imageUrls;
 
     @Column(name = "PRICE")
@@ -52,6 +52,9 @@ public class Artwork {
     @Column(name = "STATUS")
     private ArtworkStatus status;
 
+    @Column(name = "QUANTITY")
+    private Integer quantity;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
@@ -63,12 +66,15 @@ public class Artwork {
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Rating> ratings;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ARTIST_ID", nullable = false)
-    private User artist;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @JsonBackReference
+    private User user;
 
     @JsonIgnore
     @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
     private List<Cart> carts;
 
+    public Artwork(String filename, String string) {
+    }
 }

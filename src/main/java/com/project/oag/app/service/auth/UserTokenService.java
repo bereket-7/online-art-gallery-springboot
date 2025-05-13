@@ -1,7 +1,6 @@
 package com.project.oag.app.service.auth;
 
 import com.project.oag.app.dto.auth.JWTToken;
-import com.project.oag.app.dto.auth.RolePermissionDto;
 import com.project.oag.app.dto.auth.*;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserToken;
@@ -64,11 +63,6 @@ public class UserTokenService {
                             .uuid(userDto.getUuid())
                             .token(jwtToken.token())
                             .username(userDto.getEmail())
-//                            .companyId(userDto.getUserRole().getIssuerCompanyId())
-                            .permissions(userDto.getUserRole().getRolePermissions()
-                                    .stream()
-                                    .map(RolePermissionDto::getPermissionName)
-                                    .toList())
                             .fullName(userDto.getFirstName().concat(SPACE).concat(userDto.getLastName()))
                             .avatarUrl(userDto.getImage())
                             .build()));
