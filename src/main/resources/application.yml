@@ -23,18 +23,10 @@ baseURL:
   localhost: "http://localhost:8088/"
 
 Chapa:
-  secretKey: "CHASECK_TEST-fJ1YgTYDTBppmzQ6kGdIZ6GFZQLXilZ0"
-
-
-#management:
-#  endpoints:
-#    web:
-#      exposure:
-#        include: "health,info"  # Exposes only health and info endpoints
-
+  secretKey: ${CHAPA_SECRET_KEY}
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "health,info"
