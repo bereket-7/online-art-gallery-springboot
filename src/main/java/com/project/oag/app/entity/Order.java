@@ -28,7 +28,7 @@ public class Order {
     @Column(name = "LAST_NAME")
     private String lastname;
 
-    @Column(name = "EMAIL", unique = true)
+    @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "PHONE")
