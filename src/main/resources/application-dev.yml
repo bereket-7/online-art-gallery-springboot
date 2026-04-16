@@ -25,10 +25,10 @@ spring:
       max-file-size: 5MB
       max-request-size: 5MB
   mail:
-    host: localhost
-    port: 2525
-    username: kelem.oag.app@gmail.com
-    password: 8915code
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:2525}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -42,10 +42,10 @@ spring:
 
 mailer-config:
   protocol: smtp
-  host: "localhost"
-  port: 2525
-  username: ""  # MailDev doesn't require authentication
-  password: ""  # MailDev doesn't require authentication
+  host: ${MAIL_HOST:localhost}
+  port: ${MAIL_PORT:2525}
+  username: ${MAIL_USERNAME:}
+  password: ${MAIL_PASSWORD:}
   smtpAuth: false
   smtpStarttlsEnable: false
   sslEnable: false
@@ -73,11 +73,11 @@ otp-config:
   #  num: numbers only
   type: all
   retry: 3
-  salt: "$2a$10$uw/0p7xZ5PPJa6HrYfHkhu"
+  salt: ${OTP_SALT}
 
 jwt-key:
-  secret: "77217A25432A462D4A614E645267556B58703273357638782F413F4428472B4B"
-  expireAfter: 720
+  secret: ${JWT_SECRET}
+  expireAfter: ${JWT_EXPIRE_AFTER:720}
 
 security-skip-list:
   skip:
@@ -149,8 +149,8 @@ management:
       base-path: /app/
 #stripe payment settings
 stripe:
-  api-key: sk_test_51MpyNeSCT6H7SkxtglhlyTfmzSkFlwsq1aRv7HpKdlyFJQvoRJiuLRU1e5jpiKixemYIS9p8NWwyfnv9XXd1zS7P00nK5qjjJc
-  public-key: pk_test_51MpyNeSCT6H7SkxtbbT3MmDKl818tSvlprGLbun0icjBv8TmIiCuWM60rFS3rSsDvLfhIehprXac1YtvVAnAgOa400aidlCNFO
+  api-key: ${STRIPE_SECRET_KEY}
+  public-key: ${STRIPE_PUBLIC_KEY}
 security-init-config:
   #  set initial: false, to skip initial user security configuration
   initial: true
@@ -166,7 +166,7 @@ security-init-config:
       firstName: "Admin"
       lastName: "User"
       email: "admin@gmail.com"
-      password: "admin"
+      password: ${SEED_ADMIN_PASSWORD}
       role: ADMIN_FLAG, ROLE_ADMIN
       verified: true
       sex: "male"
@@ -174,7 +174,7 @@ security-init-config:
       firstName: "Customer"
       lastName: "User"
       email: "customer@gmail.com"
-      password: "customer"
+      password: ${SEED_CUSTOMER_PASSWORD}
       role: CUSTOMER_FLAG, ROLE_CUSTOMER
       verified: true
       sex: "male"
