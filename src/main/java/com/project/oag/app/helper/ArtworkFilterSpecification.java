@@ -21,7 +21,7 @@ public class ArtworkFilterSpecification {
             List<Predicate> predicates = new ArrayList<>();
 
             if (artworkCategory != null && !artworkCategory.isEmpty()) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("artworkName")), "%" + artworkCategory.toLowerCase() + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("artworkCategory")), "%" + artworkCategory.toLowerCase() + "%"));
             }
             if (artworkName != null && !artworkName.isEmpty()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("artworkName")), "%" + artworkName.toLowerCase() + "%"));
