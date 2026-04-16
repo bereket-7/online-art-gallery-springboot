@@ -3,23 +3,20 @@ package com.project.oag.app.service;
 import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.entity.Order;
 import com.project.oag.app.repository.OrderRepository;
-import com.project.oag.common.GenericResponse;
-import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.ResourceNotFoundException;
 import lombok.val;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
 
-import static com.project.oag.utils.Utils.prepareResponse;
-
 @Service
 public class OrderService {
+
     private final ModelMapper modelMapper;
     private final OrderRepository orderRepository;
     private final JavaMailSender javaMailSender;
@@ -30,41 +27,30 @@ public class OrderService {
         this.javaMailSender = javaMailSender;
     }
 
-    public ResponseEntity<GenericResponse> createOrder(OrderRequestDto orderRequestDto) {
-        try {
-            val order = modelMapper.map(orderRequestDto, Order.class);
-            order.setSecretCode(generateSecretCode());
-            val savedOrder = orderRepository.save(order);
-            sendOrderConfirmationEmail(savedOrder);
-            return prepareResponse(HttpStatus.OK, "Order created successfully", savedOrder);
-        } catch (Exception e) {
-            throw new GeneralException("failed to create order");
-        }
+    public Order createOrder(OrderRequestDto dto) {
+        val order = modelMapper.map(dto, Order.class);
+        order.setSecretCode(generateSecretCode());
+        val saved = orderRepository.save(order);
+        sendOrderConfirmationEmail(saved);
+        return saved;
     }
 
-    public ResponseEntity<GenericResponse> getAllOrders() {
-        try {
-            List<Order> orders = orderRepository.findAll();
-            return prepareResponse(HttpStatus.OK, "Available orders", orders);
-        } catch (Exception e) {
-            throw new GeneralException("Could not find all orders");
-        }
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
-    public ResponseEntity<GenericResponse> deleteOrdersById(final Long id) {
-        try {
-            orderRepository.deleteById(id);
-            return prepareResponse(HttpStatus.OK, "order successfully deleted", null);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to delete order");
-        }
+    public void deleteOrderById(Long id) {
+        orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        orderRepository.deleteById(id);
     }
 
-    private void sendOrderConfirmationEmail(Order order) {
+    @Async
+    protected void sendOrderConfirmationEmail(Order order) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(order.getEmail());
         message.setSubject("Order Confirmation");
-        message.setText("Thank you for your order!\n\nOrder Details:\n\n" +
+        message.setText("Thank you for your order!\n\n" +
                 "First Name: " + order.getFirstname() + "\n" +
                 "Last Name: " + order.getLastname() + "\n" +
                 "Email: " + order.getEmail() + "\n" +
@@ -75,8 +61,7 @@ public class OrderService {
     }
 
     private String generateSecretCode() {
-        Random random = new Random();
-        int code = 100000 + random.nextInt(900000);
+        int code = 100000 + new Random().nextInt(900000);
         return String.valueOf(code);
     }
 }
