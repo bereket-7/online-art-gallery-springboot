@@ -32,7 +32,8 @@ public class AdminAccountController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<GenericResponse> authenticateAndGetToken(HttpServletRequest request, HttpServletResponse response, @RequestBody AuthRequestDto authRequestDto) throws ServletException, IOException {
+    public ResponseEntity<GenericResponse> authenticateAndGetToken(HttpServletRequest request, HttpServletResponse response,
+            @Valid @RequestBody AuthRequestDto authRequestDto) throws ServletException, IOException {
         return userService.authenticateUserCredentials(request, response, authRequestDto, UserType.ADMIN);
     }
 
@@ -42,12 +43,12 @@ public class AdminAccountController {
     }
 
     @PostMapping("/password/forgot")
-    public ResponseEntity<GenericResponse> forgotPassword(@RequestBody PasswordForgotRequest passwordForgotRequest) {
+    public ResponseEntity<GenericResponse> forgotPassword(@Valid @RequestBody PasswordForgotRequest passwordForgotRequest) {
         return passwordService.forgotPassword(passwordForgotRequest);
     }
 
     @PostMapping("/password/reset")
-    public ResponseEntity<GenericResponse> resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+    public ResponseEntity<GenericResponse> resetPassword(@Valid @RequestBody PasswordResetRequest passwordResetRequest) {
         return passwordService.resetPassword(passwordResetRequest);
     }
 }
