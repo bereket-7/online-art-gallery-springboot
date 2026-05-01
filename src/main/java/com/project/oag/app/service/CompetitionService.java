@@ -12,6 +12,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,6 +40,7 @@ public class CompetitionService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> deleteCompetition(Long id) {
         try {
             competitionRepository.deleteById(id);
@@ -57,6 +59,7 @@ public class CompetitionService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> addCompetition(CompetitionDto competitionDto) {
         try {
             val competition = modelMapper.map(competitionDto, Competition.class);
@@ -67,6 +70,7 @@ public class CompetitionService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> updateCompetition(Long id, CompetitionDto competitionDto) {
         try {
             val competition = modelMapper.map(competitionDto, Competition.class);
@@ -87,6 +91,7 @@ public class CompetitionService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> deleteCompetitiontById(final Long id) {
         try {
             val response = competitionRepository.findById(id)

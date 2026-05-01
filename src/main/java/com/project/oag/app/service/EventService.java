@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class EventService {
         this.modelMapper = modelMapper;
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> createEvent(EventDto eventDto) {
         try {
             val user = modelMapper.map(eventDto, Event.class);
@@ -61,6 +63,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> changeEventStatus(Long id, EventStatus status) {
         try {
             val event = eventRepository.findById(id)
@@ -84,6 +87,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> updateEvent(Long id, EventDto eventDto) {
         if (ObjectUtils.isEmpty(id))
             throw new GeneralException("Event Id needs to have a value");
@@ -99,6 +103,7 @@ public class EventService {
         }
     }
 
+    @Transactional
     public ResponseEntity<GenericResponse> deleteEvent(final Long id) {
         try {
             eventRepository.deleteById(id);
