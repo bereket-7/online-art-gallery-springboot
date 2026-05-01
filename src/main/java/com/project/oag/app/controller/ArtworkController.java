@@ -35,16 +35,23 @@ public class ArtworkController {
         this.artworkService = artworkService;
     }
 
+    /**
+     * Artists submit their own artwork for admin review.
+     * Requires ARTIST role — not CUSTOMER.
+     */
     @PostMapping(value = "/submit", consumes = "multipart/form-data")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAuthority('ARTIST_SUBMIT_ARTWORK')")
     public ResponseEntity<GenericResponse> saveArtwork(HttpServletRequest request,
                                                        @ModelAttribute ArtworkRequestDto artworkRequestDto) throws IOException {
         ArtworkResponseDto result = artworkService.saveArtwork(request, artworkRequestDto);
         return prepareResponse(HttpStatus.CREATED, "Artwork submitted successfully", result);
     }
 
+    /**
+     * Browsing recent artworks — open to both customers and artists.
+     */
     @GetMapping("/recent")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_BROWSE_ARTWORK', 'ARTIST_BROWSE_ARTWORK')")
     public ResponseEntity<GenericResponsePageable> getRecentArtworks(
             @RequestParam(value = "sortType", defaultValue = LAST_UPDATE_DATE_DESC, required = false) List<String> sortType,
             @RequestParam(value = "pageNumber", defaultValue = DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
@@ -60,8 +67,11 @@ public class ArtworkController {
         return prepareResponse(HttpStatus.OK, "Category counts retrieved", artworkService.getCountByCategory());
     }
 
+    /**
+     * Artwork search — open to both customers and artists.
+     */
     @GetMapping("/search")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_BROWSE_ARTWORK', 'ARTIST_BROWSE_ARTWORK')")
     public ResponseEntity<GenericResponse> searchAndFilterArtwork(
             @RequestParam(required = false) String artworkCategory,
             @RequestParam(required = false) String artworkName,
@@ -77,8 +87,12 @@ public class ArtworkController {
         return prepareResponse(HttpStatus.OK, "Search results", result.getKey());
     }
 
+    /**
+     * Artist views their own submitted artworks.
+     * Requires ARTIST role — not CUSTOMER.
+     */
     @GetMapping("/myArtwork")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasAuthority('ARTIST_VIEW_OWN_ARTWORK')")
     public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
         return prepareResponse(HttpStatus.OK, "Artworks retrieved", artworkService.getLoggedArtistArtworks(request));
     }
