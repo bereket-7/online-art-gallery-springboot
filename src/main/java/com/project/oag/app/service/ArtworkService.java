@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.PageableUtils.preparePageInfo;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -51,6 +52,7 @@ public class ArtworkService {
         this.imageUtils = imageUtils;
     }
 
+    @Transactional
     public ArtworkResponseDto saveArtwork(HttpServletRequest request, ArtworkRequestDto dto) throws IOException {
         User user = getUserByUsername(getLoggedInUserName(request));
         List<String> imageUrls = imageUtils.saveImagesAndGetUrls(dto.getImageFiles());
@@ -81,6 +83,7 @@ public class ArtworkService {
         return modelMapper.map(artwork, ArtworkResponseDto.class);
     }
 
+    @Transactional
     public ArtworkResponseDto updateArtwork(Long id, ArtworkRequestDto dto) {
         if (ObjectUtils.isEmpty(id))
             throw new GeneralException("Artwork id must not be empty");
@@ -92,12 +95,14 @@ public class ArtworkService {
         return modelMapper.map(saved, ArtworkResponseDto.class);
     }
 
+    @Transactional
     public void deleteArtwork(Long id) {
         artworkRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
         artworkRepository.deleteById(id);
     }
 
+    @Transactional
     public ArtworkResponseDto changeArtworkStatus(Long id, ArtworkStatus status) {
         val artwork = artworkRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
@@ -144,6 +149,24 @@ public class ArtworkService {
                 .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
                 .collect(Collectors.toList());
         return Map.entry(content, preparePageInfo(page));
+    }
+
+    /**
+     * Decrements the available quantity of an artwork after a successful purchase.
+     * Throws GeneralException if stock would go negative.
+     */
+    @Transactional
+    public void decrementQuantity(Long artworkId, int qty) {
+        val artwork = artworkRepository.findById(artworkId)
+                .orElseThrow(() -> new ResourceNotFoundException("Artwork not found: " + artworkId));
+        int current = artwork.getQuantity() == null ? 0 : artwork.getQuantity();
+        if (current < qty) {
+            throw new GeneralException("Insufficient stock for artwork " + artworkId);
+        }
+        artwork.setQuantity(current - qty);
+        artworkRepository.save(artwork);
+        log.info(LOG_PREFIX, "Artwork quantity decremented",
+                "artworkId=" + artworkId + " decremented by " + qty + ", remaining=" + artwork.getQuantity());
     }
 
     private User getUserByUsername(String email) {
