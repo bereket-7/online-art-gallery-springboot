@@ -158,9 +158,11 @@ security-init-config:
   roles:
     - ROLE_ADMIN
     - ROLE_CUSTOMER
+    - ROLE_ARTIST
   userFlag:
     - ADMIN_FLAG
     - CUSTOMER_FLAG
+    - ARTIST_FLAG
   users:
     user-1:
       firstName: "Admin"
