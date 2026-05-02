@@ -39,19 +39,22 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final CartService cartService;
     private final JavaMailSender javaMailSender;
+    private final NotificationWebSocketService notificationService;
 
     public OrderService(ModelMapper modelMapper,
                         OrderRepository orderRepository,
                         UserRepository userRepository,
                         CartRepository cartRepository,
                         CartService cartService,
-                        JavaMailSender javaMailSender) {
+                        JavaMailSender javaMailSender,
+                        NotificationWebSocketService notificationService) {
         this.modelMapper = modelMapper;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.cartService = cartService;
         this.javaMailSender = javaMailSender;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -81,6 +84,9 @@ public class OrderService {
         cartService.clearCartForCheckout(user.getId());
 
         sendOrderConfirmationEmail(saved);
+        
+        notificationService.sendUserNotification(user.getEmail(), "Order #" + saved.getId() + " initialized pending payment!");
+        
         return modelMapper.map(saved, OrderResponseDto.class);
     }
 
@@ -105,7 +111,11 @@ public class OrderService {
         val order = orderRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         order.setStatus(status);
-        return modelMapper.map(orderRepository.save(order), OrderResponseDto.class);
+        
+        Order saved = orderRepository.save(order);
+        notificationService.sendUserNotification(saved.getEmail(), "Your order #" + saved.getId() + " is now " + status);
+        
+        return modelMapper.map(saved, OrderResponseDto.class);
     }
 
     @Transactional
