@@ -28,7 +28,12 @@ public class JwtService {
 
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, username);
+        return createToken(claims, username, jwtKey.expireAfter());
+    }
+
+    public String generateRefreshToken(String username) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, username, jwtKey.refreshExpireAfter());
     }
 
     public String extractUsername(String token) {
@@ -62,13 +67,13 @@ public class JwtService {
                 .getBody();
     }
 
-    private String createToken(Map<String, Object> claims, String username) {
+    private String createToken(Map<String, Object> claims, String username, long expirationMinutes) {
 
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(getTimeAfterGivenMinutes(0))
-                .setExpiration(getTimeAfterGivenMinutes(jwtKey.expireAfter()))
+                .setExpiration(getTimeAfterGivenMinutes(expirationMinutes))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
