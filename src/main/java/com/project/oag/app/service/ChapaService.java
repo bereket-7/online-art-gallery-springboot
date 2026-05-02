@@ -40,23 +40,21 @@ public class ChapaService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<GenericResponse> pay(HttpServletRequest request) throws Throwable {
+    public PaymentResponse initiatePayment(Order order) throws Throwable {
         try {
-            BigDecimal totalPrice = cartService.calculateTotalPrice(request);
-            Long userId = getUserId(request);
-            Optional<User> users = Optional.ofNullable(userRepository.findById(userId)
-                    .orElseThrow(() -> new ResourceNotFoundException("User not found.")));
+            BigDecimal totalPrice = order.getTotalAmount();
+            User user = order.getUser();
 
             Customization customization = new Customization()
-                    .setDescription("Payment for Kelem OAG")
-                    .setTitle("Kelem OAG");
+                    .setDescription("Payment for Order " + order.getId())
+                    .setTitle("Kelem OAG Checkout");
             String txRef = Util.generateToken();
             PostData postData = new PostData()
                     .setAmount(totalPrice)
                     .setCurrency("ETB")
-                    .setFirstName(users.get().getFirstName())
-                    .setLastName(users.get().getLastName())
-                    .setEmail(users.get().getEmail())
+                    .setFirstName(user.getFirstName())
+                    .setLastName(user.getLastName())
+                    .setEmail(user.getEmail())
                     .setReturnUrl("http://localhost:8080/paymentSuccess/" + txRef)
                     .setTxRef(txRef)
                     .setCustomization(customization);
@@ -66,32 +64,36 @@ public class ChapaService {
             String checkOutUrl = response.getData().getCheckOutUrl();
 
             PaymentResponse paymentResponse = new PaymentResponse();
-            paymentResponse = new PaymentResponse();
             paymentResponse.setCheckOutUrl(checkOutUrl);
             paymentResponse.setTxRef(txRef);
 
             PaymentLog paymentLog = new PaymentLog();
             paymentLog.setAmount(totalPrice);
-           // paymentLog.setUserId(userId);
             paymentLog.setPaymentStatus(PaymentStatus.INTIALIZED);
             paymentLog.setToken(txRef);
             paymentLogService.createPaymentLog(paymentLog);
-            return prepareResponse(HttpStatus.OK, "PaymentLog", paymentLog);
+
+            // Optional: link payment log to order here if needed immediately, or let orchestrator do it
+            
+            return paymentResponse;
         } catch (Throwable e) {
-            throw new GeneralException("Failed to create payment");
+            throw new GeneralException("Failed to create payment: " + e.getMessage());
         }
     }
 
-    public ResponseEntity<GenericResponse> verify(String txRef) throws Throwable {
+    public PaymentLog verify(String txRef) throws Throwable {
         try {
             Chapa chapa = new Chapa(secretKey);
             VerifyResponseData verify = chapa.verify(txRef);
+            
+            PaymentLog paymentLog = paymentLogService.findByToken(txRef);
             if (verify.getStatusCode() == 200) {
-                paymentLogService.findByToken(txRef);
+                paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
+                // Assume save is cascaded or explicitly save
+            } else {
+                paymentLog.setPaymentStatus(PaymentStatus.FAILED);
             }
-            PaymentLog paymentLog = new PaymentLog();
-            paymentLog.setPaymentStatus(PaymentStatus.VERIFIED);
-            return prepareResponse(HttpStatus.OK, "", paymentLog);
+            return paymentLog;
 
         } catch (Throwable e) {
             throw new GeneralException("failed to verify payment");
