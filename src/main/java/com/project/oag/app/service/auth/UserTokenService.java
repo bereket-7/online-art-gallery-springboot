@@ -48,20 +48,34 @@ public class UserTokenService {
         try {
             revokeExistingTokens(userDto);
             val jwtToken = new JWTToken(jwtService.generateToken(userDto.getEmail()));
+            val refreshTokenStr = jwtService.generateRefreshToken(userDto.getEmail());
+            
+            val userModel = modelMapper.map(userDto, User.class);
             val userToken = UserToken.builder()
-                    .user(modelMapper.map(userDto, User.class))
+                    .user(userModel)
                     .tokenType(TokenType.BEARER)
                     .expired(false)
                     .revoked(false)
                     .token(jwtToken.token())
+                    .expiresAt(jwtService.extractExpiration(jwtToken.token()))
                     .build();
 
-            tokenRepository.save(userToken);
+            val refreshUserToken = UserToken.builder()
+                    .user(userModel)
+                    .tokenType(TokenType.REFRESH)
+                    .expired(false)
+                    .revoked(false)
+                    .token(refreshTokenStr)
+                    .expiresAt(jwtService.extractExpiration(refreshTokenStr))
+                    .build();
+
+            tokenRepository.saveAll(java.util.List.of(userToken, refreshUserToken));
             log.info(LOG_PREFIX, "Successfully saved token to database ", "");
             return ResponseEntity.ok(new GenericResponse(HttpStatus.OK.value(), "",
                     UserInfoDto.builder()
                             .uuid(userDto.getUuid())
                             .token(jwtToken.token())
+                            .refreshToken(refreshTokenStr)
                             .username(userDto.getEmail())
                             .fullName(userDto.getFirstName().concat(SPACE).concat(userDto.getLastName()))
                             .avatarUrl(userDto.getImage())
@@ -70,6 +84,38 @@ public class UserTokenService {
             log.info(LOG_PREFIX, "Failed generateUserToken ", e);
             return ResponseEntity.status(HttpStatus.OK.value()).body(new GenericResponse(HttpStatus.INTERNAL_SERVER_ERROR.value()
                     , "Failed generateUserToken , " + e.getLocalizedMessage(), Collections.emptyList()));
+        }
+    }
+
+    public ResponseEntity<GenericResponse> refreshToken(String requestRefreshToken) {
+        try {
+            val userTokenOptional = tokenRepository.findByToken(requestRefreshToken);
+            if (userTokenOptional.isEmpty()) {
+                throw new GeneralException("Refresh token is not in database!");
+            }
+            val userToken = userTokenOptional.get();
+
+            if (userToken.getTokenType() != TokenType.REFRESH) {
+                 throw new GeneralException("Token provided is not a refresh token");
+            }
+            if (userToken.isExpired() || userToken.isRevoked()) {
+                 throw new GeneralException("Refresh token is expired/revoked, please login again");
+            }
+            
+            if (jwtService.isTokenExpired(requestRefreshToken)) {
+                userToken.setExpired(true);
+                userToken.setRevoked(true);
+                tokenRepository.save(userToken);
+                throw new GeneralException("Refresh token is expired, please login again");
+            }
+
+            val userDto = modelMapper.map(userToken.getUser(), UserDto.class);
+            return generateUserToken(userDto);
+            
+        } catch (Exception e) {
+            log.info(LOG_PREFIX, "Failed refreshToken ", e);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED.value()).body(new GenericResponse(HttpStatus.UNAUTHORIZED.value()
+                    , "Failed refreshToken , " + e.getLocalizedMessage(), Collections.emptyList()));
         }
     }
 

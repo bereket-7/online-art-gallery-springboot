@@ -1,36 +1,43 @@
 package com.project.oag.config.security.captcha;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
-import com.google.common.cache.CacheLoader;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
 @Service
 public class ReCaptchaAttemptService {
-    private final LoadingCache<String, Integer> attemptsCache;
+    private final StringRedisTemplate redisTemplate;
 
-    public ReCaptchaAttemptService() {
-        attemptsCache = CacheBuilder.newBuilder().expireAfterWrite(4, TimeUnit.HOURS).build(new CacheLoader<String, Integer>() {
-            @Override
-            public Integer load(final String key) {
-                return 0;
-            }
-        });
+    public ReCaptchaAttemptService(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    private String getRedisKey(String key) {
+        return "recaptcha:attempts:" + key;
     }
 
     public void reCaptchaSucceeded(final String key) {
-        attemptsCache.invalidate(key);
+        redisTemplate.delete(getRedisKey(key));
     }
 
     public void reCaptchaFailed(final String key) {
-        int attempts = attemptsCache.getUnchecked(key);
-        attempts++;
-        attemptsCache.put(key, attempts);
+        String redisKey = getRedisKey(key);
+        Long attempts = redisTemplate.opsForValue().increment(redisKey, 1);
+        if (attempts != null && attempts == 1) {
+            redisTemplate.expire(redisKey, 4, TimeUnit.HOURS);
+        }
     }
 
     public boolean isBlocked(final String key, int allowedLimit) {
-        return attemptsCache.getUnchecked(key) >= allowedLimit;
+        String attemptsStr = redisTemplate.opsForValue().get(getRedisKey(key));
+        if (attemptsStr == null) {
+            return false;
+        }
+        try {
+            return Integer.parseInt(attemptsStr) >= allowedLimit;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
