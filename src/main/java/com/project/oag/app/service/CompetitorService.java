@@ -9,8 +9,6 @@ import com.project.oag.app.repository.CompetitionRepository;
 import com.project.oag.app.repository.CompetitorRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.repository.VoteRepository;
-import com.project.oag.common.GenericResponse;
-import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,16 +16,12 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
-import static com.project.oag.utils.Utils.prepareResponse;
 
 @Service
 @Slf4j
@@ -48,95 +42,54 @@ public class CompetitorService {
         this.modelMapper = modelMapper;
     }
 
-    public ResponseEntity<GenericResponse> registerCompetitor(HttpServletRequest request, CompetitorRequestDto competitorRequestDto) {
-        Long userId = getUserId(request);
-        try {
-            val competitor = modelMapper.map(competitorRequestDto, Competitor.class);
-            //competitor.setArtistId(userId);
-            val response = competitorRepository.save(competitor);
-            return prepareResponse(HttpStatus.OK, "Registered successfully", response);
-        } catch (Exception e) {
-            throw new GeneralException(" Failed to save competitor");
-        }
+    public Competitor registerCompetitor(HttpServletRequest request, CompetitorRequestDto competitorRequestDto) {
+        val competitor = modelMapper.map(competitorRequestDto, Competitor.class);
+        return competitorRepository.save(competitor);
     }
 
-    public ResponseEntity<GenericResponse> getAllCompetitors() {
-        try {
-            val competitors = competitorRepository.findAll();
-            List<ArtworkResponseDto> response = competitors.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
-                    .collect(Collectors.toList());
-            return prepareResponse(HttpStatus.OK, "Available competitors", response);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to get competitors");
-        }
+    public List<ArtworkResponseDto> getAllCompetitors() {
+        val competitors = competitorRepository.findAll();
+        return competitors.stream().map((element) -> modelMapper.map(element, ArtworkResponseDto.class))
+                .collect(Collectors.toList());
     }
 
-    public ResponseEntity<GenericResponse> deleteCompetitor(final Long id) {
-        try {
-            competitorRepository.deleteById(id);
-            return prepareResponse(HttpStatus.OK, "Successfully deleted", null);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to delete competitor");
-        }
+    public void deleteCompetitor(final Long id) {
+        competitorRepository.deleteById(id);
     }
 
-    public ResponseEntity<GenericResponse> updateCompetitor(HttpServletRequest request, CompetitorRequestDto competitorRequestDto) {
+    public Competitor updateCompetitor(HttpServletRequest request, CompetitorRequestDto competitorRequestDto) {
         Long userId = getUserId(request);
         val competitor = competitorRepository.findByArtistId(userId);
-        try {
-            modelMapper.map(competitorRequestDto, competitor);
-            val response = competitorRepository.save(competitor);
-            log.info(LOG_PREFIX, "Saved Competitor information", "");
-            return prepareResponse(HttpStatus.OK, "Competitor Updated successfully ", response);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to update competitor");
-        }
+        modelMapper.map(competitorRequestDto, competitor);
+        return competitorRepository.save(competitor);
     }
 
-    public ResponseEntity<GenericResponse> getCompetitorById(Long id) {
-        try {
-            val response = competitorRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Competitor not found"));
-            return prepareResponse(HttpStatus.OK, "Successfully retrieved competitor", response);
-        } catch (Exception e) {
-            throw new GeneralException("Failed to get competitor ");
-        }
+    public Competitor getCompetitorById(Long id) {
+        return competitorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Competitor not found"));
     }
 
-    public ResponseEntity<GenericResponse> voteForCompetitor(Long competitionId,
+    public void voteForCompetitor(Long competitionId,
                                                              Long competitorId,
                                                              HttpServletRequest request) {
         Long userId = getUserId(request);
-        try {
-            competitionRepository.findById(competitionId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
+        competitionRepository.findById(competitionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
 
-            if ((voteService.isUserVotedForCompetition(userId, competitionId))) {
-                Vote vote = new Vote();
-                //vote.setCompetitorId(competitorId);
-                //vote.setUserId(userId);
-                //vote.setCompetitionId(competitionId);
-                voteService.saveVote(vote);
-                Competitor competitor = new Competitor();
-                int currentVote = competitor.getVoteCount();
-                competitor.setVoteCount(currentVote++);
-                competitorRepository.save(competitor);
-            }
-            return prepareResponse(HttpStatus.OK, "Thanks for voting", null);
-        } catch (ResourceNotFoundException e) {
-            throw new GeneralException("failed to vote for this competitor");
+        if ((voteService.isUserVotedForCompetition(userId, competitionId))) {
+            Vote vote = new Vote();
+            voteService.saveVote(vote);
+            Competitor competitor = new Competitor();
+            int currentVote = competitor.getVoteCount();
+            competitor.setVoteCount(currentVote++);
+            competitorRepository.save(competitor);
         }
     }
 
-    public ResponseEntity<GenericResponse> getWinner(Long competitionId) {
-        try {
-            competitionRepository.findById(competitionId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
-            List<Competitor> response = competitorRepository.findTop10ByCompetitionIdOrderByVoteCountDesc(competitionId, PageRequest.of(0, 10));
-            return prepareResponse(HttpStatus.OK, "Top 10 winners in this competition", response);
-        } catch (ResourceNotFoundException e) {
-            throw new GeneralException("Failed to get winner");
-        }
+    public List<Competitor> getWinner(Long competitionId) {
+        competitionRepository.findById(competitionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
+        return competitorRepository.findTop10ByCompetitionIdOrderByVoteCountDesc(competitionId, PageRequest.of(0, 10));
     }
 
     private Long getUserId(HttpServletRequest request) {
@@ -147,5 +100,4 @@ public class CompetitorService {
         return userRepository.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new UserNotFoundException("User not found with Username/email: " + email));
     }
-
 }

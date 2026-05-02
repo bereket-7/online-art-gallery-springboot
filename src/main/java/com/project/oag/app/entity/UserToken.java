@@ -4,6 +4,8 @@ import com.project.oag.app.dto.auth.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
+
 @Entity
 @Setter
 @Getter
@@ -29,6 +31,9 @@ public class UserToken {
 
     @Column(name = "IS_REVOKED", nullable = false)
     private boolean revoked;
+
+    @Column(name = "EXPIRES_AT")
+    private Date expiresAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
