@@ -9,6 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @ConfigurationProperties(prefix = "jwt-key")
 public record JwtKey(
         @NotEmpty String secret,
-        @Min(1) long expireAfter
+        @Min(1) long expireAfter,
+        @Min(1) long refreshExpireAfter
 ) {
 }
