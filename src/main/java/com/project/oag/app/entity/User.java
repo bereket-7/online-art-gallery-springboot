@@ -58,6 +58,9 @@ public class User {
     @Column(name = "SEX")
     private String sex;
 
+    @Column(name = "BIO", columnDefinition = "TEXT")
+    private String bio;
+
     @Column(name = "AGE")
     private Integer age;
 
