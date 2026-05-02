@@ -1,0 +1,1671 @@
+Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
+Maven home: /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7
+Java version: 25.0.2, vendor: Ubuntu, runtime: /usr/lib/jvm/java-25-openjdk-amd64
+Default locale: en_US, platform encoding: UTF-8
+OS name: "linux", version: "6.17.0-19-generic", arch: "amd64", family: "unix"
+[DEBUG] Created new class realm maven.api
+[DEBUG] Importing foreign packages into class realm maven.api
+[DEBUG]   Imported: javax.annotation.* < plexus.core
+[DEBUG]   Imported: javax.annotation.security.* < plexus.core
+[DEBUG]   Imported: javax.inject.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.artifact < plexus.core
+[DEBUG]   Imported: org.apache.maven.classrealm < plexus.core
+[DEBUG]   Imported: org.apache.maven.cli < plexus.core
+[DEBUG]   Imported: org.apache.maven.configuration < plexus.core
+[DEBUG]   Imported: org.apache.maven.exception < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution < plexus.core
+[DEBUG]   Imported: org.apache.maven.execution.scope < plexus.core
+[DEBUG]   Imported: org.apache.maven.lifecycle < plexus.core
+[DEBUG]   Imported: org.apache.maven.model < plexus.core
+[DEBUG]   Imported: org.apache.maven.monitor < plexus.core
+[DEBUG]   Imported: org.apache.maven.plugin < plexus.core
+[DEBUG]   Imported: org.apache.maven.profiles < plexus.core
+[DEBUG]   Imported: org.apache.maven.project < plexus.core
+[DEBUG]   Imported: org.apache.maven.reporting < plexus.core
+[DEBUG]   Imported: org.apache.maven.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.rtinfo < plexus.core
+[DEBUG]   Imported: org.apache.maven.settings < plexus.core
+[DEBUG]   Imported: org.apache.maven.toolchain < plexus.core
+[DEBUG]   Imported: org.apache.maven.usability < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.* < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authentication < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.authorization < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.events < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.observers < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.proxy < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.repository < plexus.core
+[DEBUG]   Imported: org.apache.maven.wagon.resource < plexus.core
+[DEBUG]   Imported: org.codehaus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.* < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.classworlds < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.component < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.configuration < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.container < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.context < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.lifecycle < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.logging < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.personality < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.Xpp3Dom < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParser < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlPullParserException < plexus.core
+[DEBUG]   Imported: org.codehaus.plexus.util.xml.pull.XmlSerializer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.* < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.artifact < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.collection < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.deployment < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.graph < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.installation < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.internal.impl < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.metadata < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.repository < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.resolution < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.spi < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.transfer < plexus.core
+[DEBUG]   Imported: org.eclipse.aether.version < plexus.core
+[DEBUG]   Imported: org.fusesource.jansi.* < plexus.core
+[DEBUG]   Imported: org.slf4j.* < plexus.core
+[DEBUG]   Imported: org.slf4j.event.* < plexus.core
+[DEBUG]   Imported: org.slf4j.helpers.* < plexus.core
+[DEBUG]   Imported: org.slf4j.spi.* < plexus.core
+[DEBUG] Populating class realm maven.api
+[INFO] Error stacktraces are turned on.
+[DEBUG] Message scheme: color
+[DEBUG] Message styles: debug info warning error success failure strong mojo project
+[DEBUG] Reading global settings from /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7/conf/settings.xml
+[DEBUG] Reading user settings from /home/beki/.m2/settings.xml
+[DEBUG] Reading global toolchains from /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7/conf/toolchains.xml
+[DEBUG] Reading user toolchains from /home/beki/.m2/toolchains.xml
+[DEBUG] Using local repository at /home/beki/.m2/repository
+[DEBUG] Using manager EnhancedLocalRepositoryManager with priority 10.0 for /home/beki/.m2/repository
+[INFO] Scanning for projects...
+[DEBUG] Extension realms for project com.project:online-art-gallery-spring-boot-app:jar:0.0.1-SNAPSHOT: (none)
+[DEBUG] Looking up lifecycle mappings for packaging jar from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.springframework.boot:spring-boot-starter-parent:pom:3.1.5: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] Extension realms for project org.springframework.boot:spring-boot-dependencies:pom:3.1.5: (none)
+[DEBUG] Looking up lifecycle mappings for packaging pom from ClassRealm[plexus.core, parent: null]
+[DEBUG] === REACTOR BUILD PLAN ================================================
+[DEBUG] Project: com.project:online-art-gallery-spring-boot-app:jar:0.0.1-SNAPSHOT
+[DEBUG] Tasks:   [clean, compile]
+[DEBUG] Style:   Regular
+[DEBUG] =======================================================================
+[INFO] 
+[INFO] -----------< com.project:online-art-gallery-spring-boot-app >-----------
+[INFO] Building Online-Art-Gallery 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] Lifecycle default -> [validate, initialize, generate-sources, process-sources, generate-resources, process-resources, compile, process-classes, generate-test-sources, process-test-sources, generate-test-resources, process-test-resources, test-compile, process-test-classes, test, prepare-package, package, pre-integration-test, integration-test, post-integration-test, verify, install, deploy]
+[DEBUG] Lifecycle clean -> [pre-clean, clean, post-clean]
+[DEBUG] Lifecycle site -> [pre-site, site, post-site, site-deploy]
+[DEBUG] === PROJECT BUILD PLAN ================================================
+[DEBUG] Project:       com.project:online-art-gallery-spring-boot-app:0.0.1-SNAPSHOT
+[DEBUG] Dependencies (collect): []
+[DEBUG] Dependencies (resolve): [compile]
+[DEBUG] Repositories (dependencies): [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] Repositories (plugins)     : [central (https://repo.maven.apache.org/maven2, default, releases)]
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean (default-clean)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <directory default-value="${project.build.directory}"/>
+  <excludeDefaultDirectories default-value="false">${maven.clean.excludeDefaultDirectories}</excludeDefaultDirectories>
+  <failOnError default-value="true">${maven.clean.failOnError}</failOnError>
+  <fast default-value="false">${maven.clean.fast}</fast>
+  <fastDir>${maven.clean.fastDir}</fastDir>
+  <fastMode default-value="background">${maven.clean.fastMode}</fastMode>
+  <followSymLinks default-value="false">${maven.clean.followSymLinks}</followSymLinks>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <reportDirectory default-value="${project.build.outputDirectory}"/>
+  <retryOnError default-value="true">${maven.clean.retryOnError}</retryOnError>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.clean.skip}</skip>
+  <testOutputDirectory default-value="${project.build.testOutputDirectory}"/>
+  <verbose>${maven.clean.verbose}</verbose>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources (default-resources)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <addDefaultExcludes default-value="true"/>
+  <buildFilters default-value="${project.build.filters}"/>
+  <delimiters>
+    <delimiter>@</delimiter>
+  </delimiters>
+  <encoding default-value="${project.build.sourceEncoding}"/>
+  <escapeWindowsPaths default-value="true"/>
+  <fileNameFiltering default-value="false"/>
+  <includeEmptyDirs default-value="false"/>
+  <outputDirectory default-value="${project.build.outputDirectory}"/>
+  <overwrite default-value="false"/>
+  <project default-value="${project}"/>
+  <propertiesEncoding>UTF-8</propertiesEncoding>
+  <resources default-value="${project.resources}"/>
+  <session default-value="${session}"/>
+  <skip default-value="false">${maven.resources.skip}</skip>
+  <supportMultiLineFiltering default-value="false"/>
+  <useBuildFilters default-value="true"/>
+  <useDefaultDelimiters default-value="true">false</useDefaultDelimiters>
+</configuration>
+[DEBUG] -----------------------------------------------------------------------
+[DEBUG] Goal:          org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile)
+[DEBUG] Style:         Regular
+[DEBUG] Configuration: <?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <annotationProcessorPaths>
+    <path>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.36</version>
+    </path>
+  </annotationProcessorPaths>
+  <annotationProcessorPathsUseDepMgmt default-value="false"/>
+  <basedir default-value="${basedir}"/>
+  <buildDirectory default-value="${project.build.directory}"/>
+  <compilePath default-value="${project.compileClasspathElements}"/>
+  <compileSourceRoots default-value="${project.compileSourceRoots}"/>
+  <compilerId default-value="javac">${maven.compiler.compilerId}</compilerId>
+  <compilerReuseStrategy default-value="${reuseCreated}">${maven.compiler.compilerReuseStrategy}</compilerReuseStrategy>
+  <compilerVersion>${maven.compiler.compilerVersion}</compilerVersion>
+  <createMissingPackageInfoClass default-value="true">${maven.compiler.createMissingPackageInfoClass}</createMissingPackageInfoClass>
+  <debug default-value="true">${maven.compiler.debug}</debug>
+  <debugFileName default-value="javac"/>
+  <debuglevel>${maven.compiler.debuglevel}</debuglevel>
+  <enablePreview default-value="false">${maven.compiler.enablePreview}</enablePreview>
+  <encoding default-value="${project.build.sourceEncoding}">${encoding}</encoding>
+  <executable>${maven.compiler.executable}</executable>
+  <failOnError default-value="true">${maven.compiler.failOnError}</failOnError>
+  <failOnWarning default-value="false">${maven.compiler.failOnWarning}</failOnWarning>
+  <fileExtensions default-value="class,jar"/>
+  <forceJavacCompilerUse default-value="false">${maven.compiler.forceJavacCompilerUse}</forceJavacCompilerUse>
+  <forceLegacyJavacApi default-value="false">${maven.compiler.forceLegacyJavacApi}</forceLegacyJavacApi>
+  <fork default-value="false">${maven.compiler.fork}</fork>
+  <generatedSourcesDirectory default-value="${project.build.directory}/generated-sources/annotations"/>
+  <implicit>${maven.compiler.implicit}</implicit>
+  <maxmem>${maven.compiler.maxmem}</maxmem>
+  <meminitial>${maven.compiler.meminitial}</meminitial>
+  <mojoExecution default-value="${mojoExecution}"/>
+  <optimize default-value="false">${maven.compiler.optimize}</optimize>
+  <outputDirectory default-value="${project.build.outputDirectory}">${maven.compiler.outputDirectory}</outputDirectory>
+  <outputTimestamp default-value="${project.build.outputTimestamp}"/>
+  <parameters default-value="false">true</parameters>
+  <proc>${maven.compiler.proc}</proc>
+  <project default-value="${project}"/>
+  <projectArtifact default-value="${project.artifact}"/>
+  <release>${maven.compiler.release}</release>
+  <session default-value="${session}"/>
+  <showCompilationChanges default-value="false">${maven.compiler.showCompilationChanges}</showCompilationChanges>
+  <showDeprecation default-value="false">${maven.compiler.showDeprecation}</showDeprecation>
+  <showWarnings default-value="true">${maven.compiler.showWarnings}</showWarnings>
+  <skipMain>${maven.main.skip}</skipMain>
+  <skipMultiThreadWarning default-value="false">${maven.compiler.skipMultiThreadWarning}</skipMultiThreadWarning>
+  <source default-value="1.8">17</source>
+  <staleMillis default-value="0">${lastModGranularityMs}</staleMillis>
+  <target default-value="1.8">17</target>
+  <useIncrementalCompilation default-value="true">${maven.compiler.useIncrementalCompilation}</useIncrementalCompilation>
+  <verbose default-value="false">${maven.compiler.verbose}</verbose>
+</configuration>
+[DEBUG] =======================================================================
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for ow2-snapshot (http://repository.ow2.org/nexus/content/repositories/snapshots).
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for vaadin-snapshots (http://oss.sonatype.org/content/repositories/vaadin-snapshots/).
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for vaadin-releases (http://oss.sonatype.org/content/repositories/vaadin-releases/).
+[DEBUG] Using mirror maven-default-http-blocker (http://0.0.0.0/) for apache.snapshots (http://repository.apache.org/snapshots).
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=1749933, ConflictMarker.markTime=513690, ConflictMarker.nodeCount=418, ConflictIdSorter.graphTime=906219, ConflictIdSorter.topsortTime=473658, ConflictIdSorter.conflictIdCount=157, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=18276137, ConflictResolver.conflictItemCount=321, DefaultDependencyCollector.collectTime=472377104, DefaultDependencyCollector.transformTime=23455190}
+[DEBUG] com.project:online-art-gallery-spring-boot-app:jar:0.0.1-SNAPSHOT
+[DEBUG]    org.springframework.boot:spring-boot-starter-test:jar:3.1.5:test
+[DEBUG]       org.springframework.boot:spring-boot-starter:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework.boot:spring-boot-starter-logging:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]             ch.qos.logback:logback-classic:jar:1.4.11:compile (version managed from 1.4.11)
+[DEBUG]                ch.qos.logback:logback-core:jar:1.4.11:compile (version managed from 1.4.11)
+[DEBUG]             org.apache.logging.log4j:log4j-to-slf4j:jar:2.20.0:compile (version managed from 2.20.0)
+[DEBUG]                org.apache.logging.log4j:log4j-api:jar:2.20.0:compile (version managed from 2.20.0)
+[DEBUG]             org.slf4j:jul-to-slf4j:jar:2.0.9:compile (version managed from 2.0.9)
+[DEBUG]          jakarta.annotation:jakarta.annotation-api:jar:2.1.1:compile (version managed from 2.1.1)
+[DEBUG]          org.yaml:snakeyaml:jar:1.33:compile (version managed from 1.33)
+[DEBUG]       org.springframework.boot:spring-boot-test:jar:3.1.5:test (version managed from 3.1.5)
+[DEBUG]       org.springframework.boot:spring-boot-test-autoconfigure:jar:3.1.5:test (version managed from 3.1.5)
+[DEBUG]       com.jayway.jsonpath:json-path:jar:2.8.0:test (version managed from 2.8.0)
+[DEBUG]          org.slf4j:slf4j-api:jar:2.0.9:compile (version managed from 1.7.36)
+[DEBUG]       jakarta.xml.bind:jakarta.xml.bind-api:jar:4.0.1:compile (version managed from 4.0.1)
+[DEBUG]          jakarta.activation:jakarta.activation-api:jar:2.1.2:compile (version managed from 2.1.2)
+[DEBUG]       net.minidev:json-smart:jar:2.4.11:test (version managed from 2.4.11)
+[DEBUG]          net.minidev:accessors-smart:jar:2.4.11:test
+[DEBUG]             org.ow2.asm:asm:jar:9.3:test
+[DEBUG]       org.assertj:assertj-core:jar:3.24.2:test (version managed from 3.24.2)
+[DEBUG]          net.bytebuddy:byte-buddy:jar:1.14.9:runtime (version managed from 1.12.21)
+[DEBUG]       org.hamcrest:hamcrest:jar:2.2:test (version managed from 2.2)
+[DEBUG]       org.junit.jupiter:junit-jupiter:jar:5.9.3:test (version managed from 5.9.3)
+[DEBUG]          org.junit.jupiter:junit-jupiter-api:jar:5.9.3:test (version managed from 5.9.3)
+[DEBUG]             org.opentest4j:opentest4j:jar:1.2.0:test
+[DEBUG]             org.junit.platform:junit-platform-commons:jar:1.9.3:test (version managed from 1.9.3)
+[DEBUG]             org.apiguardian:apiguardian-api:jar:1.1.2:test
+[DEBUG]          org.junit.jupiter:junit-jupiter-params:jar:5.9.3:test (version managed from 5.9.3)
+[DEBUG]          org.junit.jupiter:junit-jupiter-engine:jar:5.9.3:test (version managed from 5.9.3)
+[DEBUG]             org.junit.platform:junit-platform-engine:jar:1.9.3:test (version managed from 1.9.3)
+[DEBUG]       org.mockito:mockito-core:jar:5.3.1:test (version managed from 5.3.1)
+[DEBUG]          net.bytebuddy:byte-buddy-agent:jar:1.14.9:test (version managed from 1.14.4)
+[DEBUG]          org.objenesis:objenesis:jar:3.3:test
+[DEBUG]       org.mockito:mockito-junit-jupiter:jar:5.3.1:test (version managed from 5.3.1)
+[DEBUG]       org.skyscreamer:jsonassert:jar:1.5.1:test (version managed from 1.5.1)
+[DEBUG]          com.vaadin.external.google:android-json:jar:0.0.20131108.vaadin1:test
+[DEBUG]       org.springframework:spring-core:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]          org.springframework:spring-jcl:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.springframework:spring-test:jar:6.0.13:test (version managed from 6.0.13)
+[DEBUG]       org.xmlunit:xmlunit-core:jar:2.9.1:test (version managed from 2.9.1)
+[DEBUG]    org.springframework.boot:spring-boot-starter-data-jpa:jar:3.1.5:compile
+[DEBUG]       org.springframework.boot:spring-boot-starter-aop:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.aspectj:aspectjweaver:jar:1.9.20:compile (version managed from 1.9.20)
+[DEBUG]       org.springframework.boot:spring-boot-starter-jdbc:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          com.zaxxer:HikariCP:jar:5.0.1:compile (version managed from 5.0.1)
+[DEBUG]          org.springframework:spring-jdbc:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.hibernate.orm:hibernate-core:jar:6.2.13.Final:compile (version managed from 6.2.13.Final)
+[DEBUG]          jakarta.persistence:jakarta.persistence-api:jar:3.1.0:compile (version managed from 3.1.0)
+[DEBUG]          jakarta.transaction:jakarta.transaction-api:jar:2.0.1:compile (version managed from 2.0.1)
+[DEBUG]          org.jboss.logging:jboss-logging:jar:3.5.3.Final:compile (version managed from 3.5.0.Final)
+[DEBUG]          org.hibernate.common:hibernate-commons-annotations:jar:6.0.6.Final:runtime
+[DEBUG]          io.smallrye:jandex:jar:3.0.5:runtime
+[DEBUG]          com.fasterxml:classmate:jar:1.5.1:compile (version managed from 1.5.1)
+[DEBUG]          org.glassfish.jaxb:jaxb-runtime:jar:4.0.3:runtime (version managed from 4.0.2)
+[DEBUG]             org.glassfish.jaxb:jaxb-core:jar:4.0.3:runtime (version managed from 4.0.3)
+[DEBUG]                org.glassfish.jaxb:txw2:jar:4.0.3:runtime (version managed from 4.0.3)
+[DEBUG]                com.sun.istack:istack-commons-runtime:jar:4.1.2:runtime (version managed from 4.1.2)
+[DEBUG]          jakarta.inject:jakarta.inject-api:jar:2.0.1:runtime
+[DEBUG]          org.antlr:antlr4-runtime:jar:4.10.1:compile
+[DEBUG]       org.springframework.data:spring-data-jpa:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework.data:spring-data-commons:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework:spring-orm:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]          org.springframework:spring-context:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]          org.springframework:spring-tx:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]          org.springframework:spring-beans:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.springframework:spring-aspects:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]    org.springframework.boot:spring-boot-starter-actuator:jar:3.1.5:compile
+[DEBUG]       org.springframework.boot:spring-boot-actuator-autoconfigure:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework.boot:spring-boot-actuator:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]       io.micrometer:micrometer-observation:jar:1.11.5:compile (version managed from 1.11.5)
+[DEBUG]          io.micrometer:micrometer-commons:jar:1.11.5:compile (version managed from 1.11.5)
+[DEBUG]       io.micrometer:micrometer-core:jar:1.11.5:compile (version managed from 1.11.5)
+[DEBUG]          org.hdrhistogram:HdrHistogram:jar:2.1.12:runtime
+[DEBUG]          org.latencyutils:LatencyUtils:jar:2.0.3:runtime
+[DEBUG]    org.springframework.boot:spring-boot-starter-mail:jar:3.1.5:compile
+[DEBUG]       org.springframework:spring-context-support:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.eclipse.angus:jakarta.mail:jar:1.1.0:compile (version managed from 1.1.0)
+[DEBUG]          org.eclipse.angus:angus-activation:jar:2.0.1:runtime (version managed from 1.1.0)
+[DEBUG]    org.springframework.boot:spring-boot-starter-security:jar:3.1.5:compile
+[DEBUG]       org.springframework:spring-aop:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.springframework.security:spring-security-config:jar:6.1.5:compile (version managed from 6.1.5)
+[DEBUG]          org.springframework.security:spring-security-core:jar:6.1.5:compile (version managed from 6.1.5)
+[DEBUG]             org.springframework.security:spring-security-crypto:jar:6.1.5:compile (version managed from 6.1.5)
+[DEBUG]       org.springframework.security:spring-security-web:jar:6.1.5:compile (version managed from 6.1.5)
+[DEBUG]          org.springframework:spring-expression:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]    io.jsonwebtoken:jjwt-api:jar:0.11.2:compile
+[DEBUG]    io.jsonwebtoken:jjwt-impl:jar:0.11.2:compile
+[DEBUG]    io.jsonwebtoken:jjwt-jackson:jar:0.11.2:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-databind:jar:2.15.3:compile (version managed from 2.9.10.4)
+[DEBUG]    org.springdoc:springdoc-openapi-starter-webmvc-ui:jar:2.3.0:compile
+[DEBUG]       org.springdoc:springdoc-openapi-starter-webmvc-api:jar:2.3.0:compile
+[DEBUG]          org.springdoc:springdoc-openapi-starter-common:jar:2.3.0:compile
+[DEBUG]             io.swagger.core.v3:swagger-core-jakarta:jar:2.2.19:compile
+[DEBUG]                io.swagger.core.v3:swagger-annotations-jakarta:jar:2.2.19:compile
+[DEBUG]                io.swagger.core.v3:swagger-models-jakarta:jar:2.2.19:compile
+[DEBUG]                com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:2.15.3:compile (version managed from 2.15.2)
+[DEBUG]       org.webjars:swagger-ui:jar:5.10.3:compile
+[DEBUG]    org.springframework.boot:spring-boot-starter-validation:jar:3.1.5:compile
+[DEBUG]       org.apache.tomcat.embed:tomcat-embed-el:jar:10.1.15:compile (version managed from 10.1.15)
+[DEBUG]       org.hibernate.validator:hibernate-validator:jar:8.0.1.Final:compile (version managed from 8.0.1.Final)
+[DEBUG]          jakarta.validation:jakarta.validation-api:jar:3.0.2:compile (version managed from 3.0.2)
+[DEBUG]    org.springframework.boot:spring-boot-starter-cache:jar:3.1.5:compile
+[DEBUG]    org.springframework.boot:spring-boot-starter-data-redis:jar:3.1.5:compile
+[DEBUG]       org.springframework.data:spring-data-redis:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework.data:spring-data-keyvalue:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.springframework:spring-oxm:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       io.lettuce:lettuce-core:jar:6.2.6.RELEASE:compile (version managed from 6.2.6.RELEASE)
+[DEBUG]          io.netty:netty-common:jar:4.1.100.Final:compile (version managed from 4.1.96.Final)
+[DEBUG]          io.netty:netty-handler:jar:4.1.100.Final:compile (version managed from 4.1.96.Final)
+[DEBUG]             io.netty:netty-resolver:jar:4.1.100.Final:compile (version managed from 4.1.100.Final)
+[DEBUG]             io.netty:netty-buffer:jar:4.1.100.Final:compile (version managed from 4.1.100.Final)
+[DEBUG]             io.netty:netty-transport-native-unix-common:jar:4.1.100.Final:compile (version managed from 4.1.100.Final)
+[DEBUG]             io.netty:netty-codec:jar:4.1.100.Final:compile (version managed from 4.1.100.Final)
+[DEBUG]          io.netty:netty-transport:jar:4.1.100.Final:compile (version managed from 4.1.96.Final)
+[DEBUG]          io.projectreactor:reactor-core:jar:3.5.11:compile (version managed from 3.4.32)
+[DEBUG]             org.reactivestreams:reactive-streams:jar:1.0.4:compile (version managed from 1.0.4)
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG]    org.springframework.boot:spring-boot-starter-web:jar:3.1.5:compile
+[DEBUG]       org.springframework.boot:spring-boot-starter-tomcat:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]          org.apache.tomcat.embed:tomcat-embed-core:jar:10.1.15:compile (version managed from 10.1.15)
+[DEBUG]          org.apache.tomcat.embed:tomcat-embed-websocket:jar:10.1.15:compile (version managed from 10.1.15)
+[DEBUG]       org.springframework:spring-web:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.springframework:spring-webmvc:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]    org.springframework.boot:spring-boot-devtools:jar:3.1.5:runtime (optional)
+[DEBUG]       org.springframework.boot:spring-boot:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]       org.springframework.boot:spring-boot-autoconfigure:jar:3.1.5:compile (version managed from 3.1.5)
+[DEBUG]    org.projectlombok:lombok:jar:1.18.36:compile (optional)
+[DEBUG]    com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:2.15.3:compile
+[DEBUG]       com.fasterxml.jackson.core:jackson-annotations:jar:2.15.3:compile (version managed from 2.15.3)
+[DEBUG]       com.fasterxml.jackson.core:jackson-core:jar:2.15.3:compile (version managed from 2.15.3)
+[DEBUG]    org.jboss.aerogear:aerogear-otp-java:jar:1.0.0:compile
+[DEBUG]    org.postgresql:postgresql:jar:42.6.0:runtime
+[DEBUG]       org.checkerframework:checker-qual:jar:3.31.0:runtime
+[DEBUG]    io.github.yaphet17:Chapa:jar:1.2.2:compile
+[DEBUG]       com.mashape.unirest:unirest-java:jar:1.4.9:compile
+[DEBUG]          org.apache.httpcomponents:httpclient:jar:4.5.2:compile
+[DEBUG]             org.apache.httpcomponents:httpcore:jar:4.4.16:compile (version managed from 4.4.4)
+[DEBUG]             commons-logging:commons-logging:jar:1.2:compile
+[DEBUG]             commons-codec:commons-codec:jar:1.15:compile (version managed from 1.9)
+[DEBUG]          org.apache.httpcomponents:httpasyncclient:jar:4.1.5:compile (version managed from 4.1.1) (exclusions managed from [])
+[DEBUG]             org.apache.httpcomponents:httpcore-nio:jar:4.4.16:compile (version managed from 4.4.15)
+[DEBUG]          org.apache.httpcomponents:httpmime:jar:4.5.2:compile
+[DEBUG]          org.json:json:jar:20160212:compile
+[DEBUG]       com.google.code.gson:gson:jar:2.10.1:compile (version managed from 2.8.9)
+[DEBUG]    org.flywaydb:flyway-core:jar:9.16.3:compile
+[DEBUG]       com.fasterxml.jackson.dataformat:jackson-dataformat-toml:jar:2.15.3:compile (version managed from 2.14.0)
+[DEBUG]       org.apache.commons:commons-text:jar:1.10.0:compile
+[DEBUG]    com.h2database:h2:jar:2.1.214:runtime
+[DEBUG]    org.modelmapper:modelmapper:jar:3.2.0:compile
+[DEBUG]    org.owasp.encoder:encoder:jar:1.2.3:compile
+[DEBUG]    org.springframework.boot:spring-boot-configuration-processor:jar:3.1.5:compile (optional)
+[DEBUG]    org.springframework.boot:spring-boot-starter-websocket:jar:3.1.5:compile
+[DEBUG]       org.springframework:spring-messaging:jar:6.0.13:compile (version managed from 6.0.13)
+[DEBUG]       org.springframework:spring-websocket:jar:6.0.13:compile (version managed from 6.0.13)
+[INFO] 
+[INFO] --- maven-clean-plugin:3.2.0:clean (default-clean) @ online-art-gallery-spring-boot-app ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=123642, ConflictMarker.markTime=28661, ConflictMarker.nodeCount=3, ConflictIdSorter.graphTime=51222, ConflictIdSorter.topsortTime=11129, ConflictIdSorter.conflictIdCount=3, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=101882, ConflictResolver.conflictItemCount=3, DefaultDependencyCollector.collectTime=9689143, DefaultDependencyCollector.transformTime=393776}
+[DEBUG] org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.3.4:compile
+[DEBUG]       commons-io:commons-io:jar:2.6:compile
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:1.1:runtime
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-clean-plugin:jar:3.2.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.3.4
+[DEBUG]   Included: commons-io:commons-io:jar:2.6
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:1.1
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-clean-plugin:3.2.0, parent: java.net.URLClassLoader@776ec8df]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean' with basic configurator -->
+[DEBUG]   (f) directory = /home/beki/projects/online-art-gallery-springboot/target
+[DEBUG]   (f) excludeDefaultDirectories = false
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) fast = false
+[DEBUG]   (f) fastMode = background
+[DEBUG]   (f) followSymLinks = false
+[DEBUG]   (f) outputDirectory = /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG]   (f) reportDirectory = /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG]   (f) retryOnError = true
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@61f80d55
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) testOutputDirectory = /home/beki/projects/online-art-gallery-springboot/target/test-classes
+[DEBUG] -- end configuration --
+[INFO] Deleting /home/beki/projects/online-art-gallery-springboot/target
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/generated-sources
+[INFO] Deleting file /home/beki/projects/online-art-gallery-springboot/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/maven-status/maven-compiler-plugin/compile/default-compile
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/maven-status/maven-compiler-plugin/compile
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/maven-status/maven-compiler-plugin
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/maven-status
+[INFO] Deleting file /home/beki/projects/online-art-gallery-springboot/target/classes/application-dev.yml
+[INFO] Deleting file /home/beki/projects/online-art-gallery-springboot/target/classes/db/migration/V1__init.sql
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/classes/db/migration
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/classes/db
+[INFO] Deleting file /home/beki/projects/online-art-gallery-springboot/target/classes/application-prod.yml
+[INFO] Deleting file /home/beki/projects/online-art-gallery-springboot/target/classes/application.yml
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target/classes
+[INFO] Deleting directory /home/beki/projects/online-art-gallery-springboot/target
+[DEBUG] Skipping non-existing directory /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG] Skipping non-existing directory /home/beki/projects/online-art-gallery-springboot/target/test-classes
+[DEBUG] Skipping non-existing directory /home/beki/projects/online-art-gallery-springboot/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:3.3.1:resources (default-resources) @ online-art-gallery-spring-boot-app ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=44207, ConflictMarker.markTime=26805, ConflictMarker.nodeCount=13, ConflictIdSorter.graphTime=28083, ConflictIdSorter.topsortTime=14392, ConflictIdSorter.conflictIdCount=9, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=194932, ConflictResolver.conflictItemCount=13, DefaultDependencyCollector.collectTime=18977729, DefaultDependencyCollector.transformTime=337266}
+[DEBUG] org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]    org.codehaus.plexus:plexus-interpolation:jar:1.26:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:3.5.1:compile
+[DEBUG]    org.apache.maven.shared:maven-filtering:jar:3.3.1:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       org.sonatype.plexus:plexus-build-api:jar:0.0.7:compile
+[DEBUG]    commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.commons:commons-lang3:jar:3.12.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1
+[DEBUG]   Included: org.apache.maven.plugins:maven-resources-plugin:jar:3.3.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-interpolation:jar:1.26
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:3.5.1
+[DEBUG]   Included: org.apache.maven.shared:maven-filtering:jar:3.3.1
+[DEBUG]   Included: org.sonatype.plexus:plexus-build-api:jar:0.0.7
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.commons:commons-lang3:jar:3.12.0
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-resources-plugin:3.3.1, parent: java.net.URLClassLoader@776ec8df]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-resources-plugin:3.3.1:resources' with basic configurator -->
+[DEBUG]   (f) addDefaultExcludes = true
+[DEBUG]   (f) buildFilters = []
+[DEBUG]   (s) delimiters = [@]
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) escapeWindowsPaths = true
+[DEBUG]   (f) fileNameFiltering = false
+[DEBUG]   (s) includeEmptyDirs = false
+[DEBUG]   (s) outputDirectory = /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG]   (s) overwrite = false
+[DEBUG]   (f) project = MavenProject: com.project:online-art-gallery-spring-boot-app:0.0.1-SNAPSHOT @ /home/beki/projects/online-art-gallery-springboot/pom.xml
+[DEBUG]   (f) propertiesEncoding = UTF-8
+[DEBUG]   (s) resources = [Resource {targetPath: null, filtering: true, FileSet {directory: /home/beki/projects/online-art-gallery-springboot/src/main/resources, PatternSet [includes: {**/application*.yml, **/application*.yaml, **/application*.properties}, excludes: {}]}}, Resource {targetPath: null, filtering: false, FileSet {directory: /home/beki/projects/online-art-gallery-springboot/src/main/resources, PatternSet [includes: {}, excludes: {**/application*.yml, **/application*.yaml, **/application*.properties}]}}]
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@61f80d55
+[DEBUG]   (f) skip = false
+[DEBUG]   (f) supportMultiLineFiltering = false
+[DEBUG]   (f) useBuildFilters = true
+[DEBUG]   (s) useDefaultDelimiters = false
+[DEBUG] -- end configuration --
+[DEBUG] properties used:
+[DEBUG] activemq.version: 5.18.2
+[DEBUG] angus-mail.version: 1.1.0
+[DEBUG] artemis.version: 2.28.0
+[DEBUG] aspectj.version: 1.9.20
+[DEBUG] assertj.version: 3.24.2
+[DEBUG] awaitility.version: 4.2.0
+[DEBUG] brave.version: 5.15.1
+[DEBUG] build-helper-maven-plugin.version: 3.3.0
+[DEBUG] byte-buddy.version: 1.14.9
+[DEBUG] cache2k.version: 2.6.1.Final
+[DEBUG] caffeine.version: 3.1.8
+[DEBUG] cassandra-driver.version: 4.15.0
+[DEBUG] classmate.version: 1.5.1
+[DEBUG] classworlds.conf: /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7/bin/m2.conf
+[DEBUG] commons-codec.version: 1.15
+[DEBUG] commons-dbcp2.version: 2.9.0
+[DEBUG] commons-lang3.version: 3.12.0
+[DEBUG] commons-pool.version: 1.6
+[DEBUG] commons-pool2.version: 2.11.1
+[DEBUG] couchbase-client.version: 3.4.11
+[DEBUG] db2-jdbc.version: 11.5.8.0
+[DEBUG] dependency-management-plugin.version: 1.1.3
+[DEBUG] derby.version: 10.16.1.1
+[DEBUG] dropwizard-metrics.version: 4.2.21
+[DEBUG] ehcache3.version: 3.10.8
+[DEBUG] elasticsearch-client.version: 8.7.1
+[DEBUG] env.ANTIGRAVITY_AGENT: 1
+[DEBUG] env.ANTIGRAVITY_CLI_ALIAS: agy
+[DEBUG] env.CHROME_DESKTOP: antigravity.desktop
+[DEBUG] env.CLUTTER_DISABLE_MIPMAPPED_TEXT: 1
+[DEBUG] env.COLORTERM: truecolor
+[DEBUG] env.DBUS_SESSION_BUS_ADDRESS: unix:path=/run/user/1000/bus
+[DEBUG] env.DESKTOP_SESSION: ubuntu
+[DEBUG] env.DISPLAY: :0
+[DEBUG] env.FC_FONTATIONS: 1
+[DEBUG] env.GDK_BACKEND: wayland
+[DEBUG] env.GDMSESSION: ubuntu
+[DEBUG] env.GIO_LAUNCHED_DESKTOP_FILE: /usr/share/applications/antigravity.desktop
+[DEBUG] env.GIO_LAUNCHED_DESKTOP_FILE_PID: 287699
+[DEBUG] env.GIT_ASKPASS: /usr/share/antigravity/resources/app/extensions/git/dist/askpass.sh
+[DEBUG] env.GJS_DEBUG_OUTPUT: stderr
+[DEBUG] env.GJS_DEBUG_TOPICS: JS ERROR;JS LOG
+[DEBUG] env.GNOME_DESKTOP_SESSION_ID: this-is-deprecated
+[DEBUG] env.GNOME_SETUP_DISPLAY: :1
+[DEBUG] env.GNOME_SHELL_SESSION_MODE: ubuntu
+[DEBUG] env.GSM_SKIP_SSH_AGENT_WORKAROUND: true
+[DEBUG] env.GTK_MODULES: gail:atk-bridge
+[DEBUG] env.HOME: /home/beki
+[DEBUG] env.INVOCATION_ID: 64a16022e950438c8a04ca8a76d1fe89
+[DEBUG] env.JAVA_HOME: /usr/lib/jvm/java-25-openjdk-amd64
+[DEBUG] env.JOURNAL_STREAM: 9:34281
+[DEBUG] env.LANG: en_US.UTF-8
+[DEBUG] env.LESS: -R
+[DEBUG] env.LOGNAME: beki
+[DEBUG] env.LSCOLORS: Gxfxcxdxbxegedabagacad
+[DEBUG] env.LS_COLORS: rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+[DEBUG] env.MANAGERPID: 7766
+[DEBUG] env.MAVEN_CMD_LINE_ARGS:  clean compile -X
+[DEBUG] env.MAVEN_PROJECTBASEDIR: /home/beki/projects/online-art-gallery-springboot
+[DEBUG] env.MEMORY_PRESSURE_WATCH: /sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.Shell@wayland.service/memory.pressure
+[DEBUG] env.MEMORY_PRESSURE_WRITE: c29tZSAyMDAwMDAgMjAwMDAwMAA=
+[DEBUG] env.OLDPWD: /home/beki/projects/online-art-gallery-springboot
+[DEBUG] env.PAGER: cat
+[DEBUG] env.PATH: /home/beki/.local/bin:/home/beki/.local/share/pnpm:/home/beki/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+[DEBUG] env.PNPM_HOME: /home/beki/.local/share/pnpm
+[DEBUG] env.PWD: /home/beki/projects/online-art-gallery-springboot
+[DEBUG] env.QT_ACCESSIBILITY: 1
+[DEBUG] env.QT_IM_MODULE: ibus
+[DEBUG] env.SBX_CHROME_API_RQ: 1
+[DEBUG] env.SESSION_MANAGER: local/beki:@/tmp/.ICE-unix/8023,unix/beki:/tmp/.ICE-unix/8023
+[DEBUG] env.SHELL: /usr/bin/zsh
+[DEBUG] env.SHLVL: 1
+[DEBUG] env.SSH_AUTH_SOCK: /run/user/1000/keyring/ssh
+[DEBUG] env.SYSTEMD_EXEC_PID: 8066
+[DEBUG] env.TERM: xterm-256color
+[DEBUG] env.TERM_PROGRAM: vscode
+[DEBUG] env.TERM_PROGRAM_VERSION: 1.107.0
+[DEBUG] env.USER: beki
+[DEBUG] env.USERNAME: beki
+[DEBUG] env.USER_ZDOTDIR: /home/beki
+[DEBUG] env.VSCODE_GIT_ASKPASS_EXTRA_ARGS: 
+[DEBUG] env.VSCODE_GIT_ASKPASS_MAIN: /usr/share/antigravity/resources/app/extensions/git/dist/askpass-main.js
+[DEBUG] env.VSCODE_GIT_ASKPASS_NODE: /usr/share/antigravity/antigravity
+[DEBUG] env.VSCODE_GIT_IPC_HANDLE: /run/user/1000/vscode-git-a95634dc1d.sock
+[DEBUG] env.VSCODE_INJECTION: 1
+[DEBUG] env.VSCODE_JDWP_ADAPTER_ENDPOINTS: /home/beki/.antigravity/extensions/vscjava.vscode-java-debug-0.59.0-universal/.noConfigDebugAdapterEndpoints/endpoint-7598b6ced5cc4f43.txt
+[DEBUG] env.VSCODE_PYTHON_AUTOACTIVATE_GUARD: 1
+[DEBUG] env.WAYLAND_DISPLAY: wayland-0
+[DEBUG] env.XAUTHORITY: /run/user/1000/.mutter-Xwaylandauth.300RO3
+[DEBUG] env.XDG_CURRENT_DESKTOP: ubuntu:GNOME
+[DEBUG] env.XDG_DATA_DIRS: /usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+[DEBUG] env.XDG_MENU_PREFIX: gnome-
+[DEBUG] env.XDG_RUNTIME_DIR: /run/user/1000
+[DEBUG] env.XDG_SESSION_CLASS: user
+[DEBUG] env.XDG_SESSION_DESKTOP: ubuntu
+[DEBUG] env.XDG_SESSION_TYPE: wayland
+[DEBUG] env.XMODIFIERS: @im=ibus
+[DEBUG] env.ZDOTDIR: /home/beki
+[DEBUG] env.ZSH: /home/beki/.oh-my-zsh
+[DEBUG] env._: /home/beki/projects/online-art-gallery-springboot/./mvnw
+[DEBUG] file.encoding: UTF-8
+[DEBUG] file.separator: /
+[DEBUG] flyway.version: 9.16.3
+[DEBUG] freemarker.version: 2.3.32
+[DEBUG] git-commit-id-maven-plugin.version: 5.0.1
+[DEBUG] glassfish-jaxb.version: 4.0.3
+[DEBUG] glassfish-jstl.version: 3.0.1
+[DEBUG] graphql-java.version: 20.2
+[DEBUG] groovy.version: 4.0.15
+[DEBUG] gson.version: 2.10.1
+[DEBUG] h2.version: 2.1.214
+[DEBUG] hamcrest.version: 2.2
+[DEBUG] hazelcast.version: 5.2.4
+[DEBUG] hibernate-validator.version: 8.0.1.Final
+[DEBUG] hibernate.version: 6.2.13.Final
+[DEBUG] hikaricp.version: 5.0.1
+[DEBUG] hsqldb.version: 2.7.2
+[DEBUG] htmlunit.version: 2.70.0
+[DEBUG] httpasyncclient.version: 4.1.5
+[DEBUG] httpclient5.version: 5.2.1
+[DEBUG] httpcore.version: 4.4.16
+[DEBUG] httpcore5.version: 5.2.3
+[DEBUG] infinispan.version: 14.0.19.Final
+[DEBUG] influxdb-java.version: 2.23
+[DEBUG] jackson-bom.version: 2.15.3
+[DEBUG] jakarta-activation.version: 2.1.2
+[DEBUG] jakarta-annotation.version: 2.1.1
+[DEBUG] jakarta-jms.version: 3.1.0
+[DEBUG] jakarta-json-bind.version: 3.0.0
+[DEBUG] jakarta-json.version: 2.1.2
+[DEBUG] jakarta-mail.version: 2.1.2
+[DEBUG] jakarta-management.version: 1.1.4
+[DEBUG] jakarta-persistence.version: 3.1.0
+[DEBUG] jakarta-servlet-jsp-jstl.version: 3.0.0
+[DEBUG] jakarta-servlet.version: 6.0.0
+[DEBUG] jakarta-transaction.version: 2.0.1
+[DEBUG] jakarta-validation.version: 3.0.2
+[DEBUG] jakarta-websocket.version: 2.1.1
+[DEBUG] jakarta-ws-rs.version: 3.1.0
+[DEBUG] jakarta-xml-bind.version: 4.0.1
+[DEBUG] jakarta-xml-soap.version: 3.0.0
+[DEBUG] jakarta-xml-ws.version: 4.0.0
+[DEBUG] janino.version: 3.1.10
+[DEBUG] java.class.path: /home/beki/projects/online-art-gallery-springboot/.mvn/wrapper/maven-wrapper.jar
+[DEBUG] java.class.version: 69.0
+[DEBUG] java.home: /usr/lib/jvm/java-25-openjdk-amd64
+[DEBUG] java.io.tmpdir: /tmp
+[DEBUG] java.library.path: /usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib
+[DEBUG] java.runtime.name: OpenJDK Runtime Environment
+[DEBUG] java.runtime.version: 25.0.2+10-Ubuntu-124.04
+[DEBUG] java.specification.name: Java Platform API Specification
+[DEBUG] java.specification.vendor: Oracle Corporation
+[DEBUG] java.specification.version: 25
+[DEBUG] java.vendor: Ubuntu
+[DEBUG] java.vendor.url: https://ubuntu.com/
+[DEBUG] java.vendor.url.bug: https://bugs.launchpad.net/ubuntu/+source/openjdk-25
+[DEBUG] java.version: 25.0.2
+[DEBUG] java.version.date: 2026-01-20
+[DEBUG] java.vm.compressedOopsMode: Zero based
+[DEBUG] java.vm.info: mixed mode, sharing
+[DEBUG] java.vm.name: OpenJDK 64-Bit Server VM
+[DEBUG] java.vm.specification.name: Java Virtual Machine Specification
+[DEBUG] java.vm.specification.vendor: Oracle Corporation
+[DEBUG] java.vm.specification.version: 25
+[DEBUG] java.vm.vendor: Ubuntu
+[DEBUG] java.vm.version: 25.0.2+10-Ubuntu-124.04
+[DEBUG] javax-cache.version: 1.1.1
+[DEBUG] javax-money.version: 1.1
+[DEBUG] jaxen.version: 2.0.0
+[DEBUG] jaybird.version: 5.0.2.java11
+[DEBUG] jboss-logging.version: 3.5.3.Final
+[DEBUG] jdk.debug: release
+[DEBUG] jdom2.version: 2.0.6.1
+[DEBUG] jedis.version: 4.3.2
+[DEBUG] jersey.version: 3.1.3
+[DEBUG] jetty-reactive-httpclient.version: 3.0.9
+[DEBUG] jetty.version: 11.0.17
+[DEBUG] jmustache.version: 1.15
+[DEBUG] jooq.version: 3.18.7
+[DEBUG] json-path.version: 2.8.0
+[DEBUG] json-smart.version: 2.4.11
+[DEBUG] jsonassert.version: 1.5.1
+[DEBUG] jtds.version: 1.3.1
+[DEBUG] junit-jupiter.version: 5.9.3
+[DEBUG] junit.version: 4.13.2
+[DEBUG] kafka.version: 3.4.1
+[DEBUG] kotlin-coroutines.version: 1.6.4
+[DEBUG] kotlin.version: 1.8.22
+[DEBUG] lettuce.version: 6.2.6.RELEASE
+[DEBUG] line.separator: 
+
+[DEBUG] liquibase.version: 4.20.0
+[DEBUG] log4j2.version: 2.20.0
+[DEBUG] logback.version: 1.4.11
+[DEBUG] lombok.version: 1.18.36
+[DEBUG] mariadb.version: 3.1.4
+[DEBUG] maven-antrun-plugin.version: 3.1.0
+[DEBUG] maven-assembly-plugin.version: 3.5.0
+[DEBUG] maven-clean-plugin.version: 3.2.0
+[DEBUG] maven-compiler-plugin.version: 3.11.0
+[DEBUG] maven-dependency-plugin.version: 3.5.0
+[DEBUG] maven-deploy-plugin.version: 3.1.1
+[DEBUG] maven-enforcer-plugin.version: 3.3.0
+[DEBUG] maven-failsafe-plugin.version: 3.0.0
+[DEBUG] maven-help-plugin.version: 3.4.0
+[DEBUG] maven-install-plugin.version: 3.1.1
+[DEBUG] maven-invoker-plugin.version: 3.5.1
+[DEBUG] maven-jar-plugin.version: 3.3.0
+[DEBUG] maven-javadoc-plugin.version: 3.5.0
+[DEBUG] maven-resources-plugin.version: 3.3.1
+[DEBUG] maven-shade-plugin.version: 3.4.1
+[DEBUG] maven-source-plugin.version: 3.2.1
+[DEBUG] maven-surefire-plugin.version: 3.0.0
+[DEBUG] maven-war-plugin.version: 3.3.2
+[DEBUG] maven.build.timestamp: 2026-05-01T19:18:31Z
+[DEBUG] maven.build.version: Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
+[DEBUG] maven.compiler.release: 17
+[DEBUG] maven.conf: /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7/conf
+[DEBUG] maven.home: /home/beki/.m2/wrapper/dists/apache-maven-3.8.7-bin/678cc9d4/apache-maven-3.8.7
+[DEBUG] maven.multiModuleProjectDirectory: /home/beki/projects/online-art-gallery-springboot
+[DEBUG] maven.version: 3.8.7
+[DEBUG] micrometer-tracing.version: 1.1.6
+[DEBUG] micrometer.version: 1.11.5
+[DEBUG] mockito.version: 5.3.1
+[DEBUG] mongodb.version: 4.9.1
+[DEBUG] mssql-jdbc.version: 11.2.3.jre17
+[DEBUG] mysql.version: 8.0.33
+[DEBUG] native-build-tools-plugin.version: 0.9.27
+[DEBUG] native.encoding: UTF-8
+[DEBUG] nekohtml.version: 1.9.22
+[DEBUG] neo4j-java-driver.version: 5.13.0
+[DEBUG] netty.version: 4.1.100.Final
+[DEBUG] okhttp.version: 4.10.0
+[DEBUG] opentelemetry.version: 1.25.0
+[DEBUG] oracle-database.version: 21.9.0.0
+[DEBUG] oracle-r2dbc.version: 1.1.1
+[DEBUG] os.arch: amd64
+[DEBUG] os.name: Linux
+[DEBUG] os.version: 6.17.0-19-generic
+[DEBUG] path.separator: :
+[DEBUG] pooled-jms.version: 3.1.4
+[DEBUG] postgresql.version: 42.6.0
+[DEBUG] project.baseUri: file:/home/beki/projects/online-art-gallery-springboot/
+[DEBUG] project.build.sourceEncoding: UTF-8
+[DEBUG] project.reporting.outputEncoding: UTF-8
+[DEBUG] prometheus-client.version: 0.16.0
+[DEBUG] quartz.version: 2.3.2
+[DEBUG] querydsl.version: 5.0.0
+[DEBUG] r2dbc-h2.version: 1.0.0.RELEASE
+[DEBUG] r2dbc-mariadb.version: 1.1.4
+[DEBUG] r2dbc-mssql.version: 1.0.2.RELEASE
+[DEBUG] r2dbc-mysql.version: 1.0.5
+[DEBUG] r2dbc-pool.version: 1.0.1.RELEASE
+[DEBUG] r2dbc-postgresql.version: 1.0.2.RELEASE
+[DEBUG] r2dbc-proxy.version: 1.1.2.RELEASE
+[DEBUG] r2dbc-spi.version: 1.0.0.RELEASE
+[DEBUG] rabbit-amqp-client.version: 5.17.1
+[DEBUG] rabbit-stream-client.version: 0.9.0
+[DEBUG] reactive-streams.version: 1.0.4
+[DEBUG] reactor-bom.version: 2022.0.12
+[DEBUG] resource.delimiter: @
+[DEBUG] rest-assured.version: 5.3.2
+[DEBUG] rsocket.version: 1.1.3
+[DEBUG] rxjava3.version: 3.1.8
+[DEBUG] saaj-impl.version: 3.0.2
+[DEBUG] selenium-htmlunit.version: 4.8.3
+[DEBUG] selenium.version: 4.8.3
+[DEBUG] sendgrid.version: 4.9.3
+[DEBUG] slf4j.version: 2.0.9
+[DEBUG] snakeyaml.version: 1.33
+[DEBUG] spring-amqp.version: 3.0.10
+[DEBUG] spring-authorization-server.version: 1.1.3
+[DEBUG] spring-batch.version: 5.0.3
+[DEBUG] spring-data-bom.version: 2023.0.5
+[DEBUG] spring-framework.version: 6.0.13
+[DEBUG] spring-graphql.version: 1.2.3
+[DEBUG] spring-hateoas.version: 2.1.2
+[DEBUG] spring-integration.version: 6.1.4
+[DEBUG] spring-kafka.version: 3.0.12
+[DEBUG] spring-ldap.version: 3.1.2
+[DEBUG] spring-restdocs.version: 3.0.0
+[DEBUG] spring-retry.version: 2.0.4
+[DEBUG] spring-security.version: 6.1.5
+[DEBUG] spring-session.version: 3.1.3
+[DEBUG] spring-ws.version: 4.0.6
+[DEBUG] sqlite-jdbc.version: 3.41.2.2
+[DEBUG] stderr.encoding: UTF-8
+[DEBUG] stdin.encoding: UTF-8
+[DEBUG] stdout.encoding: UTF-8
+[DEBUG] sun.arch.data.model: 64
+[DEBUG] sun.boot.library.path: /usr/lib/jvm/java-25-openjdk-amd64/lib
+[DEBUG] sun.cpu.endian: little
+[DEBUG] sun.io.unicode.encoding: UnicodeLittle
+[DEBUG] sun.java.command: org.apache.maven.wrapper.MavenWrapperMain clean compile -X
+[DEBUG] sun.java.launcher: SUN_STANDARD
+[DEBUG] sun.jnu.encoding: UTF-8
+[DEBUG] sun.management.compiler: HotSpot 64-Bit Tiered Compilers
+[DEBUG] testcontainers.version: 1.18.3
+[DEBUG] thymeleaf-extras-data-attribute.version: 2.0.1
+[DEBUG] thymeleaf-extras-springsecurity.version: 3.1.2.RELEASE
+[DEBUG] thymeleaf-layout-dialect.version: 3.2.1
+[DEBUG] thymeleaf.version: 3.1.2.RELEASE
+[DEBUG] tomcat.version: 10.1.15
+[DEBUG] unboundid-ldapsdk.version: 6.0.10
+[DEBUG] undertow.version: 2.3.10.Final
+[DEBUG] user.country: US
+[DEBUG] user.dir: /home/beki/projects/online-art-gallery-springboot
+[DEBUG] user.home: /home/beki
+[DEBUG] user.language: en
+[DEBUG] user.name: beki
+[DEBUG] versions-maven-plugin.version: 2.15.0
+[DEBUG] webjars-locator-core.version: 0.52
+[DEBUG] wsdl4j.version: 1.6.3
+[DEBUG] xml-maven-plugin.version: 1.0.2
+[DEBUG] xmlunit2.version: 2.9.1
+[DEBUG] yasson.version: 3.0.3
+[DEBUG] Using 'UTF-8' encoding to copy filtered resources.
+[DEBUG] Using 'UTF-8' encoding to copy filtered properties files.
+[DEBUG] resource with targetPath null
+directory /home/beki/projects/online-art-gallery-springboot/src/main/resources
+excludes []
+includes [**/application*.yml, **/application*.yaml, **/application*.properties]
+[DEBUG] ignoreDelta true
+[INFO] Copying 3 resources from src/main/resources to target/classes
+[DEBUG] Copying file application.yml
+[DEBUG] file application.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application.yml'.
+[DEBUG] filtering /home/beki/projects/online-art-gallery-springboot/src/main/resources/application.yml to /home/beki/projects/online-art-gallery-springboot/target/classes/application.yml
+[DEBUG] Copying file application-prod.yml
+[DEBUG] file application-prod.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application-prod.yml'.
+[DEBUG] filtering /home/beki/projects/online-art-gallery-springboot/src/main/resources/application-prod.yml to /home/beki/projects/online-art-gallery-springboot/target/classes/application-prod.yml
+[DEBUG] Copying file application-dev.yml
+[DEBUG] file application-dev.yml has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'application-dev.yml'.
+[DEBUG] filtering /home/beki/projects/online-art-gallery-springboot/src/main/resources/application-dev.yml to /home/beki/projects/online-art-gallery-springboot/target/classes/application-dev.yml
+[DEBUG] resource with targetPath null
+directory /home/beki/projects/online-art-gallery-springboot/src/main/resources
+excludes [**/application*.yml, **/application*.yaml, **/application*.properties]
+includes []
+[DEBUG] ignoreDelta true
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[DEBUG] Copying file db/migration/V1__init.sql
+[DEBUG] file V1__init.sql has a filtered file extension
+[DEBUG] Using 'UTF-8' encoding to copy filtered resource 'V1__init.sql'.
+[DEBUG] copy /home/beki/projects/online-art-gallery-springboot/src/main/resources/db/migration/V1__init.sql to /home/beki/projects/online-art-gallery-springboot/target/classes/db/migration/V1__init.sql
+[DEBUG] no user filter components
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.13.0:compile (default-compile) @ online-art-gallery-spring-boot-app ---
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=45344, ConflictMarker.markTime=33098, ConflictMarker.nodeCount=22, ConflictIdSorter.graphTime=13269, ConflictIdSorter.topsortTime=16355, ConflictIdSorter.conflictIdCount=14, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=245150, ConflictResolver.conflictItemCount=22, DefaultDependencyCollector.collectTime=26483348, DefaultDependencyCollector.transformTime=384435}
+[DEBUG] org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]    org.apache.maven.shared:maven-shared-utils:jar:3.4.2:compile
+[DEBUG]       org.slf4j:slf4j-api:jar:1.7.36:compile
+[DEBUG]       commons-io:commons-io:jar:2.11.0:compile
+[DEBUG]    org.apache.maven.shared:maven-shared-incremental:jar:1.1:compile
+[DEBUG]    org.codehaus.plexus:plexus-java:jar:1.2.0:compile
+[DEBUG]       org.ow2.asm:asm:jar:9.6:compile
+[DEBUG]       com.thoughtworks.qdox:qdox:jar:2.0.3:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-api:jar:2.15.0:compile
+[DEBUG]    org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0:compile
+[DEBUG]       javax.inject:javax.inject:jar:1:compile
+[DEBUG]       org.codehaus.plexus:plexus-xml:jar:3.0.0:compile (version managed from default)
+[DEBUG]    org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0:runtime
+[DEBUG]    org.codehaus.plexus:plexus-utils:jar:4.0.0:compile
+[DEBUG] Created new class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG] Importing foreign packages into class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Imported:  < maven.api
+[DEBUG] Populating class realm plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0
+[DEBUG]   Included: org.apache.maven.plugins:maven-compiler-plugin:jar:3.13.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-utils:jar:3.4.2
+[DEBUG]   Included: commons-io:commons-io:jar:2.11.0
+[DEBUG]   Included: org.apache.maven.shared:maven-shared-incremental:jar:1.1
+[DEBUG]   Included: org.codehaus.plexus:plexus-java:jar:1.2.0
+[DEBUG]   Included: org.ow2.asm:asm:jar:9.6
+[DEBUG]   Included: com.thoughtworks.qdox:qdox:jar:2.0.3
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-api:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-manager:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-xml:jar:3.0.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-compiler-javac:jar:2.15.0
+[DEBUG]   Included: org.codehaus.plexus:plexus-utils:jar:4.0.0
+[DEBUG] Configuring mojo org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile from plugin realm ClassRealm[plugin>org.apache.maven.plugins:maven-compiler-plugin:3.13.0, parent: java.net.URLClassLoader@776ec8df]
+[DEBUG] Configuring mojo 'org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile' with basic configurator -->
+[DEBUG]   (s) groupId = org.projectlombok
+[DEBUG]   (s) artifactId = lombok
+[DEBUG]   (s) version = 1.18.36
+[DEBUG]   (f) annotationProcessorPaths = [org.projectlombok:lombok:1.18.36.jar]
+[DEBUG]   (f) annotationProcessorPathsUseDepMgmt = false
+[DEBUG]   (f) basedir = /home/beki/projects/online-art-gallery-springboot
+[DEBUG]   (f) buildDirectory = /home/beki/projects/online-art-gallery-springboot/target
+[DEBUG]   (f) compilePath = [/home/beki/projects/online-art-gallery-springboot/target/classes, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter/3.1.5/spring-boot-starter-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.1.5/spring-boot-starter-logging-3.1.5.jar, /home/beki/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar, /home/beki/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar, /home/beki/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.20.0/log4j-to-slf4j-2.20.0.jar, /home/beki/.m2/repository/org/apache/logging/log4j/log4j-api/2.20.0/log4j-api-2.20.0.jar, /home/beki/.m2/repository/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar, /home/beki/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar, /home/beki/.m2/repository/org/yaml/snakeyaml/1.33/snakeyaml-1.33.jar, /home/beki/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar, /home/beki/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar, /home/beki/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar, /home/beki/.m2/repository/org/springframework/spring-core/6.0.13/spring-core-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-jcl/6.0.13/spring-jcl-6.0.13.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.1.5/spring-boot-starter-data-jpa-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.1.5/spring-boot-starter-aop-3.1.5.jar, /home/beki/.m2/repository/org/aspectj/aspectjweaver/1.9.20/aspectjweaver-1.9.20.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.1.5/spring-boot-starter-jdbc-3.1.5.jar, /home/beki/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar, /home/beki/.m2/repository/org/springframework/spring-jdbc/6.0.13/spring-jdbc-6.0.13.jar, /home/beki/.m2/repository/org/hibernate/orm/hibernate-core/6.2.13.Final/hibernate-core-6.2.13.Final.jar, /home/beki/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar, /home/beki/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar, /home/beki/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar, /home/beki/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar, /home/beki/.m2/repository/org/antlr/antlr4-runtime/4.10.1/antlr4-runtime-4.10.1.jar, /home/beki/.m2/repository/org/springframework/data/spring-data-jpa/3.1.5/spring-data-jpa-3.1.5.jar, /home/beki/.m2/repository/org/springframework/data/spring-data-commons/3.1.5/spring-data-commons-3.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-orm/6.0.13/spring-orm-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-context/6.0.13/spring-context-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-tx/6.0.13/spring-tx-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-beans/6.0.13/spring-beans-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-aspects/6.0.13/spring-aspects-6.0.13.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.1.5/spring-boot-starter-actuator-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.1.5/spring-boot-actuator-autoconfigure-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator/3.1.5/spring-boot-actuator-3.1.5.jar, /home/beki/.m2/repository/io/micrometer/micrometer-observation/1.11.5/micrometer-observation-1.11.5.jar, /home/beki/.m2/repository/io/micrometer/micrometer-commons/1.11.5/micrometer-commons-1.11.5.jar, /home/beki/.m2/repository/io/micrometer/micrometer-core/1.11.5/micrometer-core-1.11.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.1.5/spring-boot-starter-mail-3.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-context-support/6.0.13/spring-context-support-6.0.13.jar, /home/beki/.m2/repository/org/eclipse/angus/jakarta.mail/1.1.0/jakarta.mail-1.1.0.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.1.5/spring-boot-starter-security-3.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-aop/6.0.13/spring-aop-6.0.13.jar, /home/beki/.m2/repository/org/springframework/security/spring-security-config/6.1.5/spring-security-config-6.1.5.jar, /home/beki/.m2/repository/org/springframework/security/spring-security-core/6.1.5/spring-security-core-6.1.5.jar, /home/beki/.m2/repository/org/springframework/security/spring-security-crypto/6.1.5/spring-security-crypto-6.1.5.jar, /home/beki/.m2/repository/org/springframework/security/spring-security-web/6.1.5/spring-security-web-6.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-expression/6.0.13/spring-expression-6.0.13.jar, /home/beki/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.2/jjwt-api-0.11.2.jar, /home/beki/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.2/jjwt-impl-0.11.2.jar, /home/beki/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.2/jjwt-jackson-0.11.2.jar, /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar, /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.3.0/springdoc-openapi-starter-webmvc-ui-2.3.0.jar, /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.3.0/springdoc-openapi-starter-webmvc-api-2.3.0.jar, /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.3.0/springdoc-openapi-starter-common-2.3.0.jar, /home/beki/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.19/swagger-core-jakarta-2.2.19.jar, /home/beki/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.19/swagger-annotations-jakarta-2.2.19.jar, /home/beki/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.19/swagger-models-jakarta-2.2.19.jar, /home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar, /home/beki/.m2/repository/org/webjars/swagger-ui/5.10.3/swagger-ui-5.10.3.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.1.5/spring-boot-starter-validation-3.1.5.jar, /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.15/tomcat-embed-el-10.1.15.jar, /home/beki/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar, /home/beki/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.1.5/spring-boot-starter-cache-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.1.5/spring-boot-starter-data-redis-3.1.5.jar, /home/beki/.m2/repository/org/springframework/data/spring-data-redis/3.1.5/spring-data-redis-3.1.5.jar, /home/beki/.m2/repository/org/springframework/data/spring-data-keyvalue/3.1.5/spring-data-keyvalue-3.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-oxm/6.0.13/spring-oxm-6.0.13.jar, /home/beki/.m2/repository/io/lettuce/lettuce-core/6.2.6.RELEASE/lettuce-core-6.2.6.RELEASE.jar, /home/beki/.m2/repository/io/netty/netty-common/4.1.100.Final/netty-common-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-handler/4.1.100.Final/netty-handler-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-resolver/4.1.100.Final/netty-resolver-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-buffer/4.1.100.Final/netty-buffer-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.100.Final/netty-transport-native-unix-common-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-codec/4.1.100.Final/netty-codec-4.1.100.Final.jar, /home/beki/.m2/repository/io/netty/netty-transport/4.1.100.Final/netty-transport-4.1.100.Final.jar, /home/beki/.m2/repository/io/projectreactor/reactor-core/3.5.11/reactor-core-3.5.11.jar, /home/beki/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar, /home/beki/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.1.5/spring-boot-starter-web-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.1.5/spring-boot-starter-tomcat-3.1.5.jar, /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.15/tomcat-embed-core-10.1.15.jar, /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.15/tomcat-embed-websocket-10.1.15.jar, /home/beki/.m2/repository/org/springframework/spring-web/6.0.13/spring-web-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-webmvc/6.0.13/spring-webmvc-6.0.13.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot/3.1.5/spring-boot-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.1.5/spring-boot-autoconfigure-3.1.5.jar, /home/beki/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar, /home/beki/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar, /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar, /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar, /home/beki/.m2/repository/org/jboss/aerogear/aerogear-otp-java/1.0.0/aerogear-otp-java-1.0.0.jar, /home/beki/.m2/repository/io/github/yaphet17/Chapa/1.2.2/Chapa-1.2.2.jar, /home/beki/.m2/repository/com/mashape/unirest/unirest-java/1.4.9/unirest-java-1.4.9.jar, /home/beki/.m2/repository/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar, /home/beki/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar, /home/beki/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar, /home/beki/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar, /home/beki/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.1.5/httpasyncclient-4.1.5.jar, /home/beki/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4.16/httpcore-nio-4.4.16.jar, /home/beki/.m2/repository/org/apache/httpcomponents/httpmime/4.5.2/httpmime-4.5.2.jar, /home/beki/.m2/repository/org/json/json/20160212/json-20160212.jar, /home/beki/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar, /home/beki/.m2/repository/org/flywaydb/flyway-core/9.16.3/flyway-core-9.16.3.jar, /home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.15.3/jackson-dataformat-toml-2.15.3.jar, /home/beki/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar, /home/beki/.m2/repository/org/modelmapper/modelmapper/3.2.0/modelmapper-3.2.0.jar, /home/beki/.m2/repository/org/owasp/encoder/encoder/1.2.3/encoder-1.2.3.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/3.1.5/spring-boot-configuration-processor-3.1.5.jar, /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.1.5/spring-boot-starter-websocket-3.1.5.jar, /home/beki/.m2/repository/org/springframework/spring-messaging/6.0.13/spring-messaging-6.0.13.jar, /home/beki/.m2/repository/org/springframework/spring-websocket/6.0.13/spring-websocket-6.0.13.jar]
+[DEBUG]   (f) compileSourceRoots = [/home/beki/projects/online-art-gallery-springboot/src/main/java]
+[DEBUG]   (f) compilerId = javac
+[DEBUG]   (f) createMissingPackageInfoClass = true
+[DEBUG]   (f) debug = true
+[DEBUG]   (f) debugFileName = javac
+[DEBUG]   (f) enablePreview = false
+[DEBUG]   (f) encoding = UTF-8
+[DEBUG]   (f) failOnError = true
+[DEBUG]   (f) failOnWarning = false
+[DEBUG]   (f) fileExtensions = [jar, class]
+[DEBUG]   (f) forceJavacCompilerUse = false
+[DEBUG]   (f) forceLegacyJavacApi = false
+[DEBUG]   (f) fork = false
+[DEBUG]   (f) generatedSourcesDirectory = /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations
+[DEBUG]   (f) mojoExecution = org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile {execution: default-compile}
+[DEBUG]   (f) optimize = false
+[DEBUG]   (f) outputDirectory = /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG]   (f) parameters = true
+[DEBUG]   (f) project = MavenProject: com.project:online-art-gallery-spring-boot-app:0.0.1-SNAPSHOT @ /home/beki/projects/online-art-gallery-springboot/pom.xml
+[DEBUG]   (f) projectArtifact = com.project:online-art-gallery-spring-boot-app:jar:0.0.1-SNAPSHOT
+[DEBUG]   (s) release = 17
+[DEBUG]   (f) session = org.apache.maven.execution.MavenSession@61f80d55
+[DEBUG]   (f) showCompilationChanges = false
+[DEBUG]   (f) showDeprecation = false
+[DEBUG]   (f) showWarnings = true
+[DEBUG]   (f) skipMultiThreadWarning = false
+[DEBUG]   (f) source = 17
+[DEBUG]   (f) staleMillis = 0
+[DEBUG]   (s) target = 17
+[DEBUG]   (f) useIncrementalCompilation = true
+[DEBUG]   (f) verbose = false
+[DEBUG] -- end configuration --
+[DEBUG] Using compiler 'javac'.
+[DEBUG] Adding /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations to compile source roots:
+  /home/beki/projects/online-art-gallery-springboot/src/main/java
+[DEBUG] New compile source roots:
+  /home/beki/projects/online-art-gallery-springboot/src/main/java
+  /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations
+[DEBUG] Dependency collection stats {ConflictMarker.analyzeTime=13718, ConflictMarker.markTime=18695, ConflictMarker.nodeCount=2, ConflictIdSorter.graphTime=3767, ConflictIdSorter.topsortTime=9779, ConflictIdSorter.conflictIdCount=1, ConflictIdSorter.conflictIdCycleCount=0, ConflictResolver.totalTime=40812, ConflictResolver.conflictItemCount=1, DefaultDependencyCollector.collectTime=1321941, DefaultDependencyCollector.transformTime=101921}
+[DEBUG] CompilerReuseStrategy: reuseCreated
+[DEBUG] useIncrementalCompilation enabled
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/RatingDTO.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/GlobalExceptionHandler.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/PaymentLog.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/VoteRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderResponseDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ReportController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UnexpectedRoleException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationType.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/IncorrectPasswordException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/ErrorCode.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/OrderRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/cache/RedisConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Competition.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/RolePermissionConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/UserInfoByRole.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/UserInfoUserDetailsService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/JsonUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/AccountLockoutRule.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/GeneralException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/UserSearchResponseDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Competitor.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/UserController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/PageableUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserRoleDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/EventController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/OtpService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/UserRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/impl/EmailService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/UserRole.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/AuthRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/VoteService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Notification.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/helper/ArtworkFilterSpecification.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkResponseDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationInfoDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/SignupRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/StandardRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/StandardController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ChangePasswordRequest.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpCodeTypeDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/PasswordForgotRequest.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/Utils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/NotificationUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidEmailValidator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/OnlineArtGalleryApplication.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkStatus.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/ModelMapperUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Standard.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/SecurityConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ConfirmationTokenRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/RefreshTokenRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/TwoDecimalPositiveNumberValidator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CartRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Order.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/PageableDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/StartupDataInitialization.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidPhoneValidator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/RecaptchaResponse.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/TokenType.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/RatingRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Artwork.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ReportService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/SwaggerConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/SQLUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/EmailConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/OtpUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaServiceInterface.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/identity/CustomIdGenerator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/AccountLockoutRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitorRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Cart.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/OrderAddress.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/JWTToken.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Otp.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/OtpRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CustomUserDetailsService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/EventRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidPhone.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/LockoutRule.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ChapaService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CompetitorController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/PasswordResetTokenRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/RecaptchaFilter.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/GenericResponsePageable.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/impl/UserHelperServiceImpl.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CartDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/ImageUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/EmailValidator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/NotificationService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/PasswordResetToken.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/Currency.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/WishList.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/PasswordConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/ErrorResponse.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/OrderController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ReCaptchaInvalidException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ReCaptchaUnavailableException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/CorsOriginConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/RoleRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/UserSearchRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UserAuthorizationException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UserNotFoundException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/StandardService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserInfoDetails.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardType.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/PasswordService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/RecaptchaUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/JwtKey.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/TokenRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ArtworkService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/LogoutHandlerService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/EventStatus.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/JwtAuthFilter.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/FileUploadUtil.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/FileStorageConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/VerifyOtpRequestDTO.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/cache/CacheManagerService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/ReCaptchaAttemptService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/TwoDecimalPositiveNumber.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CompetitionController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/DataSeederService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/NotificationRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/XSSValidationUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/RefreshTokenController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/AppConstants.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminArtworkController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/WebConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/RegisterUserRequestDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CartService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ChapaController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/FrontendUrlConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/PaymentLogService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ArtworkController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ReportDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/EmailDetail.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/ConfiguredUser.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/UserHelperService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CompetitionRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/EventService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserInfoDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/WishListService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/OrderService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ArtworkRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserType.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/XSSRequestWrapper.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CartController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/PaymentStatus.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Vote.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminAccountController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/MailerConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/RequestUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CompetitorRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/UserToken.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/TimeUtils.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ConfirmationTokenService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CompetitionService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/SecurityConfigProperties.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitionDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/XSSServletException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserTokenService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/ChapaConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpResponseDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CompetitorService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/identity/CustomGenerator.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/SecuritySkipList.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitorResponseDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/User.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Report.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtistDTO.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/EntityNotFoundException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/EventDto.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/RoleGenericResponse.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/GenericResponse.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/WishListRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/validation/RequestValidation.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/WishListController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/PaymentLogRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/AppConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/PaymentResponse.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/PasswordResetRequest.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationChannel.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ResourceNotFoundException.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AccountController.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/AccountLockoutPolicyConfig.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Event.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidEmail.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/ConfirmationToken.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderStatus.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Rating.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ReportRepository.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/JwtService.java
+[INFO] 	Stale source detected: /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/OtpConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/OnlineArtGalleryApplication.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AccountController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminAccountController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminArtworkController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/AdminController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ArtworkController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CartController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ChapaController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CompetitionController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/CompetitorController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/EventController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/OrderController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/RefreshTokenController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/ReportController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/StandardController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/UserController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/controller/WishListController.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtistDTO.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkResponseDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ArtworkStatus.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CartDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ChangePasswordRequest.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitionDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitorRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/CompetitorResponseDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/Currency.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/EventDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/EventStatus.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/GenericResponsePageable.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationChannel.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationInfoDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/NotificationType.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderResponseDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OrderStatus.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpCodeTypeDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/OtpResponseDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/PageableDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/PaymentStatus.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/RatingDTO.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/ReportDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/RoleGenericResponse.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/StandardType.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/UserSearchRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/UserSearchResponseDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/VerifyOtpRequestDTO.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/AuthRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/JWTToken.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/PasswordForgotRequest.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/PasswordResetRequest.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/RefreshTokenRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/RegisterUserRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/SignupRequestDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/TokenType.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserInfoDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserRoleDto.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/dto/auth/UserType.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/AccountLockoutRule.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Artwork.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Cart.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Competition.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Competitor.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/ConfirmationToken.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/EmailDetail.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Event.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Notification.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Order.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/OrderAddress.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Otp.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/PasswordResetToken.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/PaymentLog.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Rating.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Report.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Standard.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/User.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/UserRole.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/UserToken.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/Vote.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/entity/WishList.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/helper/ArtworkFilterSpecification.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/AccountLockoutRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ArtworkRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CartRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CompetitionRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/CompetitorRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ConfirmationTokenRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/EventRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/NotificationRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/OrderRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/OtpRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/PasswordResetTokenRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/PaymentLogRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/RatingRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/ReportRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/RoleRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/StandardRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/TokenRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/UserInfoByRole.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/UserRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/VoteRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/repository/WishListRepository.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ArtworkService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CartService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ChapaService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CompetitionService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CompetitorService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ConfirmationTokenService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/CustomUserDetailsService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/EmailValidator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/EventService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/OrderService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/OtpService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/PaymentLogService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/PaymentResponse.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/ReportService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/StandardService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/UserInfoUserDetailsService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/VoteService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/WishListService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/JwtAuthFilter.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/JwtService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/PasswordService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserInfoDetails.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/service/auth/UserTokenService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/app/validation/RequestValidation.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/AppConstants.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/FileUploadUtil.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/GenericResponse.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/NotificationService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/UserHelperService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/impl/EmailService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/common/service/impl/UserHelperServiceImpl.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/StartupDataInitialization.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/SwaggerConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/WebConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/cache/CacheManagerService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/cache/RedisConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/TwoDecimalPositiveNumber.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/TwoDecimalPositiveNumberValidator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidEmail.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidEmailValidator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidPhone.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/customvalidation/ValidPhoneValidator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/identity/CustomGenerator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/identity/CustomIdGenerator.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/AppConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/ChapaConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/EmailConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/FileStorageConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/FrontendUrlConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/MailerConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/OtpConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/PasswordConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/properties/SecuritySkipList.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/AccountLockoutPolicyConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/ConfiguredUser.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/CorsOriginConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/ErrorResponse.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/JwtKey.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/LockoutRule.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/LogoutHandlerService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/RolePermissionConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/SecurityConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/SecurityConfigProperties.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/XSSRequestWrapper.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/XSSValidationUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaConfig.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/CaptchaServiceInterface.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/ErrorCode.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/ReCaptchaAttemptService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/RecaptchaFilter.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/config/security/captcha/RecaptchaResponse.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/EntityNotFoundException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/GeneralException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/GlobalExceptionHandler.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/IncorrectPasswordException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ReCaptchaInvalidException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ReCaptchaUnavailableException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/ResourceNotFoundException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UnexpectedRoleException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UserAuthorizationException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/UserNotFoundException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/exceptions/XSSServletException.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/DataSeederService.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/ImageUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/JsonUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/ModelMapperUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/NotificationUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/OtpUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/PageableUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/RecaptchaUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/RequestUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/SQLUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/TimeUtils.java
+[INFO] 	Input tree files (+): /home/beki/projects/online-art-gallery-springboot/src/main/java/com/project/oag/utils/Utils.java
+[INFO] Recompiling the module because of changed source code.
+[DEBUG] Classpath:
+[DEBUG]  /home/beki/projects/online-art-gallery-springboot/target/classes
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter/3.1.5/spring-boot-starter-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.1.5/spring-boot-starter-logging-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar
+[DEBUG]  /home/beki/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.20.0/log4j-to-slf4j-2.20.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/logging/log4j/log4j-api/2.20.0/log4j-api-2.20.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/yaml/snakeyaml/1.33/snakeyaml-1.33.jar
+[DEBUG]  /home/beki/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-core/6.0.13/spring-core-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-jcl/6.0.13/spring-jcl-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.1.5/spring-boot-starter-data-jpa-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.1.5/spring-boot-starter-aop-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/aspectj/aspectjweaver/1.9.20/aspectjweaver-1.9.20.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.1.5/spring-boot-starter-jdbc-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-jdbc/6.0.13/spring-jdbc-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/hibernate/orm/hibernate-core/6.2.13.Final/hibernate-core-6.2.13.Final.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/antlr/antlr4-runtime/4.10.1/antlr4-runtime-4.10.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/data/spring-data-jpa/3.1.5/spring-data-jpa-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/data/spring-data-commons/3.1.5/spring-data-commons-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-orm/6.0.13/spring-orm-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-context/6.0.13/spring-context-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-tx/6.0.13/spring-tx-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-beans/6.0.13/spring-beans-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-aspects/6.0.13/spring-aspects-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.1.5/spring-boot-starter-actuator-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.1.5/spring-boot-actuator-autoconfigure-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator/3.1.5/spring-boot-actuator-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/io/micrometer/micrometer-observation/1.11.5/micrometer-observation-1.11.5.jar
+[DEBUG]  /home/beki/.m2/repository/io/micrometer/micrometer-commons/1.11.5/micrometer-commons-1.11.5.jar
+[DEBUG]  /home/beki/.m2/repository/io/micrometer/micrometer-core/1.11.5/micrometer-core-1.11.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.1.5/spring-boot-starter-mail-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-context-support/6.0.13/spring-context-support-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/eclipse/angus/jakarta.mail/1.1.0/jakarta.mail-1.1.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.1.5/spring-boot-starter-security-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-aop/6.0.13/spring-aop-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/security/spring-security-config/6.1.5/spring-security-config-6.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/security/spring-security-core/6.1.5/spring-security-core-6.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/security/spring-security-crypto/6.1.5/spring-security-crypto-6.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/security/spring-security-web/6.1.5/spring-security-web-6.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-expression/6.0.13/spring-expression-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.2/jjwt-api-0.11.2.jar
+[DEBUG]  /home/beki/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.2/jjwt-impl-0.11.2.jar
+[DEBUG]  /home/beki/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.2/jjwt-jackson-0.11.2.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.3.0/springdoc-openapi-starter-webmvc-ui-2.3.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.3.0/springdoc-openapi-starter-webmvc-api-2.3.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.3.0/springdoc-openapi-starter-common-2.3.0.jar
+[DEBUG]  /home/beki/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.19/swagger-core-jakarta-2.2.19.jar
+[DEBUG]  /home/beki/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.19/swagger-annotations-jakarta-2.2.19.jar
+[DEBUG]  /home/beki/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.19/swagger-models-jakarta-2.2.19.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/webjars/swagger-ui/5.10.3/swagger-ui-5.10.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.1.5/spring-boot-starter-validation-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.15/tomcat-embed-el-10.1.15.jar
+[DEBUG]  /home/beki/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar
+[DEBUG]  /home/beki/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.1.5/spring-boot-starter-cache-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.1.5/spring-boot-starter-data-redis-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/data/spring-data-redis/3.1.5/spring-data-redis-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/data/spring-data-keyvalue/3.1.5/spring-data-keyvalue-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-oxm/6.0.13/spring-oxm-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/io/lettuce/lettuce-core/6.2.6.RELEASE/lettuce-core-6.2.6.RELEASE.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-common/4.1.100.Final/netty-common-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-handler/4.1.100.Final/netty-handler-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-resolver/4.1.100.Final/netty-resolver-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-buffer/4.1.100.Final/netty-buffer-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.100.Final/netty-transport-native-unix-common-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-codec/4.1.100.Final/netty-codec-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/netty/netty-transport/4.1.100.Final/netty-transport-4.1.100.Final.jar
+[DEBUG]  /home/beki/.m2/repository/io/projectreactor/reactor-core/3.5.11/reactor-core-3.5.11.jar
+[DEBUG]  /home/beki/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.1.5/spring-boot-starter-web-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.1.5/spring-boot-starter-tomcat-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.15/tomcat-embed-core-10.1.15.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.15/tomcat-embed-websocket-10.1.15.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-web/6.0.13/spring-web-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-webmvc/6.0.13/spring-webmvc-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot/3.1.5/spring-boot-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.1.5/spring-boot-autoconfigure-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/jboss/aerogear/aerogear-otp-java/1.0.0/aerogear-otp-java-1.0.0.jar
+[DEBUG]  /home/beki/.m2/repository/io/github/yaphet17/Chapa/1.2.2/Chapa-1.2.2.jar
+[DEBUG]  /home/beki/.m2/repository/com/mashape/unirest/unirest-java/1.4.9/unirest-java-1.4.9.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar
+[DEBUG]  /home/beki/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar
+[DEBUG]  /home/beki/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.1.5/httpasyncclient-4.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4.16/httpcore-nio-4.4.16.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/httpcomponents/httpmime/4.5.2/httpmime-4.5.2.jar
+[DEBUG]  /home/beki/.m2/repository/org/json/json/20160212/json-20160212.jar
+[DEBUG]  /home/beki/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar
+[DEBUG]  /home/beki/.m2/repository/org/flywaydb/flyway-core/9.16.3/flyway-core-9.16.3.jar
+[DEBUG]  /home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.15.3/jackson-dataformat-toml-2.15.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/modelmapper/modelmapper/3.2.0/modelmapper-3.2.0.jar
+[DEBUG]  /home/beki/.m2/repository/org/owasp/encoder/encoder/1.2.3/encoder-1.2.3.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/3.1.5/spring-boot-configuration-processor-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.1.5/spring-boot-starter-websocket-3.1.5.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-messaging/6.0.13/spring-messaging-6.0.13.jar
+[DEBUG]  /home/beki/.m2/repository/org/springframework/spring-websocket/6.0.13/spring-websocket-6.0.13.jar
+[DEBUG] Source roots:
+[DEBUG]  /home/beki/projects/online-art-gallery-springboot/src/main/java
+[DEBUG]  /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations
+[DEBUG] Command line options:
+[DEBUG] -d /home/beki/projects/online-art-gallery-springboot/target/classes -classpath /home/beki/projects/online-art-gallery-springboot/target/classes:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter/3.1.5/spring-boot-starter-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.1.5/spring-boot-starter-logging-3.1.5.jar:/home/beki/.m2/repository/ch/qos/logback/logback-classic/1.4.11/logback-classic-1.4.11.jar:/home/beki/.m2/repository/ch/qos/logback/logback-core/1.4.11/logback-core-1.4.11.jar:/home/beki/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.20.0/log4j-to-slf4j-2.20.0.jar:/home/beki/.m2/repository/org/apache/logging/log4j/log4j-api/2.20.0/log4j-api-2.20.0.jar:/home/beki/.m2/repository/org/slf4j/jul-to-slf4j/2.0.9/jul-to-slf4j-2.0.9.jar:/home/beki/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/beki/.m2/repository/org/yaml/snakeyaml/1.33/snakeyaml-1.33.jar:/home/beki/.m2/repository/org/slf4j/slf4j-api/2.0.9/slf4j-api-2.0.9.jar:/home/beki/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/home/beki/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/home/beki/.m2/repository/org/springframework/spring-core/6.0.13/spring-core-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-jcl/6.0.13/spring-jcl-6.0.13.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.1.5/spring-boot-starter-data-jpa-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.1.5/spring-boot-starter-aop-3.1.5.jar:/home/beki/.m2/repository/org/aspectj/aspectjweaver/1.9.20/aspectjweaver-1.9.20.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.1.5/spring-boot-starter-jdbc-3.1.5.jar:/home/beki/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/beki/.m2/repository/org/springframework/spring-jdbc/6.0.13/spring-jdbc-6.0.13.jar:/home/beki/.m2/repository/org/hibernate/orm/hibernate-core/6.2.13.Final/hibernate-core-6.2.13.Final.jar:/home/beki/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/beki/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/beki/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/beki/.m2/repository/com/fasterxml/classmate/1.5.1/classmate-1.5.1.jar:/home/beki/.m2/repository/org/antlr/antlr4-runtime/4.10.1/antlr4-runtime-4.10.1.jar:/home/beki/.m2/repository/org/springframework/data/spring-data-jpa/3.1.5/spring-data-jpa-3.1.5.jar:/home/beki/.m2/repository/org/springframework/data/spring-data-commons/3.1.5/spring-data-commons-3.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-orm/6.0.13/spring-orm-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-context/6.0.13/spring-context-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-tx/6.0.13/spring-tx-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-beans/6.0.13/spring-beans-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-aspects/6.0.13/spring-aspects-6.0.13.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.1.5/spring-boot-starter-actuator-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.1.5/spring-boot-actuator-autoconfigure-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-actuator/3.1.5/spring-boot-actuator-3.1.5.jar:/home/beki/.m2/repository/io/micrometer/micrometer-observation/1.11.5/micrometer-observation-1.11.5.jar:/home/beki/.m2/repository/io/micrometer/micrometer-commons/1.11.5/micrometer-commons-1.11.5.jar:/home/beki/.m2/repository/io/micrometer/micrometer-core/1.11.5/micrometer-core-1.11.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.1.5/spring-boot-starter-mail-3.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-context-support/6.0.13/spring-context-support-6.0.13.jar:/home/beki/.m2/repository/org/eclipse/angus/jakarta.mail/1.1.0/jakarta.mail-1.1.0.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.1.5/spring-boot-starter-security-3.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-aop/6.0.13/spring-aop-6.0.13.jar:/home/beki/.m2/repository/org/springframework/security/spring-security-config/6.1.5/spring-security-config-6.1.5.jar:/home/beki/.m2/repository/org/springframework/security/spring-security-core/6.1.5/spring-security-core-6.1.5.jar:/home/beki/.m2/repository/org/springframework/security/spring-security-crypto/6.1.5/spring-security-crypto-6.1.5.jar:/home/beki/.m2/repository/org/springframework/security/spring-security-web/6.1.5/spring-security-web-6.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-expression/6.0.13/spring-expression-6.0.13.jar:/home/beki/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.2/jjwt-api-0.11.2.jar:/home/beki/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.2/jjwt-impl-0.11.2.jar:/home/beki/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.2/jjwt-jackson-0.11.2.jar:/home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar:/home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.3.0/springdoc-openapi-starter-webmvc-ui-2.3.0.jar:/home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.3.0/springdoc-openapi-starter-webmvc-api-2.3.0.jar:/home/beki/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.3.0/springdoc-openapi-starter-common-2.3.0.jar:/home/beki/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.19/swagger-core-jakarta-2.2.19.jar:/home/beki/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.19/swagger-annotations-jakarta-2.2.19.jar:/home/beki/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.19/swagger-models-jakarta-2.2.19.jar:/home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar:/home/beki/.m2/repository/org/webjars/swagger-ui/5.10.3/swagger-ui-5.10.3.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.1.5/spring-boot-starter-validation-3.1.5.jar:/home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.15/tomcat-embed-el-10.1.15.jar:/home/beki/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/beki/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.1.5/spring-boot-starter-cache-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.1.5/spring-boot-starter-data-redis-3.1.5.jar:/home/beki/.m2/repository/org/springframework/data/spring-data-redis/3.1.5/spring-data-redis-3.1.5.jar:/home/beki/.m2/repository/org/springframework/data/spring-data-keyvalue/3.1.5/spring-data-keyvalue-3.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-oxm/6.0.13/spring-oxm-6.0.13.jar:/home/beki/.m2/repository/io/lettuce/lettuce-core/6.2.6.RELEASE/lettuce-core-6.2.6.RELEASE.jar:/home/beki/.m2/repository/io/netty/netty-common/4.1.100.Final/netty-common-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-handler/4.1.100.Final/netty-handler-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-resolver/4.1.100.Final/netty-resolver-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-buffer/4.1.100.Final/netty-buffer-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.100.Final/netty-transport-native-unix-common-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-codec/4.1.100.Final/netty-codec-4.1.100.Final.jar:/home/beki/.m2/repository/io/netty/netty-transport/4.1.100.Final/netty-transport-4.1.100.Final.jar:/home/beki/.m2/repository/io/projectreactor/reactor-core/3.5.11/reactor-core-3.5.11.jar:/home/beki/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/beki/.m2/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.1.5/spring-boot-starter-web-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.1.5/spring-boot-starter-tomcat-3.1.5.jar:/home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.15/tomcat-embed-core-10.1.15.jar:/home/beki/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.15/tomcat-embed-websocket-10.1.15.jar:/home/beki/.m2/repository/org/springframework/spring-web/6.0.13/spring-web-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-webmvc/6.0.13/spring-webmvc-6.0.13.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot/3.1.5/spring-boot-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.1.5/spring-boot-autoconfigure-3.1.5.jar:/home/beki/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar:/home/beki/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar:/home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar:/home/beki/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar:/home/beki/.m2/repository/org/jboss/aerogear/aerogear-otp-java/1.0.0/aerogear-otp-java-1.0.0.jar:/home/beki/.m2/repository/io/github/yaphet17/Chapa/1.2.2/Chapa-1.2.2.jar:/home/beki/.m2/repository/com/mashape/unirest/unirest-java/1.4.9/unirest-java-1.4.9.jar:/home/beki/.m2/repository/org/apache/httpcomponents/httpclient/4.5.2/httpclient-4.5.2.jar:/home/beki/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/beki/.m2/repository/commons-logging/commons-logging/1.2/commons-logging-1.2.jar:/home/beki/.m2/repository/commons-codec/commons-codec/1.15/commons-codec-1.15.jar:/home/beki/.m2/repository/org/apache/httpcomponents/httpasyncclient/4.1.5/httpasyncclient-4.1.5.jar:/home/beki/.m2/repository/org/apache/httpcomponents/httpcore-nio/4.4.16/httpcore-nio-4.4.16.jar:/home/beki/.m2/repository/org/apache/httpcomponents/httpmime/4.5.2/httpmime-4.5.2.jar:/home/beki/.m2/repository/org/json/json/20160212/json-20160212.jar:/home/beki/.m2/repository/com/google/code/gson/gson/2.10.1/gson-2.10.1.jar:/home/beki/.m2/repository/org/flywaydb/flyway-core/9.16.3/flyway-core-9.16.3.jar:/home/beki/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-toml/2.15.3/jackson-dataformat-toml-2.15.3.jar:/home/beki/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar:/home/beki/.m2/repository/org/modelmapper/modelmapper/3.2.0/modelmapper-3.2.0.jar:/home/beki/.m2/repository/org/owasp/encoder/encoder/1.2.3/encoder-1.2.3.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-configuration-processor/3.1.5/spring-boot-configuration-processor-3.1.5.jar:/home/beki/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.1.5/spring-boot-starter-websocket-3.1.5.jar:/home/beki/.m2/repository/org/springframework/spring-messaging/6.0.13/spring-messaging-6.0.13.jar:/home/beki/.m2/repository/org/springframework/spring-websocket/6.0.13/spring-websocket-6.0.13.jar: -sourcepath /home/beki/projects/online-art-gallery-springboot/src/main/java:/home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations: -s /home/beki/projects/online-art-gallery-springboot/target/generated-sources/annotations -processorpath /home/beki/.m2/repository/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar: -g -parameters --release 17 -encoding UTF-8 -XDuseUnsharedTable=true
+[DEBUG] incrementalBuildHelper#beforeRebuildExecution
+[INFO] Compiling 203 source files with javac [debug parameters release 17] to target/classes
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  2.746 s
+[INFO] Finished at: 2026-05-01T22:18:33+03:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project online-art-gallery-spring-boot-app: Fatal error compiling: java.lang.ExceptionInInitializerError: com.sun.tools.javac.code.TypeTag :: UNKNOWN -> [Help 1]
+org.apache.maven.lifecycle.LifecycleExecutionException: Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:compile (default-compile) on project online-art-gallery-spring-boot-app: Fatal error compiling
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:375)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+Caused by: org.apache.maven.plugin.MojoExecutionException: Fatal error compiling
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1231)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+Caused by: org.codehaus.plexus.compiler.CompilerException: java.lang.ExceptionInInitializerError
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:179)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+Caused by: java.lang.RuntimeException: java.lang.ExceptionInInitializerError
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:168)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+Caused by: java.lang.ExceptionInInitializerError
+    at lombok.javac.apt.LombokProcessor.placePostCompileAndDontMakeForceRoundDummiesHook (LombokProcessor.java:174)
+    at lombok.javac.apt.LombokProcessor.init (LombokProcessor.java:96)
+    at lombok.core.AnnotationProcessor$JavacDescriptor.want (AnnotationProcessor.java:160)
+    at lombok.core.AnnotationProcessor.init (AnnotationProcessor.java:213)
+    at lombok.launch.AnnotationProcessorHider$AnnotationProcessor.init (AnnotationProcessor.java:64)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$ProcessorState.<init> (JavacProcessingEnvironment.java:635)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$DiscoveredProcessors$ProcessorStateIterator.next (JavacProcessingEnvironment.java:761)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs (JavacProcessingEnvironment.java:857)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run (JavacProcessingEnvironment.java:1188)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing (JavacProcessingEnvironment.java:1301)
+    at com.sun.tools.javac.main.JavaCompiler.processAnnotations (JavaCompiler.java:1262)
+    at com.sun.tools.javac.main.JavaCompiler.compile (JavaCompiler.java:938)
+    at com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0 (JavacTaskImpl.java:104)
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:152)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+Caused by: java.lang.NoSuchFieldException: com.sun.tools.javac.code.TypeTag :: UNKNOWN
+    at lombok.permit.Permit.getField (Permit.java:144)
+    at lombok.javac.JavacTreeMaker$SchroedingerType.getFieldCached (JavacTreeMaker.java:171)
+    at lombok.javac.JavacTreeMaker$TypeTag.typeTag (JavacTreeMaker.java:259)
+    at lombok.javac.Javac.<clinit> (Javac.java:187)
+    at lombok.javac.apt.LombokProcessor.placePostCompileAndDontMakeForceRoundDummiesHook (LombokProcessor.java:174)
+    at lombok.javac.apt.LombokProcessor.init (LombokProcessor.java:96)
+    at lombok.core.AnnotationProcessor$JavacDescriptor.want (AnnotationProcessor.java:160)
+    at lombok.core.AnnotationProcessor.init (AnnotationProcessor.java:213)
+    at lombok.launch.AnnotationProcessorHider$AnnotationProcessor.init (AnnotationProcessor.java:64)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$ProcessorState.<init> (JavacProcessingEnvironment.java:635)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$DiscoveredProcessors$ProcessorStateIterator.next (JavacProcessingEnvironment.java:761)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.discoverAndRunProcs (JavacProcessingEnvironment.java:857)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment$Round.run (JavacProcessingEnvironment.java:1188)
+    at com.sun.tools.javac.processing.JavacProcessingEnvironment.doProcessing (JavacProcessingEnvironment.java:1301)
+    at com.sun.tools.javac.main.JavaCompiler.processAnnotations (JavaCompiler.java:1262)
+    at com.sun.tools.javac.main.JavaCompiler.compile (JavaCompiler.java:938)
+    at com.sun.tools.javac.api.JavacTaskImpl.lambda$doCall$0 (JavacTaskImpl.java:104)
+    at com.sun.tools.javac.api.JavacTaskImpl.invocationHelper (JavacTaskImpl.java:152)
+    at com.sun.tools.javac.api.JavacTaskImpl.doCall (JavacTaskImpl.java:100)
+    at com.sun.tools.javac.api.JavacTaskImpl.call (JavacTaskImpl.java:94)
+    at org.codehaus.plexus.compiler.javac.JavaxToolsCompiler.compileInProcess (JavaxToolsCompiler.java:126)
+    at org.codehaus.plexus.compiler.javac.JavacCompiler.performCompile (JavacCompiler.java:214)
+    at org.apache.maven.plugin.compiler.AbstractCompilerMojo.execute (AbstractCompilerMojo.java:1228)
+    at org.apache.maven.plugin.compiler.CompilerMojo.execute (CompilerMojo.java:215)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:298)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:104)
+    at java.lang.reflect.Method.invoke (Method.java:565)
+    at org.apache.maven.wrapper.BootstrapMainStarter.start (BootstrapMainStarter.java:53)
+    at org.apache.maven.wrapper.WrapperExecutor.execute (WrapperExecutor.java:152)
+    at org.apache.maven.wrapper.MavenWrapperMain.main (MavenWrapperMain.java:76)
+[ERROR] 
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
