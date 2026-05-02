@@ -9,6 +9,7 @@ import java.util.List;
 public record UserInfoDto(
         String uuid,
         String token,
+        String refreshToken,
         String username,
         List<String> permissions,
         String fullName,

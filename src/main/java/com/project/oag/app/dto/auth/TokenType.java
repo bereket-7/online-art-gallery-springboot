@@ -4,5 +4,6 @@ public enum TokenType {
     BEARER,
     OAUTH,
     OAUTH2,
-    JWT
+    JWT,
+    REFRESH
 }
