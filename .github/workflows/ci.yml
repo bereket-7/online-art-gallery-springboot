@@ -1,0 +1,52 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: oag_user
+          POSTGRES_PASSWORD: oag_password
+          POSTGRES_DB: oag_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build and Test with Maven
+      env:
+        DB_URL: jdbc:postgresql://localhost:5432/oag_db
+        DB_USERNAME: oag_user
+        DB_PASSWORD: oag_password
+        REDIS_HOST: localhost
+        REDIS_PORT: 6379
+      # Using JDK 21 implicitly prevents the Lombok Java 25 bugs from triggering locally
+      run: mvn -B clean verify --file pom.xml
