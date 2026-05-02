@@ -7,10 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import java.util.Optional;
+
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("select o from Order o where o.user.id = :userId order by o.orderDate desc")
     List<Order> findByUserId(Long userId);
+    
+    Optional<Order> findByPaymentLog_Token(String token);
 }
 
