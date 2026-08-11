@@ -43,10 +43,15 @@ jobs:
 
     - name: Build and Test with Maven
       env:
-        DB_URL: jdbc:postgresql://localhost:5432/oag_db
-        DB_USERNAME: oag_user
-        DB_PASSWORD: oag_password
+        POSTGRES_HOST: localhost
+        DB_PORT: 5432
+        POSTGRES_DB: oag_db
+        POSTGRES_USER: oag_user
+        POSTGRES_PASSWORD: oag_password
         REDIS_HOST: localhost
         REDIS_PORT: 6379
-      # Using JDK 21 implicitly prevents the Lombok Java 25 bugs from triggering locally
+        JWT_SECRET: dGVzdGp3dHNlY3JldGtleWZvcmNpMjU2Yml0bG9uZ3N0cmluZw==
+        OTP_SALT: testsalt
+        CHAPA_SECRET_KEY: CHAPA_TEST_KEY
+        SPRING_PROFILES_ACTIVE: test
       run: mvn -B clean verify --file pom.xml
