@@ -1,5 +1,6 @@
 package com.project.oag.app.helper;
 
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.entity.Artwork;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,6 +20,7 @@ public class ArtworkFilterSpecification {
                                                         LocalDateTime toDate) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
+            predicates.add(criteriaBuilder.equal(root.get("status"), ArtworkStatus.ACCEPTED));
 
             if (artworkCategory != null && !artworkCategory.isEmpty()) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("artworkCategory")), "%" + artworkCategory.toLowerCase() + "%"));
