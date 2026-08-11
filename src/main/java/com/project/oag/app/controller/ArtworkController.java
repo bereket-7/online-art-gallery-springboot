@@ -4,8 +4,11 @@ import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.dto.PageableDto;
+import com.project.oag.app.entity.User;
+import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.ArtworkService;
 import com.project.oag.common.GenericResponse;
+import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.project.oag.common.AppConstants.*;
+import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.RequestUtils.getPageable;
 import static com.project.oag.utils.Utils.prepareResponse;
 import static com.project.oag.utils.Utils.prepareResponseWithPageable;
@@ -30,9 +34,11 @@ import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 public class ArtworkController {
 
     private final ArtworkService artworkService;
+    private final UserRepository userRepository;
 
-    public ArtworkController(ArtworkService artworkService) {
+    public ArtworkController(ArtworkService artworkService, UserRepository userRepository) {
         this.artworkService = artworkService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -45,6 +51,13 @@ public class ArtworkController {
                                                        @ModelAttribute ArtworkRequestDto artworkRequestDto) throws IOException {
         ArtworkResponseDto result = artworkService.saveArtwork(request, artworkRequestDto);
         return prepareResponse(HttpStatus.CREATED, "Artwork submitted successfully", result);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER_BROWSE_ARTWORK', 'ARTIST_BROWSE_ARTWORK')")
+    public ResponseEntity<GenericResponse> getArtworkById(@PathVariable Long id, HttpServletRequest request) {
+        Long viewerId = resolveOptionalUserId(request);
+        return prepareResponse(HttpStatus.OK, "Artwork retrieved", artworkService.getArtworkById(id, viewerId));
     }
 
     /**
@@ -95,5 +108,14 @@ public class ArtworkController {
     @PreAuthorize("hasAuthority('ARTIST_VIEW_OWN_ARTWORK')")
     public ResponseEntity<GenericResponse> getLoggedArtistArtworks(HttpServletRequest request) {
         return prepareResponse(HttpStatus.OK, "Artworks retrieved", artworkService.getLoggedArtistArtworks(request));
+    }
+
+    private Long resolveOptionalUserId(HttpServletRequest request) {
+        try {
+            String email = getLoggedInUserName(request);
+            return userRepository.findByEmailIgnoreCase(email).map(User::getId).orElse(null);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
