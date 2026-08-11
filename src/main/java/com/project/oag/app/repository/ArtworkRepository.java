@@ -23,6 +23,13 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Long>, JpaSpec
     @Query("select a from Artwork a where a.status = ?1")
     List<Artwork> findByStatus(ArtworkStatus status);
 
+    List<Artwork> findByUserIdAndStatus(Long userId, ArtworkStatus status);
+
+    Page<Artwork> findByUserIdAndStatus(Long userId, ArtworkStatus status, Pageable pageable);
+
+    @Query("select a from Artwork a where a.status = 'ACCEPTED'")
+    Page<Artwork> findAcceptedArtworks(Pageable pageable);
+
     @Query("""
         SELECT NEW com.project.oag.app.dto.ArtworkResponseDto(
             a.artworkName,
@@ -34,6 +41,7 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Long>, JpaSpec
             a.ratings,
             a.user.id)
         FROM Artwork a
+        WHERE a.status = com.project.oag.app.dto.ArtworkStatus.ACCEPTED
         ORDER BY a.creationDate DESC
     """)
     Page<ArtworkResponseDto> findRecentArtworks(Pageable pageable);
