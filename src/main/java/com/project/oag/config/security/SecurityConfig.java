@@ -62,7 +62,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
+                                                   AuthenticationProvider authenticationProvider) throws Exception {
         return httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(
@@ -73,7 +74,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(
