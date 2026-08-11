@@ -12,6 +12,8 @@ import com.project.oag.app.repository.StandardRepository;
 import com.project.oag.app.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.val;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Profile("dev")
+@ConditionalOnProperty(name = "oag.seed.demo-data", havingValue = "true", matchIfMissing = false)
 public class DataSeederService {
 
     private final StandardRepository standardRepository;
