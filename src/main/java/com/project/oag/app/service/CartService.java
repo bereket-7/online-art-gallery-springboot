@@ -100,6 +100,10 @@ public class CartService {
         log.info(LOG_PREFIX, "Cart cleared after checkout", "userId=" + userId);
     }
 
+    public void decrementQuantityForArtwork(Long artworkId, int qty) {
+        artworkService.decrementQuantity(artworkId, qty);
+    }
+
     public BigDecimal calculateTotalPrice(HttpServletRequest request) {
         Long userId = getUserByUsername(getLoggedInUserName(request)).getId();
         return cartRepository.calculateTotalPriceByUserId(userId);
