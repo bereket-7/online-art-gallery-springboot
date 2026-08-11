@@ -9,6 +9,7 @@ import com.project.oag.app.repository.CompetitionRepository;
 import com.project.oag.app.repository.CompetitorRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.repository.VoteRepository;
+import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,20 +71,27 @@ public class CompetitorService {
     }
 
     public void voteForCompetitor(Long competitionId,
-                                                             Long competitorId,
-                                                             HttpServletRequest request) {
+                                  Long competitorId,
+                                  HttpServletRequest request) {
         Long userId = getUserId(request);
         competitionRepository.findById(competitionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Competition not found"));
 
-        if ((voteService.isUserVotedForCompetition(userId, competitionId))) {
-            Vote vote = new Vote();
-            voteService.saveVote(vote);
-            Competitor competitor = new Competitor();
-            int currentVote = competitor.getVoteCount();
-            competitor.setVoteCount(currentVote++);
-            competitorRepository.save(competitor);
+        if (voteService.hasUserVotedForCompetition(userId, competitionId)) {
+            throw new GeneralException("You have already voted in this competition");
         }
+
+        Competitor competitor = competitorRepository.findById(competitorId)
+                .orElseThrow(() -> new ResourceNotFoundException("Competitor not found"));
+
+        Vote vote = new Vote();
+        vote.setUser(getUserByUsername(getLoggedInUserName(request)));
+        vote.setCompetition(competitor.getCompetition());
+        vote.setCompetitor(competitor);
+        voteService.saveVote(vote);
+
+        competitor.setVoteCount(competitor.getVoteCount() + 1);
+        competitorRepository.save(competitor);
     }
 
     public List<Competitor> getWinner(Long competitionId) {
