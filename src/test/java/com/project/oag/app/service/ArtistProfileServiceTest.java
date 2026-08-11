@@ -1,8 +1,10 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.ArtistProfileDto;
+import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.User;
+import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,6 +26,8 @@ class ArtistProfileServiceTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private ArtworkRepository artworkRepository;
 
     @InjectMocks
     private ArtistProfileService artistProfileService;
@@ -41,21 +46,21 @@ class ArtistProfileServiceTest {
 
         sampleArtwork = new Artwork();
         sampleArtwork.setId(100L);
-        sampleArtwork.setTitle("Mona Lisa Mock");
+        sampleArtwork.setArtworkName("Mona Lisa Mock");
         sampleArtwork.setQuantity(1);
-
-        artistUser.setArtwork(Collections.singletonList(sampleArtwork));
+        sampleArtwork.setPrice(BigDecimal.TEN);
+        sampleArtwork.setArtworkCategory("Painting");
+        sampleArtwork.setImageUrls(List.of("http://img.url"));
     }
 
     @Test
     void getArtistProfile_ShouldMapSuccessfully() {
-        // Arrange
         when(userRepository.findById(10L)).thenReturn(Optional.of(artistUser));
+        when(artworkRepository.findByUserIdAndStatus(10L, ArtworkStatus.ACCEPTED))
+                .thenReturn(List.of(sampleArtwork));
 
-        // Act
         ArtistProfileDto response = artistProfileService.getArtistProfile(10L);
 
-        // Assert
         assertNotNull(response);
         assertEquals(10L, response.getId());
         assertEquals("John", response.getFirstName());
@@ -63,18 +68,11 @@ class ArtistProfileServiceTest {
         assertEquals(1, response.getArtworks().size());
         assertEquals("Mona Lisa Mock", response.getArtworks().get(0).getTitle());
         assertTrue(response.getArtworks().get(0).isAvailable());
-
-        verify(userRepository, times(1)).findById(10L);
     }
 
     @Test
     void getArtistProfile_ThrowsNotFound_WhenIdMissing() {
-        // Arrange
         when(userRepository.findById(99L)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> {
-            artistProfileService.getArtistProfile(99L);
-        });
+        assertThrows(ResourceNotFoundException.class, () -> artistProfileService.getArtistProfile(99L));
     }
 }
