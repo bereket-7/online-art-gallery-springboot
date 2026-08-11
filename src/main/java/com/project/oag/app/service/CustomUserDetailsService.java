@@ -3,7 +3,6 @@ package com.project.oag.app.service;
 import com.project.oag.app.dto.ArtistDTO;
 import com.project.oag.app.dto.GenericResponsePageable;
 import com.project.oag.app.entity.User;
-import com.project.oag.app.repository.PasswordResetTokenRepository;
 import com.project.oag.app.repository.UserInfoByRole;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.common.GenericResponse;
@@ -18,11 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.project.oag.utils.PageableUtils.preparePageInfo;
-import static com.project.oag.utils.RequestUtils.getIpAddressFromHeader;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
 import static com.project.oag.utils.Utils.prepareResponseWithPageable;
@@ -32,14 +27,10 @@ import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 public class CustomUserDetailsService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository, ModelMapper modelMapper, ConfirmationTokenService confirmationTokenService, PasswordResetTokenRepository passwordResetTokenRepository) {
+    public CustomUserDetailsService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
-        this.confirmationTokenService = confirmationTokenService;
-        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
 
