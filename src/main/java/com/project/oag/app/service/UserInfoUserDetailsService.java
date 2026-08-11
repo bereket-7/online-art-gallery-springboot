@@ -4,7 +4,6 @@ import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.auth.UserInfoDetails;
 import com.project.oag.common.AppConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,8 +12,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class UserInfoUserDetailsService implements UserDetailsService {
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
+
+    public UserInfoUserDetailsService(UserRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
