@@ -43,13 +43,16 @@ public class ArtworkService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final ImageUtils imageUtils;
+    private final ArtworkViewService artworkViewService;
 
     public ArtworkService(ArtworkRepository artworkRepository, UserRepository userRepository,
-                          ModelMapper modelMapper, ImageUtils imageUtils) {
+                          ModelMapper modelMapper, ImageUtils imageUtils,
+                          ArtworkViewService artworkViewService) {
         this.artworkRepository = artworkRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.imageUtils = imageUtils;
+        this.artworkViewService = artworkViewService;
     }
 
     @Transactional
@@ -66,6 +69,7 @@ public class ArtworkService {
         artwork.setSize(dto.getSize());
         artwork.setImageUrls(imageUrls);
         artwork.setUser(user);
+        artwork.setQuantity(dto.getQuantity() != null ? dto.getQuantity() : 1);
 
         Artwork saved = artworkRepository.save(artwork);
         return modelMapper.map(saved, ArtworkResponseDto.class);
@@ -81,6 +85,11 @@ public class ArtworkService {
         val artwork = artworkRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
         return modelMapper.map(artwork, ArtworkResponseDto.class);
+    }
+
+    public ArtworkResponseDto getArtworkById(Long id, Long viewerUserId) {
+        artworkViewService.recordView(id, viewerUserId);
+        return getArtworkById(id);
     }
 
     @Transactional
