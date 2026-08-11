@@ -1,5 +1,6 @@
 package com.project.oag.app.service.auth;
 
+import com.project.oag.app.entity.Permission;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserRole;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,19 +15,25 @@ public class UserInfoDetails implements UserDetails {
 
     private final String username;
     private final String password;
+    private final boolean accountNonLocked;
+    private final boolean enabled;
     private final List<GrantedAuthority> authorityList = new ArrayList<>();
 
-    /**
-     * Prepare user roles, permissions and add theme to authorityList
-     *
-     * @param user
-     */
     public UserInfoDetails(User user) {
         username = user.getEmail();
         password = user.getPassword();
+        accountNonLocked = !Boolean.TRUE.equals(user.getLocked())
+                && (user.getBlockedUntil() == null || user.getBlockedUntil().before(new java.sql.Timestamp(System.currentTimeMillis())));
+        enabled = user.isVerified();
         UserRole userRole = user.getUserRole();
-        authorityList.add(new SimpleGrantedAuthority(userRole.getRoleName()));
-
+        if (userRole != null) {
+            authorityList.add(new SimpleGrantedAuthority(userRole.getRoleName()));
+            if (userRole.getPermissions() != null) {
+                for (Permission permission : userRole.getPermissions()) {
+                    authorityList.add(new SimpleGrantedAuthority(permission.getPermissionName()));
+                }
+            }
+        }
     }
 
     @Override
@@ -51,7 +58,7 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override
@@ -61,6 +68,6 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
