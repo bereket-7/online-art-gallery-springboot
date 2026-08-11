@@ -61,6 +61,9 @@ public class User {
     @Column(name = "BIO", columnDefinition = "TEXT")
     private String bio;
 
+    @Column(name = "VERIFIED_ARTIST")
+    private Boolean verifiedArtist = false;
+
     @Column(name = "AGE")
     private Integer age;
 
