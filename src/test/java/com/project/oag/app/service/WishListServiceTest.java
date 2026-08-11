@@ -2,6 +2,7 @@ package com.project.oag.app.service;
 
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.WishList;
+import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.repository.WishListRepository;
 import com.project.oag.utils.RequestUtils;
@@ -82,7 +83,7 @@ class WishListServiceTest {
             mockedRequestUtils.when(() -> RequestUtils.getLoggedInUserName(any())).thenReturn("buyer@art.com");
             when(userRepository.findByEmailIgnoreCase("buyer@art.com")).thenReturn(Optional.of(testUser));
             
-            doNothing().when(wishListRepository).deleteByIdAndUserId(70L, 30L);
+            when(wishListRepository.deleteByIdAndUserId(70L, 30L)).thenReturn(1);
 
             // Act
             wishListService.deleteWishlist(request, 70L);
