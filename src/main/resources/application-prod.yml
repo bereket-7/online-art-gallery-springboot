@@ -1,9 +1,145 @@
-# DataSource Configurations
-spring:
-  datasource:
-    url: jdbc:postgresql://db:${DB_PORT}/${POSTGRES_DB}
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORD}
-
 server:
   port: 8088
+  shutdown: graceful
+
+spring:
+  main:
+    banner-mode: off
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:db}:${DB_PORT:5432}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-version: 1
+    locations: classpath:db/migration
+  cache:
+    type: redis
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+  mail:
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls-enable: true
+
+mailer-config:
+  protocol: smtp
+  host: ${MAIL_HOST}
+  port: ${MAIL_PORT:587}
+  username: ${MAIL_USERNAME}
+  password: ${MAIL_PASSWORD}
+  smtpAuth: true
+  smtpStarttlsEnable: true
+  sslEnable: false
+
+email-config:
+  from: ${EMAIL_FROM:noreply@oag.com}
+  verifyEmailSubject: "Confirm your identity for your account"
+  verifyEmailContent: "Dear {0}, Thank you for creating an account on {1} portal. Your OTP is {2}"
+  accountVerifiedSubject: "Your account has been verified"
+  accountVerifiedContent: "Congratulations!! You have successfully completed your registration."
+  passwordForgotSubject: "Forgot password confirmation"
+  passwordForgotContent: "Dear {0}, Your OTP is {1}"
+  resetSuccessSubject: "Password reset successful"
+  resetSuccessContent: "Dear {0}, Your password has been changed."
+  emailChangeInitiate: "Dear {0}, Your change email request OTP is {1}"
+  phoneChangeInitiate: "Dear {0}, Your change phone request OTP is {1}"
+  appName: "Kelem OAG"
+
+otp-config:
+  expireAfter: 5
+  allowResendAfter: 2
+  length: 6
+  type: all
+  retry: 3
+  salt: ${OTP_SALT}
+
+jwt-key:
+  secret: ${JWT_SECRET}
+  expireAfter: ${JWT_EXPIRE_AFTER:720}
+  refreshExpireAfter: ${JWT_REFRESH_EXPIRE_AFTER:10080}
+
+security-skip-list:
+  skip:
+    auth:
+      - /api/v1/auth/**
+      - /api/v1/admin/auth/**
+      - /api/v1/otp/**
+      - /api/v1/chapa/callback
+      - /actuator/**
+    static-content:
+      - /upload/**
+
+cors:
+  allowedMethods:
+    - GET
+    - PUT
+    - POST
+    - PATCH
+    - OPTIONS
+    - HEAD
+    - DELETE
+  listOfOrigins:
+    - ${FRONTEND_URL:https://oag.example.com}
+  exposedHeaders:
+    - Content-Disposition
+  allowedHeaders:
+    - Content-Type
+    - Authorization
+    - Content-Disposition
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: WARN
+
+file-storage:
+  imageAllowedTypes: png, jpg, jpeg
+  docAllowedTypes: doc, docx, pdf
+  baseFolder: ${BASE_FOLDER:/var/oag/uploads}
+  image: images
+  doc: documents
+
+chapa:
+  secret-key: ${CHAPA_SECRET_KEY}
+  return-url-base: ${CHAPA_RETURN_URL_BASE:https://api.oag.example.com}
+
+baseURL:
+  localhost: ${PUBLIC_API_URL:https://api.oag.example.com/}
+
+management:
+  endpoint:
+    health:
+      show-details: when_authorized
+  endpoints:
+    web:
+      exposure:
+        include: info,health,metrics
+      base-path: /app/
+
+security-init-config:
+  initial: false
+  reset: false
