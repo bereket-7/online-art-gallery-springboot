@@ -24,6 +24,7 @@ import static com.project.oag.common.AppConstants.CACHE_NAME_USER_INFO;
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
+    Optional<User> findByUuid(String uuid);
     boolean existsByEmailIgnoreCase(String email);
 
     @Query("select count(u) from User u where upper(u.userRole.roleName) = upper(?1)")
