@@ -6,11 +6,11 @@ spring:
   shutdown: graceful
   main:
     banner-mode: off
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   lifecycle:
     timeout-per-shutdown-phase: 20s
-    mvc:
-      pathmatch:
-        matching-strategy: ant_path_matcher
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${DB_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
@@ -102,7 +102,7 @@ security-skip-list:
       - /api/v1/auth/**
       - /api/v1/admin/auth/**
       - /api/v1/otp/**
-      - /api/v1/admin/**
+      - /api/v1/chapa/callback
       - /swagger-ui.html
       - /webjars/**
       - /swagger-ui.html/**
@@ -164,10 +164,7 @@ management:
       exposure:
         include: info,health,metrics,httptrace
       base-path: /app/
-#stripe payment settings
-stripe:
-  api-key: ${STRIPE_SECRET_KEY}
-  public-key: ${STRIPE_PUBLIC_KEY}
+
 security-init-config:
   #  set initial: false, to skip initial user security configuration
   initial: true
