@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/total/artist/users")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<GenericResponse> getTotalNumberUser(@RequestParam String roleName) {
         return userService.getTotalArtistUsers(roleName);
     }
