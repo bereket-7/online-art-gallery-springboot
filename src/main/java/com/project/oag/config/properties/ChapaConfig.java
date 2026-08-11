@@ -1,6 +1,5 @@
 package com.project.oag.config.properties;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.stereotype.Component;
@@ -9,14 +8,22 @@ import org.springframework.stereotype.Component;
 @ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "chapa")
 public class ChapaConfig {
-    @NotNull
-    String apiKey;
+    private String secretKey;
+    private String returnUrlBase = "http://localhost:8088";
 
-    public String getApiKey() {
-        return apiKey;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getReturnUrlBase() {
+        return returnUrlBase;
+    }
+
+    public void setReturnUrlBase(String returnUrlBase) {
+        this.returnUrlBase = returnUrlBase;
     }
 }
