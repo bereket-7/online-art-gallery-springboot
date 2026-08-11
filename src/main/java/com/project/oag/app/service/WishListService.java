@@ -1,9 +1,12 @@
 package com.project.oag.app.service;
 
+import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.WishList;
+import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.repository.WishListRepository;
+import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
@@ -20,18 +23,23 @@ public class WishListService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final WishListRepository wishListRepository;
+    private final ArtworkRepository artworkRepository;
 
-    public WishListService(UserRepository userRepository, ModelMapper modelMapper, WishListRepository wishListRepository) {
+    public WishListService(UserRepository userRepository, ModelMapper modelMapper,
+                           WishListRepository wishListRepository, ArtworkRepository artworkRepository) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.wishListRepository = wishListRepository;
+        this.artworkRepository = artworkRepository;
     }
 
     public WishList saveWishlist(HttpServletRequest request, Long artworkId) {
-        Long userId = getUserId(request);
+        User user = getUserByUsername(getLoggedInUserName(request));
+        Artwork artwork = artworkRepository.findById(artworkId)
+                .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
         WishList wishlist = new WishList();
-        //wishlist.setUserId(userId);
-       // wishlist.setArtworkId(artworkId);
+        wishlist.setUser(user);
+        wishlist.setArtwork(artwork);
         return wishListRepository.save(wishlist);
     }
 
