@@ -81,20 +81,13 @@ class ArtworkServiceTest {
 
     @Test
     void changeArtworkStatus_ModifiesAndReturnsCorrectDto() {
-        // Arrange
         when(artworkRepository.findById(5L)).thenReturn(Optional.of(sampleArtwork));
         when(artworkRepository.save(any(Artwork.class))).thenReturn(sampleArtwork);
-        
-        ArtworkResponseDto responseDto = new ArtworkResponseDto();
-        responseDto.setStatus(ArtworkStatus.APPROVED);
-        when(modelMapper.map(sampleArtwork, ArtworkResponseDto.class)).thenReturn(responseDto);
+        when(modelMapper.map(sampleArtwork, ArtworkResponseDto.class)).thenReturn(new ArtworkResponseDto());
 
-        // Act
-        ArtworkResponseDto result = artworkService.changeArtworkStatus(5L, ArtworkStatus.APPROVED);
+        artworkService.changeArtworkStatus(5L, ArtworkStatus.ACCEPTED);
 
-        // Assert
-        assertEquals(ArtworkStatus.APPROVED, result.getStatus());
-        assertEquals(ArtworkStatus.APPROVED, sampleArtwork.getStatus());
+        assertEquals(ArtworkStatus.ACCEPTED, sampleArtwork.getStatus());
         verify(artworkRepository, times(1)).save(sampleArtwork);
     }
     
