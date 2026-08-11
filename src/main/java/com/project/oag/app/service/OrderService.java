@@ -4,9 +4,13 @@ import com.project.oag.app.dto.OrderRequestDto;
 import com.project.oag.app.dto.OrderResponseDto;
 import com.project.oag.app.dto.OrderStatus;
 import com.project.oag.app.entity.Order;
+import com.project.oag.app.entity.OrderItem;
+import com.project.oag.app.entity.Cart;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.app.repository.CartRepository;
+import com.project.oag.app.repository.OrderItemRepository;
+import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.exceptions.GeneralException;
 import com.project.oag.exceptions.ResourceNotFoundException;
@@ -38,23 +42,29 @@ public class OrderService {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final CartService cartService;
+    private final OrderItemRepository orderItemRepository;
     private final JavaMailSender javaMailSender;
     private final NotificationWebSocketService notificationService;
+    private final CoaService coaService;
 
     public OrderService(ModelMapper modelMapper,
                         OrderRepository orderRepository,
                         UserRepository userRepository,
                         CartRepository cartRepository,
                         CartService cartService,
+                        OrderItemRepository orderItemRepository,
                         JavaMailSender javaMailSender,
-                        NotificationWebSocketService notificationService) {
+                        NotificationWebSocketService notificationService,
+                        CoaService coaService) {
         this.modelMapper = modelMapper;
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.cartService = cartService;
+        this.orderItemRepository = orderItemRepository;
         this.javaMailSender = javaMailSender;
         this.notificationService = notificationService;
+        this.coaService = coaService;
     }
 
     /**
@@ -77,17 +87,39 @@ public class OrderService {
         order.setTotalAmount(total);
         order.setSecretCode(generateSecretCode());
 
+        List<Cart> cartItems = cartRepository.findByUserId(user.getId());
+        for (Cart cartItem : cartItems) {
+            OrderItem item = new OrderItem();
+            item.setOrder(order);
+            item.setArtwork(cartItem.getArtwork());
+            item.setArtist(cartItem.getArtwork().getUser());
+            item.setQuantity(cartItem.getQuantity());
+            item.setUnitPrice(cartItem.getArtwork().getPrice());
+            item.setLineTotal(cartItem.getArtwork().getPrice()
+                    .multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+            order.getItems().add(item);
+        }
+
         Order saved = orderRepository.save(order);
         log.info(LOG_PREFIX, "Order created", "orderId=" + saved.getId() + " userId=" + user.getId());
-
-        // Decrement artwork quantities and clear cart transactionally
-        cartService.clearCartForCheckout(user.getId());
 
         sendOrderConfirmationEmail(saved);
         
         notificationService.sendUserNotification(user.getEmail(), "Order #" + saved.getId() + " initialized pending payment!");
         
         return modelMapper.map(saved, OrderResponseDto.class);
+    }
+
+    @Transactional
+    public void fulfillOrderAfterPayment(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.getItems().forEach(item ->
+                cartService.decrementQuantityForArtwork(item.getArtwork().getId(), item.getQuantity())
+        );
+        cartRepository.deleteByUserId(order.getUser().getId());
+        coaService.issueForOrder(order);
+        log.info(LOG_PREFIX, "Order fulfilled after payment", "orderId=" + orderId);
     }
 
     /** Admin: all orders */
