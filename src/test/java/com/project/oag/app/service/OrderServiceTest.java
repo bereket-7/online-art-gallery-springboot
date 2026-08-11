@@ -6,6 +6,7 @@ import com.project.oag.app.dto.OrderStatus;
 import com.project.oag.app.entity.Order;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.CartRepository;
+import com.project.oag.app.repository.OrderItemRepository;
 import com.project.oag.app.repository.OrderRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.exceptions.GeneralException;
@@ -46,6 +47,9 @@ class OrderServiceTest {
     private CartService cartService;
 
     @Mock
+    private OrderItemRepository orderItemRepository;
+
+    @Mock
     private JavaMailSender javaMailSender;
 
     @Mock
@@ -61,6 +65,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         request = new MockHttpServletRequest();
+        request.setUserPrincipal(() -> "test@ex.com");
         
         testUser = new User();
         testUser.setId(1L);
@@ -76,7 +81,7 @@ class OrderServiceTest {
     void createOrder_ThrowsException_IfCartEmpty() {
         // Arrange
         OrderRequestDto dto = new OrderRequestDto();
-        when(userRepository.findByEmailIgnoreCase(any())).thenReturn(Optional.of(testUser));
+        when(userRepository.findByEmailIgnoreCase("test@ex.com")).thenReturn(Optional.of(testUser));
         when(cartRepository.calculateTotalPriceByUserId(1L)).thenReturn(BigDecimal.ZERO);
 
         // Act & Assert
