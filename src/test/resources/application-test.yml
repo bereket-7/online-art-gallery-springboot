@@ -1,0 +1,100 @@
+server:
+  port: 0
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${DB_PORT:5432}/${POSTGRES_DB:oag_test}
+    username: ${POSTGRES_USER:oag_user}
+    password: ${POSTGRES_PASSWORD:oag_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  cache:
+    type: none
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+jwt-key:
+  secret: ${JWT_SECRET:dGVzdGp3dHNlY3JldGtleWZvcmNpMjU2Yml0bG9uZ3N0cmluZw==}
+  expireAfter: 60
+  refreshExpireAfter: 120
+
+otp-config:
+  expireAfter: 5
+  allowResendAfter: 2
+  length: 6
+  type: num
+  retry: 3
+  salt: ${OTP_SALT:testsalt}
+
+chapa:
+  secret-key: ${CHAPA_SECRET_KEY:CHAPA_TEST_KEY}
+  return-url-base: http://localhost:8088
+
+security-skip-list:
+  skip:
+    auth:
+      - /api/v1/auth/**
+      - /api/v1/admin/auth/**
+      - /api/v1/otp/**
+      - /api/v1/chapa/callback
+    static-content:
+      - /upload/**
+
+security-init-config:
+  initial: false
+
+file-storage:
+  baseFolder: ${BASE_FOLDER:./target/test-uploads}
+  image: images
+  doc: documents
+  imageAllowedTypes: png, jpg, jpeg
+  docAllowedTypes: doc, docx, pdf
+
+cors:
+  allowedMethods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+  listOfOrigins:
+    - http://localhost:3000
+  exposedHeaders:
+    - Content-Disposition
+  allowedHeaders:
+    - Content-Type
+    - Authorization
+
+mailer-config:
+  protocol: smtp
+  host: localhost
+  port: 2525
+  username: ""
+  password: ""
+  smtpAuth: false
+  smtpStarttlsEnable: false
+  sslEnable: false
+
+email-config:
+  from: "test@oag.com"
+  verifyEmailSubject: "Verify"
+  verifyEmailContent: "OTP {2}"
+  accountVerifiedSubject: "Verified"
+  accountVerifiedContent: "Done"
+  passwordForgotSubject: "Forgot"
+  passwordForgotContent: "OTP {1}"
+  resetSuccessSubject: "Reset"
+  resetSuccessContent: "Done"
+  emailChangeInitiate: "Change email {1}"
+  phoneChangeInitiate: "Change phone {1}"
+  appName: "OAG Test"
+
+oag:
+  seed:
+    demo-data: false
