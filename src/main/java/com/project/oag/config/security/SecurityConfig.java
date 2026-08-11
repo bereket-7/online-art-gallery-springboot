@@ -3,6 +3,7 @@ package com.project.oag.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.oag.app.service.UserInfoUserDetailsService;
 import com.project.oag.app.service.auth.JwtAuthFilter;
+import com.project.oag.config.RateLimitFilter;
 import com.project.oag.config.properties.SecuritySkipList;
 import com.project.oag.config.security.captcha.RecaptchaFilter;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,22 +41,24 @@ import static com.project.oag.utils.Utils.prepareResponse;
 public class SecurityConfig {
     private final JwtAuthFilter authFilter;
     private final RecaptchaFilter recaptchaFilter;
+    private final RateLimitFilter rateLimitFilter;
     private final SecuritySkipList securitySkipList;
     private final LogoutHandlerService logoutHandlerService;
     private final CorsOriginConfig corsOriginConfig;
     private final ObjectMapper objectMapper;
 
-    public SecurityConfig(JwtAuthFilter authFilter, RecaptchaFilter recaptchaFilter, SecuritySkipList securitySkipList, LogoutHandlerService logoutHandlerService, CorsOriginConfig corsOriginConfig, ObjectMapper objectMapper) {
+    public SecurityConfig(JwtAuthFilter authFilter, RecaptchaFilter recaptchaFilter, RateLimitFilter rateLimitFilter, SecuritySkipList securitySkipList, LogoutHandlerService logoutHandlerService, CorsOriginConfig corsOriginConfig, ObjectMapper objectMapper) {
         this.authFilter = authFilter;
         this.recaptchaFilter = recaptchaFilter;
+        this.rateLimitFilter = rateLimitFilter;
         this.securitySkipList = securitySkipList;
         this.logoutHandlerService = logoutHandlerService;
         this.corsOriginConfig = corsOriginConfig;
         this.objectMapper = objectMapper;
     }
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserInfoUserDetailsService();
+    public UserDetailsService userDetailsService(UserInfoUserDetailsService userInfoUserDetailsService) {
+        return userInfoUserDetailsService;
     }
 
     @Bean
@@ -71,6 +74,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(
                         logoutConfigurer -> logoutConfigurer.logoutUrl("/api/v1/logout")
@@ -90,9 +94,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
+    public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
         var daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService());
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
