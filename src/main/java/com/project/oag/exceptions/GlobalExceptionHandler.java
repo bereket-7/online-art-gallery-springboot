@@ -31,12 +31,6 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<GenericResponse<Void>> handleEntityNotFound(EntityNotFoundException ex) {
-        log.warn("Entity not found: {}", ex.getMessage());
-        return build(HttpStatus.NOT_FOUND, ex.getMessage());
-    }
-
     @ExceptionHandler(UserAuthorizationException.class)
     public ResponseEntity<GenericResponse<Void>> handleUserAuthorization(UserAuthorizationException ex) {
         log.warn("Authorization failure: {}", ex.getMessage());
