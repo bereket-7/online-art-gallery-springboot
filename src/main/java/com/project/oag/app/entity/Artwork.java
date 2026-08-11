@@ -55,6 +55,27 @@ public class Artwork {
     @Column(name = "QUANTITY")
     private Integer quantity;
 
+    @Column(name = "MEDIUM")
+    private String medium;
+
+    @Column(name = "YEAR_CREATED")
+    private Integer yearCreated;
+
+    @Column(name = "DIMENSIONS")
+    private String dimensions;
+
+    @Column(name = "FRAMING")
+    private String framing;
+
+    @Column(name = "EDITION_NUMBER")
+    private Integer editionNumber;
+
+    @Column(name = "EDITION_SIZE")
+    private Integer editionSize;
+
+    @Column(name = "REJECTION_REASON")
+    private String rejectionReason;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
