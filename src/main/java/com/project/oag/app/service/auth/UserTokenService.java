@@ -5,6 +5,8 @@ import com.project.oag.app.dto.auth.*;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.entity.UserToken;
 import com.project.oag.app.repository.TokenRepository;
+import com.project.oag.app.repository.UserRepository;
+import com.project.oag.app.service.PermissionService;
 import com.project.oag.app.service.UserInfoUserDetailsService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.GeneralException;
@@ -23,6 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.BEARER;
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
@@ -35,19 +39,26 @@ public class UserTokenService {
     private final ModelMapper modelMapper;
     private final TokenRepository tokenRepository;
     private final UserInfoUserDetailsService userDetailsService;
+    private final UserRepository userRepository;
+    private final PermissionService permissionService;
 
-    public UserTokenService(JwtService jwtService, ModelMapper modelMapper, TokenRepository tokenRepository, UserInfoUserDetailsService userDetailsService) {
+    public UserTokenService(JwtService jwtService, ModelMapper modelMapper, TokenRepository tokenRepository,
+                            UserInfoUserDetailsService userDetailsService, UserRepository userRepository,
+                            PermissionService permissionService) {
         this.jwtService = jwtService;
         this.modelMapper = modelMapper;
         this.tokenRepository = tokenRepository;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+        this.permissionService = permissionService;
     }
 
     public ResponseEntity<GenericResponse> generateUserToken(final UserDto userDto) {
         log.info(LOG_PREFIX, "Saving token to database:  ", "");
         try {
             revokeExistingTokens(userDto);
-            val jwtToken = new JWTToken(jwtService.generateToken(userDto.getEmail()));
+            List<String> permissions = resolvePermissions(userDto.getEmail());
+            val jwtToken = new JWTToken(jwtService.generateToken(userDto.getEmail(), permissions));
             val refreshTokenStr = jwtService.generateRefreshToken(userDto.getEmail());
             
             val userModel = modelMapper.map(userDto, User.class);
@@ -79,6 +90,7 @@ public class UserTokenService {
                             .username(userDto.getEmail())
                             .fullName(userDto.getFirstName().concat(SPACE).concat(userDto.getLastName()))
                             .avatarUrl(userDto.getImage())
+                            .permissions(permissions)
                             .build()));
         } catch (Exception e) {
             log.info(LOG_PREFIX, "Failed generateUserToken ", e);
@@ -166,5 +178,11 @@ public class UserTokenService {
             log.info(LOG_PREFIX, "Failed while revoking tokens ", e.getMessage());
             throw new GeneralException("Failed while revoking tokens " + e.getMessage());
         }
+    }
+
+    private List<String> resolvePermissions(String email) {
+        return userRepository.findByEmailIgnoreCase(email)
+                .map(user -> permissionService.getPermissionNamesForRole(user.getUserRole()))
+                .orElse(List.of());
     }
 }
