@@ -26,9 +26,16 @@ public class JwtService {
         this.jwtKey = jwtKey;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, java.util.List<String> permissions) {
         Map<String, Object> claims = new HashMap<>();
+        if (permissions != null && !permissions.isEmpty()) {
+            claims.put("permissions", permissions);
+        }
         return createToken(claims, username, jwtKey.expireAfter());
+    }
+
+    public String generateToken(String username) {
+        return generateToken(username, java.util.List.of());
     }
 
     public String generateRefreshToken(String username) {
