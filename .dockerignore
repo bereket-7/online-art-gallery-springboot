@@ -1,0 +1,15 @@
+.git
+.gitignore
+.idea
+*.iml
+.cursor
+target/*
+!target/oag.jar
+node_modules
+*.md
+docker-compose*.yml
+Dockerfile.build
+docker-up.sh
+.env
+.env.*
+!/.env.example

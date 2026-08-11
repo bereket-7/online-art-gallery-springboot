@@ -1,113 +1,52 @@
-#version: '3.8'
-#
-#services:
-#  online-art-gallery-springboot:
-#    build: ./
-#    container_name: online-art-gallery
-#    ports:
-#      - "8088:8088"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=dev
-#    env_file:
-#      - .env
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#
-#  pgdb:
-#    container_name: online-art-gallery-db
-#    image: postgres:15-alpine
-#    restart: always
-#    environment:
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#      - POSTGRES_USER=${POSTGRES_USER}
-#      - POSTGRES_DB=${POSTGRES_DB}
-#    ports:
-#      - "${HOST_DB_PORT}:5432"
-#    volumes:
-#      - postgres:/var/lib/postgresql/data
-#
-#volumes:
-#  postgres:
-
-#
-#version: '3.8'
-#
-#services:
-#  online-art-gallery-springboot:
-#    build: ./
-#    container_name: online-art-gallery
-#    ports:
-#      - "8088:8088"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=dev
-#      - POSTGRES_PASSWORD=8915code
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_DB=oag
-#      - POSTGRES_HOST=localhost
-#      - DB_PORT=5432
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#
-#  pgdb:
-#    container_name: online-art-gallery-db
-#    image: postgres:15-alpine
-#    restart: always
-#    environment:
-#      - POSTGRES_PASSWORD=8915code
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_DB=oag
-#    ports:
-#      - "5432:5432"
-#    volumes:
-#      - postgres:/var/lib/postgresql/data
-#
-#volumes:
-#  postgres:
-
-
-
-
-
-
-
-version: '3.8'
-
 services:
   online-art-gallery-springboot:
     build: ./
     container_name: online-art-gallery
     ports:
       - "8088:8088"
+    env_file:
+      - .env
     environment:
-      - POSTGRES_PASSWORD=8915code
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=oag
-      - SPRING_PROFILES_ACTIVE=dev
-      - POSTGRES_HOST=localhost
-      - DB_PORT=5432
-
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      SPRING_PROFILES_ACTIVE: dev
+      POSTGRES_HOST: pgdb
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      BASE_FOLDER: /var/oag/uploads
+    volumes:
+      - uploads:/var/oag/uploads
+    depends_on:
+      pgdb:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
 
   pgdb:
     container_name: online-art-gallery-db
     image: postgres:15-alpine
-    restart: always
+    restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=8915code
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=oag
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-oag}
     ports:
-      - "5432:5432"
+      - "${HOST_DB_PORT:-5432}:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-oag}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     container_name: online-art-gallery-redis
-    image: redis:alpine
-    restart: always
+    image: redis:7-alpine
+    restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "${HOST_REDIS_PORT:-6380}:6379"
 
 volumes:
   postgres:
+  uploads:
