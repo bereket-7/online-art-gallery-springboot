@@ -20,4 +20,8 @@ public class PaymentLogService {
     public PaymentLog createPaymentLog(PaymentLog paymentLog) {
         return this.paymentLogRepository.save(paymentLog);
     }
+
+    public PaymentLog updatePaymentLog(PaymentLog paymentLog) {
+        return this.paymentLogRepository.save(paymentLog);
+    }
 }
