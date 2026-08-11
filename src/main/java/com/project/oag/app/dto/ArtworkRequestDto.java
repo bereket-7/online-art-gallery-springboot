@@ -14,4 +14,5 @@ public class ArtworkRequestDto {
     private String artworkCategory;
     private BigDecimal price;
     private String size;
+    private Integer quantity;
 }
