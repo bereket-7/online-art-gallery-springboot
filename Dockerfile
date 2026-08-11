@@ -49,8 +49,8 @@ RUN chmod +x mvnw
 # Copy the source code
 COPY src src
 
-## Build the application
-#RUN ./mvnw clean package -DskipTests
+# Build the application
+RUN ./mvnw clean package -DskipTests
 
 # Stage 2: Runtime stage
 FROM eclipse-temurin:17-jre
