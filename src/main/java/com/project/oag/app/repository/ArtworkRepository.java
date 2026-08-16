@@ -1,6 +1,5 @@
 package com.project.oag.app.repository;
 
-import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.entity.Artwork;
 import org.springframework.data.domain.Page;
@@ -27,24 +26,10 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Long>, JpaSpec
 
     Page<Artwork> findByUserIdAndStatus(Long userId, ArtworkStatus status, Pageable pageable);
 
+    Page<Artwork> findByStatusOrderByCreationDateDesc(ArtworkStatus status, Pageable pageable);
+
     @Query("select a from Artwork a where a.status = 'ACCEPTED'")
     Page<Artwork> findAcceptedArtworks(Pageable pageable);
-
-    @Query("""
-        SELECT NEW com.project.oag.app.dto.ArtworkResponseDto(
-            a.artworkName,
-            a.artworkDescription,
-            a.artworkCategory,
-            a.price,
-            a.size,
-            a.imageUrls,
-            a.ratings,
-            a.user.id)
-        FROM Artwork a
-        WHERE a.status = com.project.oag.app.dto.ArtworkStatus.ACCEPTED
-        ORDER BY a.creationDate DESC
-    """)
-    Page<ArtworkResponseDto> findRecentArtworks(Pageable pageable);
 
     @Query("SELECT a.artworkCategory, COUNT(a) FROM Artwork a GROUP BY a.artworkCategory")
     List<Object[]> countByCategory();
