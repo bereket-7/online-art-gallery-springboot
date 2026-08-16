@@ -1,5 +1,6 @@
 package com.project.oag.app.service;
 
+import com.project.oag.app.dto.ArtworkMapper;
 import com.project.oag.app.dto.ArtworkRequestDto;
 import com.project.oag.app.dto.ArtworkResponseDto;
 import com.project.oag.app.dto.ArtworkStatus;
@@ -70,21 +71,30 @@ public class ArtworkService {
         artwork.setImageUrls(imageUrls);
         artwork.setUser(user);
         artwork.setQuantity(dto.getQuantity() != null ? dto.getQuantity() : 1);
+        artwork.setMedium(dto.getMedium());
+        artwork.setYearCreated(dto.getYearCreated());
+        artwork.setDimensions(dto.getDimensions());
+        artwork.setFraming(dto.getFraming());
+        artwork.setEditionNumber(dto.getEditionNumber());
+        artwork.setEditionSize(dto.getEditionSize());
 
         Artwork saved = artworkRepository.save(artwork);
-        return modelMapper.map(saved, ArtworkResponseDto.class);
+        return ArtworkMapper.toDto(saved);
     }
 
     public List<ArtworkResponseDto> getAllArtworks() {
-        return artworkRepository.findAll().stream()
-                .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
-                .collect(Collectors.toList());
+        return ArtworkMapper.toDtoList(artworkRepository.findAll());
     }
 
+    public List<ArtworkResponseDto> getAcceptedArtworks() {
+        return ArtworkMapper.toDtoList(artworkRepository.findByStatus(ArtworkStatus.ACCEPTED));
+    }
+
+    @Transactional(readOnly = true)
     public ArtworkResponseDto getArtworkById(Long id) {
         val artwork = artworkRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
-        return modelMapper.map(artwork, ArtworkResponseDto.class);
+        return ArtworkMapper.toDto(artwork);
     }
 
     public ArtworkResponseDto getArtworkById(Long id, Long viewerUserId) {
@@ -101,7 +111,7 @@ public class ArtworkService {
         modelMapper.map(dto, artwork);
         val saved = artworkRepository.save(artwork);
         log.info(LOG_PREFIX, "Updated artwork", id);
-        return modelMapper.map(saved, ArtworkResponseDto.class);
+        return ArtworkMapper.toDto(saved);
     }
 
     @Transactional
@@ -113,34 +123,36 @@ public class ArtworkService {
 
     @Transactional
     public ArtworkResponseDto changeArtworkStatus(Long id, ArtworkStatus status) {
+        return changeArtworkStatus(id, status, null);
+    }
+
+    @Transactional
+    public ArtworkResponseDto changeArtworkStatus(Long id, ArtworkStatus status, String rejectionReason) {
         val artwork = artworkRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
         artwork.setStatus(status);
-        return modelMapper.map(artworkRepository.save(artwork), ArtworkResponseDto.class);
+        if (rejectionReason != null) {
+            artwork.setRejectionReason(rejectionReason);
+        }
+        return ArtworkMapper.toDto(artworkRepository.save(artwork));
     }
 
     public List<ArtworkResponseDto> getArtworkByStatus(ArtworkStatus status) {
-        return artworkRepository.findByStatus(status).stream()
-                .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
-                .collect(Collectors.toList());
+        return ArtworkMapper.toDtoList(artworkRepository.findByStatus(status));
     }
 
     public List<ArtworkResponseDto> getLoggedArtistArtworks(HttpServletRequest request) {
         Long userId = getUserByUsername(getLoggedInUserName(request)).getId();
-        return artworkRepository.findByArtistId(userId).stream()
-                .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
-                .collect(Collectors.toList());
+        return ArtworkMapper.toDtoList(artworkRepository.findByArtistId(userId));
     }
 
     public List<ArtworkResponseDto> getArtworkByCategory(String artworkCategory) {
-        return artworkRepository.findByArtworkCategory(artworkCategory).stream()
-                .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
-                .collect(Collectors.toList());
+        return ArtworkMapper.toDtoList(artworkRepository.findByArtworkCategory(artworkCategory));
     }
 
     public Map.Entry<List<ArtworkResponseDto>, PageableDto> getRecentArtworks(Pageable pageable) {
-        Page<ArtworkResponseDto> page = artworkRepository.findRecentArtworks(pageable);
-        return Map.entry(page.getContent(), preparePageInfo(page));
+        Page<Artwork> page = artworkRepository.findByStatusOrderByCreationDateDesc(ArtworkStatus.ACCEPTED, pageable);
+        return Map.entry(ArtworkMapper.toDtoList(page.getContent()), preparePageInfo(page));
     }
 
     public List<Object[]> getCountByCategory() {
@@ -154,9 +166,7 @@ public class ArtworkService {
         Specification<Artwork> spec = ArtworkFilterSpecification.searchArtworks(
                 artworkCategory, artworkName, minPrice, maxPrice, sortBy, fromDate, toDate);
         Page<Artwork> page = artworkRepository.findAll(spec, pageable);
-        List<ArtworkResponseDto> content = page.getContent().stream()
-                .map(a -> modelMapper.map(a, ArtworkResponseDto.class))
-                .collect(Collectors.toList());
+        List<ArtworkResponseDto> content = ArtworkMapper.toDtoList(page.getContent());
         return Map.entry(content, preparePageInfo(page));
     }
 
