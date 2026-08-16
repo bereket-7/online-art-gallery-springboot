@@ -1,25 +1,28 @@
 package com.project.oag.app.controller;
 
-import com.project.oag.app.dto.OfferStatus;
-import com.project.oag.app.entity.Offer;
+import com.project.oag.app.dto.OfferRequestDto;
+import com.project.oag.app.dto.OfferStatusRequestDto;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.OfferService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
 
 @RestController
 @RequestMapping("api/v1/offers")
+@Tag(name = "Offers")
 public class OfferController {
 
     private final OfferService offerService;
@@ -33,10 +36,9 @@ public class OfferController {
     @PostMapping
     @PreAuthorize("hasAuthority('USER_MAKE_OFFER')")
     public ResponseEntity<GenericResponse> makeOffer(HttpServletRequest request,
-                                                     @RequestParam Long artworkId,
-                                                     @RequestParam BigDecimal amount) {
-        Offer offer = offerService.makeOffer(artworkId, resolveUserId(request), amount);
-        return prepareResponse(HttpStatus.CREATED, "Offer submitted", offer);
+                                                     @Valid @RequestBody OfferRequestDto dto) {
+        return prepareResponse(HttpStatus.CREATED, "Offer submitted",
+                offerService.makeOffer(dto.getArtworkId(), resolveUserId(request), dto.getAmount()));
     }
 
     @GetMapping("/artwork/{artworkId}")
@@ -48,14 +50,31 @@ public class OfferController {
     @GetMapping("/my")
     @PreAuthorize("hasAuthority('USER_MAKE_OFFER')")
     public ResponseEntity<GenericResponse> getMyOffers(HttpServletRequest request) {
-        return prepareResponse(HttpStatus.OK, "Offers retrieved", offerService.getOffersByBuyer(resolveUserId(request)));
+        return prepareResponse(HttpStatus.OK, "Offers retrieved",
+                offerService.getOffersByBuyer(resolveUserId(request)));
+    }
+
+    @GetMapping("/pending")
+    @PreAuthorize("hasAuthority('ARTIST_ACCEPT_OFFER')")
+    public ResponseEntity<GenericResponse> getPending(HttpServletRequest request) {
+        return prepareResponse(HttpStatus.OK, "Pending offers",
+                offerService.getPendingForArtist(resolveUserId(request)));
     }
 
     @PatchMapping("/{id}/status")
-    @PreAuthorize("hasAuthority('ADMIN_MODIFY_ARTWORK')")
+    @PreAuthorize("hasAnyAuthority('ARTIST_ACCEPT_OFFER', 'ADMIN_MODIFY_ARTWORK')")
     public ResponseEntity<GenericResponse> updateOfferStatus(@PathVariable Long id,
-                                                             @RequestParam OfferStatus status) {
-        return prepareResponse(HttpStatus.OK, "Offer updated", offerService.updateOfferStatus(id, status));
+                                                             HttpServletRequest request,
+                                                             @Valid @RequestBody OfferStatusRequestDto dto) {
+        boolean admin = hasAuthority("ADMIN_MODIFY_ARTWORK");
+        return prepareResponse(HttpStatus.OK, "Offer updated",
+                offerService.updateOfferStatus(id, dto.getStatus(), resolveUserId(request), admin));
+    }
+
+    private boolean hasAuthority(String authority) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(a -> authority.equals(a.getAuthority()));
     }
 
     private Long resolveUserId(HttpServletRequest request) {
