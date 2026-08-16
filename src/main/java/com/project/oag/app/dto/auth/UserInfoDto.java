@@ -13,6 +13,7 @@ public record UserInfoDto(
         String username,
         List<String> permissions,
         String fullName,
-        String avatarUrl
+        String avatarUrl,
+        String role
 ) implements Serializable {
 }
