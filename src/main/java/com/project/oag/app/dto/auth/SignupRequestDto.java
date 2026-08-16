@@ -54,6 +54,9 @@ public class SignupRequestDto {
     @JsonProperty("photo")
     private String photo;
 
+    @JsonProperty("role")
+    private String role;
+
     @AssertTrue(message = "Password and Confirm password fields should be the same")
     @JsonIgnore
     public boolean isPasswordMatch() {
