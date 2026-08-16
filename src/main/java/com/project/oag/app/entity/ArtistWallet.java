@@ -26,4 +26,8 @@ public class ArtistWallet {
 
     @Column(name = "pending_balance", nullable = false, precision = 14, scale = 2)
     private BigDecimal pendingBalance = BigDecimal.ZERO;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 }
