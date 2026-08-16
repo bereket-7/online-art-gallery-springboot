@@ -27,9 +27,16 @@ public class JwtService {
     }
 
     public String generateToken(String username, java.util.List<String> permissions) {
+        return generateToken(username, permissions, null);
+    }
+
+    public String generateToken(String username, java.util.List<String> permissions, String role) {
         Map<String, Object> claims = new HashMap<>();
         if (permissions != null && !permissions.isEmpty()) {
             claims.put("permissions", permissions);
+        }
+        if (role != null && !role.isBlank()) {
+            claims.put("role", role.replaceFirst("^ROLE_", ""));
         }
         return createToken(claims, username, jwtKey.expireAfter());
     }
