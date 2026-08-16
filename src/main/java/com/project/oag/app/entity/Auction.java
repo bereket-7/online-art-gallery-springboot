@@ -42,4 +42,8 @@ public class Auction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "winner_id")
     private User winner;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
 }
