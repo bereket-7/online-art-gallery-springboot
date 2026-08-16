@@ -4,6 +4,7 @@ import com.project.oag.app.dto.ArtistProfileDto;
 import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.User;
+import com.project.oag.app.repository.ArtistFollowRepository;
 import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.exceptions.ResourceNotFoundException;
@@ -28,6 +29,9 @@ class ArtistProfileServiceTest {
     private UserRepository userRepository;
     @Mock
     private ArtworkRepository artworkRepository;
+
+    @Mock
+    private ArtistFollowRepository artistFollowRepository;
 
     @InjectMocks
     private ArtistProfileService artistProfileService;
