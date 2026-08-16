@@ -83,7 +83,6 @@ class ArtworkServiceTest {
     void changeArtworkStatus_ModifiesAndReturnsCorrectDto() {
         when(artworkRepository.findById(5L)).thenReturn(Optional.of(sampleArtwork));
         when(artworkRepository.save(any(Artwork.class))).thenReturn(sampleArtwork);
-        when(modelMapper.map(sampleArtwork, ArtworkResponseDto.class)).thenReturn(new ArtworkResponseDto());
 
         artworkService.changeArtworkStatus(5L, ArtworkStatus.ACCEPTED);
 
