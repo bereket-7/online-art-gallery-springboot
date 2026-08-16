@@ -44,8 +44,7 @@ public class Event {
     @Column(name = "EVENT_DATE")
     private LocalDateTime eventDate;
 
-    @Lob
-    @Column(name = "IMAGE")
+    @Column(name = "IMAGE", length = 1024)
     private String imageUrl;
 
     @Column(name = "STATUS")
