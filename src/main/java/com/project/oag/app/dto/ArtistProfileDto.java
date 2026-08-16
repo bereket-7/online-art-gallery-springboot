@@ -14,6 +14,7 @@ public class ArtistProfileDto {
     private String bio;
     private String profilePictureUrl;
     private boolean verifiedArtist;
+    private String slug;
 
     private List<ArtworkSummaryDto> artworks;
 
