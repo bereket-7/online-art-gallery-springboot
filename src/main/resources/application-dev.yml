@@ -103,13 +103,13 @@ security-skip-list:
       - /api/v1/admin/auth/**
       - /api/v1/otp/**
       - /api/v1/chapa/callback
+      - /ws/notifications/**
       - /swagger-ui.html
       - /webjars/**
       - /swagger-ui.html/**
       - /swagger-ui/**
       - /v3/api-docs/**
       - /v2/api-docs
-      - /actuator/**
     static-content:
           #      - ${BASE_FOLDER}/**
           - /upload/**
@@ -129,6 +129,7 @@ cors:
   listOfOrigins:
     - http://localhost:3000
     - http://localhost:3001
+    - http://localhost:8080
   exposedHeaders:
     - Content-Disposition
   allowedHeaders:
@@ -151,8 +152,13 @@ file-storage:
   doc: documents
 
 springdoc:
+  api-docs:
+    path: /v3/api-docs
   swagger-ui:
+    path: /swagger-ui.html
     disable-swagger-default-url: true
+    tags-sorter: alpha
+    operations-sorter: method
 
 #actuator management
 management:
@@ -173,6 +179,8 @@ security-init-config:
     - ROLE_ADMIN
     - ROLE_CUSTOMER
     - ROLE_ARTIST
+    - ROLE_MANAGER
+    - ROLE_ORGANIZATION
   userFlag:
     - ADMIN_FLAG
     - CUSTOMER_FLAG
