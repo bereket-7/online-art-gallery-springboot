@@ -23,6 +23,9 @@ public class Collection {
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "slug")
+    private String slug;
+
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
