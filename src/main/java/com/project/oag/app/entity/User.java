@@ -49,6 +49,9 @@ public class User {
     @Column(name = "UUID", unique = true)
     private String uuid = UUID.randomUUID().toString();
 
+    @Column(name = "SLUG", unique = true)
+    private String slug;
+
     @Column(name = "PHONE")
     private String phone;
 
