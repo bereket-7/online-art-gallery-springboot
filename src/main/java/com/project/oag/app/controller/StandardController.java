@@ -22,6 +22,12 @@ public class StandardController {
         return standardService.getAllStandards();
     }
 
+    @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN_ADD_STANDARD')")
+    public ResponseEntity<GenericResponse> addStandardCanonical(@RequestBody StandardRequestDto standardDto) {
+        return standardService.addStandard(standardDto);
+    }
+
     @PostMapping("/add")
     @PreAuthorize("hasAuthority('ADMIN_ADD_STANDARD')")
     public ResponseEntity<GenericResponse> addStandard(@RequestBody StandardRequestDto standardDto) {
