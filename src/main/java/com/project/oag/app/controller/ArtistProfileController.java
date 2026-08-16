@@ -8,6 +8,7 @@ import com.project.oag.app.service.ArtistFollowService;
 import com.project.oag.app.service.ArtistProfileService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import static com.project.oag.utils.Utils.prepareResponseWithPageable;
 
 @RestController
 @RequestMapping("api/v1/artists")
+@Tag(name = "Artists")
 public class ArtistProfileController {
 
     private final ArtistProfileService artistProfileService;
@@ -38,15 +40,31 @@ public class ArtistProfileController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GenericResponse> getArtistProfile(@PathVariable Long id) {
-        ArtistProfileDto profile = artistProfileService.getArtistProfile(id);
-        return prepareResponse(HttpStatus.OK, "Artist Profile retrieved", profile);
+    @GetMapping
+    public ResponseEntity<GenericResponsePageable> listArtists(
+            @RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE) int size) {
+        var result = artistProfileService.listArtists(PageRequest.of(page, size));
+        return prepareResponseWithPageable(HttpStatus.OK, "Artists retrieved",
+                result.getContent(), preparePageInfo(result));
+    }
+
+    @GetMapping("/followed")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<GenericResponse> followed(HttpServletRequest request) {
+        return prepareResponse(HttpStatus.OK, "Followed artists",
+                artistProfileService.getFollowedArtists(resolveUserId(request)));
     }
 
     @GetMapping("/uuid/{uuid}")
     public ResponseEntity<GenericResponse> getArtistProfileByUuid(@PathVariable String uuid) {
         ArtistProfileDto profile = artistProfileService.getArtistProfileByUuid(uuid);
+        return prepareResponse(HttpStatus.OK, "Artist Profile retrieved", profile);
+    }
+
+    @GetMapping("/{slug}")
+    public ResponseEntity<GenericResponse> getArtistProfile(@PathVariable String slug) {
+        ArtistProfileDto profile = artistProfileService.getArtistProfileBySlug(slug);
         return prepareResponse(HttpStatus.OK, "Artist Profile retrieved", profile);
     }
 
