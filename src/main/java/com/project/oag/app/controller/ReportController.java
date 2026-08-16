@@ -16,8 +16,14 @@ public class ReportController {
         this.reportService = reportService;
     }
 
+    @PostMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<GenericResponse> createReportCanonical(@RequestBody ReportDto reportDto) {
+        return reportService.createReport(reportDto);
+    }
+
     @PostMapping("/create")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GenericResponse> createReport(@RequestBody ReportDto reportDto) {
         return reportService.createReport(reportDto);
     }
