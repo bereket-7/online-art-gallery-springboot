@@ -5,6 +5,7 @@ import com.project.oag.app.dto.ArtworkStatus;
 import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.ArtworkRepository;
+import com.project.oag.app.repository.ArtistFollowRepository;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
@@ -19,10 +20,13 @@ public class ArtistProfileService {
 
     private final UserRepository userRepository;
     private final ArtworkRepository artworkRepository;
+    private final ArtistFollowRepository artistFollowRepository;
 
-    public ArtistProfileService(UserRepository userRepository, ArtworkRepository artworkRepository) {
+    public ArtistProfileService(UserRepository userRepository, ArtworkRepository artworkRepository,
+                                ArtistFollowRepository artistFollowRepository) {
         this.userRepository = userRepository;
         this.artworkRepository = artworkRepository;
+        this.artistFollowRepository = artistFollowRepository;
     }
 
     public ArtistProfileDto getArtistProfileByUuid(String uuid) {
@@ -35,6 +39,25 @@ public class ArtistProfileService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
         return buildProfile(user);
+    }
+
+    public ArtistProfileDto getArtistProfileBySlug(String slug) {
+        if (slug != null && slug.chars().allMatch(Character::isDigit)) {
+            return getArtistProfile(Long.parseLong(slug));
+        }
+        User user = userRepository.findBySlug(slug)
+                .orElseThrow(() -> new ResourceNotFoundException("Artist not found"));
+        return buildProfile(user);
+    }
+
+    public Page<ArtistProfileDto> listArtists(Pageable pageable) {
+        return userRepository.findUsersByRoleName("ROLE_ARTIST", pageable).map(this::buildProfile);
+    }
+
+    public List<ArtistProfileDto> getFollowedArtists(Long followerId) {
+        return artistFollowRepository.findByFollowerId(followerId).stream()
+                .map(follow -> buildProfile(follow.getArtist()))
+                .collect(Collectors.toList());
     }
 
     public Page<ArtistProfileDto.ArtworkSummaryDto> getArtistPortfolio(Long artistId, Pageable pageable) {
@@ -53,6 +76,7 @@ public class ArtistProfileService {
         dto.setBio(user.getBio());
         dto.setProfilePictureUrl(user.getImage());
         dto.setVerifiedArtist(Boolean.TRUE.equals(user.getVerifiedArtist()));
+        dto.setSlug(user.getSlug());
 
         List<Artwork> artworks = artworkRepository.findByUserIdAndStatus(user.getId(), ArtworkStatus.ACCEPTED);
         dto.setArtworks(artworks.stream().map(this::toSummary).collect(Collectors.toList()));
