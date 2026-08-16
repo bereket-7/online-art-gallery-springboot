@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class OrderResponseDto {
@@ -16,4 +18,8 @@ public class OrderResponseDto {
     private BigDecimal totalAmount;
     private Timestamp orderDate;
     private String secretCode;
+    private List<OrderItemResponseDto> items = new ArrayList<>();
+    private OrderAddressDto address;
+    private ShipmentResponseDto shipment;
+    private List<CertificateResponseDto> certificates = new ArrayList<>();
 }
