@@ -1,32 +1,31 @@
 package com.project.oag.app.dto;
 
-import com.project.oag.app.entity.Rating;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
 public class ArtworkResponseDto {
+    private Long id;
     private String artworkName;
     private String artworkDescription;
     private String artworkCategory;
-    private int price;
+    private BigDecimal price;
     private String size;
     private List<String> imageUrls;
-    private List<Rating> ratings;
     private Long artistId;
-
-    public ArtworkResponseDto() {
-    }
-
-    public ArtworkResponseDto(String artworkName, String artworkDescription, String artworkCategory, int price, String size, List<String> imageUrls, List<Rating> ratings, Long artistId) {
-        this.artworkName = artworkName;
-        this.artworkDescription = artworkDescription;
-        this.artworkCategory = artworkCategory;
-        this.price = price;
-        this.size = size;
-        this.imageUrls = imageUrls;
-        this.ratings = ratings;
-        this.artistId = artistId;
-    }
+    private String artistName;
+    private String artistSlug;
+    private ArtworkStatus status;
+    private Integer quantity;
+    private String medium;
+    private Integer yearCreated;
+    private String dimensions;
+    private String framing;
+    private Integer editionNumber;
+    private Integer editionSize;
+    private String rejectionReason;
+    private Double averageRating;
+    private Boolean allowOffers;
 }
