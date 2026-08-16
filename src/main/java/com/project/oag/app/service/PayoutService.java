@@ -87,12 +87,10 @@ public class PayoutService {
             throw new GeneralException("Payout request is not pending");
         }
 
-        ArtistWallet wallet = walletRepository.findByArtistId(request.getArtist().getId())
+        walletRepository.findByArtistId(request.getArtist().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Wallet not found"));
-        wallet.setPendingBalance(wallet.getPendingBalance().subtract(request.getAmount()));
-        walletRepository.save(wallet);
-
-        request.setStatus(PayoutStatus.PAID);
+        request.setStatus(PayoutStatus.APPROVED);
+        request.setManual(true);
         request.setProcessedAt(new Timestamp(System.currentTimeMillis()));
         return payoutRequestRepository.save(request);
     }
