@@ -61,8 +61,11 @@ public class Order {
     @Column(name = "SECRET_CODE")
     private String secretCode;
 
-    @JsonIgnoreProperties({"id"})
-    @OneToOne(fetch = FetchType.LAZY)
+    @Column(name = "fulfilled", nullable = false)
+    private boolean fulfilled = false;
+
+    @JsonIgnoreProperties({"id", "order"})
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ADDRESS_ID")
     private OrderAddress address;
 
