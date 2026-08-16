@@ -76,6 +76,10 @@ public class Artwork {
     @Column(name = "REJECTION_REASON")
     private String rejectionReason;
 
+    @Version
+    @Column(name = "version")
+    private Long version;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
