@@ -12,4 +12,6 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Auction> findByStatus(AuctionStatus status);
 
     List<Auction> findByArtworkId(Long artworkId);
+
+    List<Auction> findByStatusAndEndTimeBefore(AuctionStatus status, java.sql.Timestamp endTime);
 }
