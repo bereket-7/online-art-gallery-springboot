@@ -15,4 +15,11 @@ public class ArtworkRequestDto {
     private BigDecimal price;
     private String size;
     private Integer quantity;
+    private String medium;
+    private Integer yearCreated;
+    private String dimensions;
+    private String framing;
+    private Integer editionNumber;
+    private Integer editionSize;
+    private String rejectionReason;
 }
