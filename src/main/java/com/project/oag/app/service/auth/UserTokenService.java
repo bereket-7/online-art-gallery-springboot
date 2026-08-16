@@ -58,7 +58,8 @@ public class UserTokenService {
         try {
             revokeExistingTokens(userDto);
             List<String> permissions = resolvePermissions(userDto.getEmail());
-            val jwtToken = new JWTToken(jwtService.generateToken(userDto.getEmail(), permissions));
+            String role = userDto.getUserRole() != null ? userDto.getUserRole().getRoleName() : null;
+            val jwtToken = new JWTToken(jwtService.generateToken(userDto.getEmail(), permissions, role));
             val refreshTokenStr = jwtService.generateRefreshToken(userDto.getEmail());
             
             val userModel = modelMapper.map(userDto, User.class);
@@ -91,6 +92,7 @@ public class UserTokenService {
                             .fullName(userDto.getFirstName().concat(SPACE).concat(userDto.getLastName()))
                             .avatarUrl(userDto.getImage())
                             .permissions(permissions)
+                            .role(role != null ? role.replaceFirst("^ROLE_", "") : null)
                             .build()));
         } catch (Exception e) {
             log.info(LOG_PREFIX, "Failed generateUserToken ", e);
