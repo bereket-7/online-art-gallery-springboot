@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,6 +44,12 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
+    @ExceptionHandler({ConflictException.class, ObjectOptimisticLockingFailureException.class})
+    public ResponseEntity<GenericResponse<Void>> handleConflict(RuntimeException ex) {
+        log.warn("Conflict: {}", ex.getMessage());
+        return build(HttpStatus.CONFLICT, ex.getMessage() != null ? ex.getMessage() : "Resource conflict");
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<GenericResponse<Void>> handleAccessDenied(AccessDeniedException ex) {
         log.warn("Access denied: {}", ex.getMessage());
@@ -53,6 +60,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<GenericResponse<Void>> handleJwtExceptions(RuntimeException ex) {
         log.warn("JWT error: {}", ex.getMessage());
         return build(HttpStatus.UNAUTHORIZED, "Invalid or expired token");
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<GenericResponse<Void>> handleBadRequest(BadRequestException ex) {
+        log.warn("Bad request: {}", ex.getMessage());
+        return build(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
