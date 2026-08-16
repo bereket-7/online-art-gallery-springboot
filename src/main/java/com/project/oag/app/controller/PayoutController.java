@@ -1,25 +1,26 @@
 package com.project.oag.app.controller;
 
-import com.project.oag.app.entity.ArtistWallet;
-import com.project.oag.app.entity.PayoutRequest;
+import com.project.oag.app.dto.CommerceMappers;
+import com.project.oag.app.dto.PayoutAmountRequestDto;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.UserRepository;
 import com.project.oag.app.service.PayoutService;
 import com.project.oag.common.GenericResponse;
 import com.project.oag.exceptions.UserNotFoundException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
 import static com.project.oag.utils.Utils.prepareResponse;
 
 @RestController
 @RequestMapping("api/v1/payouts")
+@Tag(name = "Payouts")
 public class PayoutController {
 
     private final PayoutService payoutService;
@@ -33,34 +34,39 @@ public class PayoutController {
     @GetMapping("/wallet")
     @PreAuthorize("hasAuthority('ARTIST_REQUEST_PAYOUT')")
     public ResponseEntity<GenericResponse> getWallet(HttpServletRequest request) {
-        ArtistWallet wallet = payoutService.getWallet(resolveUserId(request));
-        return prepareResponse(HttpStatus.OK, "Wallet retrieved", wallet);
+        return prepareResponse(HttpStatus.OK, "Wallet retrieved",
+                CommerceMappers.toWalletDto(payoutService.getWallet(resolveUserId(request))));
     }
 
     @PostMapping("/request")
     @PreAuthorize("hasAuthority('ARTIST_REQUEST_PAYOUT')")
     public ResponseEntity<GenericResponse> requestPayout(HttpServletRequest request,
-                                                         @RequestParam BigDecimal amount) {
-        PayoutRequest payout = payoutService.requestPayout(resolveUserId(request), amount);
-        return prepareResponse(HttpStatus.CREATED, "Payout requested", payout);
+                                                         @Valid @RequestBody PayoutAmountRequestDto dto) {
+        return prepareResponse(HttpStatus.CREATED, "Payout requested",
+                CommerceMappers.toPayoutDto(payoutService.requestPayout(resolveUserId(request), dto.getAmount())));
     }
 
     @GetMapping("/my")
     @PreAuthorize("hasAuthority('ARTIST_REQUEST_PAYOUT')")
     public ResponseEntity<GenericResponse> getMyPayouts(HttpServletRequest request) {
-        return prepareResponse(HttpStatus.OK, "Payouts retrieved", payoutService.getArtistPayouts(resolveUserId(request)));
+        return prepareResponse(HttpStatus.OK, "Payouts retrieved",
+                payoutService.getArtistPayouts(resolveUserId(request)).stream()
+                        .map(CommerceMappers::toPayoutDto)
+                        .toList());
     }
 
     @GetMapping("/admin/pending")
     @PreAuthorize("hasAuthority('ADMIN_MANAGE_PAYOUTS')")
     public ResponseEntity<GenericResponse> getPendingPayouts() {
-        return prepareResponse(HttpStatus.OK, "Pending payouts", payoutService.getPendingPayouts());
+        return prepareResponse(HttpStatus.OK, "Pending payouts",
+                payoutService.getPendingPayouts().stream().map(CommerceMappers::toPayoutDto).toList());
     }
 
     @PatchMapping("/admin/{id}/approve")
     @PreAuthorize("hasAuthority('ADMIN_MANAGE_PAYOUTS')")
     public ResponseEntity<GenericResponse> approvePayout(@PathVariable Long id) {
-        return prepareResponse(HttpStatus.OK, "Payout approved", payoutService.approvePayout(id));
+        return prepareResponse(HttpStatus.OK, "Payout approved",
+                CommerceMappers.toPayoutDto(payoutService.approvePayout(id)));
     }
 
     private Long resolveUserId(HttpServletRequest request) {
