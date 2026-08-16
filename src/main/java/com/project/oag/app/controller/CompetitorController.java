@@ -1,6 +1,7 @@
 package com.project.oag.app.controller;
 
 import com.project.oag.app.dto.CompetitorRequestDto;
+import com.project.oag.app.dto.VoteRequestDto;
 import com.project.oag.app.service.CompetitionService;
 import com.project.oag.app.service.CompetitorService;
 import com.project.oag.app.service.VoteService;
@@ -58,17 +59,15 @@ public class CompetitorController {
     }
 
     @PostMapping("/vote")
-    @PreAuthorize("hasAuthority('USER_MODIFY_COMPETITOR')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<GenericResponse> voteForCompetitor(
-            @RequestParam("competitionId") Long competitionId,
-            @RequestParam("competitorId") Long competitorId,
+            @RequestBody VoteRequestDto voteRequestDto,
             HttpServletRequest request) {
-        competitorService.voteForCompetitor(competitionId, competitorId, request);
+        competitorService.voteForCompetitor(voteRequestDto.getCompetitionId(), voteRequestDto.getCompetitorId(), request);
         return prepareResponse(HttpStatus.OK, "Thanks for voting", null);
     }
 
     @GetMapping("/winner/{competitionId}")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER','ROLE_ADMIN')")
     public ResponseEntity<GenericResponse> getCompetitionWinner(@PathVariable Long competitionId) {
         return prepareResponse(HttpStatus.OK, "Top 10 winners in this competition", competitorService.getWinner(competitionId));
     }
