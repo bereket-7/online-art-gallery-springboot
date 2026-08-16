@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WishListRepository extends JpaRepository<WishList, Long> {
@@ -18,5 +19,7 @@ public interface WishListRepository extends JpaRepository<WishList, Long> {
 
     @Query("select w from WishList w where w.user.id = ?1")
     List<WishList> findByUserId(Long userId);
+
+    Optional<WishList> findByUserIdAndArtworkId(Long userId, Long artworkId);
 
 }
