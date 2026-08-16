@@ -37,4 +37,10 @@ public class PayoutRequest {
 
     @Column(name = "processed_at")
     private Timestamp processedAt;
+
+    @Column(name = "external_ref")
+    private String externalRef;
+
+    @Column(name = "manual", nullable = false)
+    private boolean manual = true;
 }
