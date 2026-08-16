@@ -41,10 +41,13 @@ public class ChapaController {
         Optional<Order> orderOpt = orderRepository.findByPaymentLog_Token(txRef);
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
+            if (order.isFulfilled()) {
+                return prepareResponse(HttpStatus.OK, "Payment already processed", log.getPaymentStatus());
+            }
             if (PaymentStatus.VERIFIED.equals(log.getPaymentStatus())) {
                 order.setStatus(OrderStatus.CONFIRMED);
-                orderService.fulfillOrderAfterPayment(order.getId());
                 payoutService.creditOnPayment(order);
+                orderService.fulfillOrderAfterPayment(order.getId());
             } else {
                 order.setStatus(OrderStatus.CANCELLED);
             }
