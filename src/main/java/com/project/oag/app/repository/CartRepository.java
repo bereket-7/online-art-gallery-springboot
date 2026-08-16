@@ -10,12 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query("select c from Cart c where c.user.id = ?1")
     List<Cart> findByUserId(Long userId);
+
+    Optional<Cart> findByUserIdAndArtworkId(Long userId, Long artworkId);
+
+    Optional<Cart> findByIdAndUserId(Long id, Long userId);
 
     @Transactional
     @Modifying
@@ -30,5 +35,8 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     @Query("SELECT SUM(c.quantity * a.price) FROM Cart c INNER JOIN c.artwork a WHERE c.user.id = :userId")
     BigDecimal calculateTotalPriceByUserId(@Param("userId") Long userId);
 
-
+    @Transactional
+    @Modifying
+    @Query("delete from Cart c where c.user.id = :userId and c.artwork.id in :artworkIds")
+    int deleteByUserIdAndArtworkIdIn(@Param("userId") Long userId, @Param("artworkIds") List<Long> artworkIds);
 }
