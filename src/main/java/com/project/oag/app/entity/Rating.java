@@ -36,6 +36,9 @@ public class Rating {
     @Column(name = "RATING_VALUE")
     private double ratingValue;
 
+    @Column(name = "comment", columnDefinition = "TEXT")
+    private String comment;
+
     @CreationTimestamp
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
