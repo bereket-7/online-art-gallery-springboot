@@ -36,13 +36,9 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN_MODIFY_USER')")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        try {
-            userService.deleteUser(id);
-            return ResponseEntity.ok("User deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user");
-        }
+    public ResponseEntity<GenericResponse> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return com.project.oag.utils.Utils.prepareResponse(HttpStatus.OK, "User deleted successfully", null);
     }
 
     @GetMapping("/total/artist/users")
