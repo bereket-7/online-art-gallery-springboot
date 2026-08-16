@@ -1,24 +1,24 @@
 package com.project.oag.app.service;
 
 import com.project.oag.app.dto.CartDto;
+import com.project.oag.app.dto.CommerceMappers;
+import com.project.oag.app.entity.Artwork;
 import com.project.oag.app.entity.Cart;
 import com.project.oag.app.entity.User;
 import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.CartRepository;
 import com.project.oag.app.repository.UserRepository;
-import com.project.oag.exceptions.GeneralException;
+import com.project.oag.exceptions.BadRequestException;
 import com.project.oag.exceptions.ResourceNotFoundException;
 import com.project.oag.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.project.oag.common.AppConstants.LOG_PREFIX;
 import static com.project.oag.utils.RequestUtils.getLoggedInUserName;
@@ -31,16 +31,13 @@ public class CartService {
     private final ArtworkRepository artworkRepository;
     private final UserRepository userRepository;
     private final ArtworkService artworkService;
-    private final ModelMapper modelMapper;
 
     public CartService(CartRepository cartRepository, ArtworkRepository artworkRepository,
-                       UserRepository userRepository, ArtworkService artworkService,
-                       ModelMapper modelMapper) {
+                       UserRepository userRepository, ArtworkService artworkService) {
         this.cartRepository = cartRepository;
         this.artworkRepository = artworkRepository;
         this.userRepository = userRepository;
         this.artworkService = artworkService;
-        this.modelMapper = modelMapper;
     }
 
     @Transactional
@@ -49,11 +46,15 @@ public class CartService {
         val artwork = artworkRepository.findById(artworkId)
                 .orElseThrow(() -> new ResourceNotFoundException("Artwork not found"));
 
-        // Stock validation — prevent overselling
-        int availableQty = artwork.getQuantity() == null ? 0 : artwork.getQuantity();
-        if (availableQty < quantity) {
-            throw new GeneralException(
-                    "Insufficient stock. Requested: " + quantity + ", Available: " + availableQty);
+        Cart existing = cartRepository.findByUserIdAndArtworkId(user.getId(), artworkId).orElse(null);
+        int newQty = quantity + (existing == null ? 0 : existing.getQuantity());
+        assertStock(artwork, newQty);
+
+        if (existing != null) {
+            existing.setQuantity(newQty);
+            Cart saved = cartRepository.save(existing);
+            log.info(LOG_PREFIX, "Merged cart quantity", "artworkId=" + artworkId + " qty=" + newQty);
+            return CommerceMappers.toCartDto(saved);
         }
 
         Cart cart = new Cart();
@@ -62,16 +63,25 @@ public class CartService {
         cart.setUser(user);
         user.addCart(cart);
         cartRepository.save(cart);
-        userRepository.save(user);
         log.info(LOG_PREFIX, "Added to cart", "artworkId=" + artworkId + " qty=" + quantity);
-        return modelMapper.map(cart, CartDto.class);
+        return CommerceMappers.toCartDto(cart);
+    }
+
+    @Transactional
+    public CartDto updateQuantity(HttpServletRequest request, Long cartId, int quantity) {
+        Long userId = getUserByUsername(getLoggedInUserName(request)).getId();
+        Cart cart = cartRepository.findByIdAndUserId(cartId, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item not found"));
+        assertStock(cart.getArtwork(), quantity);
+        cart.setQuantity(quantity);
+        return CommerceMappers.toCartDto(cartRepository.save(cart));
     }
 
     public List<CartDto> getCarts(HttpServletRequest request) {
         Long userId = getUserByUsername(getLoggedInUserName(request)).getId();
         return cartRepository.findByUserId(userId).stream()
-                .map(c -> modelMapper.map(c, CartDto.class))
-                .collect(Collectors.toList());
+                .map(CommerceMappers::toCartDto)
+                .toList();
     }
 
     @Transactional
@@ -86,27 +96,22 @@ public class CartService {
         cartRepository.deleteByUserId(userId);
     }
 
-    /**
-     * Called by OrderService at checkout: decrements artwork stock, then removes cart items.
-     * Must run within an existing @Transactional context (called from OrderService.createOrder).
-     */
-    @Transactional
-    public void clearCartForCheckout(Long userId) {
-        List<Cart> cartItems = cartRepository.findByUserId(userId);
-        cartItems.forEach(item ->
-                artworkService.decrementQuantity(item.getArtwork().getId(), item.getQuantity())
-        );
-        cartRepository.deleteByUserId(userId);
-        log.info(LOG_PREFIX, "Cart cleared after checkout", "userId=" + userId);
-    }
-
     public void decrementQuantityForArtwork(Long artworkId, int qty) {
         artworkService.decrementQuantity(artworkId, qty);
     }
 
     public BigDecimal calculateTotalPrice(HttpServletRequest request) {
         Long userId = getUserByUsername(getLoggedInUserName(request)).getId();
-        return cartRepository.calculateTotalPriceByUserId(userId);
+        BigDecimal total = cartRepository.calculateTotalPriceByUserId(userId);
+        return total == null ? BigDecimal.ZERO : total;
+    }
+
+    private void assertStock(Artwork artwork, int quantity) {
+        int availableQty = artwork.getQuantity() == null ? 0 : artwork.getQuantity();
+        if (availableQty < quantity) {
+            throw new BadRequestException(
+                    "Insufficient stock. Requested: " + quantity + ", Available: " + availableQty);
+        }
     }
 
     private User getUserByUsername(String email) {
@@ -114,4 +119,3 @@ public class CartService {
                 .orElseThrow(() -> new UserNotFoundException("User not found: " + email));
     }
 }
-
