@@ -70,14 +70,15 @@ The Online Art Gallery System is a Spring Boot-based web application designed to
 ## Seed Data
 The application includes a data seeder (`DataSeederService`) to populate the database with sample users, roles, standards, and artwork. This is executed automatically on application startup.
 
-## API Endpoints
-| HTTP Method | Endpoint                  | Description                     |
-|-------------|---------------------------|---------------------------------|
-| `POST`      | `/api/auth/register`      | Register a new user             |
-| `POST`      | `/api/auth/login`         | Authenticate a user             |
-| `GET`       | `/api/artworks`           | Get all artworks                |
-| `POST`      | `/api/artworks`           | Add a new artwork (Artist only) |
-| `GET`       | `/api/users`              | Get all users (Admin only)      |
+## API contract
+
+Frozen **v1.0** lives in [`docs/api-contract.md`](docs/api-contract.md). Vue and Spring both implement that document (`/api/v1` on port 8088, envelope `{ status, message, content }`, Chapa checkout).
+
+- OpenAPI JSON: `http://localhost:8088/v3/api-docs`
+- Swagger UI: `http://localhost:8088/swagger-ui.html`
+- Frontend unwrap rules: `vue-oag-frontend/docs/api-contract.md`
+
+Do not add endpoints without updating the contract. Legacy aliases are listed in that file under section H.
 
 ## Testing
 - Unit and integration tests are written using JUnit and Mockito.
