@@ -89,7 +89,7 @@ security-skip-list:
       - /api/v1/admin/auth/**
       - /api/v1/otp/**
       - /api/v1/chapa/callback
-      - /actuator/**
+      - /ws/notifications/**
     static-content:
       - /upload/**
 
