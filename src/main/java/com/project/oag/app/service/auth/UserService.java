@@ -97,7 +97,9 @@ public class UserService {
         val userModel = modelMapper.map(registerUserRequestDto, User.class);
 
         log.info(LOG_PREFIX, "Fetching current user information to set manager information", "");
-        return saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
+        ResponseEntity<GenericResponse> response = saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
+        assignSlug(userModel);
+        return response;
     }
 
     @Transactional
@@ -109,9 +111,32 @@ public class UserService {
         }
         registerUserRequestDto.setPassword(passwordEncoder.encode(registerUserRequestDto.getPassword()));
         val userModel = modelMapper.map(registerUserRequestDto, User.class);
-        val customerRole = roleRepository.findByRoleNameIgnoreCase(ROLE_CUSTOMER).orElseThrow(() -> new ResourceNotFoundException("Unable to find customer role for customer signup process"));
-        userModel.setUserRole(customerRole);
-        return saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
+        String roleName = resolvePublicSignupRole(registerUserRequestDto.getRole());
+        val assignedRole = roleRepository.findByRoleNameIgnoreCase(roleName)
+                .orElseThrow(() -> new ResourceNotFoundException("Unable to find role for signup: " + roleName));
+        userModel.setUserRole(assignedRole);
+        ResponseEntity<GenericResponse> response = saveUserAndSendOtpVerification(registerUserRequestDto.getChannel(), userModel);
+        assignSlug(userModel);
+        return response;
+    }
+
+    private String resolvePublicSignupRole(String role) {
+        if (role == null || role.isBlank()) {
+            return ROLE_CUSTOMER;
+        }
+        String normalized = role.toUpperCase().replaceFirst("^ROLE_", "");
+        if ("ARTIST".equals(normalized)) {
+            return "ROLE_ARTIST";
+        }
+        return ROLE_CUSTOMER;
+    }
+
+    private void assignSlug(User user) {
+        if (user.getId() == null) {
+            return;
+        }
+        user.setSlug(com.project.oag.utils.SlugUtils.fromName(user.getFirstName(), user.getLastName(), user.getId()));
+        userRepository.save(user);
     }
 
     public ResponseEntity<GenericResponse> authenticateUserCredentials(HttpServletRequest request, HttpServletResponse response, final AuthRequestDto authRequestDto, final UserType userType) throws ServletException, IOException {
@@ -120,11 +145,15 @@ public class UserService {
         boolean isAdmin = isAdminLoginProcess(userType);
         log.info("Is admin login process: {}", isAdmin);
 
-        if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdmin)) {
-            log.info("User not found or role mismatch: {}", authRequestDto.username());
-            getUserByUsername(authRequestDto.username());
-            log.info("Login failed, failed to confirm user role as {}, aborting login process", userType.name());
-            throw new UnexpectedRoleException("Login failed, failed to confirm user as {}, aborting login process", userType.name());
+        if (userType != UserType.ANY) {
+            if (!userRepository.existsByUsernameAndIsAdmin(authRequestDto.username(), isAdmin)) {
+                log.info("User not found or role mismatch: {}", authRequestDto.username());
+                getUserByUsername(authRequestDto.username());
+                log.info("Login failed, failed to confirm user role as {}, aborting login process", userType.name());
+                throw new UnexpectedRoleException("Login failed, failed to confirm user as {}, aborting login process", userType.name());
+            }
+        } else if (!userRepository.existsByEmailIgnoreCase(authRequestDto.username())) {
+            throw new UserNotFoundException("User not found: " + authRequestDto.username());
         }
 
         try {
@@ -147,7 +176,7 @@ public class UserService {
     private boolean isAdminLoginProcess(UserType userType) {
         return switch (userType) {
             case ADMIN -> true;
-            case CUSTOMER -> false;
+            case CUSTOMER, ANY -> false;
         };
     }
     private ResponseEntity<GenericResponse> saveUserAndSendOtpVerification(NotificationChannel channel, User userModel) {
