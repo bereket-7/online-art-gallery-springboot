@@ -1,8 +1,10 @@
 package com.project.oag.app.service;
 
+import com.project.oag.app.dto.ArtworkMapper;
 import com.project.oag.app.dto.ArtworkResponseDto;
+import com.project.oag.app.dto.CollectionResponseDto;
+import com.project.oag.app.dto.CommerceMappers;
 import com.project.oag.app.entity.Artwork;
-import com.project.oag.app.entity.Collection;
 import com.project.oag.app.repository.ArtworkRepository;
 import com.project.oag.app.repository.ArtworkViewRepository;
 import com.project.oag.app.repository.CollectionRepository;
@@ -32,12 +34,16 @@ public class DiscoveryService {
         this.modelMapper = modelMapper;
     }
 
-    public List<Collection> getFeaturedCollections() {
-        return collectionRepository.findByFeaturedTrue();
+    public List<CollectionResponseDto> getFeaturedCollections() {
+        return collectionRepository.findByFeaturedTrue().stream()
+                .map(c -> CommerceMappers.toCollectionDto(c, false))
+                .toList();
     }
 
-    public List<Collection> getAllCollections() {
-        return collectionRepository.findAll();
+    public List<CollectionResponseDto> getAllCollections() {
+        return collectionRepository.findAll().stream()
+                .map(c -> CommerceMappers.toCollectionDto(c, false))
+                .toList();
     }
 
     public List<ArtworkResponseDto> getTrendingArtworks(int limit) {
@@ -56,7 +62,7 @@ public class DiscoveryService {
 
         return ids.stream()
                 .filter(artworkMap::containsKey)
-                .map(id -> modelMapper.map(artworkMap.get(id), ArtworkResponseDto.class))
+                .map(id -> ArtworkMapper.toDto(artworkMap.get(id)))
                 .collect(Collectors.toList());
     }
 }
