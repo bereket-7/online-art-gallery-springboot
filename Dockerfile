@@ -1,12 +1,22 @@
-# Runtime image — build the JAR on the host first:
-#   ./mvnw clean package -DskipTests
-# Or run: ./docker-up.sh
+FROM eclipse-temurin:21-jdk-alpine AS build
+
+WORKDIR /workspace/oag
+
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+
+RUN sed -i 's/\r$//' mvnw && chmod +x mvnw
+
+COPY src src
+
+RUN ./mvnw clean package -DskipTests -B
 
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-COPY target/oag.jar /app/oag.jar
+COPY --from=build /workspace/oag/target/oag.jar /app/oag.jar
 
 EXPOSE 8088
 
