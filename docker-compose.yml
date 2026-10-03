@@ -47,6 +47,67 @@ services:
     ports:
       - "${HOST_REDIS_PORT:-6380}:6379"
 
+  postgres-exporter:
+    container_name: online-art-gallery-pg-exporter
+    image: prometheuscommunity/postgres-exporter:v0.15.0
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@pgdb:5432/${POSTGRES_DB:-oag}?sslmode=disable"
+    depends_on:
+      pgdb:
+        condition: service_healthy
+    ports:
+      - "9187:9187"
+
+  redis-exporter:
+    container_name: online-art-gallery-redis-exporter
+    image: oliver006/redis_exporter:v1.58.0
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis:6379"
+    depends_on:
+      redis:
+        condition: service_started
+    ports:
+      - "9121:9121"
+
+  prometheus:
+    container_name: online-art-gallery-prometheus
+    image: prom/prometheus:v2.51.0
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+      - '--web.enable-lifecycle'
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus/alert.rules.yml:/etc/prometheus/alert.rules.yml:ro
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    container_name: online-art-gallery-grafana
+    image: grafana/grafana:10.4.0
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
 volumes:
   postgres:
   uploads:
+  prometheus_data:
+  grafana_data:
