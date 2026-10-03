@@ -1,0 +1,58 @@
+groups:
+  - name: application_alerts
+    rules:
+      - alert: SpringBootAppDown
+        expr: up{job="spring-boot-actuator"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Spring Boot application instance down"
+          description: "Instance {{ $labels.instance }} of job {{ $labels.job }} is unreachable for more than 1 minute."
+
+      - alert: HighHttp5xxErrorRate
+        expr: (sum(rate(http_server_requests_seconds_count{status=~"5.."}[5m])) / sum(rate(http_server_requests_seconds_count[5m]))) * 100 > 5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High HTTP 5xx error rate detected"
+          description: "HTTP 5xx error rate is above 5% over the last 5 minutes (currently {{ $value | printf \"%.2f\" }}%)."
+
+      - alert: SlowHttpResponseTime
+        expr: histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[5m])) by (le)) > 2
+        for: 3m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High p95 HTTP response latency"
+          description: "95th percentile of HTTP response latency exceeds 2 seconds over the last 5 minutes."
+
+      - alert: HighJvmHeapUsage
+        expr: (jvm_memory_used_bytes{area="heap"} / jvm_memory_max_bytes{area="heap"}) * 100 > 85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High JVM Heap Memory Usage"
+          description: "JVM Heap usage is above 85% for more than 5 minutes (currently {{ $value | printf \"%.2f\" }}%)."
+
+  - name: infrastructure_alerts
+    rules:
+      - alert: PostgresDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "PostgreSQL Database is down"
+          description: "Postgres exporter reports that the database is unreachable."
+
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Redis Cache is down"
+          description: "Redis exporter reports that the Redis instance is unreachable."
