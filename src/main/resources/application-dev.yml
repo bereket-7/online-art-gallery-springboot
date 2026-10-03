@@ -99,6 +99,7 @@ jwt-key:
 security-skip-list:
   skip:
     auth:
+      - /actuator/**
       - /api/v1/auth/**
       - /api/v1/admin/auth/**
       - /api/v1/otp/**
@@ -165,11 +166,22 @@ management:
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true
+    prometheus:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: info,health,metrics,httptrace
-      base-path: /app/
+        include: info,health,metrics,prometheus
+      base-path: /actuator
+  metrics:
+    tags:
+      application: online-art-gallery
+      env: dev
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
 
 security-init-config:
   #  set initial: false, to skip initial user security configuration
